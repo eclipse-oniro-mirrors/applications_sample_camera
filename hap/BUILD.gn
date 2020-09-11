@@ -17,6 +17,7 @@ copy("copy_hap") {
         "//applications/sample/camera/hap/launcher.hap",
         "//applications/sample/camera/hap/setting.hap",
         "//applications/sample/camera/hap/camera.hap",
+        "//applications/sample/camera/hap/gallery.hap",
     ]
     outputs = [
         "$root_out_dir/system/internal/{{source_file_part}}",
