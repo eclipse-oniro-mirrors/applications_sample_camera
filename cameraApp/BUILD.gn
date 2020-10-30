@@ -1,0 +1,78 @@
+# Copyright (c) 2020 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/lite/config/component/lite_component.gni")
+import("//build/lite/config/hap_pack.gni")
+
+shared_library("cameraApp") {
+    sources = [
+        "cameraApp/src/main/cpp/camera_ability.cpp",
+        "cameraApp/src/main/cpp/camera_ability_slice.cpp",
+        "cameraApp/src/main/cpp/camera_manager.cpp"
+    ]
+
+    deps = [
+        "//foundation/aafwk/frameworks/ability_lite:aafwk_abilitykit_lite",
+        "//foundation/appexecfwk/frameworks/bundle_lite:bundle",
+        "//foundation/communication/frameworks/ipc_lite:liteipc_adapter",
+        "//foundation/distributedschedule/services/samgr_lite/samgr:samgr",
+        "//utils/native/lite/kv_store:kv_store",
+        "//foundation/graphic/lite/frameworks/ui:ui",
+        "//foundation/graphic/lite/utils:graphic_utils",
+        "//foundation/graphic/lite/frameworks/surface",
+        "//foundation/multimedia/frameworks/camera_lite:camera",
+        "//foundation/multimedia/frameworks/recorder_lite:recorder",
+    ]
+
+    include_dirs = [
+        "cameraApp/src/main/cpp",
+        "//foundation/aafwk/interfaces/kits/ability_lite",
+        "//foundation/graphic/lite/interfaces/kits/ui/components",
+        "//foundation/graphic/lite/interfaces/kits/ui",
+        "//foundation/graphic/lite/interfaces/kits/utils",
+        "//foundation/graphic/lite/interfaces/kits/config",
+        "//foundation/appexecfwk/interfaces/kits/bundle_lite",
+        "//foundation/aafwk/interfaces/kits/want_lite",
+        "//base/startup/interfaces/kits/syspara_lite",
+        "//foundation/multimedia/interfaces/kits/camera_lite",
+        "//foundation/multimedia/interfaces/kits/camera_lite"
+    ]
+    ldflags = [
+        "-L$ohos_root_path/sysroot/usr/lib",
+        "-Wl,-rpath-link=$ohos_root_path/sysroot/usr/lib",
+        "-lstdc++", "-lcamera", "-lsurface", "-lrecorder"
+    ]
+    defines = [
+        "ENABLE_WINDOW=1",
+        "ABILITY_WINDOW_SUPPORT"
+    ]
+}
+
+lite_component("cameraApp_component") {
+
+    features = [
+        ":cameraApp",
+    ]
+}
+
+hap_pack("cameraApp_hap")
+{
+    deps = [":cameraApp"]
+    mode = "hap"
+    json_path = "cameraApp/src/main/config.json"
+    ability_so_path = "$root_out_dir/libcameraApp.so"
+    force = "true"
+    cert_profile = "cert/camera_HarmonyAppProvision_Release.p7b"
+    resources_path = "cameraApp/src/main/resources"
+    hap_name = "cameraApp"
+}
