@@ -1,0 +1,75 @@
+# Copyright (c) 2020 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import("//build/lite/config/component/lite_component.gni")
+import("//build/lite/config/hap_pack.gni")
+
+shared_library("launcher") {
+    sources = [
+        "launcher/src/main/cpp/main_ability.cpp",
+        "launcher/src/main/cpp/main_ability_slice.cpp",
+        "launcher/src/main/cpp/swipe_view.cpp",
+        "launcher/src/main/cpp/app_info.cpp",
+        "launcher/src/main/cpp/long_press_view.cpp",
+        "launcher/src/main/cpp/app_manage.cpp",
+        "launcher/src/main/cpp/view_group_page.cpp",
+        "launcher/src/main/cpp/time_weather_view.cpp"
+    ]
+
+    deps = [
+        "//foundation/aafwk/frameworks/ability_lite:aafwk_abilitykit_lite",
+        "//foundation/appexecfwk/frameworks/bundle_lite:bundle",
+        "//foundation/communication/frameworks/ipc_lite:liteipc_adapter",
+        "//foundation/distributedschedule/services/samgr_lite/samgr:samgr",
+        "//utils/native/lite/kv_store:kv_store",
+        "//foundation/graphic/lite/frameworks/ui:ui",
+        "//foundation/graphic/lite/utils:graphic_utils",
+        "//foundation/graphic/lite/frameworks/surface",
+    ]
+
+    include_dirs = [
+        "launcher/src/main/cpp",
+        "//foundation/aafwk/interfaces/kits/ability_lite",
+        "//foundation/graphic/lite/interfaces/kits/ui/components",
+        "//foundation/graphic/lite/interfaces/kits/ui",
+        "//foundation/graphic/lite/interfaces/kits/utils",
+        "//foundation/graphic/lite/interfaces/kits/config",
+        "//foundation/appexecfwk/interfaces/kits/bundle_lite",
+        "//foundation/aafwk/interfaces/kits/want_lite",
+        "//base/startup/interfaces/kits/syspara_lite",
+    ]
+
+    defines = [
+        "ENABLE_WINDOW=1",
+        "ABILITY_WINDOW_SUPPORT",
+        "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER"
+    ]
+}
+
+lite_component("launcher_component") {
+
+    features = [
+        ":launcher",
+    ]
+}
+
+hap_pack("launcher_hap")
+{
+    deps = [":launcher"]
+    mode = "hap"
+    json_path = "launcher/src/main/config.json"
+    ability_so_path = "$root_out_dir/liblauncher.so"
+    force = "true"
+    cert_profile = "cert/com.huawei.launcher_HarmonyAppProvision_release.p7b"
+    resources_path = "launcher/src/main/resources"
+    hap_name = "launcher"
+}
