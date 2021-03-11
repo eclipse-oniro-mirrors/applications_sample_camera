@@ -26,10 +26,10 @@
 namespace OHOS {
 
 class AppInfo;
-typedef bool (*funcLongPress)(AppInfo *app);
-typedef bool (*funcClick)(AppInfo *app);
-typedef bool (*UninstallApp)(AppInfo *app);
-typedef bool (*AddApp)(AppInfo *app);
+using funcLongPress = bool (*)(AppInfo *app);
+using funcClick  = bool (*)(AppInfo *app);
+using UninstallApp = bool (*)(AppInfo *app);
+using AddApp = bool (*)(AppInfo *app);
 
 struct MyPoint {
     int16_t x; // the x coordinate of the point
@@ -51,7 +51,6 @@ public:
     UILabel* lable_ { nullptr };
 
     UIView::OnLongPressListener* appLpListener_ { nullptr };
-    UIView::OnDragListener* appDListener_ { nullptr };
     UIView::OnClickListener* appClickListener_ { nullptr };
 
     funcClick funcclick_ { nullptr };
@@ -61,30 +60,9 @@ public:
     MyPoint buttonXY_ { 0 };
     MyPoint buttonHV_ { 0 };
     MyPoint row_col_ { 0 };
-    char appName_[TMP_BUF_SIZE];
-    char abilityName_[TMP_BUF_SIZE];
-    char appIconDir_[TMP_BUF_SIZE];
-};
-
-class AppDragListener : public UIView::OnDragListener {
-public:
-    AppDragListener(AppInfo* app) : appInfo_(app) {}
-    virtual ~AppDragListener() {}
-    bool OnDrag(UIView &view, const DragEvent &event) override
-    {
-        return true;
-    }
-    bool OnDragEnd(UIView& view, const DragEvent& event) override
-    {
-        return true;
-    }
-    bool OnDragStart(UIView& view, const DragEvent& event) override
-    {
-        return true;
-    }
-
-private:
-    AppInfo* appInfo_ { nullptr };
+    char appName_[TMP_BUF_SIZE] = { 0 };
+    char abilityName_[TMP_BUF_SIZE] = { 0 };
+    char appIconDir_[TMP_BUF_SIZE] = { 0 };
 };
 
 class AppClickListener : public UIView::OnClickListener {

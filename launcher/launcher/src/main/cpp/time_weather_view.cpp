@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <time.h>
+#include <ctime>
 #include <securec.h>
 
 #include "time_weather_view.h"
@@ -27,6 +27,7 @@ static constexpr int16_t BIGLABEL_H = 100;
 static constexpr int16_t SMALLLABEL_H = 35;
 static constexpr int16_t IMAGE_H = 40;
 static constexpr int16_t IMAGE_W = 40;
+const char* g_weekDate[WEEK_DAY_MAX] = {"星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
 TimeWeatherView::TimeWeatherView(UIViewGroup* viewGroup)
 {
@@ -65,10 +66,22 @@ void TimeWeatherView::SetUpTimeView()
     const int16_t commonYear = 1970;
     time_t t = time(nullptr);
     struct tm* st = localtime(&t);
-    sprintf_s(hour_min, sizeof(hour_min), "%02d : %02d", st->tm_hour, st->tm_min);
-    sprintf_s(mont_day, sizeof(mont_day), "%02d月%02d日", st->tm_mon + january, st->tm_mday);
+    if (st == nullptr) {
+        return;
+    }
+    int ret = sprintf_s(hour_min, sizeof(hour_min), "%02d : %02d", st->tm_hour, st->tm_min);
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
+    ret = sprintf_s(mont_day, sizeof(mont_day), "%02d月%02d日", st->tm_mon + january, st->tm_mday);
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
     GetWeekdayByYearday(st->tm_year + commonYear, st->tm_mon + january, st->tm_mday, week_day, sizeof(week_day));
-    sprintf_s(date, sizeof(date), "%s %s", mont_day, week_day);
+    ret = sprintf_s(date, sizeof(date), "%s %s", mont_day, week_day);
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
     if (viewTime_ == nullptr) {
         viewTime_ = new UIViewGroup();
         viewTime_->SetPosition(BLANK_TW, BLANK_H, viewGroup_->GetWidth() - BLANK_W,
@@ -99,14 +112,24 @@ void TimeWeatherView::SetUpTimeView()
         viewTime_->Add(lable2);
         viewGroup_->Add(viewTime_);
     } else {
-        static_cast<UILabel*>(viewTime_->GetChildById("labletime"))->SetText(hour_min);
-        static_cast<UILabel*>(viewTime_->GetChildById("labledate"))->SetText(date);
+        UILabel* label = nullptr;
+        label = static_cast<UILabel*>(viewTime_->GetChildById("labletime"));
+        if (label) {
+            label->SetText(hour_min);
+        }
+        label = static_cast<UILabel*>(viewTime_->GetChildById("labledate"));
+        if (label) {
+            label->SetText(date);
+        }
         viewTime_->Invalidate();
     }
 }
 
 void TimeWeatherView::GetWeekdayByYearday(int iY, int iM, int iD, char* date, int size)
 {
+    if (date == nullptr) {
+        return;
+    }
     const int16_t months = 12;
     const int16_t january = 1;
     const int16_t february = 2;
@@ -119,39 +142,13 @@ void TimeWeatherView::GetWeekdayByYearday(int iY, int iM, int iD, char* date, in
     }
     // 1 : MONDAY_LAUNCHER, 2 : TUESDAY_LAUNCHER, 3 : WEDNESDAY_LAUNCHER, 4 : , 5 : ect
     iWeekDay = (iD + 1 + 2 * iM + 3 * (iM + 1) / 5 + iY + iY / 4 - iY / oneHundred + iY / fourHundred) % WEEKEND_LAUNCHER;
-    switch (iWeekDay) {
-        case SUNDAY_LAUNCHER:
-            memcpy_s(date, size, "星期天", strlen("星期天"));
-            date[strlen("星期天")] = 0;
-            break;
-        case MONDAY_LAUNCHER:
-            memcpy_s(date, size, "星期一", strlen("星期一"));
-            date[strlen("星期一")] = 0;
-            break;
-        case TUESDAY_LAUNCHER:
-            memcpy_s(date, size, "星期二", strlen("星期二"));
-            date[strlen("星期二")] = 0;
-            break;
-        case WEDNESDAY_LAUNCHER:
-            memcpy_s(date, size, "星期三", strlen("星期三"));
-            date[strlen("星期三")] = 0;
-            break;
-        case THURSDAY_LAUNCHER:
-            memcpy_s(date, size, "星期四", strlen("星期四"));
-            date[strlen("星期四")] = 0;
-            break;
-        case FRIDAY_LAUNCHER:
-            memcpy_s(date, size, "星期五", strlen("星期五"));
-            date[strlen("星期五")] = 0;
-            break;
-        case STAURDAY_LAUNCHER:
-            memcpy_s(date, size, "星期六", strlen("星期六"));
-            date[strlen("星期六")] = 0;
-            break;
-        default:
-            memcpy_s(date, size, "星期天", strlen("星期天"));
-            date[strlen("星期天")] = 0;
-            break;
+    for (int i = 0; i < WEEK_DAY_MAX; i++) {
+        if (iWeekDay == i) {
+            if (memcpy_s(date, size, g_weekDate[i], strlen(g_weekDate[i])) == LAUNCHER_SUCCESS) {
+                date[strlen(g_weekDate[i])] = 0;
+                break;
+            }
+        }
     }
     return;
 }

@@ -58,7 +58,7 @@ void PictureAbilitySlice::InitTitle()
     printf("PictureAbilitySlice::InitTitle | start \n");
     backIcon_ = new UIImageView();
     backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
-    backIcon_->SetSrc(g_backIconAbsolutePath);
+    backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
 
     backArea_ = new UIViewGroup();
@@ -101,7 +101,7 @@ void PictureAbilitySlice::InitPicture(const char* path)
         }
         float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
         printf("########## scale: %f \n", scale);
-        transMap.Scale(Vector2<float>(scale, scale), Vector2<int16_t>(0, 0));
+        transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
         picture_->SetTransformMap(transMap);
         picture_->SetTransformAlgorithm(TransformAlgorithm::NEAREST_NEIGHBOR);
         imageWidth = imageWidth * scale;
@@ -134,12 +134,16 @@ void PictureAbilitySlice::OnStart(const Want &want)
     char* imagePath = new char[imagePathLen + 1]();
     if (sprintf_s(imagePath, imagePathLen + 1, "%s/%s", PHOTO_DIRECTORY, reinterpret_cast<char*>(want.data)) < 0) {
         printf("PictureAbilitySlice::OnStart | imagePath\n");
+        delete[] imagePath;
+        imagePath = nullptr;
         return;
     }
 
     const char* pathHeader = GetSrcPath();
-    if (sprintf_s(g_backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
-        printf("PictureAbilitySlice::OnStart | g_backIconAbsolutePath\n");
+    if (sprintf_s(backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
+        printf("PictureAbilitySlice::OnStart | backIconAbsolutePath\n");
+        delete[] imagePath;
+        imagePath = nullptr;
         return;
     }
 

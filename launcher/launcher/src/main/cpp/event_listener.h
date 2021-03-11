@@ -39,7 +39,11 @@ public:
         if (!onClick_) {
             return false;
         }
-        return onClick_(view, event);
+        UIView *currentView = &view;
+        if (currentView == nullptr) {
+            return false;
+        }
+        return onClick_(*currentView, event);
     }
 
     bool OnLongPress(UIView& view, const LongPressEvent& event) override
@@ -47,7 +51,11 @@ public:
         if (!onLongPress_) {
             return false;
         }
-        return onLongPress_(view, event);
+        UIView *currentView = &view;
+        if (currentView == nullptr) {
+            return false;
+        }
+        return onLongPress_(*currentView, event);
     }
 
 private:

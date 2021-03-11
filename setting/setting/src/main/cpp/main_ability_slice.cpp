@@ -51,6 +51,11 @@ MainAbilitySlice::~MainAbilitySlice()
         buttonWifiListener_ = nullptr;
     }
 
+    if (buttonDisplayListener_) {
+        delete buttonDisplayListener_;
+        buttonDisplayListener_ = nullptr;
+    }
+
     if (buttonAppListener_) {
         delete buttonAppListener_;
         buttonAppListener_ = nullptr;
@@ -81,7 +86,6 @@ void MainAbilitySlice::SetButtonListenerApp(void)
 {
     auto onClick2 = [this](UIView& view, const Event& event) -> bool {
         Want want1 = { nullptr };
-        ElementName element = { nullptr };
         AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("AppAbilitySlice");
         if (nextSlice == nullptr) {
             printf("[warning]undefined AppInfoAbilitySlice\n");
@@ -93,19 +97,35 @@ void MainAbilitySlice::SetButtonListenerApp(void)
     buttonAppListener_ = new EventListener(onClick2, nullptr);
 }
 
-void MainAbilitySlice::SetButtonListenerAbout(void)
+void MainAbilitySlice::SetButtonListenerDisplay(void)
 {
     auto onClick3 = [this](UIView& view, const Event& event) -> bool {
         Want want1 = { nullptr };
-        AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("SettingAboutAbilitySlice");
+        AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("SettingDisplayAbilitySlice");
         if (nextSlice == nullptr) {
-            printf("[warning]undefined NextAbilitySlice\n");
+            printf("[warning]undefined SettingDisplayAbilitySlice\n");
         } else {
             Present(*nextSlice, want1);
         }
         return true;
     };
-    buttonAboutListener_ = new EventListener(onClick3, nullptr);
+    buttonDisplayListener_ = new EventListener(onClick3, nullptr);
+}
+
+
+void MainAbilitySlice::SetButtonListenerAbout(void)
+{
+    auto onClick4 = [this](UIView& view, const Event& event) -> bool {
+        Want want1 = { nullptr };
+        AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("SettingAboutAbilitySlice");
+        if (nextSlice == nullptr) {
+            printf("[warning]undefined SettingAboutAbilitySlice\n");
+        } else {
+            Present(*nextSlice, want1);
+        }
+        return true;
+    };
+    buttonAboutListener_ = new EventListener(onClick4, nullptr);
 }
 
 void MainAbilitySlice::SetHead(void)
@@ -199,6 +219,30 @@ void MainAbilitySlice::SetAppButtonView(void)
     buttonView->Add(imageView);
 }
 
+void MainAbilitySlice::SetDisplayButtonView(void)
+{
+    UIViewGroup* buttonView = new UIViewGroup();
+    buttonView->SetPosition(DISPALY_BUTTON_X, DISPALY_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
+    buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
+    buttonView->SetTouchable(true);
+    buttonView->SetOnClickListener(buttonDisplayListener_);
+    scrollView_->Add(buttonView);
+
+    UILabel* lablelFont = new UILabel();
+    lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFont->SetText("显示");
+    lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+
+    lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(lablelFont);
+
+    UIImageView* imageView = new UIImageView();
+    imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetSrc(DE_IMAGE_FORWORD);
+    buttonView->Add(imageView);
+}
+
 static void setAboutTest(UIViewGroup *buttonView, int positionX, int positionY, const char *setText)
 {
     UILabel* lablelFontSystem = new UILabel();
@@ -231,6 +275,8 @@ void MainAbilitySlice::SetAboutButtonView(void)
     int err = sprintf_s(buff, sizeof(buff), "系统版本: %s", gDV);
     if (err < 0) {
         printf("[ERROR]sprintf_s failed, err = %d\n", err);
+        free(gDV);
+        gDV = nullptr;
         return;
     }
     free(gDV);
@@ -245,6 +291,8 @@ void MainAbilitySlice::SetAboutButtonView(void)
     err = sprintf_s(buff, sizeof(buff), "设备名称: %s", gPT);
     if (err < 0) {
         printf("[ERROR]sprintf_s failed, err = %d\n", err);
+        free(gPT);
+        gPT = nullptr;
         return;
     }
     free(gPT);
@@ -266,6 +314,7 @@ void MainAbilitySlice::SetScrollView()
     rootView_->Add(scrollView_);
     SetWifiButtonView();
     SetAppButtonView();
+    SetDisplayButtonView();
     SetAboutButtonView();
 }
 
@@ -274,6 +323,7 @@ void MainAbilitySlice::OnStart(const Want& want)
     AbilitySlice::OnStart(want);
     SetButtonListenerWifi();
     SetButtonListenerApp();
+    SetButtonListenerDisplay();
     SetButtonListenerAbout();
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);

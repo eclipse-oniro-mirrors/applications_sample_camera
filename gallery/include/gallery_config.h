@@ -25,8 +25,6 @@ static const char* const VIDEO_PAUSE_PATH = "/gallery/assets/gallery/resources/d
 
 static constexpr int16_t MAX_PICTURE_COUNT = 256;
 static constexpr uint16_t MAX_PATH_LENGTH = 512;
-static char g_backIconAbsolutePath[MAX_PATH_LENGTH] = {0};
-static char g_videoTagIconAbsolutePath[MAX_PATH_LENGTH] = {0};
 
 /** thumb, photo, and video folder path */
 static const char* const THUMBNAIL_DIRECTORY = "/userdata/thumb";
@@ -68,10 +66,6 @@ static constexpr int16_t DELETE_LABEL_WIDTH = 150;
 static const char* const PHOTO_PREFIX = "photo";
 static const char* const AVAILABEL_SOURCE_TYPE = ".mp4";
 static const char* const AVAILABEL_SOURCE_TYPE_MP4 = ".MP4";
-
-/** player */
-static char g_videoPlayAbsolutePath[MAX_PATH_LENGTH] = {0};
-static char g_videoPauseAbsolutePath[MAX_PATH_LENGTH] = {0};
 
 /** playback status bar */
 static constexpr uint16_t STATUS_BAR_GROUP_HEIGHT = 96;

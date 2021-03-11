@@ -23,9 +23,9 @@
 namespace OHOS {
 class LongPressView : public UIView::OnClickListener, public NativeBase {
 public:
-    LongPressView(UninstallApp uninstall);
+    explicit LongPressView(UninstallApp uninstall);
     virtual ~LongPressView();
-    bool OnClick(UIView &view, const ClickEvent& event) override;
+    bool OnClick(UIView& view, const ClickEvent& event) override;
     void RemoveLview();
     void Show(UIViewGroup* viewParent, AppInfo* pApp);
     void SetStatus(bool status)
@@ -33,7 +33,7 @@ public:
         bStatus_ = status;
     }
 
-    bool GetStatus()
+    bool GetStatus() const
     {
         return bStatus_;
     }

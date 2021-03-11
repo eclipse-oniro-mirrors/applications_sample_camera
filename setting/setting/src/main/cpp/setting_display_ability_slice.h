@@ -13,13 +13,15 @@
  * limitations under the License.
  */
 
-#ifndef OHOS_SETTING_WIFI_ABILITY_SLICE_H
-#define OHOS_SETTING_WIFI_ABILITY_SLICE_H
+#ifndef OHOS_SETTING_DISPLAY_ABILITY_SLICE_H
+#define OHOS_SETTING_DISPLAY_ABILITY_SLICE_H
 
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
+#include <iproxy_client.h>
 
+#include "samgr_lite.h"
 #include "ability_loader.h"
 #include "components/ui_label.h"
 #include "components/ui_label_button.h"
@@ -29,16 +31,26 @@
 #include "event_listener.h"
 #include "list.h"
 #include "parameter.h"
-#include "pthread.h"
 #include "setting_utils.h"
-#include "wpa_work.h"
-#include "common/task.h"
 
 namespace OHOS {
-class TestBtnOnStateChangeListener : public OHOS::UICheckBox::OnChangeListener, public OHOS::UIView::OnClickListener {
+/*
+0： on
+1： off
+2：return 0:off, return 1:on
+*/
+enum ComDisplay {
+    COM_SET_DISPLAY_STEADY_ON,
+    COM_SET_DISPLAY_NO_STEADY_ON,
+    COM_GET_DISPLAY_STATUS,
+};
+const int MAX_DATA_LEN = 0x100;
+
+class DisBtnOnStateChangeListener : public OHOS::UICheckBox::OnChangeListener, public OHOS::UIView::OnClickListener {
 public:
-    ~TestBtnOnStateChangeListener() {}
-    explicit TestBtnOnStateChangeListener(UIView* uiView) : myUiView(uiView) {}
+    ~DisBtnOnStateChangeListener() {}
+    explicit DisBtnOnStateChangeListener(IClientProxy* iClientProxy, UIToggleButton* togglebutton)
+        : myIClientProxy(iClientProxy), myTogglebutton(togglebutton) {}
 
     bool OnChange(UICheckBox::UICheckBoxState state) override
     {
@@ -46,27 +58,34 @@ public:
     }
     bool OnClick(UIView& view, const ClickEvent& event) override
     {
-        bool ret = myUiView->IsVisible();
-        if (ret == false) {
-            myUiView->SetVisible(true);
+        int com;
+        bool status = myTogglebutton->GetState();
+        if (status == true) {
+            com = COM_SET_DISPLAY_NO_STEADY_ON;
         } else {
-            myUiView->SetVisible(false);
+            com = COM_SET_DISPLAY_STEADY_ON;
         }
-        myUiView->Invalidate();
+        IpcIo request;
+        char data[MAX_DATA_LEN];
+        IpcIoInit(&request, data, sizeof(data), 0);
+        if (myIClientProxy != NULL) {
+            myIClientProxy->Invoke(myIClientProxy, com, &request, NULL, NULL);
+        }
         return true;
     }
-
 private:
-    UIView* myUiView;
+    int funcId_ = 0;
+    IClientProxy* myIClientProxy;
+    UIToggleButton* myTogglebutton;
 };
 
-class SettingWifiAbilitySlice : public AbilitySlice, Task {
+class SettingDisplayAbilitySlice : public AbilitySlice {
 public:
-    SettingWifiAbilitySlice();
-    virtual ~SettingWifiAbilitySlice();
-    void AddWifi(void);
-    void Callback() override;
+    SettingDisplayAbilitySlice()
+        : headView_(nullptr), toggleButtonView_(nullptr), rootView_(nullptr),
+          buttonBackListener_(nullptr), changeListener_(nullptr) {}
 
+    virtual ~SettingDisplayAbilitySlice();
 protected:
     void OnStart(const Want& want) override;
     void OnInactive() override;
@@ -75,22 +94,16 @@ protected:
     void OnStop() override;
 
 private:
-    void MyThread();
-    void SetWifiButtonListener(char* ssid);
     void SetButtonListener();
     void SetHead();
     void SetToggleButton();
-    void SetUseWifi();
-    void SetScrollWifi();
 
+    IClientProxy* remoteApi_ = nullptr;
     UIViewGroup* headView_;
     UIViewGroup* toggleButtonView_;
-    UIScrollView* scrollView_;
     RootView* rootView_;
-    TestBtnOnStateChangeListener* changeListener_;
     EventListener* buttonBackListener_;
-    EventListener* buttonInputListener_;
-
+    DisBtnOnStateChangeListener* changeListener_;
     constexpr static int TOGGLE_X = 36;
     constexpr static int TOGGLE_Y = 72;
 

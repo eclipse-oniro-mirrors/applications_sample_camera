@@ -45,11 +45,9 @@ SwipeView::~SwipeView()
 
 void SwipeView::SetUpSwipe()
 {
-    LA_HORIZONTAL_RESOLUTION = Screen::GetInstance().GetWidth();
-    LA_VERTICAL_RESOLUTION = Screen::GetInstance().GetHeight();
     swipe_ = new UISwipeView();
-    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, LA_HORIZONTAL_RESOLUTION,
-        LA_VERTICAL_RESOLUTION - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     swipe_->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     swipe_->SetLoopState(true);
     swipe_->SetAnimatorTime(20); // set swipe view animator time 20s
@@ -61,8 +59,8 @@ UIViewGroup* SwipeView::AddViewGroup()
         return nullptr;
     }
     UIViewGroup* viewGroup = new UIViewGroup();
-    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, LA_HORIZONTAL_RESOLUTION,
-        LA_VERTICAL_RESOLUTION - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     viewGroup->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     groupCount_++;
     ViewGroupPage* page = new ViewGroupPage(viewGroup);
@@ -74,8 +72,8 @@ UIViewGroup* SwipeView::AddViewGroup()
 UIViewGroup* SwipeView::AddFirstViewGroup()
 {
     UIViewGroup* firstView = new UIViewGroup();
-    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, LA_HORIZONTAL_RESOLUTION,
-        LA_VERTICAL_RESOLUTION - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
+        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     firstView->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UIViewGroup* viewTimeWeather = new UIViewGroup();
@@ -129,6 +127,10 @@ void SwipeView::OnSetUpView()
                 if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
                     break;
                 }
+                if (memcmp(SCREENSAVER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
+                    break;
+                }
+
                 AppInfo* app = new AppInfo();
                 app->funcclick_ = AppEvent::ClickEvent;
                 app->funclPress_ = AppEvent::LongPressEvent;
@@ -188,12 +190,20 @@ void SwipeView::InstallApp(AppInfo* app)
 {
     appManage_->InstallApp(app);
     AppInfo* pApp = new AppInfo();
+    if (pApp == nullptr) {
+        return;
+    }
     app->funcclick_ = AppEvent::ClickEvent;
     app->funclPress_ = AppEvent::LongPressEvent;
-    for (int16_t i = 0; i < groupCount_; i++) {
+    int16_t i;
+    for (i = 0; i < groupCount_; i++) {
         if (arrPage_[i]->AddApp(pApp)) {
             break;
         }
+    }
+    if (i == groupCount_) {
+        delete pApp;
+        pApp = nullptr;
     }
 }
 

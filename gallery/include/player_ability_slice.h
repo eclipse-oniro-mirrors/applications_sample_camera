@@ -52,7 +52,7 @@ public:
 
     virtual ~ToggleBtnListener() {}
 
-    bool OnClick(UIView& view, const ClickEvent& event) override;
+    bool OnClick(UIView &view, const ClickEvent& event) override;
 
     void SetCompleteFlag(bool state)
     {
@@ -145,6 +145,9 @@ private:
     UISlider* slider_ { nullptr };
     UILabel* totalTimeLabel_ { nullptr };
     UILabel* errorTips_ { nullptr };
+    char backIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
+    char videoPlayAbsolutePath[MAX_PATH_LENGTH] = { 0 };
+    char videoPauseAbsolutePath[MAX_PATH_LENGTH] = { 0 };
 };
 } // namespace OHOS
 #endif // OHOS_PLAYER_ABILITY_SLICE_H

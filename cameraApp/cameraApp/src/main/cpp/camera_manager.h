@@ -48,26 +48,34 @@ typedef enum {
 
 class TestFrameStateCallback : public FrameStateCallback {
 public:
-    TestFrameStateCallback(){}
+    TestFrameStateCallback() : gPhotoType_(0), gIsFinished_(false) {}
     ~TestFrameStateCallback(){}
 
     void OnFrameFinished(Camera &camera, FrameConfig &fc, FrameResult &result) override;
     void SetPhotoType(int type);
     bool IsFinish(void);
-    void GetVideoName(char *pName, int length);
+    void GetVideoName(char *pName, size_t length) const;
     void InitVideoName();
     void InitTimeStamp();
 private:
     int gPhotoType_;
     bool gIsFinished_;
-    char videoName_[256];
-    char timeStamp_[256];
+    char videoName_[256] = {0};
+    char timeStamp_[256] = {0};
 };
 
 class SampleCameraStateMng : public CameraStateCallback {
 public:
         SampleCameraStateMng() = delete;
-        SampleCameraStateMng(EventHandler &eventHdlr) : eventHdlr_(eventHdlr) {}
+        SampleCameraStateMng(EventHandler &eventHdlr) : eventHdlr_(eventHdlr)
+        {
+            gRecordSta_ = 0;
+            gPreviewSta_ = 0;
+            gRecFd_ = -1;
+            cam_ = nullptr;
+            recorder_ = nullptr;
+            fc_ = nullptr;
+        }
         ~SampleCameraStateMng();
 
     void OnCreated(Camera &c) override;
@@ -84,23 +92,27 @@ public:
     bool IsCaptureOver(void);
 private:
 
-    int gRecordSta_ = 0;
-    int gPreviewSta_ = 0;
-    int gRecFd_ = -1;
+    int gRecordSta_;
+    int gPreviewSta_;
+    int gRecFd_;
     EventHandler &eventHdlr_;
-    Camera *cam_ = nullptr;
-    Recorder *recorder_ = nullptr;
+    Camera *cam_;
+    Recorder *recorder_;
     TestFrameStateCallback fsCb_;
-    FrameConfig *fc_ = nullptr;
+    FrameConfig *fc_;
 };
 
 class SampleCameraManager {
 public:
-    SampleCameraManager() = delete;
-    SampleCameraManager(int mode) : picMode(mode) {}
+    SampleCameraManager()
+    {
+        camKit = nullptr;
+        camId = "";
+        CamStateMng = nullptr;
+    }
     ~SampleCameraManager();
 
-    int SampleCameraCreate(int picMode);
+    int SampleCameraCreate();
     bool SampleCameraExist(void);
     int SampleCameraStart(Surface *surface);
     int SampleCameraStop(void);
@@ -116,7 +128,6 @@ private:
     CameraKit *camKit;
     string camId;
     SampleCameraStateMng *CamStateMng;
-    int picMode = 0;
     EventHandler eventHdlr_;
 };
 

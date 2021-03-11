@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include <securec.h>
 
 #include "app_manage.h"
@@ -96,9 +96,10 @@ void AppManage::MyBundleStateCallback(
     if (installType == 0) { // install update
         if (resultCode == 0 && bundleName != nullptr) {
             char tmpName[TMP_BUF_SIZE] = {0};
-            memcpy_s(tmpName, sizeof(tmpName), bundleName, strlen(bundleName));
-            tmpName[strlen(bundleName)] = 0;
-            GetAppInstallInfo(tmpName);
+            if (memcpy_s(tmpName, sizeof(tmpName), bundleName, strlen(bundleName)) == LAUNCHER_SUCCESS) {
+                tmpName[strlen(bundleName)] = 0;
+                GetAppInstallInfo(tmpName);
+            }
         }
     }
 }

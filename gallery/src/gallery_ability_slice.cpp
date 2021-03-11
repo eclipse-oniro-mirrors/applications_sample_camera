@@ -121,7 +121,7 @@ void GalleryAbilitySlice::InitTitle()
     printf("GalleryAbilitySlice::InitTitle | start \n");
     backIcon_ = new UIImageView();
     backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
-    backIcon_->SetSrc(g_backIconAbsolutePath);
+    backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
 
     backArea_ = new UIViewGroup();
@@ -198,19 +198,19 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
 {
     printf("GalleryAbilitySlice::AddAllPictures | start | %d\n", numInLine);
     Point imagePos = pos;
-    void* drip = FileOpenDir(THUMBNAIL_DIRECTORY);
+    DIR* drip = opendir(THUMBNAIL_DIRECTORY);
     if (drip == nullptr) {
         return;
     }
-    FileDirentInfo* info = new FileDirentInfo();
-    while (FileReadDir(drip, info) >= 0 && pictureCount_ < MAX_PICTURE_COUNT) {
-        uint16_t imageNameLen = static_cast<uint16_t>(strlen(info->name));
-        if (imageNameLen > MAX_PATH_LENGTH) {
+    struct dirent* info = nullptr;
+    while ((info = readdir(drip)) != nullptr  && pictureCount_ < MAX_PICTURE_COUNT) {
+        uint16_t imageNameLen = static_cast<uint16_t>(strlen(info->d_name));
+        if (imageNameLen > MAX_PATH_LENGTH || (strcmp(info->d_name, ".") == 0) || (strcmp(info->d_name, "..") == 0)) {
             printf("GalleryAbilitySlice::AddAllPictures | imageNameLen > MAX_PATH_LENGTH | %d\n", imageNameLen);
             continue;
         }
         char* imageName = new char[imageNameLen + 1]();
-        memcpy_s(imageName, imageNameLen + 1, info->name, imageNameLen + 1);
+        memcpy_s(imageName, imageNameLen + 1, info->d_name, imageNameLen + 1);
         pictureName_[pictureCount_] = imageName;
         pictureCount_++;
 
@@ -220,7 +220,7 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
             continue;
         }
         char* imagePath = new char[pathLen + 1]();
-        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", THUMBNAIL_DIRECTORY, info->name) < 0) {
+        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", THUMBNAIL_DIRECTORY, info->d_name) < 0) {
             printf("GalleryAbilitySlice::AddAllPictures | sprintf_s error\n");
             delete[] imagePath;
             continue;
@@ -237,7 +237,7 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
         }
     }
     delete info;
-    FileCloseDir(drip);
+    closedir(drip);
 }
 
 UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* imageName, const char* imagePath)
@@ -264,7 +264,7 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
 
     UIImageView* videoTag = new UIImageView();
     videoTag->SetPosition(VIDEO_TAG_POSITION_X, VIDEO_TAG_POSITION_Y);
-    videoTag->SetSrc(g_videoTagIconAbsolutePath);
+    videoTag->SetSrc(videoTagIconAbsolutePath);
     videoTag->SetTouchable(true);
     videoTag->SetOnClickListener(imageView->GetOnClickListener());
 
@@ -319,31 +319,31 @@ void GalleryAbilitySlice::DeleteAllData()
 
 void GalleryAbilitySlice::DeleteAllFilesInDir(const char* path)
 {
-    void* drip = FileOpenDir(path);
+    DIR* drip = opendir(path);
     if (drip == nullptr) {
         return;
     }
-    FileDirentInfo* info = new FileDirentInfo();
-    while (FileReadDir(drip, info) >= 0) {
-        uint16_t fileNameLen = static_cast<uint16_t>(strlen(info->name));
+    struct dirent* info = nullptr;
+    while ((info = readdir(drip)) != nullptr) {
+        uint16_t fileNameLen = static_cast<uint16_t>(strlen(info->d_name));
         uint16_t pathLen = static_cast<uint16_t>(strlen(path)) + fileNameLen + 1;
         if (pathLen > MAX_PATH_LENGTH) {
             printf("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d\n", pathLen);
             continue;
         }
         char* filePath = new char[pathLen + 1]();
-        if (sprintf_s(filePath, pathLen + 1, "%s/%s", path, info->name) < 0) {
+        if (sprintf_s(filePath, pathLen + 1, "%s/%s", path, info->d_name) < 0) {
             printf("GalleryAbilitySlice::AddAllPictures | sprintf_s error\n");
             delete[] filePath;
             continue;
         }
-        if (FileUnlink(filePath) != 0) {
+        if (unlink(filePath) != 0) {
             printf("unlink file error | %s\n", filePath);
         }
         delete[] filePath;
     }
     delete info;
-    FileCloseDir(drip);
+    closedir(drip);
     printf("GalleryAbilitySlice::DeleteAllFilesInDir() | success | %s\n", path);
 }
 
@@ -357,12 +357,12 @@ void GalleryAbilitySlice::OnStart(const Want &want)
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
 
     const char* pathHeader = GetSrcPath();
-    if (sprintf_s(g_backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
-        printf("GalleryAbilitySlice::OnStart | g_backIconAbsolutePath error");
+    if (sprintf_s(backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
+        printf("GalleryAbilitySlice::OnStart | backIconAbsolutePath error");
         return;
     }
-    if (sprintf_s(g_videoTagIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_TAG_ICON_PATH) < 0) {
-        printf("GalleryAbilitySlice::OnStart | g_videoTagIconAbsolutePath error");
+    if (sprintf_s(videoTagIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_TAG_ICON_PATH) < 0) {
+        printf("GalleryAbilitySlice::OnStart | videoTagIconAbsolutePath error");
         return;
     }
 

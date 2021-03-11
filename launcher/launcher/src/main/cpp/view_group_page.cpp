@@ -77,7 +77,6 @@ void ViewGroupPage::SetMatrix(int16_t rows, int16_t cols)
 
 void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t col)
 {
-    int16_t h = viewGroup_->GetHeight();
     int16_t w = viewGroup_->GetWidth();
 
     const double scale = scale_;

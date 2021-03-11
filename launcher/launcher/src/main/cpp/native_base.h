@@ -21,6 +21,8 @@
 namespace OHOS {
 class NativeBase : public HeapBase {
 public:
+    NativeBase() {}
+    virtual ~NativeBase() {}
     void DeleteChildren(UIView *view)
     {
         if (view == nullptr) {

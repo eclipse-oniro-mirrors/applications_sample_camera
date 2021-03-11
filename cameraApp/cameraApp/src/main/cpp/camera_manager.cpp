@@ -30,13 +30,15 @@ static constexpr int TEMP_BUF_LEN = 8;
 static constexpr int MAX_THM_SIZE = (64 * PAGE_SIZE);
 static constexpr int FILE_NAME_LEN = 128;
 static constexpr int MILLI_SECONDS = 1000;
+static constexpr int PIC_WIDTH = 1920;
+static constexpr int PIC_HEIGHT = 1080;
 
 char* g_dstBuf = nullptr;
 
 static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, uint16_t u16THMLen)
 {
     int32_t endpos = 0;
-    int32_t s32I = 0;
+    uint32_t s32I = 0;
     int32_t startpos = 0;
     char tempbuf[TEMP_BUF_LEN] = { 0 };
     int32_t bufpos = 0;
@@ -44,6 +46,9 @@ static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, 
     char endflag[2] = { 0xff, 0xd9 };
 
     while (s32I < srcSize) {
+        if (bufpos >= TEMP_BUF_LEN) {
+            break;
+        }
         tempbuf[bufpos] = psrc[s32I++];
         if (bufpos > 0) {
             if (0 == memcmp(tempbuf + bufpos - 1, startflag, sizeof(startflag))) {
@@ -55,15 +60,13 @@ static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, 
             if (0 == memcmp(tempbuf + bufpos - 1, endflag, sizeof(endflag))) {
                 if (u16THMLen == s32I) {
                     endpos = s32I;
-                    break;
                 } else {
                     endpos = s32I;
-                    break;
                 }
+                break;
             }
         }
-        bufpos++;
-        if (bufpos == (TEMP_BUF_LEN - 1)) {
+        if (++bufpos == (TEMP_BUF_LEN - 1)) {
             if (tempbuf[bufpos - 1] != 0xFF) {
                 bufpos = 0;
             }
@@ -72,7 +75,7 @@ static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, 
         }
     }
 
-    if ((endpos - startpos <= 0) || (endpos - startpos >= srcSize)) {
+    if ((endpos - startpos <= 0) || (static_cast<uint32_t>(endpos - startpos) >= srcSize)) {
         return -1;
     }
 
@@ -93,9 +96,8 @@ static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, 
     return 0;
 }
 
-static int32_t SampleGetThmFromJpg(char* jpegPath, uint32_t* dstSize)
+static int32_t SampleGetThmFromJpg(const char* jpegPath, uint32_t* dstSize)
 {
-    int32_t s32RtnVal = 0;
     FILE* fpJpg = nullptr;
     fpJpg = fopen(jpegPath, "rb");
     char* pszFile = nullptr;
@@ -111,6 +113,10 @@ static int32_t SampleGetThmFromJpg(char* jpegPath, uint32_t* dstSize)
     pszFile = (char*)malloc(stStat.st_size);
     if ((pszFile == nullptr) || (stStat.st_size < 6)) {    /* 6 min size of thumb head  */
         fclose(fpJpg);
+        if (pszFile) {
+            free(pszFile);
+            pszFile = nullptr;
+        }
         printf("memory malloc fail!\n");
         return -1;
     }
@@ -124,7 +130,8 @@ static int32_t SampleGetThmFromJpg(char* jpegPath, uint32_t* dstSize)
     fclose(fpJpg);
 
     // The fourth byte is shifted to the left by eight bits then the fifth byte is added.
-    uint16_t u16THMLen = (pszFile[4] << 8) + pszFile[5];
+    // the 4 byte is the length high 8 bit, and byte 5 is low 8bit;
+    uint16_t u16THMLen = (static_cast<uint16_t>(pszFile[4]) << 8) + pszFile[5];
     if (SampleDealThumb(pszFile, stStat.st_size, dstSize, u16THMLen) < 0) {
         printf("get jpg thumb failed! \n");
         free(pszFile);
@@ -146,7 +153,7 @@ int32_t SampleGetdcfinfo(const char* srcJpgPath, const char* dstThmPath)
     if (sprintf_s(jpegDesPath, sizeof(jpegDesPath), "%s", dstThmPath) < 0) {
         return -1;
     }
-    s32RtnVal = SampleGetThmFromJpg(jpegSrcPath, &dstSize);
+    s32RtnVal = SampleGetThmFromJpg(static_cast<const char *>(jpegSrcPath), &dstSize);
     if ((s32RtnVal != 0) || (dstSize == 0)) {
         printf("fail to get thm\n");
         return -1;
@@ -156,7 +163,7 @@ int32_t SampleGetdcfinfo(const char* srcJpgPath, const char* dstThmPath)
         printf("file to create file %s\n", jpegDesPath);
         return -1;
     }
-    int32_t u32WritenSize = 0;
+    uint32_t u32WritenSize = 0;
     while (u32WritenSize < dstSize) {
         s32RtnVal = fwrite(g_dstBuf + u32WritenSize, 1, dstSize, fpTHM);
         if (s32RtnVal <= 0) {
@@ -176,12 +183,11 @@ int32_t SampleGetdcfinfo(const char* srcJpgPath, const char* dstThmPath)
     return 0;
 }
 
-static void SampleSaveCapture(const char* p, uint32_t size, int type, char *timeStamp, int length)
+static void SampleSaveCapture(const char* p, uint32_t size, int type, const char *timeStamp, int length)
 {
     char acFileDcf[FILE_NAME_LEN] = {0};
     FILE *fp = nullptr;
     char acFile[FILE_NAME_LEN] = { 0 };
-    int ws = 0;
 
     if (type == 0) {
         char tmpFile[FILE_NAME_LEN] = {0};
@@ -190,7 +196,7 @@ static void SampleSaveCapture(const char* p, uint32_t size, int type, char *time
         }
         fp = fopen(tmpFile, "w+");
         if (fp) {
-            ws = fwrite(p, 1, size, fp);
+            fwrite(p, 1, size, fp);
             fclose(fp);
         }
     }
@@ -204,7 +210,7 @@ static void SampleSaveCapture(const char* p, uint32_t size, int type, char *time
         if (fp == NULL) {
             return;
         }
-        ws = fwrite(p, 1, size, fp);
+        fwrite(p, 1, size, fp);
         fclose(fp);
 
     if (type == 0) {
@@ -222,12 +228,16 @@ static void SampleSaveCapture(const char* p, uint32_t size, int type, char *time
     SampleGetdcfinfo(static_cast<char *>(acFile), static_cast<char *>(acFileDcf));
 }
 
-static int CameraGetRecordFd(char* p)
+static int CameraGetRecordFd(const char* p)
 {
     int fd = -1;
     char pname[128] = {0};
-    char *pe = strrchr(p, '.');
-    char *ps = strrchr(p, '/');
+    char *ptr = const_cast<char *>(p);
+    char *pe = strrchr(ptr, '.');
+    char *ps = strrchr(ptr, '/');
+    if (pe == nullptr || ps == nullptr) {
+        return -1;
+    }
 
     if (strcpy_s(static_cast<char *>(pname), sizeof(pname), VIDEO_PATH) != 0) {
         return -1;
@@ -240,9 +250,8 @@ static int CameraGetRecordFd(char* p)
     if (strcat_s(pname, sizeof(pname), ".mp4") < 0) {
         return -1;
     }
-
-    fd = open(pname, O_RDWR | O_CREAT | O_CLOEXEC | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (fd <= 0) {
+    fd = open(pname, O_RDWR | O_CREAT | O_CLOEXEC | O_TRUNC, S_IROTH | S_IRUSR | S_IWUSR);
+    if (fd < 0) {
         return -1;
     }
 
@@ -318,7 +327,8 @@ void TestFrameStateCallback::OnFrameFinished(Camera &camera, FrameConfig &fc, Fr
             if (buffer != nullptr) {
                 char *virtAddr = static_cast<char *>(buffer->GetVirAddr());
                 if (virtAddr != nullptr) {
-                    SampleSaveCapture(virtAddr, buffer->GetSize(), gPhotoType_, timeStamp_, sizeof(timeStamp_));
+                    SampleSaveCapture(virtAddr, buffer->GetSize(),
+                        gPhotoType_, static_cast<const char *>(timeStamp_), sizeof(timeStamp_));
                 }
                 surface->ReleaseBuffer(buffer);
             } else {
@@ -345,7 +355,7 @@ bool TestFrameStateCallback::IsFinish(void)
     return gIsFinished_;
 }
 
-void TestFrameStateCallback::GetVideoName(char *pName, int length)
+void TestFrameStateCallback::GetVideoName(char *pName, size_t length) const
 {
     if (strlen(videoName_) <= 0)
         return;
@@ -575,10 +585,9 @@ SampleCameraManager::~SampleCameraManager()
     }
 }
 
-int SampleCameraManager::SampleCameraCreate(int picMode)
+int SampleCameraManager::SampleCameraCreate()
 {
     int retval = 0;
-    int timeout = 0;
     printf("camera start init!!! \n");
     camKit = CameraKit::GetInstance();
     if (camKit == nullptr) {
@@ -592,9 +601,11 @@ int SampleCameraManager::SampleCameraCreate(int picMode)
         const CameraAbility *ability = camKit->GetCameraAbility(cam);
         /* find camera which fits user's ability */
         list<CameraPicSize> sizeList = ability->GetSupportedSizes(0);
-        if (find(sizeList.begin(), sizeList.end(), CAM_PIC_1080P) != sizeList.end()) {
-            camId = cam;
-            break;
+        for (auto &pic : sizeList) {
+            if (pic.width == PIC_WIDTH && pic.height == PIC_HEIGHT) {
+                camId = cam;
+                break;
+            }
         }
     }
 
@@ -614,13 +625,13 @@ int SampleCameraManager::SampleCameraCreate(int picMode)
     camKit->CreateCamera(camId, *CamStateMng, eventHdlr_);
     printf("after CreateCamera \n");
     if (!access("/userdata/", F_OK | R_OK | W_OK)) {
-        if (access(PHOTO_PATH, F_OK)) {
+        if (access(PHOTO_PATH, F_OK) != 0) {
             mkdir(PHOTO_PATH, FILE_MODE);
         }
-        if (access(THUMB_PATH, F_OK)) {
+        if (access(THUMB_PATH, F_OK) != 0) {
             mkdir(THUMB_PATH, FILE_MODE);
         }
-        if (access(VIDEO_PATH, F_OK)) {
+        if (access(VIDEO_PATH, F_OK) != 0) {
             mkdir(VIDEO_PATH, FILE_MODE);
         }
     }

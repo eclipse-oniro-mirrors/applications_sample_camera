@@ -58,7 +58,7 @@ void MainAbilitySlice::SetHead()
     sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, 0, LA_HORIZONTAL_RESOLUTION, LABLE_TITLE_HEIGHT);
+    label->SetPosition(0, 0, Screen::GetInstance().GetWidth(), LABLE_TITLE_HEIGHT);
     label->SetText(tmp);
     label->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_TOP);
     label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
@@ -72,7 +72,8 @@ void MainAbilitySlice::SetTail()
 {
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, LA_VERTICAL_RESOLUTION - LABLE_TAIL_HEIGHT, LA_HORIZONTAL_RESOLUTION, LABLE_TAIL_HEIGHT);
+    label->SetPosition(0, Screen::GetInstance().GetHeight() - LABLE_TAIL_HEIGHT,
+                       Screen::GetInstance().GetWidth(), LABLE_TAIL_HEIGHT);
     char buf[TMP_BUF_SIZE] = { 0 };
     sprintf_s(buf, sizeof(buf), ".%d.", 1);
     label->SetText(buf);
@@ -89,7 +90,7 @@ void MainAbilitySlice::SetImageView()
     uiImageView_ = new UIImageView();
     // modify image view height
 
-    uiImageView_->SetPosition(0, 0, LA_HORIZONTAL_RESOLUTION, LA_VERTICAL_RESOLUTION);
+    uiImageView_->SetPosition(0, 0, Screen::GetInstance().GetWidth(), Screen::GetInstance().GetHeight());
     uiImageView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::White()));
     uiImageView_->SetSrc(TABLE_BACKGROUND);
     uiImageView_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
@@ -106,11 +107,9 @@ void MainAbilitySlice::SetSwipe()
 void MainAbilitySlice::OnStart(const Want& want)
 {
     AbilitySlice::OnStart(want);
-    LA_HORIZONTAL_RESOLUTION = Screen::GetInstance().GetWidth();
-    LA_VERTICAL_RESOLUTION = Screen::GetInstance().GetHeight();
     rootview_ = RootView::GetWindowRootView();
     rootview_->SetPosition(0, 0);
-    rootview_->Resize(LA_HORIZONTAL_RESOLUTION, LA_VERTICAL_RESOLUTION);
+    rootview_->Resize(Screen::GetInstance().GetWidth(), Screen::GetInstance().GetHeight());
     rootview_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     rootview_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x30, 0x30, 0x30)));
 

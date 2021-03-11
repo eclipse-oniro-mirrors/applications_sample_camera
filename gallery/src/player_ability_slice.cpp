@@ -134,11 +134,11 @@ void PlayerAbilitySlice::SetUpBackArea(const char* pathHeader)
     backIcon_ = new UIImageView();
     backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
 
-    if (sprintf_s(g_backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | g_backIconAbsolutePath | %s\n", pathHeader);
+    if (sprintf_s(backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
+        printf("PlayerAbilitySlice::OnStart | backIconAbsolutePath | %s\n", pathHeader);
         return;
     }
-    backIcon_->SetSrc(g_backIconAbsolutePath);
+    backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
     backIconListener_ = new EventListener(onClick, nullptr);
     backIcon_->SetOnClickListener(backIconListener_);
@@ -303,20 +303,19 @@ void PlayerAbilitySlice::SetUpToggleButton(const char* pathHeader)
         TOGGLE_BUTTON_WIDTH, TOGGLE_BUTTON_HEIGHT);
     toggleButton_->SetState(true);
 
-    if (sprintf_s(g_videoPlayAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PALY_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | g_videoPlayAbsolutePath\n");
+    if (sprintf_s(videoPlayAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PALY_PATH) < 0) {
+        printf("PlayerAbilitySlice::OnStart | videoPlayAbsolutePath\n");
         return;
     }
 
-    if (sprintf_s(g_videoPauseAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PAUSE_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | g_videoPauseAbsolutePath\n");
+    if (sprintf_s(videoPauseAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PAUSE_PATH) < 0) {
+        printf("PlayerAbilitySlice::OnStart | videoPauseAbsolutePath\n");
         return;
     }
-    toggleButton_->SetImages(g_videoPauseAbsolutePath, g_videoPlayAbsolutePath);
+    toggleButton_->SetImages(videoPauseAbsolutePath, videoPlayAbsolutePath);
     onClickListener_ = new ToggleBtnListener(toggleButton_, videoPlayer_, animator_, surfaceView_);
 
     toggleButtonArea_ = new UIViewGroup();
-    toggleButtonArea_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     toggleButtonArea_->SetPosition(0, 0, TOGGLE_BUTTON_OFFSET_X + TOGGLE_BUTTON_WIDTH, STATUS_BAR_GROUP_HEIGHT);
     toggleButtonArea_->SetTouchable(true);
     toggleButtonArea_->SetOnClickListener(onClickListener_);
@@ -428,7 +427,7 @@ void SliderAnimator::Callback(UIView* view)
     }
 }
 
-bool ToggleBtnListener::OnClick(UIView& view, const ClickEvent& event)
+bool ToggleBtnListener::OnClick(UIView &view, const ClickEvent& event)
 {
     button_->OnClickEvent(event);
     if (completeFlag_) {

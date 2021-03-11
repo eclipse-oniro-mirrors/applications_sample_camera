@@ -35,20 +35,28 @@ public:
         onLongPress_ = std::move(onLongPress);
     }
 
-    bool OnClick(UIView &view, const ClickEvent &event) override
+    bool OnClick(UIView& view, const ClickEvent &event) override
     {
         if (!onClick_) {
             return false;
         }
-        return onClick_(view, event);
+        UIView *currentView = &view;
+        if (currentView == nullptr) {
+            return false;
+        }
+        return onClick_(*currentView, event);
     }
 
-    bool OnLongPress(UIView &view, const LongPressEvent &event) override
+    bool OnLongPress(UIView& view, const LongPressEvent &event) override
     {
         if (!onLongPress_) {
             return false;
         }
-        return onLongPress_(view, event);
+        UIView *currentView = &view;
+        if (currentView == nullptr) {
+            return false;
+        }
+        return onLongPress_(*currentView, event);
     }
 
 private:

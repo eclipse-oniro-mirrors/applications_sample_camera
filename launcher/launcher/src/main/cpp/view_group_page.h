@@ -29,7 +29,7 @@ namespace OHOS {
 class ViewGroupPage {
 public:
     ViewGroupPage() = delete;
-    ViewGroupPage(UIViewGroup* viewGroup);
+    explicit ViewGroupPage(UIViewGroup* viewGroup);
     virtual ~ViewGroupPage();
     void SetMatrix(int16_t rows, int16_t cols);
     bool AddApp(AppInfo* pAppInfo);

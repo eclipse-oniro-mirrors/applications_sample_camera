@@ -62,6 +62,9 @@ void AppAbilitySlice::SetAppButtonListener(const char* appName)
     auto onClick2 = [this, appName](UIView& view, const Event& event) -> bool {
         Want want1 = { nullptr };
         bool ret = SetWantData(&want1, appName, strlen(appName) + 1);
+        if (ret != true) {
+            return false;
+        }
         StartAbility(want1);
         AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("AppInfoAbilitySlice");
         if (nextSlice == nullptr) {
@@ -114,7 +117,7 @@ void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)
         printf("[ERROR]strcpy_s pBundleInfo.bundleName failed, err = %d\n", err);
         return;
     }
-    for (int i = 0; i < strlen(pBundleInfo.bundleName); i++) {
+    for (size_t i = 0; i < strlen(pBundleInfo.bundleName); i++) {
         buff[i] = pBundleInfo.bundleName[i];
     }
     SetAppButtonListener(pBundleInfo.bundleName);

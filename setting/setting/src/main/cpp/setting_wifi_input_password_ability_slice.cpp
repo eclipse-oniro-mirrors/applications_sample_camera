@@ -22,7 +22,7 @@ REGISTER_AS(SettingWifiInputPasswordAbilitySlice)
 static UIView::OnClickListener* clickLeftListener_ = nullptr;
 
 static const int g_maxPassword = 10;    // Maximum length of a password.
-static char* g_inputSsid;
+static char* g_inputSsid = nullptr;
 static char g_inputPassword[g_maxPassword + 1] = { 0 };
 static int g_inputCount = 0;
 static int g_cursorPositionX = 20;    // Initial position of cursor X
@@ -84,12 +84,8 @@ public:
     bool OnClick(UIView& view, const ClickEvent& event) override
     {
         WpaScanReconnect(g_inputSsid, g_inputPassword, HIDDEN_OPEN);
-        int err = memset_s(g_inputSsid, sizeof(g_inputSsid), 0, sizeof(g_inputSsid));
-        if (err != EOK) {
-            printf("[ERROR]memset_s failed, err = %d\n", err);
-            return false;
-        }
-        err = memset_s(g_inputPassword, sizeof(g_inputPassword), 0, sizeof(g_inputPassword));
+        g_inputSsid = nullptr;
+        int err = memset_s(g_inputPassword, sizeof(g_inputPassword), 0, sizeof(g_inputPassword));
         if (err != EOK) {
             printf("[ERROR]memset_s failed, err = %d\n", err);
             return false;
@@ -148,7 +144,7 @@ void SettingWifiInputPasswordAbilitySlice::SetInput(void)
     lablelInputText_->SetText("输入密码");
     lablelInputText_->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     inputView_->Add(lablelInputText_);
-   
+
     lablelCursorText_ = new UILabel();
     lablelCursorText_->SetPosition(g_cursorPositionX, INPUT_CURSOR_Y, INPUT_CURSOR_WIDTH, INPUT_CURSOR_HEIGHT);
     lablelCursorText_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x0D, 0x9F, 0xF8)));
@@ -263,14 +259,13 @@ void SettingWifiInputPasswordAbilitySlice::OnInactive()
 
 void SettingWifiInputPasswordAbilitySlice::OnActive(const Want& want)
 {
-    int err; 
+    int err;
     lablelInputText_->SetText("输入密码");
     g_cursorPositionX = 20; // 20
     lablelCursorText_->SetX(g_cursorPositionX);
     g_inputCount = 0;
     err = memset_s(g_inputPassword, sizeof(g_inputPassword), 0, sizeof(g_inputPassword));
     if (err != EOK) {
-        printf("[ERROR]memset_s  g_inputPassword failed, err = %d\n", err);
         return;
     }
     AbilitySlice::OnActive(want);

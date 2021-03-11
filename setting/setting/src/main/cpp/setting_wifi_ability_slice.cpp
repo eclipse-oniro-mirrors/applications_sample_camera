@@ -86,6 +86,9 @@ void SettingWifiAbilitySlice::SetWifiButtonListener(char* ssid)
     auto onClick2 = [this, ssid](UIView& view, const Event& event) -> bool {
         Want want1 = { nullptr };
         bool ret = SetWantData(&want1, ssid, strlen(ssid) + 1);
+        if (ret != true) {
+            return false;
+        }
         StartAbility(want1);
         AbilitySlice* nextSlice =
             AbilityLoader::GetInstance().GetAbilitySliceByName("SettingWifiInputPasswordAbilitySlice");
@@ -161,7 +164,6 @@ void SettingWifiAbilitySlice::AddWifi(void)
 {
     int ssidIndex, ssidCount;
 
-    char* buff = nullptr;
     ssidCount = GetIdNum();
     if (ssidCount == 0) {
         printf("[LOG]SettingWifiAbilitySlice::AddWifi ssidCount == 0 \n");

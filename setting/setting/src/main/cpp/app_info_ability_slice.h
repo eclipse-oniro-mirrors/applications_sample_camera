@@ -34,46 +34,68 @@
 #include "setting_utils.h"
 #include "want.h"
 #include "pms_interface.h"
-#include<stdio.h>
-#include<securec.h>
+
+#include <cstdio>
+#include <securec.h>
 
 namespace OHOS {
 
 class ToggBtnOnListener : public UIView::OnClickListener {
 public:
-    ToggBtnOnListener(UIToggleButton* togglebutton, const char* name, int len1, const char* bundleName, int len2)
+
+    explicit ToggBtnOnListener(UIToggleButton* togglebutton)
     {
-        memcpy_s(name_, sizeof(name_), name, len1);
-        name_[len1] = 0;
-        memcpy_s(bundleName_, sizeof(bundleName_), bundleName, len2);
-        bundleName_[len2] = 0;
         status_ = false;
         togglebutton_ = togglebutton;
     }
 
+    virtual ~ToggBtnOnListener(){}
+
+    void SetPermissionName(const char* permissionsName, int nameLenght)
+    {
+        int ret;
+        ret = memcpy_s(name_, sizeof(name_), permissionsName, nameLenght);
+        if (ret != EOK) {
+            printf("[ERR] memcpy_s func[SetToggleButton]\n");
+            return;
+        }
+        name_[nameLenght] = 0;
+    }
+
+    void SetBundleName(const char* bundleName, int nameLength)
+    {
+        int ret;
+        ret = memcpy_s(bundleName_, sizeof(bundleName_), bundleName, nameLength);
+        if (ret != EOK) {
+            printf("[ERR] memcpy_s func[SetBundleName]\n");
+            return;
+        }
+        bundleName_[nameLength] = 0;
+    }
+
     bool OnClick(UIView& view, const ClickEvent& event) override
     {
-        int ret = -1;
+        int ret;
         if (status_) {
-            if ((ret = RevokePermission(bundleName_, name_)) == 0) {
+            ret = RevokePermission(bundleName_, name_);
+            if (ret == 0) {
                 status_ = false;
                 togglebutton_->SetState(false);
-            } else {
             }
         } else {
-            if ((ret = GrantPermission(bundleName_, name_)) == 0) {
+            ret = GrantPermission(bundleName_, name_);
+            if (ret == 0) {
                 status_ = true;
                 togglebutton_->SetState(true);
-            } else {
             }
         }
         return true;
     }
 private:
-    char name_[128];
-    char bundleName_[128];
-    bool status_;
-    UIToggleButton* togglebutton_;
+    char name_[128] = {0};
+    char bundleName_[128] = {0};
+    bool status_ = false;
+    UIToggleButton* togglebutton_ = nullptr;
 };
 
 class AppInfoAbilitySlice : public AbilitySlice {

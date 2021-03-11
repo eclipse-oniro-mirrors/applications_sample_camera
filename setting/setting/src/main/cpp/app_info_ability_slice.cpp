@@ -104,10 +104,11 @@ void AppInfoAbilitySlice::SetAppPermissionInfo(int index, PermissionSaved& permi
     } else {
         togglebutton->SetState(true);
     }
-    ToggBtnOnListener* listern = new ToggBtnOnListener(togglebutton, permissions.name, strlen(permissions.name),
-        bundleName_, strlen(bundleName_));
-    togglebutton->SetOnClickListener(listern);
-    listListener_.PushBack(listern);
+    ToggBtnOnListener* listener = new ToggBtnOnListener(togglebutton);
+    listener->SetPermissionName(permissions.name, strlen(permissions.name));
+    listener->SetBundleName(bundleName_, strlen(bundleName_));
+    togglebutton->SetOnClickListener(listener);
+    listListener_.PushBack(listener);
     itemView->Add(togglebutton);
 }
 
@@ -134,11 +135,14 @@ void AppInfoAbilitySlice::PermissionInfoList()
 
 void AppInfoAbilitySlice::OnStart(const Want& want)
 {
+    int ret;
     printf("[LOG]receive the data -> %s\n", static_cast<char*>(want.data));
     AbilitySlice::OnStart(want);
 
-    memcpy_s(bundleName_, sizeof(bundleName_), want.data, want.dataLength);
-
+    ret = memcpy_s(bundleName_, sizeof(bundleName_), want.data, want.dataLength);
+    if (ret != EOK) {
+        return;
+    }
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);

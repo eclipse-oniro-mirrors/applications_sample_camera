@@ -17,10 +17,9 @@
 #define OHOS_UI_CONFIG_H
 
 #include <cstdint>
+#include <securec.h>
 
 namespace OHOS {
-static int16_t LA_HORIZONTAL_RESOLUTION = 960;      // launcher table width
-static int16_t LA_VERTICAL_RESOLUTION = 480;        // launcher table height
 static constexpr int16_t LABLE_TITLE_HEIGHT = 30; // tail lable height
 static constexpr int16_t LABLE_TAIL_HEIGHT = 30;
 static constexpr int16_t APP_WIDTH_COUNT = 7;       // blank + app + blank + app + blank
@@ -38,11 +37,28 @@ static constexpr int16_t BUTTON_RADIUS = 20;        // app icon radius
 static constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
 static constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
 static constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
+
+#ifndef TMP_BUF_SIZE
 #define TMP_BUF_SIZE 128
+#endif
+
 #define LAUNCHER_BUNDLE_NAME "com.huawei.launcher"
+#define SCREENSAVER_BUNDLE_NAME "com.huawei.screensaver"
 #define TABLE_BACKGROUND \
     "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/background.png"
 #define RES_WEATHER "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/weather.png"
 #define FOND_PATH "SourceHanSansSC-Regular.otf"
+
+#ifndef LAUNCHER_SUCCESS
+#define LAUNCHER_SUCCESS 0
+#endif
+
+#ifndef LAUNCHER_PARAMERROR
+#define LAUNCHER_PARAMERROR (-1)
+#endif
+
+#ifndef WEEK_DAY_MAX
+#define WEEK_DAY_MAX 7
+#endif
 } // namespace OHOS
 #endif

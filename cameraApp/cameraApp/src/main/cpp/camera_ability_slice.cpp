@@ -36,8 +36,8 @@ class SliderAnimator : public Animator, public AnimatorCallback {
 public:
     explicit SliderAnimator(UISlider *slider, UIImageView *backview, UISurfaceView *surface,
     SampleCameraManager *cManager, uint16_t duration)
-        : Animator(this, slider, duration, true), slider_(slider), backgroundView_(backview), mSurfaceview(surface),
-        camManager(cManager), duration_(duration) {}
+        : Animator(this, slider, duration, true), backgroundView_(backview), mSurfaceview(surface),
+        camManager(cManager), ss(0), runType_(0), camRestart(false) {}
     virtual ~SliderAnimator() {}
 
     void Callback(UIView *view) override
@@ -92,12 +92,10 @@ public:
     }
 private:
     UIImageView *backgroundView_;
-    UISlider *slider_;
     UISurfaceView *mSurfaceview;
     SampleCameraManager *camManager;
-    uint32_t duration_;
-    uint32_t ss = 0;
-    uint32_t runType_ = 0;
+    uint32_t ss;
+    uint32_t runType_;
     bool camRestart;
 
     void BackViewSetImage(const char *image)
@@ -115,7 +113,7 @@ private:
                 scaleHeight = static_cast<float>(SCREEN_HEIGHT) / imageHeight;
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
-            transMap.Scale(Vector2<float>(scale, scale), Vector2<int16_t>(0, 0));
+            transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
             backgroundView_->SetTransformMap(transMap);
             backgroundView_->SetTransformAlgorithm(TransformAlgorithm::NEAREST_NEIGHBOR);
             imageWidth = imageWidth * scale;
@@ -131,13 +129,16 @@ class CameraImageButtonOnClickListener : public UIView::OnClickListener {
 public:
     CameraImageButtonOnClickListener(UIView *uiView,  UISurfaceView *surface,
         UIImageView *iamgeview, TaskView *taskView, SliderAnimator *animator) : uiView_(uiView),
-        mSurfaceview(surface), backgroundView_(iamgeview), gTaskView_(taskView), animator_(animator)
+        backgroundView_(iamgeview), mSurfaceview(surface), animator_(animator), gTaskView_(taskView)
         {
+            cManager_ = nullptr;
             bttnLeft = nullptr;
             bttnRight = nullptr;
             bttnMidle = nullptr;
             bttnRecord = nullptr;
             recordImage = nullptr;
+            tmLabel = nullptr;
+            bttnIdx_ = 0;
         }
     virtual ~CameraImageButtonOnClickListener(){}
 
@@ -221,6 +222,7 @@ private:
     UIImageView *backgroundView_;
     UISurfaceView *mSurfaceview;
     SliderAnimator *animator_;
+    TaskView *gTaskView_;
     int16_t bttnIdx_;
 
     SampleCameraManager *cManager_;
@@ -230,7 +232,6 @@ private:
     UIImageView *bttnRecord;
     UIImageView *recordImage;
     UILabel *tmLabel;
-    TaskView *gTaskView_;
     void StartGallery(void)
     {
         Want want1 = { nullptr };
@@ -327,7 +328,7 @@ private:
                 scaleHeight = static_cast<float>(SCREEN_HEIGHT) / imageHeight;
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
-            transMap.Scale(Vector2<float>(scale, scale), Vector2<int16_t>(0, 0));
+            transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
             backgroundView_->SetTransformMap(transMap);
             backgroundView_->SetTransformAlgorithm(TransformAlgorithm::NEAREST_NEIGHBOR);
             imageWidth = imageWidth * scale;
@@ -498,8 +499,8 @@ void CameraAbilitySlice::OnStart(const Want &want)
     background_->SetVisible(true);
     background_->Invalidate();
 
-    cam_manager = new SampleCameraManager(0);
-    cam_manager->SampleCameraCreate(0);
+    cam_manager = new SampleCameraManager();
+    cam_manager->SampleCameraCreate();
 
     SetHead();
 

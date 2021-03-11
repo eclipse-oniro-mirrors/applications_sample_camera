@@ -80,13 +80,6 @@ static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
     return -1;
 }
 
-static void printUseSsid(void)
-{
-    for (int i = 0; i < g_useSsidCount; i++) {
-        printf("[LOG]thegUseSsidD[%d]->%s\n", i, g_useSsidD[i]);
-    }
-}
-
 static void ProcessScanResult(const char *buf, int len)
 {
     int myUse1 = 1;
@@ -96,7 +89,6 @@ static void ProcessScanResult(const char *buf, int len)
     int err = memset_s(g_mySsidD, sizeof(g_mySsidD), 0, sizeof(g_mySsidD));
     g_ssidCount = 0;
     if (err != EOK) {
-        printf("[ERROR]memset_s g_ssidCount failed, err = %d\n", err);
         return;
     }
     for (int i = 0; i < len; i++) {
@@ -146,6 +138,9 @@ int GetCurrentConnInfo(char *ssid, int len)
         printf("[ERROR]strstr(ssid) is null");
         return -1;
     }
+    if (offset >= strlen(pos)) {
+        return -1;
+    }
     pos += offset;
     pos = strstr(pos, "ssid=");
     if (pos == NULL) {
@@ -159,7 +154,6 @@ int GetCurrentConnInfo(char *ssid, int len)
     }
     int ssidLen = end - pos - offset;
     if (len < ssidLen) {
-        SAMPLE_ERROR("ssid len = %d, buffer len = %d", ssidLen, len);
         return -1;
     }
     int i = 0;
@@ -167,7 +161,6 @@ int GetCurrentConnInfo(char *ssid, int len)
     for (pos += myOffset; pos < end; pos++, i++) {
         ssid[i] = *pos;
     }
-    printf("[LOG]getssid->%s\n", ssid);
     return 0;
 }
 
@@ -246,7 +239,6 @@ static void CheckSsid(void)
         if (j == g_ssidCount) {
             err = strcpy_s(g_useSsidD[g_useSsidCount], sizeof(g_useSsidD[g_useSsidCount]), g_mySsidD[i]);
             if (err != EOK) {
-                printf("[ERROR]strcpy_s g_useSsidD failed, err = %d\n", err);
                 continue;
             }
             g_useSsidCount++;
@@ -280,7 +272,6 @@ static void WifiEventHandler(char *rawEvent, int len)
         ProcessScanResult(scanResult, scanLen);
         CheckSsid();
         g_scanAvailable = 1;
-        printUseSsid();
         pthread_mutex_unlock(&g_mutex);
         return;
     }
@@ -390,6 +381,10 @@ int InitControlInterface()
             break;
         }
         sleep(1);
+    }
+    if (g_monitorConn != NULL) {
+        free(g_monitorConn);
+        g_monitorConn = NULL;
     }
     g_monitorConn = wpa_ctrl_open(WPA_IFACE_NAME); // create control interface for event monitor
     if (!g_ctrlConn || !g_monitorConn) {

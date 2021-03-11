@@ -13,55 +13,52 @@
 import("//build/lite/config/component/lite_component.gni")
 
 copy("camera_config") {
-    if (board_name == "hi3516dv300") {
-        sources = ["cameradev_imx335.ini"]
-    } else if(board_name == "hi3518ev300" && ohos_build_compiler == "clang") {
-        sources = ["cameradev_jxf23.ini"]
-    } else {
-        sources = ["cameradev_imx307.ini"]
-    }
-    outputs = [ "$root_out_dir/data/cameradev.ini" ]
+  if (board_name == "hi3516dv300" || board_name == "hispark_taurus") {
+    sources = [ "cameradev_imx335.ini" ]
+  } else if ((board_name == "hi3518ev300" || board_name == "hispark_aries") &&
+             ohos_build_compiler == "clang") {
+    sources = [ "cameradev_jxf23.ini" ]
+  } else {
+    sources = [ "cameradev_imx307.ini" ]
+  }
+  outputs = [ "$root_out_dir/data/cameradev.ini" ]
 }
 
 executable("camera_sample") {
-    sources = [
-        "camera_sample.cpp"
-    ]
-    cflags = ["-Wall"]
-    cflags_cc = cflags
-    include_dirs = []
+  sources = [ "camera_sample.cpp" ]
+  cflags = [ "-Wall" ]
+  cflags_cc = cflags
+  include_dirs = []
 
-    ldflags = ["-lstdc++"]
-    ldflags += ["-lpthread"]
-    ldflags += ["-Wl,-rpath-link=$ohos_root_path/$root_out_dir"]
+  ldflags = [ "-lstdc++" ]
+  ldflags += [ "-lpthread" ]
+  ldflags += [ "-Wl,-rpath-link=$ohos_root_path/$root_out_dir" ]
 
-    deps = [
-        "//foundation/multimedia/frameworks/camera_lite:camera",
-        "//foundation/multimedia/frameworks/recorder_lite:recorder",
-    ]
-    output_dir = "$root_out_dir/dev_tools"
+  deps = [
+    "//foundation/multimedia/camera_lite/frameworks:camera_lite",
+    "//foundation/multimedia/media_lite/frameworks/recorder_lite:recorder_lite",
+  ]
+  output_dir = "$root_out_dir/dev_tools"
 }
 
 executable("player_sample") {
-    sources = [
-        "player_sample.cpp"
-    ]
-    cflags = ["-Wall"]
-    cflags_cc = cflags
-    include_dirs = []
-    ldflags = ["-lstdc++"]
-    ldflags += ["-lpthread"]
-    ldflags += ["-Wl,-rpath-link=$ohos_root_path/$root_out_dir"]
-    deps = [
-        "//third_party/bounds_checking_function:libsec_shared",
-        "//foundation/multimedia/frameworks/player_lite:player",
-    ]
-    output_dir = "$root_out_dir/dev_tools"
+  sources = [ "player_sample.cpp" ]
+  cflags = [ "-Wall" ]
+  cflags_cc = cflags
+  include_dirs = []
+  ldflags = [ "-lstdc++" ]
+  ldflags += [ "-lpthread" ]
+  ldflags += [ "-Wl,-rpath-link=$ohos_root_path/$root_out_dir" ]
+  deps = [
+    "//foundation/multimedia/media_lite/frameworks/player_lite:player_lite",
+    "//third_party/bounds_checking_function:libsec_shared",
+  ]
+  output_dir = "$root_out_dir/dev_tools"
 }
 
 lite_component("media_sample") {
-    features = [
-        ":camera_sample",
-        ":player_sample",
-    ]
+  features = [
+    ":camera_sample",
+    ":player_sample",
+  ]
 }

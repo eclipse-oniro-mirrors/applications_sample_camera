@@ -20,6 +20,7 @@
 #include "components/ui_image_view.h"
 #include "components/ui_view_group.h"
 #include "event_listener.h"
+#include "gallery_config.h"
 
 namespace OHOS {
 class PictureAbilitySlice : public AbilitySlice {
@@ -43,6 +44,7 @@ private:
     UIImageView* backIcon_ { nullptr };
     EventListener* backIconListener_ { nullptr };
     UIImageView* picture_ { nullptr };
+    char backIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
 };
 }
 

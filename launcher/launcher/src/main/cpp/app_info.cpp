@@ -39,10 +39,6 @@ void AppInfo::Release()
         delete appLpListener_;
         appLpListener_ = nullptr;
     }
-    if (appDListener_) {
-        delete appDListener_;
-        appDListener_ = nullptr;
-    }
 }
 
 AppInfo::~AppInfo()
@@ -56,7 +52,6 @@ void AppInfo::ReSet()
     lable_ = nullptr;
     appClickListener_ = nullptr;
     appLpListener_ = nullptr;
-    appDListener_ = nullptr;
 }
 
 void AppInfo::SetButton(UILabelButton* button)
@@ -92,16 +87,13 @@ void AppInfo::SetLable(UILabel* lable)
 
 void AppInfo::SetListener(AppInfo* app)
 {
-    AppClickListener* appClickListener = new AppClickListener(app->funcclick_, this);
-    button_->SetOnClickListener(appClickListener);
-    appClickListener_ = static_cast<UIView::OnClickListener*>(appClickListener);
-    AppLongPressListener* appLpListener = new AppLongPressListener(app->funclPress_, this);
-    button_->SetOnLongPressListener(appLpListener);
-    appLpListener_ = static_cast<UIView::OnLongPressListener*>(appLpListener);
-    AppDragListener* appDListener = new AppDragListener(this);
+    AppClickListener* clickListener = new AppClickListener(app->funcclick_, this);
+    button_->SetOnClickListener(clickListener);
+    appClickListener_ = static_cast<UIView::OnClickListener*>(clickListener);
+    AppLongPressListener* lPListener = new AppLongPressListener(app->funclPress_, this);
+    button_->SetOnLongPressListener(lPListener);
+    appLpListener_ = static_cast<UIView::OnLongPressListener*>(lPListener);
     button_->SetDraggable(true);
-    button_->SetOnDragListener(appDListener);
-    appDListener_ = static_cast<UIView::OnDragListener*>(appDListener);
 }
 
 void AppInfo::SetLocation(int16_t r, int16_t c)

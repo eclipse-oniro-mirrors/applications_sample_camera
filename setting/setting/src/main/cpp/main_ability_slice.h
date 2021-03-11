@@ -44,8 +44,8 @@ class MainAbilitySlice : public AbilitySlice {
 public:
     MainAbilitySlice()
         : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), lablelFontSsid_(nullptr),
-          buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonAboutListener_(nullptr),
-          buttonBackListener_(nullptr) {}
+          buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonDisplayListener_(nullptr),
+          buttonAboutListener_(nullptr), buttonBackListener_(nullptr) {}
     virtual ~MainAbilitySlice();
 
 protected:
@@ -58,9 +58,11 @@ protected:
 private:
     void SetButtonListenerWifi();
     void SetButtonListenerApp();
+    void SetButtonListenerDisplay();
     void SetButtonListenerAbout();
     void SetAboutButtonView();
     void SetAppButtonView();
+    void SetDisplayButtonView();
     void SetWifiButtonView();
     void SetScrollView();
     void SetHead();
@@ -69,9 +71,9 @@ private:
     UIScrollView* scrollView_;
     RootView* rootView_;
     UILabel* lablelFontSsid_;
-    char ssidBuff[64];
     EventListener* buttonWifiListener_;
     EventListener* buttonAppListener_;
+    EventListener* buttonDisplayListener_;
     EventListener* buttonAboutListener_;
     EventListener* buttonBackListener_;
 
@@ -84,8 +86,11 @@ private:
     constexpr static int APP_BUTTON_X = 0;
     constexpr static int APP_BUTTON_Y = 95;
 
+    constexpr static int DISPALY_BUTTON_X = 0;
+    constexpr static int DISPALY_BUTTON_Y = 190;
+
     constexpr static int ABOUT_BUTTON_X = 0;
-    constexpr static int ABOUT_BUTTON_Y = 190;
+    constexpr static int ABOUT_BUTTON_Y = 190 + DE_BUTTON_HEIGHT + 6;
     constexpr static int ABOUT_BUTTON_HEIGHT = 113;
     constexpr static int ABOUT_BUTTON_TEXT_ABOUT_Y = 5;
     constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_X = 18;

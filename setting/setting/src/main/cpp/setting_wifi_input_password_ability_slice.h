@@ -33,9 +33,9 @@
 namespace OHOS {
 class SettingWifiInputPasswordAbilitySlice : public AbilitySlice {
 public:
-    SettingWifiInputPasswordAbilitySlice() : headView_(nullptr), inputView_(nullptr), scrollView_(nullptr),
-                                             rootView_(nullptr), lablelInputText_(nullptr),
-                                             buttonBackListener_(nullptr), lablelCursorText_(nullptr) {}
+    SettingWifiInputPasswordAbilitySlice() : headView_(nullptr), inputView_(nullptr), lablelCursorText_(nullptr),
+                                             scrollView_(nullptr), rootView_(nullptr), lablelInputText_(nullptr),
+                                             buttonBackListener_(nullptr) {}
     virtual ~SettingWifiInputPasswordAbilitySlice();
 
 protected:

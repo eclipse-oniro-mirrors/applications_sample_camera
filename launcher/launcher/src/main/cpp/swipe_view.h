@@ -16,7 +16,7 @@
 #ifndef OHOS_SWIPE_VIEW_H
 #define OHOS_SWIPE_VIEW_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <securec.h>
 #include <components/ui_label_button.h>
 #include <components/ui_label.h>
@@ -36,7 +36,7 @@
 namespace OHOS {
 class ViewPageListener : public UIView::OnClickListener {
 public:
-    ViewPageListener(LongPressView* view) : view_(view) {}
+    explicit ViewPageListener(LongPressView* view) : view_(view) {}
     virtual ~ViewPageListener() {}
     bool OnClick(UIView& view, const ClickEvent& event) override
     {
@@ -62,9 +62,9 @@ public:
     }
 
 private:
+    LongPressView* view_ { nullptr };
     UISwipeView* swipe_ { nullptr };
     UILabel* lable_ { nullptr };
-    LongPressView* view_ { nullptr };
 };
 
 class SwipeView : public Task, public NativeBase {
@@ -82,12 +82,16 @@ public:
         char tmp[TMP_BUF_SIZE] = { 0 };
         time_t t = time(nullptr);
         struct tm* st = localtime(&t);
-        sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
-        lableTitle_->SetText(tmp);
-        timeWeatherView_->SetUpTimeView();
+        if (st != nullptr) {
+            int ret = sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
+            if (ret != LAUNCHER_PARAMERROR) {
+                lableTitle_->SetText(tmp);
+                timeWeatherView_->SetUpTimeView();
+            }
+        }
     }
 
-    UISwipeView* GetSwipeView()
+    UISwipeView* GetSwipeView() const
     {
         return swipe_;
     }

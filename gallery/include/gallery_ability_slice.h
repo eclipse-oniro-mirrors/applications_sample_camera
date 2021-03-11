@@ -59,6 +59,8 @@ private:
     UIScrollView* picContainer_ { nullptr };
     UIViewGroup* picList_ { nullptr };
     char* pictureName_[MAX_PICTURE_COUNT] = { nullptr };
+    char backIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
+    char videoTagIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
     uint16_t pictureOnClickListenerCount_ { 0 };
     EventListener* pictureOnClickListener_[MAX_PICTURE_COUNT] = { nullptr };
 };

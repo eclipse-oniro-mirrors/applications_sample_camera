@@ -40,7 +40,7 @@ static int32_t SampleGetRecordFd()
     if (ltm != nullptr) {
         ostringstream ss("Capture_");
         ss << "Record" << ltm->tm_hour << "-" << ltm->tm_min << "-" << ltm->tm_sec << ".mp4";
-        fd = open(("/sdcard/" + ss.str()).c_str(), O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, S_IRUSR | S_IWUSR);
+        fd = open(("/sdcard/" + ss.str()).c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
         cout << "Open "
              << "/sdcard/" << ss.str() << endl;
 
@@ -64,6 +64,7 @@ static void SampleSaveCapture(const char *p, uint32_t size)
         ofstream pic("/sdcard/" + ss.str(), ofstream::out | ofstream::trunc);
         cout << "write " << size << " bytes" << endl;
         pic.write(p, size);
+        pic.close();
         cout << "Saving picture end" << endl;
     }
 }
@@ -375,9 +376,11 @@ int main()
         const CameraAbility *ability = camKit->GetCameraAbility(cam);
         /* find camera which fits user's ability */
         list<CameraPicSize> sizeList = ability->GetSupportedSizes(0);
-        if (find(sizeList.begin(), sizeList.end(), CAM_PIC_1080P) != sizeList.end()) {
-            camId = cam;
-            break;
+        for (auto &pic : sizeList) {
+            if (pic.width == 1920 && pic.height == 1080) {
+                camId = cam;
+                break;
+            }
         }
     }
 
