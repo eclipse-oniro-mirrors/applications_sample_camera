@@ -18,7 +18,7 @@
 #include "ability_manager.h"
 #include "picture_ability_slice.h"
 
-#include "file.h"
+#include "gfx_utils/file.h"
 #include "securec.h"
 
 namespace OHOS {

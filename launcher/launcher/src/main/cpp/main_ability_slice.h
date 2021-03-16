@@ -24,7 +24,7 @@
 #include <components/ui_label.h>
 #include <components/ui_label_button.h>
 #include <components/ui_swipe_view.h>
-#include <list.h>
+#include "gfx_utils/list.h"
 
 #include "event_listener.h"
 #include "swipe_view.h"
