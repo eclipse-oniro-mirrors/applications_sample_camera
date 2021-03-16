@@ -41,13 +41,14 @@ C++ 11 or later
 
 ## Repositories Involved<a name="section16511040154318"></a>
 
-/hmf/multimedia/camera\_lite
+[Multimedia subsystem](https://gitee.com/openharmony/docs/blob/master/en/readme/multimedia.md)
 
-/hmf/multimedia/audio\_lite
+[camera\_lite](https://gitee.com/openharmony/multimedia_camera_lite/blob/master/README.md)
 
-/hmf/multimedia/media\_lite
+[media\_utils\_lite](https://gitee.com/openharmony/multimedia_utils_lite/blob/master/README.md)
 
-/hmf/multimedia/utils\_lite
+[audio\_lite](https://gitee.com/openharmony/multimedia_audio_lite/blob/master/README.md)
 
-/hmf/multimedia/service\_lite
+[media\_lite](https://gitee.com/openharmony/multimedia_media_lite/blob/master/README.md)
 
+**camera\_sample\_lite**
