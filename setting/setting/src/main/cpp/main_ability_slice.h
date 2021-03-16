@@ -19,7 +19,7 @@
 #include <cstdio>
 #include "ability_loader.h"
 #include "event_listener.h"
-#include "list.h"
+#include "gfx_utils/list.h"
 #include "components/ui_image_view.h"
 #include "components/ui_scroll_view.h"
 #include "components/ui_label_button.h"

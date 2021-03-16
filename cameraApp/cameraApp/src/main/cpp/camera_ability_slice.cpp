@@ -16,7 +16,7 @@
 #include "camera_ability_slice.h"
 #include <algorithm>
 #include <meta_data.h>
-#include <color.h>
+#include "gfx_utils/color.h"
 #include <window/window.h>
 
 #include "ability_manager.h"

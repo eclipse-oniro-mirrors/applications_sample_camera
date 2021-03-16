@@ -16,7 +16,7 @@
 #include "setting_wifi_ability_slice.h"
 #include <iostream>
 #include <thread>
-#include "style.h"
+#include "gfx_utils/style.h"
 
 namespace OHOS {
 REGISTER_AS(SettingWifiAbilitySlice)

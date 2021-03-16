@@ -19,7 +19,7 @@
 #include <components/ui_label.h>
 #include <components/ui_label_button.h>
 #include <components/ui_view_group.h>
-#include <list.h>
+#include "gfx_utils/list.h"
 
 #include "ui_config.h"
 #include "app_info.h"
