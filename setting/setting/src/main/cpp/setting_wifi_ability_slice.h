@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "ability_loader.h"
+#include "common/task.h"
 #include "components/ui_label.h"
 #include "components/ui_label_button.h"
 #include "components/ui_list.h"
@@ -32,7 +33,6 @@
 #include "pthread.h"
 #include "setting_utils.h"
 #include "wpa_work.h"
-#include "common/task.h"
 
 namespace OHOS {
 class TestBtnOnStateChangeListener : public OHOS::UICheckBox::OnChangeListener, public OHOS::UIView::OnClickListener {

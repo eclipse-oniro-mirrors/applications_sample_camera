@@ -15,8 +15,10 @@
 
 #ifndef OHOS_SETTING_WIFI_INPUT_PASSWORD_ABILITY_SLICE_H
 #define OHOS_SETTING_WIFI_INPUT_PASSWORD_ABILITY_SLICE_H
-#include "components/ui_checkbox.h"
+
 #include "ability_loader.h"
+#include "common/task.h"
+#include "components/ui_checkbox.h"
 #include "components/ui_image_view.h"
 #include "components/ui_label.h"
 #include "components/ui_label_button.h"
@@ -26,9 +28,8 @@
 #include "event_listener.h"
 #include "parameter.h"
 #include "setting_utils.h"
-#include "wpa_work.h"
-#include "common/task.h"
 #include "setting_wifi_input_password_ability_slice.h"
+#include "wpa_work.h"
 
 namespace OHOS {
 class SettingWifiInputPasswordAbilitySlice : public AbilitySlice {
