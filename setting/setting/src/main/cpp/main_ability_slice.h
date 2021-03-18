@@ -16,6 +16,8 @@
 #ifndef OHOS_MAIN_ABILITY_SLICE_H
 #define OHOS_MAIN_ABILITY_SLICE_H
 
+#include <cstdio>
+
 #include "ability_info.h"
 #include "ability_loader.h"
 #include "ability_manager.h"
@@ -36,7 +38,6 @@
 #include "setting_utils.h"
 #include "want.h"
 #include "wpa_work.h"
-#include <cstdio>
 
 namespace OHOS {
 class MainAbilitySlice : public AbilitySlice {
