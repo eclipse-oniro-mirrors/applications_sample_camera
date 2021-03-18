@@ -14,7 +14,7 @@
  */
 
 #include <setting_wifi_input_password_ability_slice.h>
-#include "style.h"
+#include "gfx_utils/style.h"
 
 namespace OHOS {
 REGISTER_AS(SettingWifiInputPasswordAbilitySlice)

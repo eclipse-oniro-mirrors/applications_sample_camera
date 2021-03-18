@@ -21,7 +21,6 @@
 #include <cstring>
 #include <iproxy_client.h>
 
-#include "samgr_lite.h"
 #include "ability_loader.h"
 #include "components/ui_label.h"
 #include "components/ui_label_button.h"
@@ -29,8 +28,9 @@
 #include "components/ui_scroll_view.h"
 #include "components/ui_toggle_button.h"
 #include "event_listener.h"
-#include "list.h"
+#include "gfx_utils/list.h"
 #include "parameter.h"
+#include "samgr_lite.h"
 #include "setting_utils.h"
 
 namespace OHOS {
