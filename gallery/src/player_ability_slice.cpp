@@ -20,7 +20,7 @@
 #include "ability_env.h"
 #include "ability_manager.h"
 #include "components/ui_image_view.h"
-#include "file.h"
+#include "gfx_utils/file.h"
 
 using OHOS::Media::Player;
 using OHOS::Media::Source;

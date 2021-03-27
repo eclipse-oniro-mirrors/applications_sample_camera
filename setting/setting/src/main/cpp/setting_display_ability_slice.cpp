@@ -16,7 +16,7 @@
 #include "setting_display_ability_slice.h"
 #include <iostream>
 #include <securec.h>
-#include "style.h"
+#include "gfx_utils/style.h"
 
 namespace OHOS {
 REGISTER_AS(SettingDisplayAbilitySlice)

@@ -14,7 +14,7 @@
  */
 
 #include "app_ability_slice.h"
-#include "style.h"
+#include "gfx_utils/style.h"
 
 namespace OHOS {
 REGISTER_AS(AppAbilitySlice)
