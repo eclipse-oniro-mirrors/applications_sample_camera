@@ -12,18 +12,6 @@
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
 
-copy("camera_config") {
-  if (board_name == "hi3516dv300" || board_name == "hispark_taurus") {
-    sources = [ "cameradev_imx335.ini" ]
-  } else if ((board_name == "hi3518ev300" || board_name == "hispark_aries") &&
-             ohos_build_compiler == "clang") {
-    sources = [ "cameradev_jxf23.ini" ]
-  } else {
-    sources = [ "cameradev_imx307.ini" ]
-  }
-  outputs = [ "$root_out_dir/data/cameradev.ini" ]
-}
-
 executable("camera_sample") {
   sources = [ "camera_sample.cpp" ]
   cflags = [ "-Wall" ]
