@@ -247,7 +247,6 @@ void PlayerAbilitySlice::SetUpProgress(int64_t duration)
     animatorGroup_->Add(slider_);
 
     animator_ = new SliderAnimator(videoPlayer_, slider_, currentTimeLabel_, duration, surfaceView_);
-    AnimatorManager::GetInstance()->Add(animator_);
 }
 
 void PlayerAbilitySlice::SetUpAnimatorGroup(const char* pathHeader)
@@ -373,7 +372,6 @@ void PlayerAbilitySlice::OnStop()
 {
     if (animator_ != nullptr) {
         animator_->Stop();
-        AnimatorManager::GetInstance()->Remove(animator_);
         delete animator_;
         animator_ = nullptr;
     }

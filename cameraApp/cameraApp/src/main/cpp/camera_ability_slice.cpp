@@ -358,7 +358,6 @@ CameraAbilitySlice::~CameraAbilitySlice()
     delete bttnRecord;
     delete scroll;
     animator_->Stop();
-    AnimatorManager::GetInstance()->Remove(animator_);
     delete animator_;
     delete slider;
     delete buttonListener_;
@@ -465,7 +464,6 @@ void CameraAbilitySlice::SetBottom(void)
     gTaskView_->TaskStart();
 
     animator_ = new SliderAnimator(slider, background_, surfaceView, cam_manager, 10000);    /* 10000 = 10s */
-    AnimatorManager::GetInstance()->Add(animator_);
 
     UIImageView *imageV[BUTTON_NUMS] = {bttnLeft, bttnMidle, bttnRight, bttnRecord};
     for (int i = 0; i < BUTTON_NUMS; i++) {
