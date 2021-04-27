@@ -170,7 +170,7 @@ extern "C" {
 #define FRAME_RATE 30
 #define BIT_RATE 4096
 
-#define FILE_MODE 777
+#define FILE_MODE 0777
 
 #ifdef __cplusplus
 }
