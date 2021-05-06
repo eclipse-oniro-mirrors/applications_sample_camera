@@ -58,7 +58,7 @@ private:
     RootView* rootView_;
     EventListener *buttonBackListener_;
     constexpr static int SCROLL_ITEM_NUM = 9;
-    char *itemInfo_[SCROLL_ITEM_NUM][2];
+    const char *itemInfo_[SCROLL_ITEM_NUM][2];
     constexpr static int ITEM_X = 0;
     constexpr static int ITEM_INFO_X = 465;
     constexpr static int ITEM_INFO_Y = 36;

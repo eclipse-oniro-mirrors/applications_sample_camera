@@ -271,15 +271,13 @@ void MainAbilitySlice::SetAboutButtonView(void)
     buttonView->Add(lablelFontAbout);
 
     char buff[62];
-    char* gDV = GetDisplayVersion();
+    const char* gDV = GetDisplayVersion();
     int err = sprintf_s(buff, sizeof(buff), "系统版本: %s", gDV);
     if (err < 0) {
         printf("[ERROR]sprintf_s failed, err = %d\n", err);
-        free(gDV);
         gDV = nullptr;
         return;
     }
-    free(gDV);
     setAboutTest(buttonView, ABOUT_BUTTON_TEXT_SYSTEM_X, ABOUT_BUTTON_TEXT_SYSTEM_Y, buff);
 
     err = memset_s(buff, sizeof(buff), 0, sizeof(buff));
@@ -287,15 +285,13 @@ void MainAbilitySlice::SetAboutButtonView(void)
         printf("[ERROR]memset_s failed, err = %d\n", err);
         return;
     }
-    char* gPT = GetProductType();
+    const char* gPT = GetDeviceType();
     err = sprintf_s(buff, sizeof(buff), "设备名称: %s", gPT);
     if (err < 0) {
         printf("[ERROR]sprintf_s failed, err = %d\n", err);
-        free(gPT);
         gPT = nullptr;
         return;
     }
-    free(gPT);
     setAboutTest(buttonView, ABOUT_BUTTON_TEXT_DEVICE_X, ABOUT_BUTTON_TEXT_DEVICE_Y, buff);
 
     UIImageView* imageView = new UIImageView();

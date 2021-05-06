@@ -36,7 +36,6 @@ SettingAboutAbilitySlice::~SettingAboutAbilitySlice()
     }
     for (int count = 0; count < SCROLL_ITEM_NUM; count++) {
         if (!itemInfo_[count][1]) {
-            free(itemInfo_[count][1]);
             itemInfo_[count][1] = nullptr;
         }
     }
@@ -54,7 +53,7 @@ void SettingAboutAbilitySlice::SetButtonListener()
 void SettingAboutAbilitySlice::SetItemInfo()
 {
     itemInfo_[0][0] = (char*) "设备名称"; // 0
-    itemInfo_[0][1] = GetProductType(); // 0
+    itemInfo_[0][1] = GetDeviceType(); // 0
     itemInfo_[1][0] = (char*) "厂家信息"; // 1
     itemInfo_[1][1] = GetManufacture(); // 1
     itemInfo_[2][0] = (char*) "品牌信息"; // 2
@@ -64,7 +63,7 @@ void SettingAboutAbilitySlice::SetItemInfo()
     itemInfo_[4][0] = (char*) "设备序列号"; // 4
     itemInfo_[4][1] = GetSerial(); // 4
     itemInfo_[5][0] = (char*) "操作系统名"; // 5
-    itemInfo_[5][1] = GetOsName(); // 5
+    itemInfo_[5][1] = GetOSFullName(); // 5
     itemInfo_[6][0] = (char*) "软件版本号"; // 6
     itemInfo_[6][1] = GetDisplayVersion(); // 6
     itemInfo_[7][0] = (char*) "BootLoader版本号"; // 7
