@@ -26,7 +26,6 @@ executable("kws_app") {
     "//foundation/ai/engine/interfaces/kits/asr/keyword_spotting",
     "//foundation/ai/engine/interfaces/kits",
     "//foundation/multimedia/interfaces/kits/audio_lite",
-    "//foundation/multimedia/utils/include",
     "//foundation/ai/engine/services/common/utils",
     "//foundation/ai/engine/services/common/platform/utils",
     "//foundation/ai/engine/services/common/platform/os_wrapper/utils",
