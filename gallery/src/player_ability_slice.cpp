@@ -238,7 +238,8 @@ void PlayerAbilitySlice::SetUpProgress(int64_t duration)
     slider_->SetRange(SLIDER_WIDTH, 0);
     slider_->SetValue(0);
     slider_->SetKnobWidth(KNOB_WIDTH);
-    slider_->SetSliderRadius(SLIDER_HEIGHT, SLIDER_HEIGHT, KNOB_WIDTH / 2); // 2: half
+    slider_->SetSliderRadius(SLIDER_HEIGHT, SLIDER_HEIGHT);
+    slider_->SetKnobRadius(KNOB_WIDTH / 2); // 2: half
     slider_->SetKnobStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
     slider_->SetBackgroundStyle(STYLE_BACKGROUND_COLOR, 0x1A888888);
     slider_->SetBackgroundStyle(STYLE_BACKGROUND_OPA, 90); // 90: opacity is 90
