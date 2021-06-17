@@ -31,6 +31,7 @@ shared_library("setting") {
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
     "//base/startup/syspara_lite/frameworks/parameter:parameter",
+    "//base/powermgr/powermgr_lite/frameworks:powermgr",
     "//foundation/communication/ipc_lite:liteipc_adapter",
     "//foundation/distributedschedule/samgr_lite/samgr:samgr",
     "//foundation/graphic/surface",
