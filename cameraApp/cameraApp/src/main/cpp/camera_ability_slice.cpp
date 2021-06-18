@@ -503,8 +503,9 @@ void CameraAbilitySlice::OnStart(const Want &want)
     SetHead();
 
     SetBottom();
-
+#ifndef __LINUX__
     scroll->Add(bttnLeft);
+#endif
     scroll->Add(bttnMidle);
     scroll->Add(bttnRight);
     scroll->Add(bttnRecord);
