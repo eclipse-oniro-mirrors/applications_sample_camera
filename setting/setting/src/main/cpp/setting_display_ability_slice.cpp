@@ -15,14 +15,13 @@
 
 #include "setting_display_ability_slice.h"
 #include <iostream>
+#include <power_screen_saver.h>
 #include <securec.h>
 #include "gfx_utils/style.h"
 
 namespace OHOS {
 REGISTER_AS(SettingDisplayAbilitySlice)
 
-const char * const BATTERY_MANAGE_SERVICE = "power_service";
-const char * const PERM_INNER = "power_feature";
 #define COM_SET_ON 0
 #define COM_SET_OFF 1
 #define COM_GET_STATUS 2
@@ -62,37 +61,6 @@ static int Callback(IOwner owner, int code, IpcIo *reply)
     }
     printf("[setting]owner -> %d\n", *(int*)owner);
     return 0;
-}
-
-static int GetDisapayStatus(IClientProxy *defaultApi)
-{
-    if (defaultApi == NULL) {
-        printf("[Error] defaultApi == NULL)\n");
-        return -1;
-    }
-    int ret;
-    int com = COM_GET_DISPLAY_STATUS;
-    IpcIo request;
-    char data[MAX_DATA_LEN];
-    IpcIoInit(&request, data, sizeof(data), 0);
-    defaultApi->Invoke(defaultApi, com, &request, &ret, Callback);
-    printf("[setting]ret get for ret -> %d \n", ret);
-    return ret;
-}
-
-static IClientProxy *CASE_GetRemoteIUnknown(void)
-{
-    IClientProxy *demoApi = nullptr;
-
-    printf("[setting] service -> %s \n", BATTERY_MANAGE_SERVICE);
-    IUnknown *iUnknown = SAMGR_GetInstance()->GetFeatureApi(BATTERY_MANAGE_SERVICE, PERM_INNER);
-    if (iUnknown == nullptr) {
-        printf("[ERR] SAMGR_GetInstance()->GetFeatureApi(POWER_SERVICE)\n");
-        return nullptr;
-    }
-    (void)iUnknown->QueryInterface(iUnknown, CLIENT_PROXY_VER, (void **)&demoApi);
-    printf("[setting]iUnknown->QueryInterface suc\n");
-    return demoApi;
 }
 
 void SettingDisplayAbilitySlice::SetButtonListener(void)
@@ -148,14 +116,10 @@ void SettingDisplayAbilitySlice::SetToggleButton(void)
     lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     toggleButtonView_->Add(lablelFont);
 
-    int ret = GetDisapayStatus(remoteApi_);
+    SetScreenSaverState(TRUE);
     UIToggleButton* togglebutton = new UIToggleButton();
-    if (ret == 0) {
-        togglebutton->SetState(true);
-    } else {
-        togglebutton->SetState(false);
-    }
-    changeListener_ = new DisBtnOnStateChangeListener(remoteApi_, togglebutton);
+    togglebutton->SetState(true);
+    changeListener_ = new DisBtnOnStateChangeListener(togglebutton);
     togglebutton->SetOnClickListener(changeListener_);
     togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y);
     toggleButtonView_->Add(togglebutton);
@@ -170,13 +134,6 @@ void SettingDisplayAbilitySlice::OnStart(const Want& want)
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
     SetButtonListener();
     SetHead();
-    remoteApi_ = CASE_GetRemoteIUnknown();
-    if (remoteApi_ != NULL) {
-        printf("[setting]remoteApi_ is ok \n");
-    } else {
-        printf("[setting] remoteApi_ is faild \n");
-    }
-
     SetToggleButton();
     SetUIContent(rootView_);
 }
