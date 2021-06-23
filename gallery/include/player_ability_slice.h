@@ -110,7 +110,7 @@ class PlayerAbilitySlice : public AbilitySlice {
 public:
     PlayerAbilitySlice() = default;
     ~PlayerAbilitySlice() override;
-
+    static std::shared_ptr<Player> CreatePlayer();
 protected:
     void OnStart(const Want &want) override;
     void OnInactive() override;

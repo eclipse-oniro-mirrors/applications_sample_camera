@@ -39,6 +39,15 @@ PlayerAbilitySlice::~PlayerAbilitySlice()
     printf("################ ~PlayerAbilitySlice exit\n");
 }
 
+std::shared_ptr<Player> PlayerAbilitySlice::CreatePlayer()
+{
+    static std::shared_ptr<Player> instance_ = nullptr;
+    if (instance_ == nullptr) {
+        instance_ = std::make_shared<Player>();
+    }
+    return instance_;
+}
+
 void PlayerAbilitySlice::Clear()
 {
     printf("PlayerAbilitySlice::Clear | enter\n");
@@ -175,7 +184,7 @@ void PlayerAbilitySlice::SetUpVideoPlayer(const Want &want)
     }
     printf("------########### mp4 file path | %s\n", videoPlayer_->filePath);
 
-    videoPlayer_->adapter = std::make_shared<Player>();
+    videoPlayer_->adapter = PlayerAbilitySlice::CreatePlayer();
     std::string uri(videoPlayer_->filePath);
     std::map<std::string, std::string> header;
     Source source(uri, header);
@@ -379,7 +388,7 @@ void PlayerAbilitySlice::OnStop()
 
     if (videoPlayer_ != nullptr && videoPlayer_->adapter.get() != nullptr) {
         videoPlayer_->adapter->Stop();
-        videoPlayer_->adapter->Release();
+        videoPlayer_->adapter->Reset();
         delete videoPlayer_;
         videoPlayer_ = nullptr;
     }
@@ -392,9 +401,9 @@ void SliderAnimator::Callback(UIView* view)
 {
     if (needRefreshPlayer_) {
         videoPlayer_->adapter->Stop();
-        videoPlayer_->adapter->Release();
+        videoPlayer_->adapter->Reset();
 
-        videoPlayer_->adapter = std::make_shared<Player>();
+        videoPlayer_->adapter = PlayerAbilitySlice::CreatePlayer();
         std::string uri(videoPlayer_->filePath);
         std::map<std::string, std::string> header;
         Source source(uri, header);
