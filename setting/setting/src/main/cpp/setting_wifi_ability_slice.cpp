@@ -24,7 +24,7 @@ static int g_wifiStatus = 0;
 
 SettingWifiAbilitySlice::SettingWifiAbilitySlice()
     : headView_(nullptr), toggleButtonView_(nullptr), scrollView_(nullptr), rootView_(nullptr),
-      changeListener_(nullptr), buttonBackListener_(nullptr), buttonInputListener_(nullptr)
+      changeListener_(nullptr), buttonBackListener_(nullptr), buttonInputListener_(nullptr), wpaCount_(0)
 {
     int taskPeriod = 5000;
     Task::Init();
@@ -33,8 +33,13 @@ SettingWifiAbilitySlice::SettingWifiAbilitySlice()
 
 SettingWifiAbilitySlice::~SettingWifiAbilitySlice()
 {
-    ExitWpa();
-    ExitWpaScan();
+    if (wpaCount_ == 1) {
+        printf("%s:%d call ExitWpa, this %p\n", __FUNCTION__, __LINE__, this);
+        ExitWpa();
+        ExitWpaScan();
+        wpaCount_ = 0;
+    }
+
     if (toggleButtonView_) {
         DeleteChildren(toggleButtonView_);
         toggleButtonView_ = nullptr;
@@ -224,11 +229,11 @@ void SettingWifiAbilitySlice::Callback()
 
 void SettingWifiAbilitySlice::OnStart(const Want& want)
 {
-    static int wpaCount = 0;
-    if (wpaCount == 0) {
+    if (wpaCount_ == 0) {
+        printf("%s:%d call WpaClientStart, this %p\n", __FUNCTION__, __LINE__, this);
         WpaClientStart();
         WpaScanReconnect(nullptr, nullptr, HIDDEN_CLOSE);
-        wpaCount = 1;
+        wpaCount_ = 1;
     }
     AbilitySlice::OnStart(want);
 
@@ -263,5 +268,11 @@ void SettingWifiAbilitySlice::OnBackground()
 void SettingWifiAbilitySlice::OnStop()
 {
     AbilitySlice::OnStop();
+    if (wpaCount_ == 1) {
+        printf("%s:%d call ExitWpa, this %p\n", __FUNCTION__, __LINE__, this);
+        ExitWpa();
+        ExitWpaScan();
+        wpaCount_ = 0;
+    }
 }
 } // namespace OHOS

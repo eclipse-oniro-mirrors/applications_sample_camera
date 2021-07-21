@@ -90,6 +90,7 @@ private:
     TestBtnOnStateChangeListener* changeListener_;
     EventListener* buttonBackListener_;
     EventListener* buttonInputListener_;
+    int wpaCount_;
 
     constexpr static int TOGGLE_X = 36;
     constexpr static int TOGGLE_Y = 72;
