@@ -255,7 +255,7 @@ public:
             return;
         }
         FrameConfig *fc = new FrameConfig(FRAME_CONFIG_RECORD);
-        Surface *surface = (recorder_->GetSurface(0)).get();
+        auto surface = recorder_->GetSurface(0);
         surface->SetWidthAndHeight(1920, 1080);
         surface->SetQueueSize(3);
         surface->SetSize(1024 * 1024);
@@ -300,7 +300,6 @@ public:
             cout << "camera start preview failed. ret=" << ret << endl;
             return;
         }
-        delete surface;
         previewState_ = STATE_RUNNING;
         cout << "camera start preview succeed." << endl;
     }
@@ -372,16 +371,8 @@ int main()
     list<string> camList = camKit->GetCameraIds();
     string camId;
     for (auto &cam : camList) {
-        cout << "camera name:" << cam << endl;
-        const CameraAbility *ability = camKit->GetCameraAbility(cam);
-        /* find camera which fits user's ability */
-        list<CameraPicSize> sizeList = ability->GetSupportedSizes(0);
-        for (auto &pic : sizeList) {
-            if (pic.width == 1920 && pic.height == 1080) {
-                camId = cam;
-                break;
-            }
-        }
+        camId = cam;
+        break;
     }
 
     if (camId.empty()) {

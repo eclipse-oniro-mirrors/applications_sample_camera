@@ -455,7 +455,7 @@ void SampleCameraStateMng::StartRecord(Surface *mSurface)
         }
     }
 
-    Surface *surface = (recorder_->GetSurface(0)).get();
+    auto surface = recorder_->GetSurface(0);
     if (surface == nullptr) {
         return;
     }
@@ -597,16 +597,8 @@ int SampleCameraManager::SampleCameraCreate()
 
     list<string> camList = camKit->GetCameraIds();
     for (auto &cam : camList) {
-        cout << "camera name:" << cam << endl;
-        const CameraAbility *ability = camKit->GetCameraAbility(cam);
-        /* find camera which fits user's ability */
-        list<CameraPicSize> sizeList = ability->GetSupportedSizes(0);
-        for (auto &pic : sizeList) {
-            if (pic.width == PIC_WIDTH && pic.height == PIC_HEIGHT) {
-                camId = cam;
-                break;
-            }
-        }
+        camId = cam;
+  	    break;
     }
 
     if (camId.empty()) {
