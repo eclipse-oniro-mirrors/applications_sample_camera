@@ -196,6 +196,10 @@ public:
             recorder_ = nullptr;
         }
         if (recordFd_ != -1) {
+            FILE *fp = fdopen(recordFd_, "w+");
+            fflush(fp);
+            fsync(recordFd_);
+            fclose(fp);
             close(recordFd_);
             recordFd_ = -1;
         }
