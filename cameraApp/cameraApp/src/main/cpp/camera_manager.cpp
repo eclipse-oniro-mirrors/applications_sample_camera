@@ -112,6 +112,8 @@ static int32_t SampleGetThmFromJpg(const char* jpegPath, uint32_t* dstSize)
     fstat(fd, &stStat);
     pszFile = (char*)malloc(stStat.st_size);
     if ((pszFile == nullptr) || (stStat.st_size < 6)) {    /* 6 min size of thumb head  */
+        fflush(fpJpg);
+        fsync(fileno(fpJpg));
         fclose(fpJpg);
         if (pszFile) {
             free(pszFile);
@@ -122,6 +124,8 @@ static int32_t SampleGetThmFromJpg(const char* jpegPath, uint32_t* dstSize)
     }
 
     if (fread(pszFile, stStat.st_size, 1, fpJpg) <= 0) {
+        fflush(fpJpg);
+        fsync(fileno(fpJpg));
         fclose(fpJpg);
         free(pszFile);
         printf("fread jpeg src fail!\n");
@@ -173,6 +177,8 @@ int32_t SampleGetdcfinfo(const char* srcJpgPath, const char* dstThmPath)
         u32WritenSize += s32RtnVal;
     }
     if (fpTHM != nullptr) {
+        fflush(fpTHM);
+        fsync(fileno(fpTHM));
         fclose(fpTHM);
         fpTHM = 0;
     }
@@ -197,6 +203,8 @@ static void SampleSaveCapture(const char* p, uint32_t size, int type, const char
         fp = fopen(tmpFile, "w+");
         if (fp) {
             fwrite(p, 1, size, fp);
+            fflush(fp);
+            fsync(fileno(fp));
             fclose(fp);
         }
     }
@@ -211,6 +219,8 @@ static void SampleSaveCapture(const char* p, uint32_t size, int type, const char
             return;
         }
         fwrite(p, 1, size, fp);
+        fflush(fp);
+        fsync(fileno(fp));
         fclose(fp);
 
     if (type == 0) {
@@ -397,8 +407,13 @@ SampleCameraStateMng::~SampleCameraStateMng()
         recorder_->Release();
         delete recorder_;
     }
-    if (gRecFd_ >= 0)
-        close (gRecFd_);
+    if (gRecFd_ >= 0) {
+        FILE *fp = fdopen(gRecFd_, "w+");
+        fflush(fp);
+        fsync(gRecFd_);
+        fclose(fp);
+        close(gRecFd_);
+    }
     if (fc_) {
         delete fc_;
         fc_ = nullptr;
@@ -431,6 +446,10 @@ void SampleCameraStateMng::StartRecord(Surface *mSurface)
         return;
     }
     if (gRecFd_ > 0) {
+        FILE *fp = fdopen(gRecFd_, "w+");
+        fflush(fp);
+        fsync(gRecFd_);
+        fclose(fp);
         close(gRecFd_);
         gRecFd_ = -1;
     }
