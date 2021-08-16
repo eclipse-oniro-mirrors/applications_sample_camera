@@ -86,8 +86,6 @@ Recorder *SampleCreateRecorder()
     int32_t width = 1920;
     int32_t height = 1080;
     VideoCodecFormat encoder = HEVC;
-    width = 1920;
-    height = 1080;
     Recorder *recorder = new Recorder();
     if ((ret = recorder->SetVideoSource(source, sourceId)) != SUCCESS) {
         cout << "SetVideoSource failed." << ret << endl;
