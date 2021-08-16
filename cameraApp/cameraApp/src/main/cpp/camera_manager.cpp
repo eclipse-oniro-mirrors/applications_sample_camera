@@ -617,7 +617,7 @@ int SampleCameraManager::SampleCameraCreate()
     list<string> camList = camKit->GetCameraIds();
     for (auto &cam : camList) {
         camId = cam;
-  	    break;
+        break;
     }
 
     if (camId.empty()) {

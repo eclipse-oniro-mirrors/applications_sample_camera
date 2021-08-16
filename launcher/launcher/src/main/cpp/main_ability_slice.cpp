@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include <common/screen.h>
 #include <components/ui_label.h>
 #include <components/ui_label_button.h>
