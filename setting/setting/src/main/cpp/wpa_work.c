@@ -69,6 +69,10 @@ static int StrMatch(const char *a, const char *b)
 
 static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
 {
+    if (g_ctrlConn == NULL) {
+        printf("%s:%d [ERROR] control connect handle is null\n", __FUNCTION__, __LINE__);
+        return -1;
+    }
     size_t len = *replyLen - 1;
     wpa_ctrl_request(g_ctrlConn, cmd, strlen(cmd), reply, &len, 0);
     DumpString(reply, len, "SendCtrlCommand raw return");
@@ -405,9 +409,14 @@ int InitControlInterface()
 void* WpaScanThread(void *args)
 {
     int mySleep = 2;
+    int ret = 0;
     sleep(mySleep);
     if (g_ctrlConn == NULL) {
-        InitControlInterface();
+        ret = InitControlInterface();
+        if (ret == -1) {
+            printf("%s:%d [ERROR] InitControlInterface return error\n", __FUNCTION__, __LINE__);
+            return NULL;
+        }
     }
     char reply[100] = {0};
     size_t replyLen = sizeof(reply);
