@@ -176,12 +176,9 @@ int StreamSourceSample::GetAvailableBuffer(IdleBuffer* buffer)
 
 static void* streamProcess(void* arg)
 {
-#define READ_LEN  (1024)
-    IdleBuffer buffer;
-    int ret;
     uint8_t *data = nullptr;
     size_t readLen;
-    size_t len;
+    size_t bufferSize;
     TestSample *sample = (TestSample *)arg;
     FILE* pFile = fopen(sample->filePath, "rb");
     if (pFile == NULL) {
@@ -190,22 +187,16 @@ static void* streamProcess(void* arg)
     prctl(PR_SET_NAME, "StreamProc", 0, 0, 0);
     printf("[%s,%d] file:%s\n", __func__, __LINE__, sample->filePath);
     while(sample->isThreadRunning) {
-        ret = sample->streamSample->GetAvailableBuffer(&buffer);
-        if (ret != 0) {
+        data = sample->streamSample->GetSharedBuffer(bufferSize);
+        if (data == nullptr) {
             usleep(20000);
             continue;
         }
-        data = sample->streamSample->GetBufferAddress(buffer.idx);
-        if (data == nullptr) {
-            printf("[%s, %d] get buffer null", __func__, __LINE__);
-            break;
-        }
-        len = (buffer.size < READ_LEN) ? buffer.size : READ_LEN;
-        readLen = fread(data + buffer.offset, 1, len, pFile);
-        if (readLen <= len && readLen > 0) {
-            sample->streamSample->QueueBuffer(buffer.idx, buffer.offset, readLen, 0, 8);
+        readLen = fread(data, 1, bufferSize, pFile);
+        if (readLen > 0) {
+            sample->streamSample->QueueSharedBuffer(data, readLen);
         } else {
-            sample->streamSample->QueueBuffer(buffer.idx, buffer.offset, readLen, 0, 4);
+            sample->streamSample->QueueSharedBuffer(data, 0);
             break;
         }
     }
