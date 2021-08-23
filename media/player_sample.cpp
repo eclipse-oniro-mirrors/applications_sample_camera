@@ -259,6 +259,10 @@ static void SampleCmd(TestSample &sample)
             ret = sample.adapter->GetVideoHeight(videoHeight);
             IS_OK(ret);
             printf("player videoWidth:%d videoHeight:%d\n", videoWidth, videoHeight);
+            int32_t state;
+            ret = sample.adapter->GetPlayerState(state);
+            IS_OK(ret);
+            printf("player current state:%d\n", state);
         } else if (strncmp(cmd, "loop", 4) == 0) {
             if (sscanf_s(cmd, "loop %d", &loop) != 1) {
                 printf("ERR: not input loop flag, example: loop 1!\n");
