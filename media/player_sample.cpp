@@ -218,7 +218,8 @@ static void SampleCmd(TestSample &sample)
     float rvolume;
     int loop = 0;
 
-    printf("Input CMD: quit, show, pause(pu), play(pl), seek [ms], volume [lvol] [rvol], loop\n");
+    printf("Input CMD: quit, show, pause(pu), play(pl), seek [ms], volume [lvol] [rvol], loop [bool], speed [float]"
+        "\n");
     while (fgets(cmd, 20, stdin)) {  /* 10: use array length */
         cmd[20] = '\0';  /* 10: end of string */
         if (strncmp(cmd, "quit", 4) == 0) {
@@ -227,6 +228,14 @@ static void SampleCmd(TestSample &sample)
             ret = sample.adapter->Pause();
         } else if (strncmp(cmd, "play", 4) == 0 || strncmp(cmd, "pl", 2) == 0) {
             ret = sample.adapter->Play();
+        } else if (strncmp(cmd, "speed", 0x5) == 0) {
+            float speed = 1.0;
+            if (sscanf_s(cmd, "speed %f", &speed) != 1) {
+                printf("ERR: not input seek time, example: speed 1.0!\n");
+                continue;
+            }
+            ret = sample.adapter->SetPlaybackSpeed(speed);
+            IS_OK(ret);
         } else if (strncmp(cmd, "seek", 4) == 0) {
             if (sscanf_s(cmd, "seek %d", &timeMs) != 1) {
                 printf("ERR: not input seek time, example: seek 1000!\n");
@@ -273,7 +282,8 @@ static void SampleCmd(TestSample &sample)
             IS_OK(ret);
             printf("Set loop %d\n", loop);
         } else {
-            printf("Input CMD: quit, show, pause(pu), play(pl), seek [ms], volume [lvol] [rvol], loop\n");
+            printf("Input CMD: quit, show, pause(pu), play(pl), seek [ms], volume [lvol] [rvol], loop [bool], "
+                "speed [float]\n");
         }
     }
 }
