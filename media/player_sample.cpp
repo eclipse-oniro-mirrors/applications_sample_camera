@@ -88,6 +88,7 @@ typedef struct TagTestSample
     int32_t isThreadRunning;
     int32_t sourceType;
     char filePath[PATH_MAX];
+    int32_t pauseAfterPlay;
     std::shared_ptr<StreamSourceSample> streamSample;
 } TestSample;
 
@@ -301,7 +302,8 @@ void SetSchParam(void)
 int main(int argc, char** argv)
 {
     prctl(PR_SET_NAME, "mainProc", 0, 0, 0);
-    int sourceType = 1;
+    int32_t sourceType = 1;
+    int32_t pauseAfterPlay = 0;
     SAMPLE_RETURN_VAL_IF_NULL(argv);
     if (argc < 2) {  /* 2: Minimum number of inputs */
         printf("usage: %s filename  (or vpss channel index)\n", argv[0]);
@@ -309,12 +311,21 @@ int main(int argc, char** argv)
     }
     if (argc >= 3) {  /* 4:  sourceType */
         sourceType = atoi(argv[2]);  /*  */
-        if ((sourceType != 1) && (sourceType != 2)) {
+        if ((sourceType != 1) && (sourceType != 0x2)) {
             printf("unsuport sourceType:%d\n", sourceType);
             return -1;
         }
     }
-    TestSample sample;
+    if (argc >= 4) {
+        pauseAfterPlay = atoi(argv[2]);
+        if (pauseAfterPlay != 1) {
+            printf("unsuport pauseAfterPlay:%d, not enable pause after play mode\n", sourceType);
+            pauseAfterPlay = 0;
+        }
+    }
+
+    TestSample sample = {0};
+    sample.pauseAfterPlay = pauseAfterPlay;
     sample.sourceType = sourceType;
     if (realpath(argv[1], sample.filePath) == nullptr) {
         printf("realpath input file failed, errno: %d!\n", errno);
@@ -329,7 +340,8 @@ int main(int argc, char** argv)
     SetSchParam();
     printf("[%s,%d]\n", __func__, __LINE__);
 
-    printf("[%s,%d] sourceType:%d, path:%s\n", __func__, __LINE__, sourceType, sample.filePath);
+    printf("[%s,%d] sourceType:%d, path:%s, pauseAfterPlay:%d\n", __func__, __LINE__, sourceType, sample.filePath,
+        pauseAfterPlay);
     if (sourceType == 1) {
         std::string uri(sample.filePath);
         std::map<std::string, std::string> header;
@@ -358,6 +370,11 @@ int main(int argc, char** argv)
         }
     }
 
+    if (sample.pauseAfterPlay != 0) {
+        Format formatSetPauseAfterPlay;
+        formatSetPauseAfterPlay.PutIntValue(PAUSE_AFTER_PLAY, true);
+        sample.adapter->SetParameter(formatSetPauseAfterPlay);
+    }
     sample.adapter->Prepare();
 
     sample.adapter->GetDuration(duration);
@@ -378,7 +395,11 @@ int main(int argc, char** argv)
     surface->SetUserData("region_height", "480");
     sample.adapter->SetVideoSurface(surface);
 
-    sample.adapter->Play();
+    if (sample.pauseAfterPlay != 0) {
+        sample.adapter->Pause();
+    } else {
+        sample.adapter->Play();
+    }
 
     /* ¶¨ÖÆ»¯´¦Àí */
     SampleCmd(sample);
