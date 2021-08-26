@@ -40,9 +40,9 @@ static int32_t SampleGetRecordFd()
     if (ltm != nullptr) {
         ostringstream ss("Capture_");
         ss << "Record" << ltm->tm_hour << "-" << ltm->tm_min << "-" << ltm->tm_sec << ".mp4";
-        fd = open(("/sdcard/" + ss.str()).c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+        fd = open(("/userdata/video/" + ss.str()).c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
         cout << "Open "
-             << "/sdcard/" << ss.str() << endl;
+             << "/userdata/video/" << ss.str() << endl;
 
         if (fd == -1) {
             cout << "Open recorder file failed. strerr=" << strerror(errno) << endl;
