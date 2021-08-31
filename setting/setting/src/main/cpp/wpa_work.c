@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Huawei Device Co., Ltd.
+ * Copyright (c) 2021 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -69,13 +69,25 @@ static int StrMatch(const char *a, const char *b)
 
 static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
 {
+    int i = 0;
+    int reTime = 5;
+    while (i++ < reTime) { // check wpa init success
+        g_ctrlConn = wpa_ctrl_open(WPA_IFACE_NAME);
+        if (g_ctrlConn > 0) {
+            break;
+        }
+        sleep(1);
+    }
     if (g_ctrlConn == NULL) {
         printf("%s:%d [ERROR] control connect handle is null\n", __FUNCTION__, __LINE__);
         return -1;
     }
     size_t len = *replyLen - 1;
+    printf("SendCtrlCommand cmd=%s.", cmd);
     wpa_ctrl_request(g_ctrlConn, cmd, strlen(cmd), reply, &len, 0);
     DumpString(reply, len, "SendCtrlCommand raw return");
+    wpa_ctrl_close(g_ctrlConn);
+    g_ctrlConn = NULL;
     if (len != 0 && !StrMatch(reply, WPA_CTRL_REQUEST_FAIL)) {
         *replyLen = len;
         return 0;
@@ -171,17 +183,32 @@ int GetCurrentConnInfo(char *ssid, int len)
 void ExitWpaScan(void)
 {
     int ret;
+    if (g_scanThreadId != 0) {
+        ret = pthread_cancel(g_scanThreadId);
+        printf("[INFO]pthread_cancel(g_scanThreadId) ret -> %d \n", ret);
+        g_scanThreadId = 0;
+    }
     if (g_wpaThreadId != 0) {
         ret = pthread_cancel(g_wpaThreadId);
-        if (ret != 0) {
-            printf("[ERROR]pthread_cancel(g_wpaThreadId) ret -> %d \n", ret);
-        }
+        printf("[INFO]pthread_cancel(g_wpaThreadId) ret -> %d \n", ret);
+        g_wpaThreadId = 0;
     }
 }
 
 void ExitWpa(void)
 {
     int ret;
+    if (g_monitorConn != NULL) {
+        wpa_ctrl_close(g_monitorConn);
+        printf("[INFO]wpa_ctrl_close(g_monitorConn).\n");
+        g_monitorConn = NULL;
+    }
+    char result[100] = {0};
+    size_t len = sizeof(result);
+    printf("[INFO]ExitWpa TERMINATE begin.\n");
+    SendCtrlCommand("TERMINATE", result, &len);
+    printf("[INFO]ExitWpa TERMINATE end.\n");
+    sleep(1);
     DeinitWifiService();
     if (g_threadId != 0) {
         ret = pthread_cancel(g_threadId);
@@ -377,26 +404,24 @@ static void TestNetworkConfig(const char *gSsid, const char *gPassWord)
 
 int InitControlInterface()
 {
-    int reTime = 20;
     int i = 0;
-    while (i++ < reTime) { // check wpa init success
-        g_ctrlConn = wpa_ctrl_open(WPA_IFACE_NAME);
+    int ret;
+    int reTime = 5;
+    while (i++ < reTime) { // create control interface for event monitor
+        g_monitorConn = wpa_ctrl_open(WPA_IFACE_NAME);
         if (g_ctrlConn > 0) {
             break;
         }
         sleep(1);
     }
-    if (g_monitorConn != NULL) {
-        free(g_monitorConn);
-        g_monitorConn = NULL;
-    }
-    g_monitorConn = wpa_ctrl_open(WPA_IFACE_NAME); // create control interface for event monitor
-    if (!g_ctrlConn || !g_monitorConn) {
+    if (!g_monitorConn) {
         SAMPLE_ERROR("open wpa control interface failed.");
         return -1;
     }
-    if (wpa_ctrl_attach(g_monitorConn) == 0) { // start monitor
-        int ret = pthread_create(&g_wpaThreadId, NULL, MonitorTask, NULL); // create thread for read event
+    ret = wpa_ctrl_attach(g_monitorConn);
+    printf("[INFO]wpa_ctrl_attach return %d.\n", ret);
+    if (ret == 0) { // start monitor
+        ret = pthread_create(&g_wpaThreadId, NULL, MonitorTask, NULL); // create thread for read event
         if (ret != 0) {
             printf("[ERROR]thread error %s\n", strerror(ret));
             return -1;
@@ -413,8 +438,8 @@ void* WpaScanThread(void *args)
     sleep(mySleep);
     if (g_ctrlConn == NULL) {
         ret = InitControlInterface();
+        printf("%s:%d [INFO] InitControlInterface return %d.\n", __FUNCTION__, __LINE__, ret);
         if (ret == -1) {
-            printf("%s:%d [ERROR] InitControlInterface return error\n", __FUNCTION__, __LINE__);
             return NULL;
         }
     }
@@ -444,11 +469,11 @@ static void *ThreadMain()
     int i = 0;
     int myfor = 5;
     char *arg[20] = {0};
-    arg[i] = (char*)"testhhf";
-    arg[++i] = (char*)"-i";
-    arg[++i] = (char*)"wlan0";
-    arg[++i] = (char*)"-c";
-    arg[++i] = (char*)"/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/element/wpa_supplicant.conf";
+    arg[i] = (char *)"wpa_supplicant";
+    arg[++i] = (char *)"-i";
+    arg[++i] = (char *)"wlan0";
+    arg[++i] = (char *)"-c";
+    arg[++i] = (char *)"/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/element/wpa_supplicant.conf";
 
     for (i = 0; i < myfor; i++) {
         printf("[LOG]arg[%d]->%s \n", i, arg[i]);
