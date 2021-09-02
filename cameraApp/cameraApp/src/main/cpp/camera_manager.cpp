@@ -409,10 +409,12 @@ SampleCameraStateMng::~SampleCameraStateMng()
     }
     if (gRecFd_ >= 0) {
         FILE *fp = fdopen(gRecFd_, "w+");
-        fflush(fp);
-        fsync(gRecFd_);
-        fclose(fp);
-        close(gRecFd_);
+        if (fp) {
+            fflush(fp);
+            fsync(gRecFd_);
+            fclose(fp);
+            close(gRecFd_);
+        }
     }
     if (fc_) {
         delete fc_;
@@ -447,10 +449,12 @@ void SampleCameraStateMng::StartRecord(Surface *mSurface)
     }
     if (gRecFd_ > 0) {
         FILE *fp = fdopen(gRecFd_, "w+");
-        fflush(fp);
-        fsync(gRecFd_);
-        fclose(fp);
-        close(gRecFd_);
+        if (fp) {
+            fflush(fp);
+            fsync(gRecFd_);
+            fclose(fp);
+            close(gRecFd_);
+        }
         gRecFd_ = -1;
     }
 
