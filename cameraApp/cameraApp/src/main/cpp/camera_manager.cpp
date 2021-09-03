@@ -557,15 +557,9 @@ bool SampleCameraStateMng::IsCaptureOver(void)
     return fsCb_.IsFinish();
 }
 
-void SampleCameraStateMng::SetPause()
-{
+void SampleCameraStateMng::SetPause() { }
 
-}
-
-void SampleCameraStateMng::SetResume(Surface *mSurface)
-{
-
-}
+void SampleCameraStateMng::SetResume(Surface *mSurface) { }
 
 void SampleCameraStateMng::SetStop(int s)
 {
@@ -664,69 +658,68 @@ int SampleCameraManager::SampleCameraStart(Surface *surface)
     if (CamStateMng == NULL)
         return -1;
     CamStateMng->StartPreview(surface);
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraStop(void)
 {
-    if (CamStateMng == nullptr)
+    if (CamStateMng == nullptr) {
         return -1;
-
+    }
     CamStateMng->SetStop(1);
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraCaptrue(int type)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
-
+    }
     CamStateMng->Capture(type);
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraStartRecord(Surface *surface)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
+    }
     CamStateMng->StartRecord(surface);
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraPauseRecord(void)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
+    }
     CamStateMng->SetPause();
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraResumeRecord(Surface *mSurface)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
+    }
     CamStateMng->SetResume(mSurface);
-
     return 0;
 }
 
 int SampleCameraManager::SampleCameraStopRecord(void)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
+    }
     CamStateMng->SetStop(0);
-
+    
     return 0;
 }
 bool SampleCameraManager::SampleCameraGetRecord(void)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return false;
+    }
     return CamStateMng->RecordState();
 }
 

@@ -259,9 +259,13 @@ public:
         }
         FrameConfig *fc = new FrameConfig(FRAME_CONFIG_RECORD);
         auto surface = recorder_->GetSurface(0);
-        surface->SetWidthAndHeight(1920, 1080);
-        surface->SetQueueSize(3);
-        surface->SetSize(1024 * 1024);
+        int width = 1920;
+        int height = 1080;
+        surface->SetWidthAndHeight(width, height);
+        int queueSize = 3;
+        surface->SetQueueSize(queueSize);
+        int size = 1024 * 1024;
+        surface->SetSize(size);
         fc->AddSurface(*surface);
         ret = cam_->TriggerLoopingCapture(*fc);
         if (ret != 0) {
