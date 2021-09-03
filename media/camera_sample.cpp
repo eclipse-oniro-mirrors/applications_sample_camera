@@ -264,8 +264,8 @@ public:
         surface->SetWidthAndHeight(width, height);
         int queueSize = 3;
         surface->SetQueueSize(queueSize);
-        int size = 1024 * 1024;
-        surface->SetSize(size);
+        int size = 1024;
+        surface->SetSize(size * size);
         fc->AddSurface(*surface);
         ret = cam_->TriggerLoopingCapture(*fc);
         if (ret != 0) {
