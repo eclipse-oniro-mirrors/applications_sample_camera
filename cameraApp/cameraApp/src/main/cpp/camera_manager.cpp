@@ -470,10 +470,7 @@ void SampleCameraStateMng::StartRecord(Surface *mSurface)
         recorder_->Resume();
     } else {
         ret = recorder_->SetOutputFile(gRecFd_);
-        if (ret != SUCCESS) {
-            return;
-        }
-        if (recorder_->Prepare() != SUCCESS || recorder_->Start() != SUCCESS) {
+        if (ret != SUCCESS || recorder_->Prepare() != SUCCESS || recorder_->Start() != SUCCESS) {
             return;
         }
     }
@@ -489,8 +486,7 @@ void SampleCameraStateMng::StartRecord(Surface *mSurface)
 
     FrameConfig *fc = new FrameConfig(FRAME_CONFIG_RECORD);
     fc->AddSurface(*surface);
-    ret = cam_->TriggerLoopingCapture(*fc);
-    if (ret != 0) {
+    if (cam_->TriggerLoopingCapture(*fc) != 0) {
         delete fc;
         return;
     }
@@ -655,8 +651,9 @@ bool SampleCameraManager::SampleCameraExist(void)
 
 int SampleCameraManager::SampleCameraStart(Surface *surface)
 {
-    if (CamStateMng == NULL)
+    if (CamStateMng == NULL) {
         return -1;
+    }
     CamStateMng->StartPreview(surface);
     return 0;
 }
@@ -712,7 +709,6 @@ int SampleCameraManager::SampleCameraStopRecord(void)
         return -1;
     }
     CamStateMng->SetStop(0);
-    
     return 0;
 }
 bool SampleCameraManager::SampleCameraGetRecord(void)
