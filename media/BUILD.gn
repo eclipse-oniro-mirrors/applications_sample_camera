@@ -29,22 +29,6 @@ executable("camera_sample") {
   output_dir = "$root_out_dir/dev_tools"
 }
 
-executable("audio_capture_sample") {
-  sources = [
-    "audio_capture_sample.cpp",
-  ]
-  cflags = ["-Wall"]
-  cflags_cc = cflags
-
-  ldflags = ["-lstdc++"]
-  ldflags += ["-lpthread"]
-  ldflags += ["-Wl,-rpath-link=$ohos_root_path/$root_out_dir"]
-  deps = [
-    "//third_party/bounds_checking_function:libsec_shared",
-    "//foundation/multimedia/audio_lite/frameworks:audio_capturer_lite",
-  ]
-  output_dir = "$root_out_dir/dev_tools"
-}
 executable("player_sample") {
   sources = [ "player_sample.cpp" ]
   cflags = [ "-Wall" ]
@@ -64,6 +48,5 @@ lite_component("media_sample") {
   features = [
     ":camera_sample",
     ":player_sample",
-    ":audio_capture_sample",
   ]
 }
