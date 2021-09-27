@@ -40,9 +40,9 @@ static int32_t SampleGetRecordFd()
     if (ltm != nullptr) {
         ostringstream ss("Capture_");
         ss << "Record" << ltm->tm_hour << "-" << ltm->tm_min << "-" << ltm->tm_sec << ".mp4";
-        fd = open(("/userdata/video/" + ss.str()).c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+        fd = open(("/userdata/" + ss.str()).c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
         cout << "Open "
-             << "/userdata/video/" << ss.str() << endl;
+             << "/userdata/" << ss.str() << endl;
 
         if (fd == -1) {
             cout << "Open recorder file failed. strerr=" << strerror(errno) << endl;
@@ -61,7 +61,7 @@ static void SampleSaveCapture(const char *p, uint32_t size)
         ostringstream ss("Capture_");
         ss << "Capture" << ltm->tm_hour << "-" << ltm->tm_min << "-" << ltm->tm_sec << ".jpg";
 
-        ofstream pic("/sdcard/" + ss.str(), ofstream::out | ofstream::trunc);
+        ofstream pic("/userdata/" + ss.str(), ofstream::out | ofstream::trunc);
         cout << "write " << size << " bytes" << endl;
         pic.write(p, size);
         pic.close();
