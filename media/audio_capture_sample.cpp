@@ -83,7 +83,7 @@ static char *GernerateFileName(AudioCodecFormat format)
     }
     (void)memset_s(name, size, 0, size);
     /* create file for save stream */
-    if (snprintf_s(name, size, size - 1, "/sdcard/audio_%s.%s", aszDatetime, postfix.c_str()) < 0) {
+    if (snprintf_s(name, size, size - 1, "/userdata/audio_%s.%s", aszDatetime, postfix.c_str()) < 0) {
         std::cout << "snprintf_s failed " << std::endl;
         free(name);
         return nullptr;
