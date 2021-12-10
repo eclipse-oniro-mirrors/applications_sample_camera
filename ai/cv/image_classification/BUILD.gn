@@ -50,6 +50,6 @@ executable("ic_app") {
 lite_component("ic") {
   features = [ 
     ":ic_app",
-    ":demo_image_for_test",
+    ":demo_image_for_test"
   ]
 }
