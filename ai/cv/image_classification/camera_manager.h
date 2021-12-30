@@ -81,7 +81,6 @@ private:
     OHOS::Media::Camera *cam_ = nullptr;
     SampleSurfaceListener listener_;
     SampleFrameStateCallback fsCb_;
-    OHOS::Media::FrameConfig *fc_ = nullptr;
 };
 }  // namespace IC
 #endif

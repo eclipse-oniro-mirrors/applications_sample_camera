@@ -25,10 +25,7 @@ using namespace OHOS::Media;
 namespace KWS {
 namespace {
     const int32_t CONFIDENCE = 2662;
-    const int32_t NUM_SLIDE_WINDOW = 10;
     const int32_t MAX_CACHE_SIZE = 16000;
-    const int32_t WINDOW_SIZE = 480;  // times of per window: 30ms
-    const int32_t STRIDE_SIZE = 320;  // times of per stride: 20ms
     const int32_t SUCCESS = 0;
     const int32_t CHANNEL_COUNT = 1;
 
