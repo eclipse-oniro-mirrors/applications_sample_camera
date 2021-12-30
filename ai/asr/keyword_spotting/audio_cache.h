@@ -16,9 +16,6 @@
 #ifndef AUDIO_CACHE_H
 #define AUDIO_CACHE_H
 
-#include <cstdint>
-#include <mutex>
-
 namespace KWS {
 class AudioCache {
 public:
