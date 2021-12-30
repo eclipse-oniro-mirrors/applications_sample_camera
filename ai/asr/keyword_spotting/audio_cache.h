@@ -16,6 +16,8 @@
 #ifndef AUDIO_CACHE_H
 #define AUDIO_CACHE_H
 
+#include <cstdint>
+
 namespace KWS {
 class AudioCache {
 public:
