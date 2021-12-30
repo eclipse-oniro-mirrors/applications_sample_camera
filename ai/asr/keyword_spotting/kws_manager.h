@@ -40,7 +40,7 @@ const std::vector<std::string> WORD_CONTENT = {
     "Unknown"
 };
 
-enum KwsStatus {
+enum KwsStatus : int {
     IDLE = 1000,
     PREPARED,
     RUNNING,

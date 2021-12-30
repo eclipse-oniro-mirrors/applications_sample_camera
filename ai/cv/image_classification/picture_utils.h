@@ -32,14 +32,14 @@ struct MyErrorMgr {
 using MyErrorPtr = MyErrorMgr *;
 
 // The index order of BGR format
-enum BgrIndex {
+enum BgrIndex : int {
     BGR_BLUE = 0,
     BGR_GREEN,
     BGR_RED,
 };
 
 // The index order of RGB format
-enum RgbIndex {
+enum RgbIndex : int {
     RGB_RED = 0,
     RGB_GREEN,
     RGB_BLUE,

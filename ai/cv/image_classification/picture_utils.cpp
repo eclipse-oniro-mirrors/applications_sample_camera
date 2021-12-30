@@ -59,7 +59,7 @@ int WriteJpegFile(const string &filename, int quality,
     }
     jpeg_finish_compress(&cinfo);
 
-    fclose(outfile);
+    (void)fclose(outfile);
     jpeg_destroy_compress(&cinfo);
     return IC_RETCODE_SUCCESS;
 }
@@ -135,7 +135,7 @@ uint8_t *ReadJpegFile(const string &filename, int &srcWidth, int &srcHeight)
 
     (void)jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
-    fclose(infile);
+    (void)fclose(infile);
     return buffer;
 }
 
