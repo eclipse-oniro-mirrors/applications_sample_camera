@@ -23,7 +23,7 @@
         "package": "com.huawei.launcher",
         "name": ".MyHarmonyAbilityPackage",
         "deviceType": [
-            "phone", "tv","tablet", "pc","car","smartWatch","sportsWatch","smartVision"
+            "phone", "tv","tablet","car","smartWatch","sportsWatch","smartVision"
         ],
         "distro": {
             "deliveryWithInstall": true,
