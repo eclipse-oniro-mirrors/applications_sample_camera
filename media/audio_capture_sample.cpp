@@ -15,8 +15,9 @@
 
 #include <ctime>
 #include <iostream>
-#include <thread>
 #include <string>
+#include <thread>
+#include <unistd.h>
 #include "audio_capturer.h"
 #include "media_errors.h"
 #include "securec.h"
@@ -93,6 +94,7 @@ static char *GernerateFileName(AudioCodecFormat format)
 
 static void AudioInputSourceProcess(AudioSourceInput *audioSourceInput)
 {
+    const int32_t waitTimeUs = 20000;
     std::cout << "audioSourceInput: " << audioSourceInput << std::endl;
     if (audioSourceInput == nullptr) {
         return;
@@ -114,8 +116,9 @@ static void AudioInputSourceProcess(AudioSourceInput *audioSourceInput)
     while (audioSourceInput->bThreadRun) {
         int ret = audioSourceInput->audioCap->Read(audioSourceInput->buffer,
             audioSourceInput->framesize, false);
-        if (ret == -1) {
+        if (ret <= 0) {
             std::cout << "audioCap Read failed ret:" << ret << std::endl;
+            usleep(waitTimeUs);
             continue;
         }
         if (fwrite(audioSourceInput->buffer, 1, ret, pfd) != ret) {
