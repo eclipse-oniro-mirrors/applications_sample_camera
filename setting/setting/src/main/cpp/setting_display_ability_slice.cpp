@@ -49,20 +49,6 @@ SettingDisplayAbilitySlice::~SettingDisplayAbilitySlice()
     }
 }
 
-static int Callback(IOwner owner, int code, IpcIo *reply)
-{
-    size_t src = IpcIoPopInt32(reply);
-    printf("[setting]IpcIoPopInt32 src -> %d\n", src);
-
-    int ret = memcpy_s(owner, sizeof(size_t), &src, sizeof(size_t));
-    if (ret < 0) {
-        printf("memcpy_s Error\n");
-        return -1;
-    }
-    printf("[setting]owner -> %d\n", *(int*)owner);
-    return 0;
-}
-
 void SettingDisplayAbilitySlice::SetButtonListener(void)
 {
     auto onClick = [this](UIView& view, const Event& event) -> bool {
