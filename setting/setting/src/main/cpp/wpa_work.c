@@ -83,7 +83,6 @@ static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
         return -1;
     }
     size_t len = *replyLen - 1;
-    printf("SendCtrlCommand cmd=%s.", cmd);
     wpa_ctrl_request(g_ctrlConn, cmd, strlen(cmd), reply, &len, 0);
     DumpString(reply, len, "SendCtrlCommand raw return");
     wpa_ctrl_close(g_ctrlConn);
