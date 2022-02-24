@@ -41,7 +41,7 @@ extern "C" {
     void ResetSSIDBuff(void);
     int GetIdNum(void);
     int GetAndResetScanStat(void);
-    char *GetSsid(int ssidNum);
+    char *GetSsid(const int ssidNum);
     void WpaScanReconnect(const char *gSsid, const char *gPassWord, const int hiddenSwitch);
     void WpaClientStart(void);
     void LockWifiData(void);
