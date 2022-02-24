@@ -38,13 +38,13 @@
 static struct wpa_ctrl *g_monitorConn = NULL;
 static pthread_t g_threadId = 0;
 pthread_mutex_t g_mutex;
+pthread_mutex_t g_monitorConnMutex;
 static char g_mySsidD[40][40] = {0};
 static int g_ssidCount = 0;
 
 static char g_useSsidD[40][40] = {0};
 static int g_useSsidCount = 0;
 
-static struct wpa_ctrl *g_ctrlConn = NULL;
 static pthread_t g_wpaThreadId = 0;
 static pthread_t g_scanThreadId = 0;
 static int g_scanAvailable = 0;
@@ -69,24 +69,28 @@ static int StrMatch(const char *a, const char *b)
 
 static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
 {
+    static struct wpa_ctrl *ctrlConn = NULL;
     int i = 0;
     int reTime = 5;
     while (i++ < reTime) { // check wpa init success
-        g_ctrlConn = wpa_ctrl_open(WPA_IFACE_NAME);
-        if (g_ctrlConn > 0) {
+        ctrlConn = wpa_ctrl_open(WPA_IFACE_NAME);
+        if (ctrlConn != NULL) {
             break;
         }
         sleep(1);
     }
-    if (g_ctrlConn == NULL) {
+    if (ctrlConn == NULL) {
         printf("%s:%d [ERROR] control connect handle is null\n", __FUNCTION__, __LINE__);
         return -1;
     }
     size_t len = *replyLen - 1;
-    wpa_ctrl_request(g_ctrlConn, cmd, strlen(cmd), reply, &len, 0);
+    wpa_ctrl_request(ctrlConn, cmd, strlen(cmd), reply, &len, 0);
     DumpString(reply, len, "SendCtrlCommand raw return");
-    wpa_ctrl_close(g_ctrlConn);
-    g_ctrlConn = NULL;
+    if (ctrlConn != NULL) {
+        wpa_ctrl_close(ctrlConn);
+        ctrlConn = NULL;
+    }
+
     if (len != 0 && !StrMatch(reply, WPA_CTRL_REQUEST_FAIL)) {
         *replyLen = len;
         return 0;
@@ -197,11 +201,13 @@ void ExitWpaScan(void)
 void ExitWpa(void)
 {
     int ret;
+    pthread_mutex_lock(&g_monitorConnMutex);
     if (g_monitorConn != NULL) {
         wpa_ctrl_close(g_monitorConn);
         printf("[INFO]wpa_ctrl_close(g_monitorConn).\n");
         g_monitorConn = NULL;
     }
+    pthread_mutex_unlock(&g_monitorConnMutex);
     char result[100] = {0};
     size_t len = sizeof(result);
     printf("[INFO]ExitWpa TERMINATE begin.\n");
@@ -217,6 +223,10 @@ void ExitWpa(void)
     }
 
     ret = pthread_mutex_destroy(&g_mutex);
+    if (ret != 0) {
+        printf("[ERROR]pthread_mutex_destroy ret -> %d \n", ret);
+    }
+    ret = pthread_mutex_destroy(&g_monitorConnMutex);
     if (ret != 0) {
         printf("[ERROR]pthread_mutex_destroy ret -> %d \n", ret);
     }
@@ -317,18 +327,27 @@ static void WifiEventHandler(char *rawEvent, int len)
 
 static void CliRecvPending(void)
 {
-    while (wpa_ctrl_pending(g_monitorConn)) {
+    int pendingResult = -1;
+    pthread_mutex_lock(&g_monitorConnMutex);
+    if (g_monitorConn!= NULL) {
+        pendingResult = wpa_ctrl_pending(g_monitorConn);
+    }
+    while (pendingResult > 0) {
         char buf[4096];
         size_t len = sizeof(buf) - 1;
-        if (wpa_ctrl_recv(g_monitorConn, buf, &len) == 0) {
-            buf[len] = '\0';
-            SAMPLE_INFO("event received %s", buf);
-            WifiEventHandler(buf, len);
-        } else {
-            SAMPLE_INFO("could not read pending message.");
-            break;
+        if (g_monitorConn != NULL) {
+            if (wpa_ctrl_recv(g_monitorConn, buf, &len) == 0) {
+                buf[len] = '\0';
+                SAMPLE_INFO("event received %s", buf);
+                WifiEventHandler(buf, len);
+            } else {
+                SAMPLE_INFO("could not read pending message.");
+                break;
+            }
+            pendingResult = wpa_ctrl_pending(g_monitorConn);
         }
     }
+    pthread_mutex_lock(&g_monitorConnMutex);
 }
 
 static void* MonitorTask(void *args)
@@ -337,7 +356,15 @@ static void* MonitorTask(void *args)
     int fd, ret;
     fd_set rfd;
     while (1) {
-        fd = wpa_ctrl_get_fd(g_monitorConn);
+        fd = -1;
+        pthread_mutex_lock(&g_monitorConnMutex);
+        if (g_monitorConn != NULL) {
+            fd = wpa_ctrl_get_fd(g_monitorConn);
+        } else {
+            pthread_mutex_unlock(&g_monitorConnMutex);
+            break;
+        }
+        pthread_mutex_unlock(&g_monitorConnMutex);
         FD_ZERO(&rfd);
         FD_SET(fd, &rfd);
         ret = select(fd + 1, &rfd, NULL, NULL, NULL);
@@ -408,7 +435,7 @@ int InitControlInterface()
     int reTime = 5;
     while (i++ < reTime) { // create control interface for event monitor
         g_monitorConn = wpa_ctrl_open(WPA_IFACE_NAME);
-        if (g_ctrlConn > 0) {
+        if (g_monitorConn != NULL) {
             break;
         }
         sleep(1);
@@ -417,7 +444,13 @@ int InitControlInterface()
         SAMPLE_ERROR("open wpa control interface failed.");
         return -1;
     }
-    ret = wpa_ctrl_attach(g_monitorConn);
+
+    ret = -1;
+    pthread_mutex_lock(&g_monitorConnMutex);
+    if (g_monitorConn!= NULL) {
+        ret = wpa_ctrl_attach(g_monitorConn);
+    }
+    pthread_mutex_unlock(&g_monitorConnMutex);
     printf("[INFO]wpa_ctrl_attach return %d.\n", ret);
     if (ret == 0) { // start monitor
         ret = pthread_create(&g_wpaThreadId, NULL, MonitorTask, NULL); // create thread for read event
@@ -435,7 +468,7 @@ void* WpaScanThread(void *args)
     int mySleep = 2;
     int ret = 0;
     sleep(mySleep);
-    if (g_ctrlConn == NULL) {
+    if (g_monitorConn == NULL) {
         ret = InitControlInterface();
         printf("%s:%d [INFO] InitControlInterface return %d.\n", __FUNCTION__, __LINE__, ret);
         if (ret == -1) {
@@ -491,6 +524,15 @@ void WpaClientStart(void)
             return;
         }
         ret = pthread_mutex_init(&g_mutex, NULL);
+        if (ret != 0) {
+            printf("[ERROR]pthread_mutex_init error %s\n", strerror(ret));
+            return;
+        }
+
+        pthread_mutexattr_t attr;
+        pthread_mutexattr_init(&attr);
+        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+        ret = pthread_mutex_init(&g_monitorConnMutex, &attr);
         if (ret != 0) {
             printf("[ERROR]pthread_mutex_init error %s\n", strerror(ret));
             return;
