@@ -111,13 +111,22 @@ private:
                 scaleWidth = static_cast<float>(SCREEN_WIDTH) / imageWidth;
             if (imageHeight > SCREEN_HEIGHT)
                 scaleHeight = static_cast<float>(SCREEN_HEIGHT) / imageHeight;
+#ifdef KEEP_PICTURE_RECT
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
             transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
+#else
+            transMap.Scale(Vector2<float>(scaleWidth, scaleHeight), Vector2<float>(0, 0));
+#endif
             backgroundView_->SetTransformMap(transMap);
             backgroundView_->SetTransformAlgorithm(TransformAlgorithm::NEAREST_NEIGHBOR);
+#ifdef KEEP_PICTURE_RECT
             imageWidth = imageWidth * scale;
             imageHeight = imageHeight * scale;
+#else
+            imageWidth = imageWidth * scaleWidth;
+            imageHeight = imageHeight * scaleHeight;
+#endif
         }
         int16_t imagePosX = (SCREEN_WIDTH - imageWidth) / 2;    /* 2 half */
         int16_t imagePosY = (SCREEN_HEIGHT - imageHeight) / 2;    /* 2 half */
