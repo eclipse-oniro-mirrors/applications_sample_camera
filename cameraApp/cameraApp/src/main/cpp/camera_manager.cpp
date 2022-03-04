@@ -564,7 +564,12 @@ void SampleCameraStateMng::SetStop(int s)
         return;
     }
 
-    cam_->StopLoopingCapture();
+    if (s == 0) { /* only stop recorder */
+        cam_->StopLoopingCapture(FRAME_CONFIG_RECORD);
+    } else {
+        cam_->StopLoopingCapture(-1);
+    }
+
     if (gRecordSta_ == MEDIA_STATE_START) {
         if (s) {
             recorder_->Stop(false);
