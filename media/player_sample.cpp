@@ -235,6 +235,58 @@ static void CostTestPrintf(TestSample &sample)
     printf("##################player cost info end\n\n\n");
 }
 
+#ifdef ENABLE_PASSTHROUGH_SAMPLE
+static void *streamProcess(void *arg)
+{
+printf("####### streamProcess in \n");
+    const int32_t READ_LEN = 1024;
+    const int32_t STEAM_PROCESS_SLEEP_TIME_US = 5000;
+    IdleBuffer buffer;
+    uint8_t *data = nullptr;
+    size_t readLen;
+    size_t len;
+    TestSample *sample = (TestSample *)arg;
+    char resolvedPath[PATH_MAX] = { 0 };
+    if (realpath(sample->filePath, resolvedPath) == nullptr) {
+        printf("realpath file error \n");
+        return nullptr;
+    }
+
+    FILE* pFile = fopen(resolvedPath, "rb");
+    if (pFile == nullptr) {
+        return nullptr;
+    }
+    prctl(PR_SET_NAME, "StreamProc", 0, 0, 0);
+    while (true) {
+        if (!sample->isThreadRunning) {
+            break;
+        }
+
+        if (sample->streamSample->GetAvailableBuffer(&buffer) != 0) {
+            usleep(STEAM_PROCESS_SLEEP_TIME_US);
+            continue;
+        }
+        data = sample->streamSample->GetBufferAddress(buffer.idx);
+        if (data == nullptr) {
+            printf("[%s, %d] get buffer null", __func__, __LINE__);
+            break;
+        }
+        len = (buffer.size < READ_LEN) ? buffer.size : READ_LEN;
+        readLen = fread(data + buffer.offset, 1, len, pFile);
+        if (readLen <= len && readLen > 0) {
+            sample->streamSample->QueueBuffer(buffer.idx, buffer.offset, readLen, 0, 0x8);
+        } else {
+            sample->streamSample->QueueBuffer(buffer.idx, buffer.offset, readLen, 0, 0x4);
+            printf("[%s, %d] have render eos", __func__, __LINE__);
+            break;
+        }
+    }
+    fclose(pFile);
+    printf("[%s,%d]\n", __func__, __LINE__);
+    sample->isThreadRunning = false;
+    return nullptr;
+}
+#else
 static void *streamProcess(void *arg)
 {
     const int32_t STEAM_PROCESS_SLEEP_TIME_US = 20000;
@@ -276,7 +328,7 @@ static void *streamProcess(void *arg)
     pthread_mutex_unlock(&sample->mutex);
     return nullptr;
 }
-
+#endif
 static void GetFileSize(TestSample &sample)
 {
     sample.fileSize = -1;
@@ -572,7 +624,7 @@ static void RunCmdSetVolume(TestSample &sample, const char cmd[])
     float lvolume;
     float rvolume;
 
-    if (sscanf_s(cmd, "volume %f %f", &lvolume, &rvolume) != 0x2) {
+    if (sscanf_s(cmd, "setvolume %f %f", &lvolume, &rvolume) != 0x2) {
         printf("ERR: not input volume, example: volume 50 50!\n");
         return;
     }

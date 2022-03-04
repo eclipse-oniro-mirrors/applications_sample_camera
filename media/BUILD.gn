@@ -11,6 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
+import("//foundation/multimedia/utils/lite/config.gni")
 
 executable("camera_sample") {
   sources = [ "camera_sample.cpp" ]
@@ -48,6 +49,9 @@ executable("audio_capture_sample") {
 }
 
 executable("player_sample") {
+  if (enable_media_passthrough_mode == true) {
+    defines = [ "ENABLE_PASSTHROUGH_SAMPLE" ]
+  }
   sources = [ "player_sample.cpp" ]
   cflags = [ "-Wall" ]
   cflags_cc = cflags
