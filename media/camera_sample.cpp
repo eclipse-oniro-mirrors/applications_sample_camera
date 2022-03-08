@@ -333,7 +333,7 @@ public:
             cout << "Camera is not ready." << endl;
             return;
         }
-        cam_->StopLoopingCapture();
+        cam_->StopLoopingCapture(-1);
         if (recordState_ == STATE_RUNNING) {
             CloseRecorder();
         }
