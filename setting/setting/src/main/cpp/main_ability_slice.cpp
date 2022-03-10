@@ -203,7 +203,6 @@ void MainAbilitySlice::SetAppButtonView(void)
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
     buttonView->SetOnClickListener(buttonAppListener_);
-    scrollView_->Add(buttonView);
 
     UILabel* lablelFont = new UILabel();
     lablelFont->SetPosition(DE_TITLE_TEXT_X, DE_TITLE_TEXT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
