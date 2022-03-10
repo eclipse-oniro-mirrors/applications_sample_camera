@@ -90,7 +90,7 @@ private:
     constexpr static int DISPALY_BUTTON_Y = 190;
 
     constexpr static int ABOUT_BUTTON_X = 0;
-    constexpr static int ABOUT_BUTTON_Y = 190 + DE_BUTTON_HEIGHT + 6;
+    constexpr static int ABOUT_BUTTON_Y = 190;
     constexpr static int ABOUT_BUTTON_HEIGHT = 113;
     constexpr static int ABOUT_BUTTON_TEXT_ABOUT_Y = 5;
     constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_X = 18;
