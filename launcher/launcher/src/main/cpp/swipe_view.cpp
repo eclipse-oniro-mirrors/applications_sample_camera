@@ -59,6 +59,9 @@ UIViewGroup* SwipeView::AddViewGroup()
         return nullptr;
     }
     UIViewGroup* viewGroup = new UIViewGroup();
+    if (viewGroup == nullptr) {
+        return viewGroup;
+    }
     viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
         Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     viewGroup->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
@@ -135,17 +138,17 @@ void SwipeView::OnSetUpView()
                 app->funcclick_ = AppEvent::ClickEvent;
                 app->funclPress_ = AppEvent::LongPressEvent;
                 if (pBundleInfos[j].bundleName) {
-                    memcpy_s(app->appName_, sizeof(app->appName_), pBundleInfos[j].bundleName,
+                    (void)memcpy_s(app->appName_, sizeof(app->appName_), pBundleInfos[j].bundleName,
                         strlen(pBundleInfos[j].bundleName));
                     app->appName_[strlen(pBundleInfos[j].bundleName)] = 0;
                 }
                 if (pBundleInfos[j].abilityInfos[0].name) {
-                    memcpy_s(app->abilityName_, sizeof(app->abilityName_), pBundleInfos[j].abilityInfos[0].name,
+                    (void)memcpy_s(app->abilityName_, sizeof(app->abilityName_), pBundleInfos[j].abilityInfos[0].name,
                         strlen(pBundleInfos[j].abilityInfos[0].name));
                     app->abilityName_[strlen(pBundleInfos[j].abilityInfos[0].name)] = 0;
                 }
                 if (pBundleInfos[j].bigIconPath) {
-                    memcpy_s(app->appIconDir_, sizeof(app->appIconDir_), pBundleInfos[j].bigIconPath,
+                    (void)memcpy_s(app->appIconDir_, sizeof(app->appIconDir_), pBundleInfos[j].bigIconPath,
                         strlen(pBundleInfos[j].bigIconPath));
                     app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
                 }

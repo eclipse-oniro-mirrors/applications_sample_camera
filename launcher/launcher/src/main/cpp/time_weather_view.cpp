@@ -33,10 +33,7 @@ TimeWeatherView::TimeWeatherView(UIViewGroup* viewGroup)
 {
     viewGroup_ = viewGroup;
 }
-TimeWeatherView::~TimeWeatherView()
-{
-    // todo other release
-}
+TimeWeatherView::~TimeWeatherView() {}
 
 void TimeWeatherView::SetStyle(Style sty)
 {

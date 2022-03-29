@@ -70,10 +70,10 @@ void AppInfoAbilitySlice::SetHead()
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
     imageView->SetSrc(DE_IMAGE_BACK);
 
-    printf("[LOG] bundleName_-> %s +11->%s \n", bundleName_, bundleName_ + 11); // 11
+    printf("[LOG] bundleName_-> %s +11->%s \n", bundleName_, bundleName_ + 11); // 11:jump behind bundleName
     UILabel* lablelFont = new UILabel();
     lablelFont->SetPosition(DE_HEAD_TEXT_X, DE_HEAD_TEXT_Y, DE_HEAD_TEXT_WIDTH, DE_HEAD_TEXT_HEIGHT);
-    lablelFont->SetText(bundleName_ + 11); // use 11
+    lablelFont->SetText(bundleName_ + 11); // 11:jump behind bundleName
     lablelFont->SetFont(DE_FONT_OTF, DE_HEAD_TEXT_SIZE);
     lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_HEAD_TEXT_COLOR);
     headView_->Add(lablelFont);
@@ -82,6 +82,9 @@ void AppInfoAbilitySlice::SetHead()
 void AppInfoAbilitySlice::SetAppPermissionInfo(int index, PermissionSaved& permissions)
 {
     UIViewGroup* itemView = new UIViewGroup();
+    if (itemView == nullptr) {
+        return;
+    }
     int useX = 0;
     int useY = index * DE_ITEM_INTERVAL;
     itemView->SetPosition(useX, useY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);

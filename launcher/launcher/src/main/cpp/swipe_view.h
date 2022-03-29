@@ -56,7 +56,9 @@ public:
     virtual void OnSwipe(UISwipeView& view) override
     {
         char buf[TMP_BUF_SIZE] = { 0 };
-        sprintf_s(buf, sizeof(buf), ".%d.", swipe_->GetCurrentPage() + 1);
+        if (sprintf_s(buf, sizeof(buf), ".%d.", swipe_->GetCurrentPage() + 1) < 0) {
+            return;
+        }
         lable_->SetText(buf);
         view_->RemoveLview();
     }
