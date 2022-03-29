@@ -173,7 +173,7 @@ void MainAbilitySlice::SetWifiButtonView(void)
     lablelFontWifi->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontWifi);
 
-    char buff[64] = {0};
+    char buff[64] = {0}; // 64 is the longest in this sample
     int myX = WIFI_BUTTON_TEXT_SSID_X;
     int myY = WIFI_BUTTON_TEXT_SSID_Y;
     int ret = GetCurrentConnInfo(buff, sizeof(buff));
@@ -269,7 +269,7 @@ void MainAbilitySlice::SetAboutButtonView(void)
     lablelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontAbout);
 
-    char buff[62];
+    char buff[62]; // 62 is the longest in this sample
     const char* gDV = GetDisplayVersion();
     int err = sprintf_s(buff, sizeof(buff), "系统版本: %s", gDV);
     if (err < 0) {

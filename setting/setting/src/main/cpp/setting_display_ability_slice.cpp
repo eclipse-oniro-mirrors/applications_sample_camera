@@ -22,10 +22,6 @@
 namespace OHOS {
 REGISTER_AS(SettingDisplayAbilitySlice)
 
-#define COM_SET_ON 0
-#define COM_SET_OFF 1
-#define COM_GET_STATUS 2
-
 SettingDisplayAbilitySlice::~SettingDisplayAbilitySlice()
 {
     if (toggleButtonView_) {

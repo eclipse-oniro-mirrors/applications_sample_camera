@@ -42,16 +42,16 @@ bool AppManage::GetAailityInfosByBundleName(const char* bundleName, AppInfo* pAp
         BundleInfo* pBundleInfo = pBundleInfos;
         for (int i = 0; i < count; i++, pBundleInfo++) {
             if (memcmp(bundleName, pBundleInfo->bundleName, strlen(pBundleInfo->bundleName)) == 0) {
-                memcpy_s(
+                (void)memcpy_s(
                     pApp->appName_, sizeof(pApp->appName_), pBundleInfo->bundleName, strlen(pBundleInfo->bundleName));
                 pApp->appName_[strlen(pBundleInfo->bundleName)] = 0;
                 if (pBundleInfo->abilityInfos[0].name) {
-                    memcpy_s(pApp->abilityName_, sizeof(pApp->abilityName_), pBundleInfo->abilityInfos[0].name,
+                    (void)memcpy_s(pApp->abilityName_, sizeof(pApp->abilityName_), pBundleInfo->abilityInfos[0].name,
                         strlen(pBundleInfo->abilityInfos[0].name));
                     pApp->abilityName_[strlen(pBundleInfo->abilityInfos[0].name)] = 0;
                 }
                 if (pBundleInfo->bigIconPath) {
-                    memcpy_s(pApp->appIconDir_, sizeof(pApp->appIconDir_), pBundleInfo->bigIconPath,
+                    (void)memcpy_s(pApp->appIconDir_, sizeof(pApp->appIconDir_), pBundleInfo->bigIconPath,
                         strlen(pBundleInfo->bigIconPath));
                     pApp->appIconDir_[strlen(pBundleInfo->bigIconPath)] = 0;
                 }
@@ -106,7 +106,7 @@ void AppManage::MyBundleStateCallback(
 
 void AppManage::MyBundleOwnCallback(const uint8_t resultCode, const void* resultMessage)
 {
-    // todo uninstall callback
+    // uninstall callback
 }
 
 bool AppManage::LauncherApp(BundleInfo** info, int& count)

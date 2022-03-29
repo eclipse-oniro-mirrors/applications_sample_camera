@@ -144,7 +144,6 @@ void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)
     itemView->Add(imageView);
 }
 
-
 void AppAbilitySlice::SetScrollView()
 {
     scrollView_ = new UIScrollView();

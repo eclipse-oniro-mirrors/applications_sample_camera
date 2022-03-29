@@ -56,9 +56,7 @@ static void DumpString(const char *buf, int len, const char *tag)
     for (int i = 0; i < len; i++) {
         printf("%c", buf[i]);
     }
-    printf("\n");
-
-    printf("\n");
+    printf("\n\n");
     SAMPLE_INFO("%s dump end.", tag);
 }
 

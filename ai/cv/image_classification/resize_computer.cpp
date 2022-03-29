@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#include "ic_retcode.h"
 #include "resize_computer.h"
+#include "ic_retcode.h"
 
 namespace IC {
 const int RESIZE_CONSTANT = 2;
