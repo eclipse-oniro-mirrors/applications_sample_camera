@@ -41,9 +41,9 @@ void TimeWeatherView::SetStyle(Style sty)
     viewGroup_->Invalidate();
 }
 
-void TimeWeatherView::SetPosion(int16_t x, int16_t y, int16_t height, int16_t width)
+void TimeWeatherView::SetPosion(int16_t i16X, int16_t i16Y, int16_t i16H, int16_t i16W)
 {
-    viewGroup_->SetPosition(x, y, width, height);
+    viewGroup_->SetPosition(i16X, i16Y, i16W, i16H);
 }
 
 void TimeWeatherView::SetUpView()
