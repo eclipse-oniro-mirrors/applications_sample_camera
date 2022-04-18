@@ -599,7 +599,7 @@ SampleCameraManager::~SampleCameraManager()
     if (CamStateMng) {
         CamStateMng->SetStop(1);
         delete CamStateMng;
-        CamStateMng = NULL;
+        CamStateMng = nullptr;
     }
 }
 
@@ -626,7 +626,7 @@ int SampleCameraManager::SampleCameraCreate()
     }
 
     CamStateMng = new SampleCameraStateMng(eventHdlr_);
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         printf("create SampleCameraStateMng failed! \n");
         return -1;
     }
@@ -656,7 +656,7 @@ bool SampleCameraManager::SampleCameraExist(void)
 
 int SampleCameraManager::SampleCameraStart(Surface *surface)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->StartPreview(surface);
@@ -674,7 +674,7 @@ int SampleCameraManager::SampleCameraStop(void)
 
 int SampleCameraManager::SampleCameraCaptrue(int type)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->Capture(type);
@@ -683,7 +683,7 @@ int SampleCameraManager::SampleCameraCaptrue(int type)
 
 int SampleCameraManager::SampleCameraStartRecord(Surface *surface)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->StartRecord(surface);
@@ -692,7 +692,7 @@ int SampleCameraManager::SampleCameraStartRecord(Surface *surface)
 
 int SampleCameraManager::SampleCameraPauseRecord(void)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->SetPause();
@@ -701,7 +701,7 @@ int SampleCameraManager::SampleCameraPauseRecord(void)
 
 int SampleCameraManager::SampleCameraResumeRecord(Surface *mSurface)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->SetResume(mSurface);
@@ -710,7 +710,7 @@ int SampleCameraManager::SampleCameraResumeRecord(Surface *mSurface)
 
 int SampleCameraManager::SampleCameraStopRecord(void)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return -1;
     }
     CamStateMng->SetStop(0);
@@ -718,7 +718,7 @@ int SampleCameraManager::SampleCameraStopRecord(void)
 }
 bool SampleCameraManager::SampleCameraGetRecord(void)
 {
-    if (CamStateMng == NULL) {
+    if (CamStateMng == nullptr) {
         return false;
     }
     return CamStateMng->RecordState();
