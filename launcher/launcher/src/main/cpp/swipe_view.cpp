@@ -130,7 +130,7 @@ void SwipeView::OnSetUpView()
                 if (memcmp(SCREENSAVER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
                     break;
                 }
-				if (pBundleInfos[j].abilityInfos->abilityType == SERVICE) {
+                if (pBundleInfos[j].abilityInfos->abilityType == SERVICE) {
                     break;
                 }
                 AppInfo* app = new AppInfo();
