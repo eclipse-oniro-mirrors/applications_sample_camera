@@ -32,7 +32,6 @@ shared_library("setting") {
     "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
     "//base/startup/syspara_lite/frameworks/parameter:parameter",
     "//base/powermgr/powermgr_lite/frameworks:powermgr",
-    "//foundation/communication/ipc_lite:liteipc_adapter",
     "//foundation/distributedschedule/samgr_lite/samgr:samgr",
     "//foundation/graphic/surface",
     "//foundation/graphic/ui:lite_ui",
