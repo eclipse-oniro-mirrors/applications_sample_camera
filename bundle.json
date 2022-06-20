@@ -22,7 +22,7 @@
         "deps": {
             "components": [
                 "ability_lite",
-                "appexecfwk_lite",
+                "bundle_framework_lite",
                 "surface",
                 "ui",
                 "graphic_utils",
