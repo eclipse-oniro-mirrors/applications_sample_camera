@@ -31,7 +31,6 @@
                 "camera_lite",
                 "media_lite",
                 "permission",
-                "ipc_lite",
                 "samgr_lite",
                 "utils_base"
             ],
