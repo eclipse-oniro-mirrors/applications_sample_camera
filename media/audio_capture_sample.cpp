@@ -309,7 +309,7 @@ int main(int argc, char *argv[])
     g_audioSourceProcessInput.buffer = new uint8_t[g_audioSourceProcessInput.framesize];
 
     RumCmd(audioCap);
-EXIT:
+
     audioCap.Release();
     delete g_audioSourceProcessInput.buffer;
     g_audioSourceProcessInput.buffer = nullptr;
