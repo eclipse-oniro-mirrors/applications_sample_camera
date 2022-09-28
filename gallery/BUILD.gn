@@ -67,7 +67,7 @@ hap_pack("gallery_hap") {
   json_path = "config.json"
   ability_so_path = "$root_out_dir/libgallery.so"
   force = "true"
-  cert_profile = "cert/gallery_HarmonyAppProvision_Release.p7b"
+  cert_profile = "cert/gallery_AppProvision_Release.p7b"
   resources_path = "resources"
   hap_name = "gallery"
   privatekey = "HOS Application Provision Release"
