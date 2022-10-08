@@ -60,7 +60,7 @@ hap_pack("cameraApp_hap") {
   json_path = "cameraApp/src/main/config.json"
   ability_so_path = "$root_out_dir/libcameraApp.so"
   force = "true"
-  cert_profile = "cert/camera_HarmonyAppProvision_Release.p7b"
+  cert_profile = "cert/camera_AppProvision_Release.p7b"
   resources_path = "cameraApp/src/main/resources"
   hap_name = "cameraApp"
   privatekey = "HOS Application Provision Release"
