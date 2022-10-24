@@ -347,7 +347,7 @@ static void CliRecvPending(void)
             pendingResult = wpa_ctrl_pending(g_monitorConn);
         }
     }
-    pthread_mutex_lock(&g_monitorConnMutex);
+    pthread_mutex_unlock(&g_monitorConnMutex);
 }
 
 static void* MonitorTask(void *args)
