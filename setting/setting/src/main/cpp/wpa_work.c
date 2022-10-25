@@ -50,16 +50,6 @@ static pthread_t g_scanThreadId = 0;
 static int g_scanAvailable = 0;
 static int g_Connect = 0;
 
-static void DumpString(const char *buf, int len, const char *tag)
-{
-    SAMPLE_INFO("%s dump start.", tag);
-    for (int i = 0; i < len; i++) {
-        printf("%c", buf[i]);
-    }
-    printf("\n\n");
-    SAMPLE_INFO("%s dump end.", tag);
-}
-
 static int StrMatch(const char *a, const char *b)
 {
     return strncmp(a, b, strlen(b)) == 0;
@@ -83,7 +73,6 @@ static int SendCtrlCommand(const char *cmd, char *reply, size_t *replyLen)
     }
     size_t len = *replyLen - 1;
     wpa_ctrl_request(ctrlConn, cmd, strlen(cmd), reply, &len, 0);
-    DumpString(reply, len, "SendCtrlCommand raw return");
     if (ctrlConn != NULL) {
         wpa_ctrl_close(ctrlConn);
         ctrlConn = NULL;
@@ -148,7 +137,6 @@ int GetCurrentConnInfo(char *ssid, int len)
         printf("[ERROR]GetCurrentConnInfo Command(STATUS) Error \n");
         return -1;
     }
-    DumpString(connInfo, infoLen, "connInfo");
     printf("[LOG]end the DumpStrint\n");
     char *pos = strstr(connInfo, "ssid=");
     if (pos == NULL) {
@@ -336,7 +324,6 @@ static void CliRecvPending(void)
         if (g_monitorConn != NULL) {
             if (wpa_ctrl_recv(g_monitorConn, buf, &len) == 0) {
                 buf[len] = '\0';
-                SAMPLE_INFO("event received %s", buf);
                 WifiEventHandler(buf, len);
             } else {
                 SAMPLE_INFO("could not read pending message.");
