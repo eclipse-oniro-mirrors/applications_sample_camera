@@ -117,9 +117,6 @@ void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)
         printf("[ERROR]strcpy_s pBundleInfo.bundleName failed, err = %d\n", err);
         return;
     }
-    for (size_t i = 0; i < strlen(pBundleInfo.bundleName); i++) {
-        buff[i] = pBundleInfo.bundleName[i];
-    }
     SetAppButtonListener(pBundleInfo.bundleName);
     itemView->SetOnClickListener(buttonAppInfoListener_);
     scrollView_->Add(itemView);

@@ -81,10 +81,10 @@ public:
     void InstallApp(AppInfo* app);
     void Callback() override
     {
-        char tmp[TMP_BUF_SIZE] = { 0 };
         time_t t = time(nullptr);
         struct tm* st = localtime(&t);
         if (st != nullptr) {
+            char tmp[TMP_BUF_SIZE] = {0};
             int ret = sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
             if (ret != LAUNCHER_PARAMERROR) {
                 lableTitle_->SetText(tmp);

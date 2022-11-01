@@ -38,7 +38,7 @@ public:
     bool InstallApp(AppInfo* app);
     bool UnInstallApp(AppInfo* app);
     bool StartApp(AppInfo* app);
-    static void SetViewGroup(funcClick click, funcLongPress press, ViewGroupPage* arrPage[MAX_VIEWGROUP], int size);
+    static void SetViewGroup(funcClick click, funcLongPress press, ViewGroupPage* viewPage[MAX_VIEWGROUP], int size);
 
 private:
     static void MyBundleStateCallback(const uint8_t installType, const uint8_t resultCode, const void* resultMessage,
