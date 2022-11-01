@@ -123,7 +123,7 @@ private:
 
     void PermissionInfoList();
     void SetAppPermissionInfo(int index, PermissionSaved& permissions);
-    char bundleName_[128];
+    char bundleName_[128] = {0};
 
 };
 } // namespace OHOS

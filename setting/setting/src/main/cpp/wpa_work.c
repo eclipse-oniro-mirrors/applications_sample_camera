@@ -451,10 +451,9 @@ int InitControlInterface()
 void* WpaScanThread(void *args)
 {
     int mySleep = 2;
-    int ret = 0;
     sleep(mySleep);
     if (g_monitorConn == NULL) {
-        ret = InitControlInterface();
+        int ret = InitControlInterface();
         printf("%s:%d [INFO] InitControlInterface return %d.\n", __FUNCTION__, __LINE__, ret);
         if (ret == -1) {
             return NULL;
