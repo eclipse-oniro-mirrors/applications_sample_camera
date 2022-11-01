@@ -30,10 +30,7 @@ public:
     ~EventListener() override = default;
 
     EventListener(OnEventFunc onClick, OnEventFunc onLongPress)
-    {
-        onClick_ = std::move(onClick);
-        onLongPress_ = std::move(onLongPress);
-    }
+        : onClick_(std::move(onClick)), onLongPress_(std::move(onLongPress)) {}
 
     bool OnClick(UIView& view, const ClickEvent &event) override
     {

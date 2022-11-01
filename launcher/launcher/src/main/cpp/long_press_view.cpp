@@ -92,8 +92,6 @@ bool LongPressView::OnClick(UIView& view, const ClickEvent& event)
     if (currentView == nullptr) {
         return false;
     }
-    UILabelButton* lbutt = nullptr;
-    lbutt = static_cast<UILabelButton*>(currentView);
     RemoveLview();
     if (currentView == buttUninstall_) {
         uninstall_(app_);
