@@ -43,7 +43,7 @@ public:
     explicit TimeWeatherView(UIViewGroup* viewGroup);
     virtual ~TimeWeatherView();
     void SetStyle(Style sty);
-    void SetPosion(int16_t width, int16_t height, int16_t x, int16_t y);
+    void SetPosion(int16_t x, int16_t y, int16_t height, int16_t width);
     void SetUpView();
     void SetUpTimeView();
 

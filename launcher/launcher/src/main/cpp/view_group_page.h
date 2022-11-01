@@ -33,8 +33,8 @@ public:
     virtual ~ViewGroupPage();
     void SetMatrix(int16_t rows, int16_t cols);
     bool AddApp(AppInfo* pAppInfo);
-    bool RemoveApp(const char* appName);
-    bool FindApp(AppInfo* pAppInfo);
+    bool RemoveApp(const char* pAppName);
+    bool FindApp(AppInfo* pApp);
     void SetScale(double scale);
 
 protected:
