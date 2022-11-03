@@ -104,10 +104,9 @@ private:
 
 class SampleCameraManager {
 public:
-    SampleCameraManager()
+    SampleCameraManager():camId("")
     {
         camKit = nullptr;
-        camId = "";
         CamStateMng = nullptr;
     }
     ~SampleCameraManager();
