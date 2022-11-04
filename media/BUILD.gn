@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/lite/config/component/lite_component.gni")
-import("//foundation/multimedia/utils/lite/config.gni")
+import("//foundation/multimedia/media_utils_lite/config.gni")
 
 executable("camera_sample") {
   sources = [ "camera_sample.cpp" ]
@@ -36,7 +36,7 @@ executable("audio_capture_sample") {
   cflags_cc = cflags
 
   include_dirs = [ "//foundation/multimedia/audio_lite/interfaces/kits" ]
-  include_dirs += [ "//foundation/multimedia/utils/lite/interfaces/kits" ]
+  include_dirs += [ "//foundation/multimedia/media_utils_lite/interfaces/kits" ]
 
   ldflags = [ "-lstdc++" ]
   ldflags += [ "-lpthread" ]
