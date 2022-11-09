@@ -95,9 +95,11 @@ void SampleCameraStateMng::OnCreated(Camera &c)
     std::unique_lock<std::mutex> lock(g_mutex);
     printf("Sample recv OnCreate camera.\n");
     auto config = CameraConfig::CreateCameraConfig();
-    if (config != nullptr) {
-        config->SetFrameStateCallback(&fsCb_, &eventHdlr_);
+    if (config == nullptr) {
+        cout << "New object failed." << endl;
+        return;
     }
+    config->SetFrameStateCallback(&fsCb_, &eventHdlr_);
     c.Configure(*config);
     cam_ = &c;
     g_cv.notify_all();
