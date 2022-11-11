@@ -21,14 +21,14 @@ executable("kws_app") {
   cflags = [ "-Wall" ]
   cflags_cc = cflags
   include_dirs = [
-    "//foundation/ai/engine/services/common/platform/os_wrapper/audio_loader/include",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/audio_loader/include/codec",
-    "//foundation/ai/engine/interfaces/kits/asr/keyword_spotting",
-    "//foundation/ai/engine/interfaces/kits",
+    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/audio_loader/include",
+    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/audio_loader/include/codec",
+    "//foundation/ai/ai_engine/interfaces/kits/asr/keyword_spotting",
+    "//foundation/ai/ai_engine/interfaces/kits",
     "//foundation/multimedia/interfaces/kits/audio_lite",
-    "//foundation/ai/engine/services/common/utils",
-    "//foundation/ai/engine/services/common/platform/utils",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/utils",
+    "//foundation/ai/ai_engine/services/common/utils",
+    "//foundation/ai/ai_engine/services/common/platform/utils",
+    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/utils",
     "//third_party/bounds_checking_function/include",
   ]
   ldflags = [
@@ -37,8 +37,8 @@ executable("kws_app") {
     "-lcodec",
   ]
   deps = [
-    "//foundation/ai/engine/services/client/algorithm_sdk/asr:asr",
-    "//foundation/ai/engine/services/common/platform/os_wrapper/audio_loader:audio_loader",
+    "//foundation/ai/ai_engine/services/client/algorithm_sdk/asr:asr",
+    "//foundation/ai/ai_engine/services/common/platform/os_wrapper/audio_loader:audio_loader",
     "//foundation/multimedia/audio_lite/frameworks:audio_capturer_lite",
     "//foundation/multimedia/utils/lite:media_common",
     "//third_party/bounds_checking_function:libsec_static",

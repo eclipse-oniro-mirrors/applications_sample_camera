@@ -28,9 +28,9 @@ executable("ic_app") {
   cflags_cc = cflags
   include_dirs = [
     "//third_party/libjpeg",
-    "//foundation/ai/engine/interfaces/kits",
-    "//foundation/ai/engine/interfaces/kits/cv/image_classification",
-    "//foundation/ai/engine/services/client/algorithm_sdk/cv/image_classification/include",
+    "//foundation/ai/ai_engine/interfaces/kits",
+    "//foundation/ai/ai_engine/interfaces/kits/cv/image_classification",
+    "//foundation/ai/ai_engine/services/client/algorithm_sdk/cv/image_classification/include",
     "//foundation/multimedia/media_lite/interfaces/kits/recorder_lite",
   ]
 
@@ -39,7 +39,7 @@ executable("ic_app") {
   ldflags += [ "-Wl,-rpath-link=$ohos_root_path/$root_out_dir" ]
 
   deps = [
-    "//foundation/ai/engine/services/client/algorithm_sdk/cv/image_classification:image_classification_sdk",
+    "//foundation/ai/ai_engine/services/client/algorithm_sdk/cv/image_classification:image_classification_sdk",
     "//foundation/multimedia/camera_lite/frameworks:camera_lite",
     "//foundation/multimedia/media_lite/frameworks/recorder_lite:recorder_lite",
     "//third_party/libjpeg",
