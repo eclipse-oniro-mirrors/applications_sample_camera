@@ -58,11 +58,7 @@ static int32_t SampleDealThumb(char* psrc, uint32_t srcSize, uint32_t* dstSize, 
                 }
             }
             if (0 == memcmp(tempbuf + bufpos - 1, endflag, sizeof(endflag))) {
-                if (u16THMLen == s32I) {
-                    endpos = s32I;
-                } else {
-                    endpos = s32I;
-                }
+                endpos = s32I;
                 break;
             }
         }
@@ -407,7 +403,7 @@ SampleCameraStateMng::~SampleCameraStateMng()
         recorder_->Release();
         delete recorder_;
     }
-    if (gRecFd_ >= 0) {
+    if (gRecFd_ > 0) {
         FILE *fp = fdopen(gRecFd_, "w+");
         if (fp) {
             fflush(fp);
@@ -614,10 +610,11 @@ int SampleCameraManager::SampleCameraCreate()
     }
 
     list<string> camList = camKit->GetCameraIds();
-    for (auto &cam : camList) {
-        camId = cam;
-        break;
+    if (camList.size() == 0) {
+        cout << "SampleCameraCreate camList.size() = 0" << endl;
+        return -1;
     }
+    camId = camList.front();
 
     if (camId.empty()) {
         cout << "No available camera.(1080p wanted)" << endl;
