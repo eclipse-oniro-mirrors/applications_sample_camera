@@ -40,7 +40,7 @@ executable("kws_app") {
     "//foundation/ai/ai_engine/services/client/algorithm_sdk/asr:asr",
     "//foundation/ai/ai_engine/services/common/platform/os_wrapper/audio_loader:audio_loader",
     "//foundation/multimedia/audio_lite/frameworks:audio_capturer_lite",
-    "//foundation/multimedia/utils/lite:media_common",
+    "//foundation/multimedia/media_utils_lite:media_common",
     "//third_party/bounds_checking_function:libsec_static",
   ]
   output_dir = "$root_out_dir/dev_tools"
