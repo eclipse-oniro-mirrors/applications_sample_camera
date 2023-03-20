@@ -34,7 +34,7 @@ SettingWifiAbilitySlice::SettingWifiAbilitySlice()
 SettingWifiAbilitySlice::~SettingWifiAbilitySlice()
 {
     if (wpaCount_ == 1) {
-        printf("%s:%d call ExitWpa, this %p\n", __FUNCTION__, __LINE__, this);
+        printf("%s:%d call ExitWpa\n", __FUNCTION__, __LINE__);
         ExitWpa();
         ExitWpaScan();
         wpaCount_ = 0;
@@ -230,7 +230,7 @@ void SettingWifiAbilitySlice::Callback()
 void SettingWifiAbilitySlice::OnStart(const Want& want)
 {
     if (wpaCount_ == 0) {
-        printf("%s:%d call WpaClientStart, this %p\n", __FUNCTION__, __LINE__, this);
+        printf("%s:%d call WpaClientStart\n", __FUNCTION__, __LINE__);
         WpaClientStart();
         WpaScanReconnect(nullptr, nullptr, HIDDEN_CLOSE);
         wpaCount_ = 1;
@@ -269,7 +269,7 @@ void SettingWifiAbilitySlice::OnStop()
 {
     AbilitySlice::OnStop();
     if (wpaCount_ == 1) {
-        printf("%s:%d call ExitWpa, this %p\n", __FUNCTION__, __LINE__, this);
+        printf("%s:%d call ExitWpa,\n", __FUNCTION__, __LINE__);
         ExitWpa();
         ExitWpaScan();
         wpaCount_ = 0;
