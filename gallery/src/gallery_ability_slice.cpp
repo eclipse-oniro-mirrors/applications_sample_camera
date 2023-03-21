@@ -62,7 +62,7 @@ void GalleryAbilitySlice::Clear()
     ClearThumb();
 
     if (rootView_ != nullptr) {
-        RootView::DestoryWindowRootView(rootView_);
+        RootView::DestroyWindowRootView(rootView_);
         rootView_ = nullptr;
     }
     printf("GalleryAbilitySlice::Clear() | end \n");
