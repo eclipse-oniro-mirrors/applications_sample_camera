@@ -138,7 +138,7 @@ void TimeWeatherView::GetWeekdayByYearday(int iY, int iM, int iD, char* date, in
         iY--;
     }
     // 1 : MONDAY_LAUNCHER, 2 : TUESDAY_LAUNCHER, 3 : WEDNESDAY_LAUNCHER, 4 : , 5 : ect
-    iWeekDay = (iD + 1 + 2 * iM + 3 * (iM + 1) / 5 + iY + iY / 4 - iY / oneHundred + iY / fourHundred) % WEEKEND_LAUNCHER;
+    iWeekDay = (iD + 1 + 2*iM + 3*(iM + 1)/5 + iY + iY/4 - iY/oneHundred + iY/fourHundred) % WEEKEND_LAUNCHER;
     for (int i = 0; i < WEEK_DAY_MAX; i++) {
         if (iWeekDay == i) {
             if (memcpy_s(date, size, g_weekDate[i], strlen(g_weekDate[i])) == LAUNCHER_SUCCESS) {
