@@ -45,7 +45,7 @@ public:
         Task::Init();
     }
 
-    virtual ~TaskView(){}
+    virtual ~TaskView() {}
     void TaskStart(void)
     {
         Task::SetPeriod(1000);    /* 1000=1s */
@@ -90,8 +90,8 @@ private:
         char buff[20] = { 0 };
 
         if (timeLabel_ == nullptr) return;
-
-        sprintf_s(buff, sizeof(buff), "%02d : %02d", ss / 60, ss % 60);     /* 60=1s */
+        int temp = 0
+        temp = sprintf_s(buff, sizeof(buff), "%02d : %02d", ss / 60, ss % 60);     /* 60=1s */
         timeLabel_->SetText(buff);
     }
 };
