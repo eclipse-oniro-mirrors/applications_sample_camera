@@ -92,6 +92,7 @@ private:
         if (timeLabel_ == nullptr) return;
         int temp = 0;
         temp = sprintf_s(buff, sizeof(buff), "%02d : %02d", ss / 60, ss % 60);     /* 60=1s */
+        printf("result is ", temp)
         timeLabel_->SetText(buff);
     }
 };
