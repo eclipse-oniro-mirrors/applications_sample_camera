@@ -41,7 +41,6 @@ void SettingMainAbility::OnBackground()
 
 void SettingMainAbility::OnStop()
 {
-
     Ability::OnStop();
 }
 } // namespace OHOS
