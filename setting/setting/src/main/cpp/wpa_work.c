@@ -489,7 +489,8 @@ static void *ThreadMain()
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
     arg[++i] = (char *)"-c";
-    arg[++i] = (char *)"/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/element/wpa_supplicant.conf";
+    arg[++i] = (char *)"/storage/app/run/com.huawei.setting/setting/assets/\
+                        setting/resources/base/element/wpa_supplicant.conf";
 
     for (i = 0; i < myfor; i++) {
         printf("[LOG]arg[%d]->%s \n", i, arg[i]);
