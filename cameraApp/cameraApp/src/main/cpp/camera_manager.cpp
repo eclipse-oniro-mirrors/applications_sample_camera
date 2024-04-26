@@ -614,8 +614,8 @@ int SampleCameraManager::SampleCameraCreate()
         cout << "SampleCameraCreate camList.size() = 0" << endl;
         return -1;
     }
-    camId = camList.front();
 
+    camId = camList.front();
     if (camId.empty()) {
         cout << "No available camera.(1080p wanted)" << endl;
         printf("No available camera.(1080p wanted)####################### \n");
