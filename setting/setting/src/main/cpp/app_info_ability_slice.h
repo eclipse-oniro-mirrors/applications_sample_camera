@@ -49,11 +49,11 @@ public:
         togglebutton_ = togglebutton;
     }
 
-    virtual ~ToggBtnOnListener(){}
+    virtual ~ToggBtnOnListener() {}
 
     void SetPermissionName(const char* permissionsName, int nameLenght)
     {
-        int ret;
+        int ret = 0;
         ret = memcpy_s(name_, sizeof(name_), permissionsName, nameLenght);
         if (ret != EOK) {
             printf("[ERR] memcpy_s func[SetToggleButton]\n");
@@ -64,7 +64,7 @@ public:
 
     void SetBundleName(const char* bundleName, int nameLength)
     {
-        int ret;
+        int ret = 0;
         ret = memcpy_s(bundleName_, sizeof(bundleName_), bundleName, nameLength);
         if (ret != EOK) {
             printf("[ERR] memcpy_s func[SetBundleName]\n");
@@ -124,7 +124,6 @@ private:
     void PermissionInfoList();
     void SetAppPermissionInfo(int index, PermissionSaved& permissions);
     char bundleName_[128] = {0};
-
 };
 } // namespace OHOS
 #endif
