@@ -185,8 +185,7 @@ void SettingWifiInputPasswordAbilitySlice::AddInputKeyBoardZero(void)
     inputButton->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     inputButton->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
 
-    clickLeftListener_ = new TestBtnOnClickInputPasswordChangeListener((UILabel*)lablelInputText_, 
-                            (UILabel*)lablelCursorText_, inputNum, CURSOR_POSITION_OFFSET);
+    clickLeftListener_ = new TestBtnOnClickInputPasswordChangeListener((UILabel*)lablelInputText_, (UILabel*)lablelCursorText_, inputNum,CURSOR_POSITION_OFFSET);
     inputButton->SetOnClickListener(clickLeftListener_);
     scrollView_->Add(inputButton);
 }
