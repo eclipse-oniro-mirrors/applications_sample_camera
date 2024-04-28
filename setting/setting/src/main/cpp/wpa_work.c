@@ -15,7 +15,7 @@
 
 #include "wpa_work.h"
 #include <sys/prctl.h>
-#include <cstring>
+#include <string.h>
 
 #define WPA_IFACE_NAME "wlan0"
 #define WIFI_AUTH_FAILED_REASON_STR "WRONG_KEY"
