@@ -126,7 +126,7 @@ void SwipeView::OnSetUpView()
     int count = 0;
     if (appManage_->LauncherApp(&pBundleInfos, count)) {
         for (int j = 0; j < count; j++) {
-            for (int i = 0; i < groupCount; i++) {
+            for (int i = 0; i < groupCount_; i++) {
                 if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
                     break;
                 }
