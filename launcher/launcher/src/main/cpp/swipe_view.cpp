@@ -125,47 +125,42 @@ void SwipeView::OnSetUpView()
     BundleInfo* pBundleInfos = nullptr;
     int count = 0;
     if (appManage_->LauncherApp(&pBundleInfos, count)) {
-        BundleInfoScan(&pBundleInfos, count, groupCount_, AppEvent, AppInfo)
-    }
-    swipe_->SetCurrentPage(0);
-}
-
-void BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount, AppEvent, AppInfo)
-{
-    for (int j = 0; j < count; j++) {
-        for (int i = 0; i < groupCount; i++) {
-            if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
-                break;
-            }
-            if (memcmp(SCREENSAVER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
-                break;
-            }
-            if (pBundleInfos[j].abilityInfos->abilityType == SERVICE) {
-                break;
-            }
-            AppInfo* app = new AppInfo();
-            app->funcclick_ = AppEvent::ClickEvent;
-            app->funclPress_ = AppEvent::LongPressEvent;
-            if (pBundleInfos[j].bundleName) {
-                (void)memcpy_s(app->appName_, sizeof(app->appName_), pBundleInfos[j].bundleName,
-                    strlen(pBundleInfos[j].bundleName));
-                app->appName_[strlen(pBundleInfos[j].bundleName)] = 0;
-            }
-            if (pBundleInfos[j].abilityInfos[0].name) {
-                (void)memcpy_s(app->abilityName_, sizeof(app->abilityName_), pBundleInfos[j].abilityInfos[0].name,
-                    strlen(pBundleInfos[j].abilityInfos[0].name));
-                app->abilityName_[strlen(pBundleInfos[j].abilityInfos[0].name)] = 0;
-            }
-            if (pBundleInfos[j].bigIconPath) {
-                (void)memcpy_s(app->appIconDir_, sizeof(app->appIconDir_), pBundleInfos[j].bigIconPath,
-                    strlen(pBundleInfos[j].bigIconPath));
-                app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
-            }
-            if (arrPage_[i]->AddApp(app)) {
-                break;
+        for (int j = 0; j < count; j++) {
+            for (int i = 0; i < groupCount; i++) {
+                if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
+                    break;
+                }
+                if (memcmp(SCREENSAVER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
+                    break;
+                }
+                if (pBundleInfos[j].abilityInfos->abilityType == SERVICE) {
+                    break;
+                }
+                AppInfo* app = new AppInfo();
+                app->funcclick_ = AppEvent::ClickEvent;
+                app->funclPress_ = AppEvent::LongPressEvent;
+                if (pBundleInfos[j].bundleName) {
+                    (void)memcpy_s(app->appName_, sizeof(app->appName_), pBundleInfos[j].bundleName,
+                        strlen(pBundleInfos[j].bundleName));
+                    app->appName_[strlen(pBundleInfos[j].bundleName)] = 0;
+                }
+                if (pBundleInfos[j].abilityInfos[0].name) {
+                    (void)memcpy_s(app->abilityName_, sizeof(app->abilityName_), pBundleInfos[j].abilityInfos[0].name,
+                        strlen(pBundleInfos[j].abilityInfos[0].name));
+                    app->abilityName_[strlen(pBundleInfos[j].abilityInfos[0].name)] = 0;
+                }
+                if (pBundleInfos[j].bigIconPath) {
+                    (void)memcpy_s(app->appIconDir_, sizeof(app->appIconDir_), pBundleInfos[j].bigIconPath,
+                        strlen(pBundleInfos[j].bigIconPath));
+                    app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
+                }
+                if (arrPage_[i]->AddApp(app)) {
+                    break;
+                }
             }
         }
     }
+    swipe_->SetCurrentPage(0);
 }
 
 void SwipeView::StartApp(AppInfo* app)
