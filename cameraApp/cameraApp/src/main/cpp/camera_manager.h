@@ -49,7 +49,7 @@ typedef enum {
 class TestFrameStateCallback : public FrameStateCallback {
 public:
     TestFrameStateCallback() : gPhotoType_(0), gIsFinished_(false) {}
-    ~TestFrameStateCallback(){}
+    ~TestFrameStateCallback() {}
 
     void OnFrameFinished(Camera &camera, FrameConfig &fc, FrameResult &result) override;
     void SetPhotoType(int type);

@@ -149,7 +149,7 @@ public:
             tmLabel = nullptr;
             bttnIdx_ = 0;
         }
-    virtual ~CameraImageButtonOnClickListener(){}
+    virtual ~CameraImageButtonOnClickListener() {}
 
     bool OnClick(UIView &view, const ClickEvent &event) override
     {
