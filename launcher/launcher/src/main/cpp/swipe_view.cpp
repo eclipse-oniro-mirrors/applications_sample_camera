@@ -125,7 +125,7 @@ void SwipeView::OnSetUpView()
     BundleInfo* pBundleInfos = nullptr;
     int count = 0;
     if (appManage_->LauncherApp(&pBundleInfos, count)) {
-        BundleInfoScan(pBundleInfos, count, groupCount_)
+        BundleInfoScan(pBundleInfos, count, groupCount_);
     }
     swipe_->SetCurrentPage(0);
 }
