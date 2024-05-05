@@ -114,8 +114,8 @@ void SwipeView::OnSetUpView()
     AddViewGroup();
     AddViewGroup();
     // Reserved. Touch and hold to add a page.
-    arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
-    arrPage_[0]->SetScale(0.6);    // 0.6 blank/icon width
+    //arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
+    //arrPage_[0]->SetScale(0.6);    // 0.6 blank/icon width
     for (int16_t i = 1; i < groupCount_; i++) {
         arrPage_[i]->SetMatrix(APP_ROW_COUNT, 2 * APP_COL_COUNT); // 2 scale of first view's col count
         arrPage_[i]->SetScale(0.69);    // 0.69 blank/icon width
@@ -132,6 +132,8 @@ void SwipeView::OnSetUpView()
 
 void BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount)
 {
+    arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
+    arrPage_[0]->SetScale(0.6);
     for (int j = 0; j < count; j++) {
         for (int i = 0; i < groupCount; i++) {
             if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
