@@ -130,10 +130,10 @@ void SwipeView::OnSetUpView()
     swipe_->SetCurrentPage(0);
 }
 
-void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount, ViewGroupPage* arrPage_[MAX_VIEWGROUP])
+void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage_[MAX_VIEWGROUP])
 {
-    for (int j = 0; j < count; j++) {
-        for (int i = 0; i < groupCount; i++) {
+    for (int j = 0; j < cnt; j++) {
+        for (int i = 0; i < gCount; i++) {
             if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
                 break;
             }
