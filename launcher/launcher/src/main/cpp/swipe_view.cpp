@@ -125,15 +125,15 @@ void SwipeView::OnSetUpView()
     BundleInfo* pBundleInfos = nullptr;
     int count = 0;
     if (appManage_->LauncherApp(&pBundleInfos, count)) {
-        BundleInfoScan(pBundleInfos, count, groupCount_, arrPage_[MAX_VIEWGROUP]);
+        BundleInfoScan(pBundleInfos, count);
     }
     swipe_->SetCurrentPage(0);
 }
 
-void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage[3])
+void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count)
 {
-    for (int j = 0; j < cnt; j++) {
-        for (int i = 0; i < gCount; i++) {
+    for (int j = 0; j < count; j++) {
+        for (int i = 0; i < groupCount_; i++) {
             if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
                 break;
             }
@@ -161,7 +161,7 @@ void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, Vi
                     strlen(pBundleInfos[j].bigIconPath));
                 app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
             }
-            if (arrPage[i]->AddApp(app)) {
+            if (arrPage_[i]->AddApp(app)) {
                 break;
             }
         }
