@@ -75,6 +75,7 @@ public:
     SwipeView(UILabel* titlellable, UILabel* taillable);
     virtual ~SwipeView();
     void OnSetUpView();
+    void BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount, ViewGroupPage* arrPage_[MAX_VIEWGROUP]);
     void StartApp(AppInfo* app);
     void ShowLongPressView(AppInfo* app);
     void UninstallApp(AppInfo* app);
