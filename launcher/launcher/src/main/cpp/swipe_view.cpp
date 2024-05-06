@@ -130,7 +130,7 @@ void SwipeView::OnSetUpView()
     swipe_->SetCurrentPage(0);
 }
 
-void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage_[MAX_VIEWGROUP])
+void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage_[3])
 {
     for (int j = 0; j < cnt; j++) {
         for (int i = 0; i < gCount; i++) {
