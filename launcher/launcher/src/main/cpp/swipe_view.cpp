@@ -130,7 +130,7 @@ void SwipeView::OnSetUpView()
     swipe_->SetCurrentPage(0);
 }
 
-void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage_[3])
+void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, ViewGroupPage* arrPage[3])
 {
     for (int j = 0; j < cnt; j++) {
         for (int i = 0; i < gCount; i++) {
@@ -161,7 +161,7 @@ void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int cnt, int gCount, Vi
                     strlen(pBundleInfos[j].bigIconPath));
                 app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
             }
-            if (arrPage_[i]->AddApp(app)) {
+            if (arrPage[i]->AddApp(app)) {
                 break;
             }
         }
