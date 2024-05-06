@@ -113,12 +113,14 @@ void SwipeView::OnSetUpView()
     AddFirstViewGroup();
     AddViewGroup();
     AddViewGroup();
+    double scale0 = 0.6;
+    double scale1 = 0.69;
     // Reserved. Touch and hold to add a page.
     arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
-    arrPage_[0]->SetScale(0.6);
+    arrPage_[0]->SetScale(scale0);
     for (int16_t i = 1; i < groupCount_; i++) {
         arrPage_[i]->SetMatrix(APP_ROW_COUNT, 2 * APP_COL_COUNT); // 2 scale of first view's col count
-        arrPage_[i]->SetScale(0.69);    // 0.69 blank/icon width
+        arrPage_[i]->SetScale(scale1);    // 0.69 blank/icon width
     }
     AppEvent::GetInstance(this);
     AppManage::SetViewGroup(AppEvent::ClickEvent, AppEvent::LongPressEvent, arrPage_, groupCount_);
