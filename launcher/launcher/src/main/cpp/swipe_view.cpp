@@ -124,7 +124,7 @@ void SwipeView::OnSetUpView()
     swipe_->SetCurrentPage(0);
 }
 
-void BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount)
+void BundleInfoScan(BundleInfo* pBundleInfos, int count, int groupCount, ViewGroupPage* arrPage_[MAX_VIEWGROUP])
 {
     arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
     arrPage_[0]->SetScale(0.6);
