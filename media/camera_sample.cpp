@@ -87,6 +87,15 @@ Recorder *SampleCreateRecorder()
     int32_t height = 1080;
     VideoCodecFormat encoder = HEVC;
     Recorder *recorder = new Recorder();
+    HandleVideoAudio(recorder);
+    return recorder;
+
+ERROR:
+    delete recorder;
+    return nullptr;
+}
+
+void HandleVideoAudio(Recorder *recorder) {
     if ((ret = recorder->SetVideoSource(source, sourceId)) != SUCCESS) {
         cout << "SetVideoSource failed." << ret << endl;
         goto ERROR;
@@ -135,11 +144,6 @@ Recorder *SampleCreateRecorder()
         cout << "SetAudioEncodingBitRate failed." << ret << endl;
         goto ERROR;
     }
-    return recorder;
-
-ERROR:
-    delete recorder;
-    return nullptr;
 }
 
 class SampleFrameStateCallback : public FrameStateCallback {
