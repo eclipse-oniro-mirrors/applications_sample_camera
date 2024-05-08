@@ -489,8 +489,8 @@ static void *ThreadMain()
     char argstr1[] = "/storage/app/run/com.huawei.setting/setting/assets";
     char argstr2[] = "/setting/resources/base/element/wpa_supplicant.conf";
     char argstr[120];
-    strcpy_s(argstr, argstr1);
-    strcat_s(argstr, argstr2);
+    strcpy_s(argstr, strlen(argstr1) + 1, argstr1);
+    strcat_s(argstr, strlen(argstr2) + 1, argstr2);
     arg[i] = (char *)"wpa_supplicant";
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
