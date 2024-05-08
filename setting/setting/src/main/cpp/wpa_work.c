@@ -316,7 +316,7 @@ static void CliRecvPending(void)
 {
     int pendingResult = -1;
     pthread_mutex_lock(&g_monitorConnMutex);
-    if (g_monitorConn!= NULL) {
+    if (g_monitorConn != NULL) {
         pendingResult = wpa_ctrl_pending(g_monitorConn);
     }
     while (pendingResult > 0) {
@@ -433,7 +433,7 @@ int InitControlInterface()
 
     ret = -1;
     pthread_mutex_lock(&g_monitorConnMutex);
-    if (g_monitorConn!= NULL) {
+    if (g_monitorConn != NULL) {
         ret = wpa_ctrl_attach(g_monitorConn);
     }
     pthread_mutex_unlock(&g_monitorConnMutex);
@@ -489,8 +489,8 @@ static void *ThreadMain()
     char argstr1[] = "/storage/app/run/com.huawei.setting/setting/assets";
     char argstr2[] = "/setting/resources/base/element/wpa_supplicant.conf";
     char argstr[120];
-    strcpy(argstr, argstr1);
-    strcat(argstr, argstr2);
+    strcpy_s(argstr, strlen(argstr1) + 1, argstr1);
+    strcat_s(argstr, strlen(argstr2) + 1, argstr2);
     arg[i] = (char *)"wpa_supplicant";
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
