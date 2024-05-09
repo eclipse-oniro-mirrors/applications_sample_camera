@@ -15,7 +15,6 @@
 
 #include "wpa_work.h"
 #include <sys/prctl.h>
-#include <string.h>
 
 #define WPA_IFACE_NAME "wlan0"
 #define WIFI_AUTH_FAILED_REASON_STR "WRONG_KEY"
@@ -486,11 +485,13 @@ static void *ThreadMain()
     int i = 0;
     int myfor = 5;
     char *arg[20] = {0};
-    char argstr1[] = "/storage/app/run/com.huawei.setting/setting/assets";
-    char argstr2[] = "/setting/resources/base/element/wpa_supplicant.conf";
+    string argstr1 = "/storage/app/run/com.huawei.setting/setting/assets";
+    string argstr2 = "/setting/resources/base/element/wpa_supplicant.conf";
     char argstr[120];
-    strcpy_s(argstr, strlen(argstr1) + 1, argstr1);
-    strcat_s(argstr, strlen(argstr2) + 1, argstr2);
+    string argstr3 = argstr1 + argstr2;
+    for (int i = 0; i < argstr3.length(); ++i) {
+        argstr[i] = argstr3[i];
+    }
     arg[i] = (char *)"wpa_supplicant";
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
