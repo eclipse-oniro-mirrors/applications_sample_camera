@@ -23,6 +23,7 @@
 #define WIFI_AUTH_FAILED_REASON_CODE "reason=2"
 #define WPA_CTRL_REQUEST_OK "OK"
 #define WPA_CTRL_REQUEST_FAIL "FAIL"
+#define PATH "/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/element/wpa_supplicant.conf"
 
 #define SAMPLE_INFO(format, args...) \
     do { \
@@ -487,18 +488,11 @@ static void *ThreadMain()
     int i = 0;
     int myfor = 5;
     char *arg[20] = {0};
-    string argstr1 = "/storage/app/run/com.huawei.setting/setting/assets";
-    string argstr2 = "/setting/resources/base/element/wpa_supplicant.conf";
-    char argstr[120];
-    string argstr3 = argstr1 + argstr2;
-    for (int i = 0; i < argstr3.length(); ++i) {
-        argstr[i] = argstr3[i];
-    }
     arg[i] = (char *)"wpa_supplicant";
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
     arg[++i] = (char *)"-c";
-    arg[++i] = (char *)argstr;
+    arg[++i] = (char *)PATH;
 
     for (i = 0; i < myfor; i++) {
         printf("[LOG]arg[%d]->%s \n", i, arg[i]);
