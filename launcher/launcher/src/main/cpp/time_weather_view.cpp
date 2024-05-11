@@ -63,14 +63,22 @@ void TimeWeatherView::SetUpTimeView()
     const int16_t commonYear = 1970;
     time_t t = time(nullptr);
     struct tm* st = localtime(&t);
-    if (st == nullptr) { return; }
+    if (st == nullptr) {
+        return;
+    }
     int ret = sprintf_s(hour_min, sizeof(hour_min), "%02d : %02d", st->tm_hour, st->tm_min);
-    if (ret == LAUNCHER_PARAMERROR) { return; }
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
     ret = sprintf_s(mont_day, sizeof(mont_day), "%02d月%02d日", st->tm_mon + january, st->tm_mday);
-    if (ret == LAUNCHER_PARAMERROR) { return; }
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
     GetWeekdayByYearday(st->tm_year + commonYear, st->tm_mon + january, st->tm_mday, week_day, sizeof(week_day));
     ret = sprintf_s(date, sizeof(date), "%s %s", mont_day, week_day);
-    if (ret == LAUNCHER_PARAMERROR) { return; }
+    if (ret == LAUNCHER_PARAMERROR) {
+        return;
+    }
     if (viewTime_ == nullptr) {
         viewTime_ = new UIViewGroup();
         viewTime_->SetPosition(BLANK_TW, BLANK_H, viewGroup_->GetWidth() - BLANK_W,
@@ -103,9 +111,13 @@ void TimeWeatherView::SetUpTimeView()
     } else {
         UILabel* label = nullptr;
         label = static_cast<UILabel*>(viewTime_->GetChildById("labletime"));
-        if (label) { label->SetText(hour_min); }
+        if (label) {
+            label->SetText(hour_min);
+        }
         label = static_cast<UILabel*>(viewTime_->GetChildById("labledate"));
-        if (label) { label->SetText(date); }
+        if (label) {
+            label->SetText(date);
+        }
         viewTime_->Invalidate();
     }
 }
