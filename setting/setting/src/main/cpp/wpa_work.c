@@ -15,13 +15,13 @@
 
 #include "wpa_work.h"
 #include <sys/prctl.h>
-#include <string.h>
 
 #define WPA_IFACE_NAME "wlan0"
 #define WIFI_AUTH_FAILED_REASON_STR "WRONG_KEY"
 #define WIFI_AUTH_FAILED_REASON_CODE "reason=2"
 #define WPA_CTRL_REQUEST_OK "OK"
 #define WPA_CTRL_REQUEST_FAIL "FAIL"
+#define PATH "/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/element/wpa_supplicant.conf"
 
 #define SAMPLE_INFO(format, args...) \
     do { \
@@ -486,16 +486,11 @@ static void *ThreadMain()
     int i = 0;
     int myfor = 5;
     char *arg[20] = {0};
-    char argstr1[] = "/storage/app/run/com.huawei.setting/setting/assets";
-    char argstr2[] = "/setting/resources/base/element/wpa_supplicant.conf";
-    char argstr[120];
-    strcpy_s(argstr, strlen(argstr1) + 1, argstr1);
-    strcat_s(argstr, strlen(argstr2) + 1, argstr2);
     arg[i] = (char *)"wpa_supplicant";
     arg[++i] = (char *)"-i";
     arg[++i] = (char *)"wlan0";
     arg[++i] = (char *)"-c";
-    arg[++i] = (char *)argstr;
+    arg[++i] = (char *)PATH;
 
     for (i = 0; i < myfor; i++) {
         printf("[LOG]arg[%d]->%s \n", i, arg[i]);
