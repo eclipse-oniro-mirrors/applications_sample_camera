@@ -44,7 +44,6 @@
                 "//applications/sample/camera/launcher:launcher_hap",
                 "//applications/sample/camera/cameraApp:cameraApp_hap",
                 "//applications/sample/camera/setting:setting_hap",
-                "//applications/sample/camera/gallery:gallery_hap",
                 "//applications/sample/camera/media:media_sample"
             ],
             "inner_kits": [],
