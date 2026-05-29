@@ -16,7 +16,12 @@
 #ifndef OHOS_GALLERY_CONFIG_H
 #define OHOS_GALLERY_CONFIG_H
 
+#include "components/ui_view_group.h"
+#include "graphic_config.h"
+#define GALLERY_BACKGROUND_COLOR Color::ColorTo32(Color::GetColorFromRGB(0xdd, 0xdd, 0xdd))
+
 namespace OHOS {
+
 /** icon resource file path */
 static const char* const BACK_ICON_PATH = "/gallery/assets/gallery/resources/drawable/ic_back.png";
 static const char* const VIDEO_TAG_ICON_PATH = "/gallery/assets/gallery/resources/drawable/ic_gallery_video_tag.png";
@@ -29,13 +34,13 @@ static constexpr uint16_t MAX_PATH_LENGTH = 512;
 /** thumb, photo, and video folder path */
 static const char* const THUMBNAIL_DIRECTORY = "/userdata/thumb";
 static const char* const PHOTO_DIRECTORY = "/userdata/photo";
-static const char* const VIDEO_SOURCE_DIRECTORY = "/userdata/video";
+static const char* const VIDEO_SOURCE_DIRECTORY = "/userdata/photo";
 
 /** general page configuration */
 static constexpr int ROOT_VIEW_POSITION_X = 0;
 static constexpr int ROOT_VIEW_POSITION_Y = 0;
-static constexpr int ROOT_VIEW_WIDTH = 960;
-static constexpr int ROOT_VIEW_HEIGHT = 480;
+static constexpr int ROOT_VIEW_WIDTH = HORIZONTAL_RESOLUTION;
+static constexpr int ROOT_VIEW_HEIGHT = VERTICAL_RESOLUTION;
 static constexpr uint16_t ROOT_VIEW_OPACITY = 255;
 
 static const char* const FONT_NAME = "SourceHanSansSC-Regular.otf";
@@ -45,18 +50,25 @@ static constexpr int16_t BACK_ICON_POSITION_X = 38;
 static constexpr int16_t BACK_ICON_POSITION_Y = 17;
 
 /** THUMBNAIL */
-static constexpr int16_t THUMBNAIL_RESOLUTION_X = 120;
-static constexpr int16_t THUMBNAIL_RESOLUTION_Y = 120;
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+static constexpr int16_t THUMBNAIL_RESOLUTION_X = 236;
+static constexpr int16_t THUMBNAIL_RESOLUTION_Y = 236;
+#else
+static constexpr int16_t THUMBNAIL_RESOLUTION_X = 156;
+static constexpr int16_t THUMBNAIL_RESOLUTION_Y = 156;
+#endif
 static constexpr int16_t THUMBNAIL_SPACE = 4;
 static constexpr int16_t THUMBNAIL_COLUMN = 3;
 
 static constexpr int16_t VIDEO_TAG_POSITION_X = 10;
 static constexpr int16_t VIDEO_TAG_POSITION_Y = THUMBNAIL_RESOLUTION_Y - 37;
+static constexpr int16_t VIDEO_TAG_WIDTH = 27;
+static constexpr int16_t VIDEO_TAG_HEIGHT = 27;
 
 /** title */
 static constexpr int16_t LABEL_POSITION_X = BACK_ICON_POSITION_X + 60;
 static constexpr int16_t LABEL_POSITION_Y = 0;
-static constexpr int16_t LABEL_WIDTH = 100;
+static constexpr int16_t LABEL_WIDTH = 200;
 static constexpr int16_t LABEL_HEIGHT = 70;
 static constexpr uint16_t GALLERY_FONT_SIZE = 25;
 static constexpr uint16_t GALLERY_DELETE_FONT_SIZE = 22;
@@ -91,5 +103,6 @@ static constexpr uint16_t SLIDER_WIDTH = ROOT_VIEW_WIDTH - SLIDER_X - TOTAL_TIME
 static constexpr uint16_t KNOB_WIDTH = 25;
 
 static constexpr uint16_t PLAYER_FONT_SIZE = 18;
+
 } // namespace OHOS
 #endif // OHOS_GALLERY_CONFIG_H

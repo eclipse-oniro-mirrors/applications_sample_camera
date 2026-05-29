@@ -360,8 +360,8 @@ static int SetSurface(TestSample &sample)
     }
     sample.surface->SetUserData("region_position_x", "0");
     sample.surface->SetUserData("region_position_y", "0");
-    sample.surface->SetUserData("region_width", "480");
-    sample.surface->SetUserData("region_height", "480");
+    sample.surface->SetUserData("region_width", "1920");
+    sample.surface->SetUserData("region_height", "1080");
     int32_t ret = sample.adapter->SetVideoSurface(sample.surface);
     sample.setSurfaceCost = GetCurTimeMs() - begin;
     if (ret != 0) {
@@ -891,9 +891,16 @@ int main(int argc, char **argv)
     PlayProcess(sample);
 
     sleep(1);
+    Format formatSetLayerPriority;
+    int maxLayerPriority = 3;
+    formatSetLayerPriority.PutIntValue(LAYER_PRIORITY, maxLayerPriority);
+    sample.adapter->SetParameter(formatSetLayerPriority);
 
     SampleCmd(sample);
     EndStreamSourceThread(sample);
+    int minLayerPriority = 0;
+    formatSetLayerPriority.PutIntValue(LAYER_PRIORITY, minLayerPriority);
+    sample.adapter->SetParameter(formatSetLayerPriority);
     int32_t ret = sample.adapter->Stop();
     printf("Stop, ret:%d\n", ret);
 

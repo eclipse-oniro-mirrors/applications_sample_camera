@@ -77,6 +77,8 @@ void SettingAboutAbilitySlice::SetHead()
     headView_ = new UIViewGroup();
     rootView_->Add(headView_);
     headView_->SetPosition(DE_HEAD_X, DE_HEAD_Y, DE_HEAD_WIDTH, DE_HEAD_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
     headView_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     headView_->SetTouchable(true);
     headView_->SetOnClickListener(buttonBackListener_);
@@ -112,7 +114,7 @@ void SettingAboutAbilitySlice::SetScrollItem(int count)
     itemView->Add(lablelFontName);
 
     UILabel* lablelFontInfo = new UILabel();
-    lablelFontInfo->SetPosition(ITEM_INFO_X, ITEM_INFO_Y, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    lablelFontInfo->SetPosition(itemInfoX, ITEM_INFO_Y, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     lablelFontInfo->SetText(itemInfo_[count][1]);
     lablelFontInfo->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
     lablelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT);
@@ -126,7 +128,7 @@ void SettingAboutAbilitySlice::SetScroll()
     scrollView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_SCROLL_COLOR);
     scrollView_->SetPosition(DE_SCROLL_X, DE_SCROLL_Y, DE_SCROLL_WIDTH, DE_SCROLL_HEIGHT);
     scrollView_->SetXScrollBarVisible(false);
-    scrollView_->SetYScrollBarVisible(true);
+    scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
     for (int count = 0; count < SCROLL_ITEM_NUM; count++) {
         SetScrollItem(count);

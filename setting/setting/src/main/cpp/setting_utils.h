@@ -17,6 +17,7 @@
 #define OHOS_SETTING_UTILS_H
 
 #include "components/ui_view_group.h"
+#include "graphic_config.h"
 
 namespace OHOS {
 #define DE_IMAGE_BACK "/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/media/back.png"
@@ -28,15 +29,25 @@ namespace OHOS {
 
 #define DE_ROOT_X 0
 #define DE_ROOT_Y 0
-#define DE_ROOT_WIDTH 960
-#define DE_ROOT_HEIGHT 480
+#define DE_ROOT_WIDTH HORIZONTAL_RESOLUTION
+#define DE_ROOT_HEIGHT VERTICAL_RESOLUTION
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_ROOT_BACKGROUND_COLOR Color::ColorTo32(Color::Gray())
+#else
 #define DE_ROOT_BACKGROUND_COLOR Color::ColorTo32(Color::Black())
+#endif
 
 #define DE_SCROLL_X 36
 #define DE_SCROLL_Y 72
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_SCROLL_WIDTH 1840
+#define DE_SCROLL_HEIGHT 1008
+#define DE_SCROLL_COLOR Color::ColorTo32(Color::Gray())
+#else
 #define DE_SCROLL_WIDTH 888
 #define DE_SCROLL_HEIGHT 408
 #define DE_SCROLL_COLOR Color::ColorTo32(Color::Black())
+#endif
 
 #define DE_HEAD_X  0
 #define DE_HEAD_Y  0
@@ -55,7 +66,11 @@ namespace OHOS {
 #define DE_HEAD_TEXT_SIZE 32
 #define DE_HEAD_TEXT_COLOR Color::ColorTo32(Color::White())
 
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_BUTTON_WIDTH 1840
+#else
 #define DE_BUTTON_WIDTH 888
+#endif
 #define DE_BUTTON_HEIGHT 89
 #define DE_BUTTON_BACKGROUND_COLOR Color::ColorTo32(Color::GetColorFromRGB(0x33, 0x33, 0x33))
 #define DE_BUTTON_RADIUS 16
@@ -67,17 +82,29 @@ namespace OHOS {
 #define DE_TITLE_TEXT_SIZE 26
 #define DE_TITLE_TEXT_COLOR Color::ColorTo32(Color::White())
 
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_SUBTITLE_TEXT_WIDTH 600
+#else
 #define DE_SUBTITLE_TEXT_WIDTH 400
+#endif
 #define DE_SUBTITLE_TEXT_HEIGHT 40
 #define DE_SUBTITLE_TEXT_COLOR Color::ColorTo32(Color::GetColorFromRGB(0x9F, 0x9F, 0x9F))
 #define DE_SUBTITLE_TEXT_SIZE 24
 
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_FORWARD_IMG_X 1805
+#else
 #define DE_FORWARD_IMG_X 855
+#endif
 #define DE_FORWARD_IMG_Y 24
 #define DE_FORWARD_IMG_WIDTH 12
 #define DE_FORWARD_IMG_HEIGHT 12
 
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define DE_TOGGLE_BUTTON_X 1776
+#else
 #define DE_TOGGLE_BUTTON_X 816
+#endif
 #define DE_TOGGLE_BUTTON_Y 14
 
 #define DE_ITEM_INTERVAL 95

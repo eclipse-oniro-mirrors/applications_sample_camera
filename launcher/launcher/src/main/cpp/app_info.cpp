@@ -64,7 +64,7 @@ void AppInfo::SetButton(UILabelButton* button)
     button->SetStyle(STYLE_BORDER_RADIUS, BUTTON_RADIUS);
     button->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     button->SetStyle(STYLE_BORDER_OPA, TOTAL_OPACITY);
-    button->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
+    button->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::Black()));
     button->SetImageSrc(appIconDir_, appIconDir_);
     button_ = button;
 }

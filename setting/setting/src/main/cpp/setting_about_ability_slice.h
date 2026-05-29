@@ -60,7 +60,11 @@ private:
     constexpr static int SCROLL_ITEM_NUM = 9;
     const char *itemInfo_[SCROLL_ITEM_NUM][2];
     constexpr static int ITEM_X = 0;
-    constexpr static int ITEM_INFO_X = 465;
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+    constexpr static int itemInfoX = 1225;
+#else
+    constexpr static int itemInfoX = 465;
+#endif
     constexpr static int ITEM_INFO_Y = 36;
 };
 } // namespace OHOS

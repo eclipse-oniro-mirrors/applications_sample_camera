@@ -112,7 +112,9 @@ void MainAbilitySlice::OnStart(const Want& want)
     rootview_->Resize(Screen::GetInstance().GetWidth(), Screen::GetInstance().GetHeight());
     rootview_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     rootview_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x30, 0x30, 0x30)));
-
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+    SetImageView();
+#endif
     SetHead();
     SetTail();
     SetSwipe();

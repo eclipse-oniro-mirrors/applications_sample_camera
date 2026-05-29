@@ -65,6 +65,11 @@ MainAbilitySlice::~MainAbilitySlice()
         delete buttonAboutListener_;
         buttonAboutListener_ = nullptr;
     }
+
+    if (buttonDhcpListener_) {
+        delete buttonDhcpListener_;
+        buttonDhcpListener_ = nullptr;
+    }
 }
 
 void MainAbilitySlice::SetButtonListenerWifi(void)
@@ -128,6 +133,21 @@ void MainAbilitySlice::SetButtonListenerAbout(void)
     buttonAboutListener_ = new EventListener(onClick4, nullptr);
 }
 
+void MainAbilitySlice::SetButtonListenerDhcp(void)
+{
+    auto onClick5 = [this](UIView& view, const Event& event) -> bool {
+        Want want1 = { nullptr };
+        AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("SettingDhcpAbilitySlice");
+        if (nextSlice == nullptr) {
+            printf("[warning]undefined SettingDhcpAbilitySlice\n");
+        } else {
+            Present(*nextSlice, want1);
+        }
+        return true;
+    };
+    buttonDhcpListener_ = new EventListener(onClick5, nullptr);
+}
+
 void MainAbilitySlice::SetHead(void)
 {
     auto toLaunher = [this] (UIView &view, const Event &event) -> bool {
@@ -188,6 +208,29 @@ void MainAbilitySlice::SetWifiButtonView(void)
     lablelFontSsid_->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
     lablelFontSsid_->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
     buttonView->Add(lablelFontSsid_);
+
+    UIImageView* imageView = new UIImageView();
+    imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetSrc(DE_IMAGE_FORWORD);
+    buttonView->Add(imageView);
+}
+
+void MainAbilitySlice::SetDhcpButtonView(void)
+{
+    UIViewGroup* buttonView = new UIViewGroup();
+    buttonView->SetPosition(dhcpButtonX, dhcpButtonY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
+    buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
+    buttonView->SetTouchable(true);
+    buttonView->SetOnClickListener(buttonDhcpListener_);
+    scrollView_->Add(buttonView);
+
+    UILabel* lablelFontDhcp = new UILabel();
+    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, dhcpButtonTextDhcpY, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontDhcp->SetText("DHCP");
+    lablelFontDhcp->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    lablelFontDhcp->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(lablelFontDhcp);
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
@@ -307,9 +350,9 @@ void MainAbilitySlice::SetScrollView()
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
-    SetWifiButtonView();
-    SetAppButtonView();
     SetDisplayButtonView();
+    SetWifiButtonView();
+    SetDhcpButtonView();
     SetAboutButtonView();
 }
 
@@ -320,8 +363,10 @@ void MainAbilitySlice::OnStart(const Want& want)
     SetButtonListenerApp();
     SetButtonListenerDisplay();
     SetButtonListenerAbout();
+    SetButtonListenerDhcp();
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
 
     SetHead();
@@ -336,14 +381,17 @@ void MainAbilitySlice::OnInactive()
 
 void MainAbilitySlice::OnActive(const Want& want)
 {
-    char buff[64] = {0};
-    int ret = GetCurrentConnInfo(buff, sizeof(buff));
-    if (ret == 0) {
-        printf("##### SetText -> %s \n", buff);
-        lablelFontSsid_->SetText(buff);
-    } else {
-        lablelFontSsid_->SetText("未连接");
+    if (lablelFontSsid_) {
+        char buff[64] = {0};
+        int ret = GetCurrentConnInfo(buff, sizeof(buff));
+        if (ret == 0) {
+            printf("##### SetText -> %s \n", buff);
+            lablelFontSsid_->SetText(buff);
+        } else {
+            lablelFontSsid_->SetText("未连接");
+        }
     }
+
     AbilitySlice::OnActive(want);
 }
 

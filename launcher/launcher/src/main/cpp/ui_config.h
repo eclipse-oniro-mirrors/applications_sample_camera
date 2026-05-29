@@ -20,23 +20,24 @@
 #include <securec.h>
 
 namespace OHOS {
-static constexpr int16_t LABLE_TITLE_HEIGHT = 30; // tail lable height
-static constexpr int16_t LABLE_TAIL_HEIGHT = 30;
-static constexpr int16_t APP_WIDTH_COUNT = 7;       // blank + app + blank + app + blank
-static constexpr int16_t APP_HEIGHT_COUNT = 4;      // app + lable + app + lable
-static constexpr int16_t MAX_VIEWGROUP = 3;         // swipe window count
-static constexpr int16_t APP_ROW_COUNT = 2;         // a swipe view app count in row
-static constexpr int16_t APP_COL_COUNT = 3;         // a sswipe view app count in col
-static constexpr int16_t LAUNCHER_FOND_ID = 16;     // other view fond id
-static constexpr int16_t APP_FOND_ID = 16;          // app name fond id
-static constexpr int16_t BIGLAUNCHER_FOND_ID = 48;  // time big fond id
-static constexpr int16_t TOTAL_OPACITY = 0;         // transparent
-static constexpr int16_t HALF_OPACITY = 50;         // diaphanous
-static constexpr int16_t UN_OPACITY = 255;          // opaque
-static constexpr int16_t BUTTON_RADIUS = 20;        // app icon radius
-static constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
-static constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
-static constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
+constexpr int16_t LABLE_TITLE_HEIGHT = 30; // tail lable height
+constexpr int16_t LABLE_TAIL_HEIGHT = 30;
+constexpr int16_t APP_WIDTH_COUNT = 7;       // blank + app + blank + app + blank
+constexpr int16_t APP_HEIGHT_COUNT = 4;      // app + lable + app + lable
+constexpr int16_t MAX_VIEWGROUP = 3;         // swipe window count
+constexpr int16_t APP_ROW_COUNT = 2;         // a swipe view app count in row
+constexpr int16_t APP_COL_COUNT = 3;         // a sswipe view app count in col
+constexpr int16_t LAUNCHER_FOND_ID = 16;     // other view fond id
+constexpr int16_t APP_FOND_ID = 16;          // app name fond id
+constexpr int16_t BIGLAUNCHER_FOND_ID = 48;  // time big fond id
+constexpr int16_t TOTAL_OPACITY = 0;         // transparent
+constexpr int16_t HALF_OPACITY = 50;         // diaphanous
+constexpr int16_t UN_OPACITY = 255;          // opaque
+constexpr int16_t BUTTON_RADIUS = 20;        // app icon radius
+constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
+constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
+constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
+constexpr int16_t APP_ICON_SIZE = 88;        // app icon size
 
 #ifndef TMP_BUF_SIZE
 #define TMP_BUF_SIZE 128
@@ -44,8 +45,13 @@ static constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
 
 #define LAUNCHER_BUNDLE_NAME "com.huawei.launcher"
 #define SCREENSAVER_BUNDLE_NAME "com.huawei.screensaver"
+#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+#define TABLE_BACKGROUND \
+    "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/background_1920x1080.png"
+#else
 #define TABLE_BACKGROUND \
     "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/background.png"
+#endif
 #define RES_WEATHER "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/weather.png"
 #define FOND_PATH "SourceHanSansSC-Regular.otf"
 

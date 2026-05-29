@@ -14,39 +14,39 @@
  */
 
 #include "gallery_ability.h"
+#include "gallery_log.h"
 
 namespace OHOS {
 REGISTER_AA(GalleryAbility)
 
 void GalleryAbility::OnStart(const Want &want)
 {
-    printf("GalleryAbility::OnStart\n");
+    LOGI("GalleryAbility::OnStart");
     SetMainRoute("GalleryAbilitySlice");
-
     Ability::OnStart(want);
 }
 
 void GalleryAbility::OnInactive()
 {
-    printf("GalleryAbility::OnInactive\n");
+    LOGI("GalleryAbility::OnInactive");
     Ability::OnInactive();
 }
 
 void GalleryAbility::OnActive(const Want &want)
 {
-    printf("GalleryAbility::OnActive\n");
+    LOGI("GalleryAbility::OnActive");
     Ability::OnActive(want);
 }
 
 void GalleryAbility::OnBackground()
 {
-    printf("GalleryAbility::OnBackground\n");
+    LOGI("GalleryAbility::OnBackground");
     Ability::OnBackground();
 }
 
 void GalleryAbility::OnStop()
 {
-    printf("GalleryAbility::OnStop\n");
+    LOGI("GalleryAbility::OnStop");
     Ability::OnStop();
 }
 }

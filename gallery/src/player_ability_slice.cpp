@@ -21,6 +21,7 @@
 #include "ability_manager.h"
 #include "components/ui_image_view.h"
 #include "gfx_utils/file.h"
+#include "gallery_log.h"
 
 using OHOS::Media::Player;
 using OHOS::Media::Source;
@@ -32,11 +33,11 @@ REGISTER_AS(PlayerAbilitySlice)
 
 PlayerAbilitySlice::~PlayerAbilitySlice()
 {
-    printf("################ ~PlayerAbilitySlice enter\n");
+    LOGI("################ ~PlayerAbilitySlice enter");
 
     /** released in DestoryPlayer(). */
 
-    printf("################ ~PlayerAbilitySlice exit\n");
+    LOGI("################ ~PlayerAbilitySlice exit");
 }
 
 std::shared_ptr<Player> PlayerAbilitySlice::CreatePlayer()
@@ -50,7 +51,7 @@ std::shared_ptr<Player> PlayerAbilitySlice::CreatePlayer()
 
 void PlayerAbilitySlice::Clear()
 {
-    printf("PlayerAbilitySlice::Clear | enter\n");
+    LOGI("PlayerAbilitySlice::Clear | enter");
     if (backIconListener_ != nullptr) {
         delete backIconListener_;
         backIconListener_ = nullptr;
@@ -103,7 +104,7 @@ void PlayerAbilitySlice::Clear()
         RootView::DestroyWindowRootView(rootView_);
         rootView_ = nullptr;
     }
-    printf("PlayerAbilitySlice::Clear() | end\n");
+    LOGI("PlayerAbilitySlice::Clear() | end");
 }
 
 void PlayerAbilitySlice::ShowErrorTips()
@@ -115,9 +116,10 @@ void PlayerAbilitySlice::ShowErrorTips()
     errorTips_->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
     errorTips_->SetText("视频播放错误");
 
-    rootView_->Add(backArea_);
     rootView_->Add(errorTips_);
+    rootView_->Add(backArea_);
     rootView_->Add(backIcon_);
+    rootView_->Add(titleLabel_);
     SetUIContent(rootView_);
 }
 
@@ -132,19 +134,21 @@ void PlayerAbilitySlice::SetUpRootView()
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
 }
 
-void PlayerAbilitySlice::SetUpBackArea(const char* pathHeader)
+void PlayerAbilitySlice::SetUpBackArea(const char* pathHeader, const char* imageName)
 {
     auto onClick = [this] (UIView &view, const Event &event) -> bool {
-        printf("############  PlayerAbilitySlice terminate AS enter   #############\n");
+        LOGI("############  PlayerAbilitySlice terminate AS enter   #############");
         Terminate();
-        printf("############  PlayerAbilitySlice terminate AS exit   #############\n");
+        LOGI("############  PlayerAbilitySlice terminate AS exit   #############");
         return true;
     };
     backIcon_ = new UIImageView();
     backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
+    backIcon_->SetStyle(STYLE_BACKGROUND_OPA, 0);
+    backIcon_->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
 
     if (sprintf_s(backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | backIconAbsolutePath | %s\n", pathHeader);
+        LOGE("PlayerAbilitySlice::OnStart | backIconAbsolutePath | %s\n", pathHeader);
         return;
     }
     backIcon_->SetSrc(backIconAbsolutePath);
@@ -158,8 +162,17 @@ void PlayerAbilitySlice::SetUpBackArea(const char* pathHeader)
     backArea_->SetTouchable(true);
     backArea_->SetOnClickListener(backIconListener_);
 
+    titleLabel_ = new UILabel();
+    titleLabel_->SetPosition(LABEL_POSITION_X, LABEL_POSITION_Y, LABEL_WIDTH, LABEL_HEIGHT);
+    titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
+    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
+    titleLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
+    titleLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
+    titleLabel_->SetText(imageName);
+
     rootView_->Add(backArea_);
     rootView_->Add(backIcon_);
+    rootView_->Add(titleLabel_);
 }
 
 void PlayerAbilitySlice::SetUpVideoPlayer(const Want &want)
@@ -173,16 +186,16 @@ void PlayerAbilitySlice::SetUpVideoPlayer(const Want &want)
     int8_t ret = sprintf_s(videoPlayer_->filePath, videoPathLen + 1, "%s/%s", VIDEO_SOURCE_DIRECTORY,
         reinterpret_cast<char*>(want.data));
     if (ret < 0) {
-        printf("PlayerAbilitySlice::OnStart | videoPlayer_->filePath | %s\n", reinterpret_cast<char*>(want.data));
+        LOGE("PlayerAbilitySlice::OnStart | videoPlayer_->filePath | %s", reinterpret_cast<char*>(want.data));
         return;
     }
     ret = sprintf_s(&videoPlayer_->filePath[videoPathLen - strlen(AVAILABEL_SOURCE_TYPE)],
                     strlen(AVAILABEL_SOURCE_TYPE) + 1, "%s", AVAILABEL_SOURCE_TYPE);
     if (ret < 0) {
-        printf("PlayerAbilitySlice::OnStart | videoPlayer_->filePath \n");
+        LOGE("PlayerAbilitySlice::OnStart | videoPlayer_->filePath");
         return;
     }
-    printf("------########### mp4 file path | %s\n", videoPlayer_->filePath);
+    LOGI("------########### mp4 file path | %s", videoPlayer_->filePath);
 
     videoPlayer_->adapter = PlayerAbilitySlice::CreatePlayer();
     std::string uri(videoPlayer_->filePath);
@@ -199,15 +212,14 @@ bool PlayerAbilitySlice::SetUpSurfaceView()
     int32_t width = 0;
     int32_t height = 0;
     videoPlayer_->adapter->GetVideoWidth(width);
-    printf("[%s,%d] width:%d\n", __func__, __LINE__, width);
     videoPlayer_->adapter->GetVideoHeight(height);
-    printf("[%s,%d] height:%d\n", __func__, __LINE__, height);
+    LOGI("width:%d, height:%d", width, height);
 
     if (width <= 0 || height <= 0) {
         videoPlayer_->adapter->Release();
         delete videoPlayer_;
         videoPlayer_ = nullptr;
-        printf("******** width <= 0 || height <= 0 | return \n");
+        LOGE("******** width <= 0 || height <= 0 | return");
         ShowErrorTips();
         return false;
     }
@@ -263,7 +275,7 @@ void PlayerAbilitySlice::SetUpAnimatorGroup(const char* pathHeader)
 {
     int64_t duration = 0;
     videoPlayer_->adapter->GetDuration(duration);
-    printf("[%s,%d] GetDuration:%lld\n", __func__, __LINE__, duration);
+    LOGI("[%s,%d] GetDuration:%lld", __func__, __LINE__, duration);
 
     animatorGroup_ = new UIViewGroup();
     animatorGroup_->SetPosition(0, ROOT_VIEW_HEIGHT - STATUS_BAR_GROUP_HEIGHT,
@@ -313,12 +325,12 @@ void PlayerAbilitySlice::SetUpToggleButton(const char* pathHeader)
     toggleButton_->SetState(true);
 
     if (sprintf_s(videoPlayAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PALY_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | videoPlayAbsolutePath\n");
+        LOGE("PlayerAbilitySlice::OnStart | videoPlayAbsolutePath");
         return;
     }
 
     if (sprintf_s(videoPauseAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_PAUSE_PATH) < 0) {
-        printf("PlayerAbilitySlice::OnStart | videoPauseAbsolutePath\n");
+        LOGE("PlayerAbilitySlice::OnStart | videoPauseAbsolutePath");
         return;
     }
     toggleButton_->SetImages(videoPauseAbsolutePath, videoPlayAbsolutePath);
@@ -335,7 +347,7 @@ void PlayerAbilitySlice::SetUpToggleButton(const char* pathHeader)
 
 void PlayerAbilitySlice::OnStart(const Want &want)
 {
-    printf("@@@@@ PlayerAbilitySlice::OnStart\n");
+    LOGI("@@@@@ PlayerAbilitySlice::OnStart");
     AbilitySlice::OnStart(want);
 
     SetUpRootView();
@@ -347,7 +359,7 @@ void PlayerAbilitySlice::OnStart(const Want &want)
     if (!SetUpSurfaceView()) {
         return;
     }
-    SetUpBackArea(pathHeader);
+    SetUpBackArea(pathHeader, reinterpret_cast<char*>(want.data));
     SetUpAnimatorGroup(pathHeader);
 
     SetUIContent(rootView_);
@@ -357,24 +369,24 @@ void PlayerAbilitySlice::OnStart(const Want &want)
     animator_->SetToggleBtnListener(onClickListener_);
     animator_->Start();
 
-    printf("## @@@@@ PlayerAbilitySlice::OnStart | end \n");
+    LOGI("## @@@@@ PlayerAbilitySlice::OnStart | end ");
 }
 
 void PlayerAbilitySlice::OnInactive()
 {
-    printf("PlayerAbilitySlice::OnInactive\n");
+    LOGI("PlayerAbilitySlice::OnInactive");
     AbilitySlice::OnInactive();
 }
 
 void PlayerAbilitySlice::OnActive(const Want &want)
 {
-    printf("PlayerAbilitySlice::OnActive\n");
+    LOGI("PlayerAbilitySlice::OnActive");
     AbilitySlice::OnActive(want);
 }
 
 void PlayerAbilitySlice::OnBackground()
 {
-    printf("PlayerAbilitySlice::OnBackground\n");
+    LOGI("PlayerAbilitySlice::OnBackground");
     AbilitySlice::OnBackground();
 }
 
@@ -393,7 +405,7 @@ void PlayerAbilitySlice::OnStop()
         videoPlayer_ = nullptr;
     }
     Clear();
-    printf("PlayerAbilitySlice::OnStop\n");
+    LOGI("PlayerAbilitySlice::OnStop");
     AbilitySlice::OnStop();
 }
 
@@ -448,11 +460,11 @@ bool ToggleBtnListener::OnClick(UIView &view, const ClickEvent& event)
     if (button_->GetState()) {
         videoPlayer_->adapter->Play();
         animator_->Resume();
-        printf("ToggleBtnListener::OnClick | play\n");
+        LOGI("ToggleBtnListener::OnClick | play");
     } else {
         videoPlayer_->adapter->Pause();
         animator_->Pause();
-        printf("ToggleBtnListener::OnClick | pause\n");
+        LOGI("ToggleBtnListener::OnClick | pause");
     }
     button_->Invalidate();
     return true;

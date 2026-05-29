@@ -60,10 +60,12 @@ private:
     void SetButtonListenerApp();
     void SetButtonListenerDisplay();
     void SetButtonListenerAbout();
+    void SetButtonListenerDhcp();
     void SetAboutButtonView();
     void SetAppButtonView();
     void SetDisplayButtonView();
     void SetWifiButtonView();
+    void SetDhcpButtonView();
     void SetScrollView();
     void SetHead();
 
@@ -76,12 +78,17 @@ private:
     EventListener* buttonDisplayListener_;
     EventListener* buttonAboutListener_;
     EventListener* buttonBackListener_;
+    EventListener* buttonDhcpListener_;
 
     constexpr static int WIFI_BUTTON_X = 0;
     constexpr static int WIFI_BUTTON_Y = 0;
     constexpr static int WIFI_BUTTON_TEXT_WIFI_Y = 13;
     constexpr static int WIFI_BUTTON_TEXT_SSID_X = 18;
     constexpr static int WIFI_BUTTON_TEXT_SSID_Y = 45;
+
+    constexpr static int dhcpButtonX = 0;
+    constexpr static int dhcpButtonY = 95;
+    constexpr static int dhcpButtonTextDhcpY = 13;
 
     constexpr static int APP_BUTTON_X = 0;
     constexpr static int APP_BUTTON_Y = 95;

@@ -22,6 +22,7 @@
 #include <components/ui_scroll_view.h>
 #include "event_listener.h"
 #include "gallery_config.h"
+#include "image_decoder.h"
 
 namespace OHOS {
 class GalleryAbilitySlice : public AbilitySlice {
@@ -63,6 +64,7 @@ private:
     char videoTagIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
     uint16_t pictureOnClickListenerCount_ { 0 };
     EventListener* pictureOnClickListener_[MAX_PICTURE_COUNT] = { nullptr };
+    ImageDecoder* imageDecoder_ { nullptr };
 };
 }
 #endif // OHOS_GALLERY_ABILITY_SLICE_H

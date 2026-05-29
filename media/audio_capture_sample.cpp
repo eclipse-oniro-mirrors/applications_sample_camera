@@ -284,6 +284,11 @@ int main(int argc, char *argv[])
     AudioCapturerInfo info;
     info.inputSource = AUDIO_MIC;
     info.bitWidth = BIT_WIDTH_16;
+    // deviceId = "0", fix ipc deserialization parsing on the audio caputure server side
+    info.deviceId = "0";
+    info.streamType = TYPE_MEDIA;
+    info.deviceType = AUDIO_DEVICE_MIC_LOCAL;
+
     AudioCodecFormat audioFormat = GetAudioFormat();
     if (audioFormat == FORMAT_BUTT) {
         return -1;
@@ -305,7 +310,8 @@ int main(int argc, char *argv[])
     }
     frameCount = audioCap.GetFrameCount();
     std::cout << "GetFrameCount  " << frameCount << std::endl;
-    g_audioSourceProcessInput.framesize = frameCount * 0x400;
+    // framesize * 2 = 8192
+    g_audioSourceProcessInput.framesize = 8192;
     g_audioSourceProcessInput.buffer = new uint8_t[g_audioSourceProcessInput.framesize];
 
     RumCmd(audioCap);

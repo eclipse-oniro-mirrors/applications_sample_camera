@@ -113,6 +113,7 @@ void SettingDisplayAbilitySlice::OnStart(const Want& want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
     SetButtonListener();
     SetHead();

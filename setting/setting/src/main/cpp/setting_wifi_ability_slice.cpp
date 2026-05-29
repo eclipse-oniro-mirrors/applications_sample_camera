@@ -212,7 +212,7 @@ void SettingWifiAbilitySlice::SetScrollWifi(void)
     scrollView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_SCROLL_COLOR);
     scrollView_->SetPosition(DE_SCROLL_X, SCROLL_WIFI_Y, DE_SCROLL_WIDTH, SCROLL_WIFI_HEIGHT);
     scrollView_->SetXScrollBarVisible(false);
-    scrollView_->SetYScrollBarVisible(true);
+    scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
     g_wifiStatus = 0;
     AddWifi();
@@ -239,6 +239,7 @@ void SettingWifiAbilitySlice::OnStart(const Want& want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
     SetButtonListener();
     SetHead();

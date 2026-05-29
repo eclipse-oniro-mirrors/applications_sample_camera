@@ -91,10 +91,10 @@ void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t
     int16_t xL = xB;
     int16_t yL = yB + heightB + blank1;
 
-    pAppInfo->buttonXY_.x = xB;
-    pAppInfo->buttonXY_.y = yB;
-    pAppInfo->buttonHV_.x = width;
-    pAppInfo->buttonHV_.y = heightB;
+    pAppInfo->buttonXY_.x = xB + (width - APP_ICON_SIZE) / 2; // 2: half of the app icon size
+    pAppInfo->buttonXY_.y = yB + (heightB - APP_ICON_SIZE) / 2; // 2: half of the app icon size
+    pAppInfo->buttonHV_.x = pAppInfo->buttonXY_.x + APP_ICON_SIZE;
+    pAppInfo->buttonHV_.y = pAppInfo->buttonXY_.y + APP_ICON_SIZE;
 
     pAppInfo->lableXY_.x = xL;
     pAppInfo->lableXY_.y = yL;
