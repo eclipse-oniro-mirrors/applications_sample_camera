@@ -39,6 +39,7 @@ shared_library("cameraApp") {
     "${aafwk_lite_path}/interfaces/kits/want_lite",
     "//foundation/multimedia/camera_lite/interfaces/kits",
     "//foundation/multimedia/camera_lite/interfaces/kits",
+    "//foundation/arkui/ui_lite/frameworks",
   ]
   ldflags = [
     "-L$ohos_root_path/sysroot/usr/lib",

@@ -20,6 +20,7 @@
 
 #include "ability_manager.h"
 #include "gfx_utils/color.h"
+#include "imgdecode/cache_manager.h"
 #include "ui_config.h"
 #include "securec.h"
 
@@ -100,6 +101,7 @@ private:
 
     void BackViewSetImage(const char *image)
     {
+        CacheManager::GetInstance().Close(image);
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
@@ -324,6 +326,7 @@ private:
 
     void BackViewSetImage(const char *image)
     {
+        CacheManager::GetInstance().Close(image);
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
