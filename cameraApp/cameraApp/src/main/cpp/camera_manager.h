@@ -87,6 +87,7 @@ public:
     void SetPause();
     void SetResume(Surface *mSurface);
     void SetStop(int s);
+    void ReleaseCamera();
     bool RecordState();
     bool CameraIsReady();
     bool IsCaptureOver(void);
