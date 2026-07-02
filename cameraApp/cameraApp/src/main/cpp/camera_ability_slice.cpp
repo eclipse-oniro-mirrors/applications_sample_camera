@@ -20,6 +20,7 @@
 
 #include "ability_manager.h"
 #include "gfx_utils/color.h"
+#include "imgdecode/cache_manager.h"
 #include "ui_config.h"
 #include "securec.h"
 
@@ -100,6 +101,7 @@ private:
 
     void BackViewSetImage(const char *image)
     {
+        CacheManager::GetInstance().Close(image);
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
@@ -243,6 +245,10 @@ private:
     UILabel *tmLabel;
     void StartGallery(void)
     {
+        if (cManager_) {
+            cManager_->SampleCameraStop();
+        }
+
         Want want1 = { nullptr };
         ElementName element = { nullptr };
         SetElementBundleName(&element, "com.huawei.gallery");
@@ -324,6 +330,7 @@ private:
 
     void BackViewSetImage(const char *image)
     {
+        CacheManager::GetInstance().Close(image);
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
@@ -581,5 +588,8 @@ void CameraAbilitySlice::OnStop()
 {
     printf("CameraAbilitySlice::OnStop\n");
     AbilitySlice::OnStop();
+    if (cam_manager) {
+        cam_manager->SampleCameraStop();
+    }
 }
 }
