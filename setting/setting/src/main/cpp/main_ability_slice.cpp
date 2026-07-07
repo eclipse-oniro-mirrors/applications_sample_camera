@@ -23,12 +23,22 @@
 #include "module_info.h"
 #include "element_name.h"
 #include "wpa_work.h"
+#include "dhcp_lite_c_client_api.h"
 #include "gfx_utils/style.h"
 #include <cstdint>
 #include <ctime>
+#include <cstring>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <net/if.h>
 
 namespace OHOS {
 REGISTER_AS(MainAbilitySlice)
+
+extern int g_dhcpStatus;
+extern char g_dhcpIp[64];
 
 MainAbilitySlice::~MainAbilitySlice()
 {
@@ -232,6 +242,18 @@ void MainAbilitySlice::SetDhcpButtonView(void)
     lablelFontDhcp->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontDhcp);
 
+    lablelFontIp_ = new UILabel();
+    lablelFontIp_->SetPosition(dhcpButtonTextIpX, dhcpButtonTextIpY,
+                               DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
+        lablelFontIp_->SetText(g_dhcpIp);
+    } else {
+        lablelFontIp_->SetText("未连接");
+    }
+    lablelFontIp_->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
+    lablelFontIp_->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    buttonView->Add(lablelFontIp_);
+
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
     imageView->SetSrc(DE_IMAGE_FORWORD);
@@ -379,6 +401,32 @@ void MainAbilitySlice::OnInactive()
     AbilitySlice::OnInactive();
 }
 
+static int GetInterfaceIp(const char *ifname, char *ip, size_t len)
+{
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        return -1;
+    }
+    struct ifreq ifr;
+    (void)memset_s(&ifr, sizeof(ifr), 0, sizeof(ifr));
+    if (strcpy_s(ifr.ifr_name, sizeof(ifr.ifr_name), ifname) != 0) {
+        close(sock);
+        return -1;
+    }
+    if (ioctl(sock, SIOCGIFADDR, &ifr) == 0) {
+        struct sockaddr_in *sin = (struct sockaddr_in *)&ifr.ifr_addr;
+        const char *str = inet_ntoa(sin->sin_addr);
+        if (str != nullptr) {
+            if (strcpy_s(ip, len, str) == 0) {
+                close(sock);
+                return 0;
+            }
+        }
+    }
+    close(sock);
+    return -1;
+}
+
 void MainAbilitySlice::OnActive(const Want& want)
 {
     if (lablelFontSsid_) {
@@ -389,6 +437,20 @@ void MainAbilitySlice::OnActive(const Want& want)
             lablelFontSsid_->SetText(buff);
         } else {
             lablelFontSsid_->SetText("未连接");
+        }
+    }
+
+    if (lablelFontIp_) {
+        char ip[64] = {0};
+        if (GetInterfaceIp("eth0", ip, sizeof(ip)) == 0) {
+            lablelFontIp_->SetText(ip);
+            if (strcpy_s(g_dhcpIp, sizeof(g_dhcpIp), ip) == 0) {
+                g_dhcpStatus = 1;
+            }
+        } else if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
+            lablelFontIp_->SetText(g_dhcpIp);
+        } else {
+            lablelFontIp_->SetText("未连接");
         }
     }
 

@@ -18,22 +18,29 @@
 #include <thread>
 #include "gfx_utils/style.h"
 #include "dhcp_lite_c_client_api.h"
+#include "parameter.h"
 
 namespace OHOS {
 REGISTER_AS(SettingDhcpAbilitySlice)
-static int g_dhcpStatus = 0;
+int g_dhcpStatus = 0;
+char g_dhcpIp[64] = {0};
 
-static void OnIpSuccessChanged(int status, const char *ifname, DhcpResult *result)
+void OnIpSuccessChanged(int status, const char *ifname, DhcpResult *result)
 {
     printf("OnIpSuccessChanged, status = %d, ifname = %s, result ip= %s\n", status, ifname, result->strOptClientId);
+    if (result != nullptr && result->strOptClientId != nullptr && ifname != nullptr) {
+        if (strncmp(ifname, "eth", strlen("eth")) == 0) {
+            (void)strcpy_s(g_dhcpIp, sizeof(g_dhcpIp), result->strOptClientId);
+        }
+    }
 }
 
-static void OnIpFailChanged(int status, const char *ifname, const char *reason)
+void OnIpFailChanged(int status, const char *ifname, const char *reason)
 {
     printf("OnIpFailChanged, status = %d, ifname = %s, reason = %s\n", status, ifname, reason);
 }
 
-static ClientCallBack g_callback = {
+ClientCallBack g_callback = {
     OnIpSuccessChanged,
     OnIpFailChanged,
 };
@@ -70,6 +77,8 @@ bool DhcpBtnOnStateChangeListener::OnClick(UIView& view, const ClickEvent& event
             g_dhcpStatus = 0;
         }
     }
+    // Persist DHCP state across reboot
+    SetParameter("persist.dhcp.enable", (g_dhcpStatus != 0) ? "1" : "0");
     myUiView->Invalidate();
     return true;
 }
@@ -168,8 +177,8 @@ void SettingDhcpAbilitySlice::SetToggleButton(void)
     changeListener_ = new DhcpBtnOnStateChangeListener(reinterpret_cast<UIView*>(scrollView_));
     togglebutton->SetOnClickListener(changeListener_);
     togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y);
-    togglebutton->SetState(false);
-    scrollView_->SetVisible(false);
+    togglebutton->SetState(g_dhcpStatus != 0);
+    scrollView_->SetVisible(g_dhcpStatus != 0);
 
     toggleButtonView_->Add(togglebutton);
 }
@@ -205,10 +214,32 @@ void SettingDhcpAbilitySlice::OnStart(const Want& want)
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
+
+    // Restore DHCP state from persistent parameter
+    char dhcpEnable[8] = {0};
+    GetParameter("persist.dhcp.enable", "0", dhcpEnable, sizeof(dhcpEnable));
+    if (strcmp(dhcpEnable, "1") == 0) {
+        g_dhcpStatus = 1;
+    } else {
+        g_dhcpStatus = 0;
+    }
+
     SetButtonListener();
     SetHead();
     SetScrollDhcp();
     SetToggleButton();
+
+    // Auto-start DHCP if it was enabled before reboot
+    if (g_dhcpStatus != 0) {
+        RegisterDhcpClientCallBack("eth0", &g_callback);
+        RouterConfig config = {0};
+        strcpy_s(config.ifname, sizeof(config.ifname), "eth0");
+        int ret = StartDhcpClient(config);
+        if (ret != DHCP_SUCCESS) {
+            printf("Auto-start DHCP failed, ret = %d\n", ret);
+            g_dhcpStatus = 0;
+        }
+    }
 
     TaskExecute();
     SetUIContent(rootView_);

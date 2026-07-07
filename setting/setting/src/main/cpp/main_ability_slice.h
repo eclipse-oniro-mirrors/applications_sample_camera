@@ -44,6 +44,7 @@ class MainAbilitySlice : public AbilitySlice {
 public:
     MainAbilitySlice()
         : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), lablelFontSsid_(nullptr),
+          lablelFontIp_(nullptr),
           buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonDisplayListener_(nullptr),
           buttonAboutListener_(nullptr), buttonBackListener_(nullptr) {}
     virtual ~MainAbilitySlice();
@@ -73,6 +74,7 @@ private:
     UIScrollView* scrollView_;
     RootView* rootView_;
     UILabel* lablelFontSsid_;
+    UILabel* lablelFontIp_;
     EventListener* buttonWifiListener_;
     EventListener* buttonAppListener_;
     EventListener* buttonDisplayListener_;
@@ -89,6 +91,8 @@ private:
     constexpr static int dhcpButtonX = 0;
     constexpr static int dhcpButtonY = 95;
     constexpr static int dhcpButtonTextDhcpY = 13;
+    constexpr static int dhcpButtonTextIpX = 18;
+    constexpr static int dhcpButtonTextIpY = 45;
 
     constexpr static int APP_BUTTON_X = 0;
     constexpr static int APP_BUTTON_Y = 95;
