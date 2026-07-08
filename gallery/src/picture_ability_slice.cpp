@@ -58,12 +58,14 @@ void PictureAbilitySlice::InitTitle(const char* imageName)
 {
     LOGI("PictureAbilitySlice::InitTitle | start");
     backIcon_ = new UIImageView();
-    backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
+    backIcon_->SetAutoEnable(false);
+    backIcon_->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    backIcon_->SetPosition(BACK_ICON_POSITION_X(), BACK_ICON_POSITION_Y(), BACK_ICON_WIDTH(), BACK_ICON_HEIGHT());
     backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
 
     backArea_ = new UIViewGroup();
-    backArea_->SetPosition(0, 0, LABEL_POSITION_X, LABEL_HEIGHT);
+    backArea_->SetPosition(0, 0, LABEL_POSITION_X(), LABEL_HEIGHT());
     backArea_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     backArea_->SetTouchable(true);
 
@@ -78,9 +80,9 @@ void PictureAbilitySlice::InitTitle(const char* imageName)
     backArea_->SetOnClickListener(backIconListener_);
 
     titleLabel_ = new UILabel();
-    titleLabel_->SetPosition(LABEL_POSITION_X, LABEL_POSITION_Y, LABEL_WIDTH, LABEL_HEIGHT);
+    titleLabel_->SetPosition(LABEL_POSITION_X(), LABEL_POSITION_Y, LABEL_WIDTH(), LABEL_HEIGHT());
     titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
+    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
     titleLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     titleLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     titleLabel_->SetText(imageName);
@@ -98,16 +100,16 @@ void PictureAbilitySlice::InitPicture(const char* path)
     int16_t imageWidth = picture_->GetWidth();
     int16_t imageHeight = picture_->GetHeight();
     LOGI("imageWidth:%d, imageHeight:%d", imageWidth, imageHeight);
-    if (imageWidth > ROOT_VIEW_WIDTH || imageHeight > ROOT_VIEW_HEIGHT) {
+    if (imageWidth > ROOT_VIEW_WIDTH() || imageHeight > ROOT_VIEW_HEIGHT()) {
         TransformMap transMap(picture_->GetOrigRect());
         float scaleWidth = 1.0;
         float scaleHeight = 1.0;
-        if (imageWidth > ROOT_VIEW_WIDTH) {
-            scaleWidth = static_cast<float>(ROOT_VIEW_WIDTH) / imageWidth;
+        if (imageWidth > ROOT_VIEW_WIDTH()) {
+            scaleWidth = static_cast<float>(ROOT_VIEW_WIDTH()) / imageWidth;
             LOGI("########## scaleWidth: %f", scaleWidth);
         }
-        if (imageHeight > ROOT_VIEW_HEIGHT) {
-            scaleHeight = static_cast<float>(ROOT_VIEW_HEIGHT) / imageHeight;
+        if (imageHeight > ROOT_VIEW_HEIGHT()) {
+            scaleHeight = static_cast<float>(ROOT_VIEW_HEIGHT()) / imageHeight;
             LOGI("########## scaleHeight: %f", scaleHeight);
         }
         float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
@@ -118,8 +120,8 @@ void PictureAbilitySlice::InitPicture(const char* path)
         imageWidth = imageWidth * scale;
         imageHeight = imageHeight * scale;
     }
-    int16_t imagePosX = (ROOT_VIEW_WIDTH - imageWidth) / 2; // 2: half
-    int16_t imagePosY = (ROOT_VIEW_HEIGHT - imageHeight) / 2; // 2: half
+    int16_t imagePosX = (ROOT_VIEW_WIDTH() - imageWidth) / 2; // 2: half
+    int16_t imagePosY = (ROOT_VIEW_HEIGHT() - imageHeight) / 2; // 2: half
     LOGI("########## image pos x: %d  | y: %d", imagePosX, imagePosY);
     picture_->SetPosition(imagePosX, imagePosY);
 
@@ -134,7 +136,7 @@ void PictureAbilitySlice::OnStart(const Want &want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(ROOT_VIEW_POSITION_X, ROOT_VIEW_POSITION_Y);
-    rootView_->Resize(ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
+    rootView_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
 
     uint16_t imagePathLen = strlen(PHOTO_DIRECTORY) + strlen(reinterpret_cast<char*>(want.data)) + 1;

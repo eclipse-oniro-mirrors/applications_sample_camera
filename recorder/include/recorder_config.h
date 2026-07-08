@@ -18,8 +18,26 @@
 
 #include "components/ui_view_group.h"
 #include "graphic_config.h"
+#include <common/screen.h>
 
 namespace OHOS {
+/* Screen-aware scaling helpers — designed for 1920x1080 reference */
+static inline int16_t GetScrWidth() { return Screen::GetInstance().GetWidth(); }
+static inline int16_t GetScrHeight() { return Screen::GetInstance().GetHeight(); }
+static inline int16_t HScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetWidth() / 1920); }
+static inline int16_t VScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080); }
+static inline int16_t UScale(int16_t ref) {
+    float rw = static_cast<float>(Screen::GetInstance().GetWidth()) / 1920.0f;
+    float rh = static_cast<float>(Screen::GetInstance().GetHeight()) / 1080.0f;
+    return static_cast<int16_t>(ref * ((rw < rh) ? rw : rh));
+}
+static inline uint16_t FontScale(uint16_t ref) {
+    int32_t s = static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080;
+    return static_cast<uint16_t>(s < 14 ? 14 : s);
+}
+static inline bool IsScrRes(int16_t w, int16_t h) {
+    return Screen::GetInstance().GetWidth() == w && Screen::GetInstance().GetHeight() == h;
+}
 
 /** icon resource file path */
 static const char* const BACK_ICON_PATH = "/recorder/assets/recorder/resources/drawable/ic_back.png";
@@ -47,191 +65,174 @@ static const char* const RECORDER_FILE_NAME_FMT = "%Y%m%d_%H%M%S";
 static const char* const RECORDER_FILE_TIME_FMT = "%Y/%m/%d";
 static constexpr uint16_t RECORDER_FILE_POSTFIX_LENGTH = 4;
 
-/** general page configuration */
-static constexpr int ROOT_VIEW_X = 0;
-static constexpr int ROOT_VIEW_Y = 0;
-static constexpr int ROOT_VIEW_WIDTH = HORIZONTAL_RESOLUTION;
-static constexpr int ROOT_VIEW_HEIGHT = VERTICAL_RESOLUTION;
+/** general page configuration — runtime screen aware */
+static inline int ROOT_VIEW_X() { return 0; }
+static inline int ROOT_VIEW_Y() { return 0; }
+static inline int ROOT_VIEW_WIDTH() { return GetScrWidth(); }
+static inline int ROOT_VIEW_HEIGHT() { return GetScrHeight(); }
 static constexpr uint16_t ROOT_VIEW_OPACITY = 255;
 
 static const char* const FONT_NAME = "SourceHanSansSC-Regular.otf";
 
 /** title bar */
-static constexpr int16_t TITLE_BAR_X = 0;
-static constexpr int16_t TITLE_BAR_Y = 0;
-static constexpr int16_t TITLE_BAR_WIDTH = ROOT_VIEW_WIDTH;
-static constexpr int16_t TITLE_BAR_HEIGHT = 70;
+static inline int16_t TITLE_BAR_X() { return 0; }
+static inline int16_t TITLE_BAR_Y() { return 0; }
+static inline int16_t TITLE_BAR_WIDTH() { return ROOT_VIEW_WIDTH(); }
+static inline int16_t TITLE_BAR_HEIGHT() { return VScale(70); }
 // title back icon
-static constexpr int16_t BACK_ICON_SIZE = 36;   // 36 x 36
-static constexpr int16_t BACK_ICON_PADDING_H = 30;
-static constexpr int16_t BACK_ICON_PADDING_V = (TITLE_BAR_HEIGHT - BACK_ICON_SIZE) / 2;
-static constexpr int16_t BACK_ICON_X = 0;
-static constexpr int16_t BACK_ICON_Y = TITLE_BAR_Y;
-static constexpr int16_t BACK_ICON_WIDTH = BACK_ICON_SIZE + BACK_ICON_PADDING_H * 2;
-static constexpr int16_t BACK_ICON_HEIGHT = TITLE_BAR_HEIGHT;
+static inline int16_t BACK_ICON_SIZE() { return UScale(36); }
+static inline int16_t BACK_ICON_PADDING_H() { return HScale(30); }
+static inline int16_t BACK_ICON_PADDING_V() { return (TITLE_BAR_HEIGHT() - BACK_ICON_SIZE()) / 2; }
+static inline int16_t BACK_ICON_X() { return BACK_ICON_PADDING_H(); }
+static inline int16_t BACK_ICON_Y() { return TITLE_BAR_Y() + BACK_ICON_PADDING_V(); }
+static inline int16_t BACK_ICON_WIDTH() { return BACK_ICON_SIZE(); }
+static inline int16_t BACK_ICON_HEIGHT() { return BACK_ICON_SIZE(); }
 // title label
-static constexpr int16_t TITLE_LABEL_X = BACK_ICON_X + BACK_ICON_SIZE + BACK_ICON_PADDING_H * 2;
-static constexpr int16_t TITLE_LABEL_Y = 0;
-static constexpr int16_t TITLE_LABEL_WIDTH = 100;
-static constexpr int16_t TITLE_LABEL_HEIGHT = TITLE_BAR_HEIGHT;
-static constexpr uint16_t TITLE_LABEL_FONT_SIZE = 25;
+static inline int16_t TITLE_LABEL_X() {
+    return BACK_ICON_X() + BACK_ICON_SIZE() + BACK_ICON_PADDING_H() * 2;
+}
+static inline int16_t TITLE_LABEL_Y() { return 0; }
+static inline int16_t TITLE_LABEL_WIDTH() { return HScale(100); }
+static inline int16_t TITLE_LABEL_HEIGHT() { return TITLE_BAR_HEIGHT(); }
+static inline uint16_t TITLE_LABEL_FONT_SIZE() { return FontScale(25); }
 
 /** notice label **/
-static constexpr int16_t NOTICE_LABEL_WIDTH = 400;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t NOTICE_LABEL_HEIGHT = 36;
-static constexpr int16_t NOTICE_LABEL_MARGIN_TOP = 30;
-static constexpr uint16_t NOTICE_LABEL_FONT_SIZE = 32;
-#else
-static constexpr int16_t NOTICE_LABEL_HEIGHT = 26;
-static constexpr int16_t NOTICE_LABEL_MARGIN_TOP = 16;
-static constexpr uint16_t NOTICE_LABEL_FONT_SIZE = 24;
-#endif
-static constexpr int16_t NOTICE_LABEL_X = (ROOT_VIEW_WIDTH - NOTICE_LABEL_WIDTH) / 2;
-static constexpr int16_t NOTICE_LABEL_Y = TITLE_BAR_Y + TITLE_BAR_HEIGHT + NOTICE_LABEL_MARGIN_TOP;
+static inline int16_t NOTICE_LABEL_WIDTH() { return HScale(400); }
+static inline int16_t NOTICE_LABEL_HEIGHT() { return VScale(36); }
+static inline int16_t NOTICE_LABEL_MARGIN_TOP() { return VScale(30); }
+static inline uint16_t NOTICE_LABEL_FONT_SIZE() { return FontScale(32); }
+static inline int16_t NOTICE_LABEL_X() { return (ROOT_VIEW_WIDTH() - NOTICE_LABEL_WIDTH()) / 2; }
+static inline int16_t NOTICE_LABEL_Y() {
+    return TITLE_BAR_Y() + TITLE_BAR_HEIGHT() + NOTICE_LABEL_MARGIN_TOP();
+}
 
 /** duration **/
-static constexpr int16_t DURATION_LABEL_WIDTH = 400;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t DURATION_LABEL_HEIGHT = 50;
-static constexpr int16_t DURATION_LABEL_MARGIN_TOP = 30;
-static constexpr uint16_t DURATION_LABEL_FONT_SIZE = 48;
-#else
-static constexpr int16_t DURATION_LABEL_HEIGHT = 38;
-static constexpr int16_t DURATION_LABEL_MARGIN_TOP = 16;
-static constexpr uint16_t DURATION_LABEL_FONT_SIZE = 36;
-#endif
-static constexpr int16_t DURATION_LABEL_X = (ROOT_VIEW_WIDTH - DURATION_LABEL_WIDTH) / 2;
-static constexpr int16_t DURATION_LABEL_Y = NOTICE_LABEL_Y + NOTICE_LABEL_HEIGHT + DURATION_LABEL_MARGIN_TOP;
+static inline int16_t DURATION_LABEL_WIDTH() { return HScale(400); }
+static inline int16_t DURATION_LABEL_HEIGHT() { return VScale(50); }
+static inline int16_t DURATION_LABEL_MARGIN_TOP() { return VScale(30); }
+static inline uint16_t DURATION_LABEL_FONT_SIZE() { return FontScale(48); }
+static inline int16_t DURATION_LABEL_X() { return (ROOT_VIEW_WIDTH() - DURATION_LABEL_WIDTH()) / 2; }
+static inline int16_t DURATION_LABEL_Y() {
+    return NOTICE_LABEL_Y() + NOTICE_LABEL_HEIGHT() + DURATION_LABEL_MARGIN_TOP();
+}
 
 /** fs **/
-static constexpr int16_t FS_IMAGE_WIDTH = 260;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t FS_IMAGE_HEIGHT = 110;
-static constexpr int16_t FS_IMAGE_MARGIN_TOP = 40;
-#else
-static constexpr int16_t FS_IMAGE_HEIGHT = 0;
-static constexpr int16_t FS_IMAGE_MARGIN_TOP = 0;
-#endif
-static constexpr int16_t FS_IMAGE_X = (ROOT_VIEW_WIDTH - FS_IMAGE_WIDTH) / 2;
-static constexpr int16_t FS_IMAGE_Y = DURATION_LABEL_Y + DURATION_LABEL_HEIGHT + FS_IMAGE_MARGIN_TOP;
+static inline int16_t FS_IMAGE_WIDTH() { return HScale(260); }
+static inline int16_t FS_IMAGE_HEIGHT() { return VScale(110); }
+static inline int16_t FS_IMAGE_MARGIN_TOP() { return VScale(40); }
+static inline int16_t FS_IMAGE_X() { return (ROOT_VIEW_WIDTH() - FS_IMAGE_WIDTH()) / 2; }
+static inline int16_t FS_IMAGE_Y() {
+    return DURATION_LABEL_Y() + DURATION_LABEL_HEIGHT() + FS_IMAGE_MARGIN_TOP();
+}
 
 /** start/stop button */
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t START_BUTTON_SIZE = 140;
-static constexpr int16_t START_BUTTON_MARGIN_TOP = 40;
-#else
-static constexpr int16_t START_BUTTON_SIZE = 80;
-static constexpr int16_t START_BUTTON_MARGIN_TOP = 20;
-#endif
-static constexpr int16_t START_BUTTON_WIDTH = START_BUTTON_SIZE;
-static constexpr int16_t START_BUTTON_HEIGHT = START_BUTTON_SIZE;
-static constexpr int16_t START_BUTTON_X = (ROOT_VIEW_WIDTH - START_BUTTON_WIDTH) / 2;
-static constexpr int16_t START_BUTTON_Y = FS_IMAGE_Y + FS_IMAGE_HEIGHT + START_BUTTON_MARGIN_TOP;
+static inline int16_t START_BUTTON_SIZE() { return UScale(140); }
+static inline int16_t START_BUTTON_MARGIN_TOP() { return VScale(40); }
+static inline int16_t START_BUTTON_WIDTH() { return START_BUTTON_SIZE(); }
+static inline int16_t START_BUTTON_HEIGHT() { return START_BUTTON_SIZE(); }
+static inline int16_t START_BUTTON_X() { return (ROOT_VIEW_WIDTH() - START_BUTTON_WIDTH()) / 2; }
+static inline int16_t START_BUTTON_Y() {
+    return FS_IMAGE_Y() + FS_IMAGE_HEIGHT() + START_BUTTON_MARGIN_TOP();
+}
 
 /** cancel button */
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t CANCEL_BUTTON_SIZE = 80;
-#else
-static constexpr int16_t CANCEL_BUTTON_SIZE = 48;
-#endif
-static constexpr int16_t CANCEL_BUTTON_WIDTH = CANCEL_BUTTON_SIZE;
-static constexpr int16_t CANCEL_BUTTON_HEIGHT = CANCEL_BUTTON_SIZE;
-static constexpr int16_t CANCEL_BUTTON_MARGIN_RIGHT = 40;
-static constexpr int16_t CANCEL_BUTTON_X = START_BUTTON_X - CANCEL_BUTTON_WIDTH - CANCEL_BUTTON_MARGIN_RIGHT;
-static constexpr int16_t CANCEL_BUTTON_Y = START_BUTTON_Y;
+static inline int16_t CANCEL_BUTTON_SIZE() { return UScale(80); }
+static inline int16_t CANCEL_BUTTON_WIDTH() { return CANCEL_BUTTON_SIZE(); }
+static inline int16_t CANCEL_BUTTON_HEIGHT() { return CANCEL_BUTTON_SIZE(); }
+static inline int16_t CANCEL_BUTTON_MARGIN_RIGHT() { return HScale(40); }
+static inline int16_t CANCEL_BUTTON_X() {
+    return START_BUTTON_X() - CANCEL_BUTTON_WIDTH() - CANCEL_BUTTON_MARGIN_RIGHT();
+}
+static inline int16_t CANCEL_BUTTON_Y() { return START_BUTTON_Y(); }
 
 /** pause/resume button */
-static constexpr int16_t PAUSE_BUTTON_SIZE = CANCEL_BUTTON_SIZE;
-static constexpr int16_t PAUSE_BUTTON_WIDTH = PAUSE_BUTTON_SIZE;
-static constexpr int16_t PAUSE_BUTTON_HEIGHT = PAUSE_BUTTON_SIZE;
-static constexpr int16_t PAUSE_BUTTON_MARGIN_LEFT = CANCEL_BUTTON_MARGIN_RIGHT;
-static constexpr int16_t PAUSE_BUTTON_X = START_BUTTON_X + START_BUTTON_WIDTH + PAUSE_BUTTON_MARGIN_LEFT;
-static constexpr int16_t PAUSE_BUTTON_Y = START_BUTTON_Y;
+static inline int16_t PAUSE_BUTTON_SIZE() { return CANCEL_BUTTON_SIZE(); }
+static inline int16_t PAUSE_BUTTON_WIDTH() { return PAUSE_BUTTON_SIZE(); }
+static inline int16_t PAUSE_BUTTON_HEIGHT() { return PAUSE_BUTTON_SIZE(); }
+static inline int16_t PAUSE_BUTTON_MARGIN_LEFT() { return CANCEL_BUTTON_MARGIN_RIGHT(); }
+static inline int16_t PAUSE_BUTTON_X() {
+    return START_BUTTON_X() + START_BUTTON_WIDTH() + PAUSE_BUTTON_MARGIN_LEFT();
+}
+static inline int16_t PAUSE_BUTTON_Y() { return START_BUTTON_Y(); }
 
 /** list */
 static constexpr int16_t LIST_MARGIN_H = 20;
 // list lable
-static constexpr int16_t LIST_LABEL_MARGIN_TOP = 20;
-static constexpr int16_t LIST_LABEL_X = LIST_MARGIN_H;
-static constexpr int16_t LIST_LABEL_Y = START_BUTTON_Y + START_BUTTON_HEIGHT + LIST_LABEL_MARGIN_TOP;
-static constexpr int16_t LIST_LABEL_WIDTH = 200;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t LIST_LABEL_HEIGHT = 36;
-static constexpr uint16_t LIST_LABEL_FONT_SIZE = 32;
-#else
-static constexpr int16_t LIST_LABEL_HEIGHT = 26;
-static constexpr uint16_t LIST_LABEL_FONT_SIZE = 24;
-#endif
+static inline int16_t LIST_LABEL_MARGIN_TOP() { return VScale(20); }
+static inline int16_t LIST_LABEL_X() { return LIST_MARGIN_H; }
+static inline int16_t LIST_LABEL_Y() {
+    return START_BUTTON_Y() + START_BUTTON_HEIGHT() + LIST_LABEL_MARGIN_TOP();
+}
+static inline int16_t LIST_LABEL_WIDTH() { return HScale(200); }
+static inline int16_t LIST_LABEL_HEIGHT() { return VScale(36); }
+static inline uint16_t LIST_LABEL_FONT_SIZE() { return FontScale(32); }
 // list
-static constexpr int16_t LIST_MARGIN_TOP = 20;
-static constexpr int16_t LIST_MARGIN_BOTTOM = 20;
-static constexpr int16_t LIST_X = LIST_MARGIN_H;
-static constexpr int16_t LIST_Y = LIST_LABEL_Y + LIST_LABEL_HEIGHT + LIST_MARGIN_TOP;
-static constexpr int16_t LIST_WIDTH = ROOT_VIEW_WIDTH - (LIST_MARGIN_H * 2);
-static constexpr int16_t LIST_HEIGHT = ROOT_VIEW_HEIGHT - LIST_MARGIN_BOTTOM - LIST_Y;
+static inline int16_t LIST_MARGIN_TOP() { return VScale(20); }
+static inline int16_t LIST_MARGIN_BOTTOM() { return VScale(20); }
+static inline int16_t LIST_X() { return LIST_MARGIN_H; }
+static inline int16_t LIST_Y() { return LIST_LABEL_Y() + LIST_LABEL_HEIGHT() + LIST_MARGIN_TOP(); }
+static inline int16_t LIST_WIDTH() { return ROOT_VIEW_WIDTH() - (LIST_MARGIN_H * 2); }
+static inline int16_t LIST_HEIGHT() { return ROOT_VIEW_HEIGHT() - LIST_MARGIN_BOTTOM() - LIST_Y(); }
 // list divider
 static constexpr int16_t LIST_DIVIDER_HEIGHT = 8;
 // list item
 static constexpr int16_t LIST_ITEM_X = 0;
 static constexpr int16_t LIST_ITEM_Y = 0;
-static constexpr int16_t LIST_ITEM_WIDTH = LIST_WIDTH;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t LIST_ITEM_HEIGHT = 110;
-#else
-static constexpr int16_t LIST_ITEM_HEIGHT = 80;
-#endif
+static inline int16_t LIST_ITEM_WIDTH() { return LIST_WIDTH(); }
+static inline int16_t LIST_ITEM_HEIGHT() { return VScale(110); }
 static constexpr int16_t LIST_ITEM_PADDING_H = 20;
 static constexpr int16_t LIST_ITEM_PADDING_V = 20;
 // list item file icon
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t LIST_ITEM_FILE_ICON_WIDTH = 72;
-static constexpr int16_t LIST_ITEM_FILE_ICON_HEIGHT = 72;
-#else
-static constexpr int16_t LIST_ITEM_FILE_ICON_WIDTH = 56;
-static constexpr int16_t LIST_ITEM_FILE_ICON_HEIGHT = 56;
-#endif
-static constexpr int16_t LIST_ITEM_FILE_ICON_X = LIST_ITEM_PADDING_H;
-static constexpr int16_t LIST_ITEM_FILE_ICON_Y = (LIST_ITEM_HEIGHT - LIST_ITEM_FILE_ICON_HEIGHT) / 2;
+static inline int16_t LIST_ITEM_FILE_ICON_WIDTH() { return HScale(72); }
+static inline int16_t LIST_ITEM_FILE_ICON_HEIGHT() { return VScale(72); }
+static inline int16_t LIST_ITEM_FILE_ICON_X() { return LIST_ITEM_PADDING_H; }
+static inline int16_t LIST_ITEM_FILE_ICON_Y() {
+    return (LIST_ITEM_HEIGHT() - LIST_ITEM_FILE_ICON_HEIGHT()) / 2;
+}
 // list item name label
 static constexpr int16_t LIST_ITEM_NAME_LABEL_MARGIN_LEFT = 20;
-static constexpr int16_t LIST_ITEM_NAME_LABEL_X =
-    LIST_ITEM_FILE_ICON_X + LIST_ITEM_FILE_ICON_WIDTH + LIST_ITEM_NAME_LABEL_MARGIN_LEFT;
-static constexpr int16_t LIST_ITEM_NAME_LABEL_WIDTH = 500;
-static constexpr int16_t LIST_ITEM_NAME_LABEL_HEIGHT = 28;
-static constexpr uint16_t LIST_ITEM_NAME_LABEL_FONT_SIZE = 24;
+static inline int16_t LIST_ITEM_NAME_LABEL_X() {
+    return LIST_ITEM_FILE_ICON_X() + LIST_ITEM_FILE_ICON_WIDTH() + LIST_ITEM_NAME_LABEL_MARGIN_LEFT;
+}
+static inline int16_t LIST_ITEM_NAME_LABEL_WIDTH() { return HScale(500); }
+static inline int16_t LIST_ITEM_NAME_LABEL_HEIGHT() { return VScale(28); }
+static inline uint16_t LIST_ITEM_NAME_LABEL_FONT_SIZE() { return FontScale(24); }
 // list item time label
-static constexpr int16_t LIST_ITEM_TIME_PADDING_TOP = 10;
-static constexpr int16_t LIST_ITEM_TIME_LABEL_X = LIST_ITEM_NAME_LABEL_X;
-static constexpr int16_t LIST_ITEM_TIME_LABEL_WIDTH = 200;
-static constexpr int16_t LIST_ITEM_TIME_LABEL_HEIGHT = 22;
-static constexpr uint16_t LIST_ITEM_TIME_LABEL_FONT_SIZE = 20;
+static inline int16_t LIST_ITEM_TIME_PADDING_TOP() { return VScale(10); }
+static inline int16_t LIST_ITEM_TIME_LABEL_X() { return LIST_ITEM_NAME_LABEL_X(); }
+static inline int16_t LIST_ITEM_TIME_LABEL_WIDTH() { return HScale(200); }
+static inline int16_t LIST_ITEM_TIME_LABEL_HEIGHT() { return VScale(22); }
+static inline uint16_t LIST_ITEM_TIME_LABEL_FONT_SIZE() { return FontScale(20); }
 // refactor list time name/time label Y
-static constexpr int16_t LIST_ITEM_NAME_LABEL_Y =
-    (LIST_ITEM_HEIGHT -
-    (LIST_ITEM_NAME_LABEL_HEIGHT + LIST_ITEM_TIME_PADDING_TOP + LIST_ITEM_TIME_LABEL_HEIGHT)) /
-    2;
-static constexpr int16_t LIST_ITEM_TIME_LABEL_Y =
-    LIST_ITEM_NAME_LABEL_Y + LIST_ITEM_NAME_LABEL_HEIGHT + LIST_ITEM_TIME_PADDING_TOP;
+static inline int16_t LIST_ITEM_NAME_LABEL_Y() {
+    return (LIST_ITEM_HEIGHT() -
+        (LIST_ITEM_NAME_LABEL_HEIGHT() + LIST_ITEM_TIME_PADDING_TOP() + LIST_ITEM_TIME_LABEL_HEIGHT())) /
+        2;
+}
+static inline int16_t LIST_ITEM_TIME_LABEL_Y() {
+    return LIST_ITEM_NAME_LABEL_Y() + LIST_ITEM_NAME_LABEL_HEIGHT() + LIST_ITEM_TIME_PADDING_TOP();
+}
 // list item play button
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t LIST_ITEM_BUTTON_SIZE = 56;
-#else
-static constexpr int16_t LIST_ITEM_BUTTON_SIZE = 48;
-#endif
+static inline int16_t LIST_ITEM_BUTTON_SIZE() { return HScale(56); }
 static constexpr int16_t LIST_ITEM_BUTTON_MARGIN = 20;
 static constexpr int16_t LIST_ITEM_BORDER_RADIUS = 16;
-static constexpr int16_t LIST_ITEM_PLAY_BUTTON_X =
-    LIST_ITEM_WIDTH - LIST_ITEM_PADDING_H - LIST_ITEM_BUTTON_SIZE * 2 - LIST_ITEM_BUTTON_MARGIN;
-static constexpr int16_t LIST_ITEM_PLAY_BUTTON_Y = (LIST_ITEM_HEIGHT - LIST_ITEM_BUTTON_SIZE) / 2;
-static constexpr int16_t LIST_ITEM_PLAY_BUTTON_WIDTH = LIST_ITEM_BUTTON_SIZE;
-static constexpr int16_t LIST_ITEM_PLAY_BUTTON_HEIGHT = LIST_ITEM_BUTTON_SIZE;
+static inline int16_t LIST_ITEM_PLAY_BUTTON_X() {
+    return LIST_ITEM_WIDTH() - LIST_ITEM_PADDING_H - LIST_ITEM_BUTTON_SIZE() * 2 - LIST_ITEM_BUTTON_MARGIN;
+}
+static inline int16_t LIST_ITEM_PLAY_BUTTON_Y() {
+    return (LIST_ITEM_HEIGHT() - LIST_ITEM_BUTTON_SIZE()) / 2;
+}
+static inline int16_t LIST_ITEM_PLAY_BUTTON_WIDTH() { return LIST_ITEM_BUTTON_SIZE(); }
+static inline int16_t LIST_ITEM_PLAY_BUTTON_HEIGHT() { return LIST_ITEM_BUTTON_SIZE(); }
 // list item delete button
-static constexpr int16_t LIST_ITEM_DEL_BUTTON_X = LIST_ITEM_WIDTH - LIST_ITEM_PADDING_H - LIST_ITEM_BUTTON_SIZE;
-static constexpr int16_t LIST_ITEM_DEL_BUTTON_Y = (LIST_ITEM_HEIGHT - LIST_ITEM_BUTTON_SIZE) / 2;
-static constexpr int16_t LIST_ITEM_DEL_BUTTON_WIDTH = LIST_ITEM_BUTTON_SIZE;
-static constexpr int16_t LIST_ITEM_DEL_BUTTON_HEIGHT = LIST_ITEM_BUTTON_SIZE;
-
+static inline int16_t LIST_ITEM_DEL_BUTTON_X() {
+    return LIST_ITEM_WIDTH() - LIST_ITEM_PADDING_H - LIST_ITEM_BUTTON_SIZE();
+}
+static inline int16_t LIST_ITEM_DEL_BUTTON_Y() {
+    return (LIST_ITEM_HEIGHT() - LIST_ITEM_BUTTON_SIZE()) / 2;
+}
+static inline int16_t LIST_ITEM_DEL_BUTTON_WIDTH() { return LIST_ITEM_BUTTON_SIZE(); }
+static inline int16_t LIST_ITEM_DEL_BUTTON_HEIGHT() { return LIST_ITEM_BUTTON_SIZE(); }
 
 /** prefix and File Type */
 static const char* const AVAILABEL_SOURCE_TYPE = ".aac";

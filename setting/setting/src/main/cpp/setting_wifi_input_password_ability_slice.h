@@ -60,44 +60,49 @@ private:
     UILabel* lablelInputText_;
     EventListener* buttonBackListener_;
 
-    constexpr static int CURSOR_POSITION_OFFSET = 16;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static inline int CURSOR_POSITION_OFFSET(){ return HScale(16); }
+    static inline int INPUT_X()       { return HScale(36); }
+    static inline int INPUT_Y()       { return VScale(108); }
+    static inline int INPUT_WIDTH()   { return HScale(888); }
+    static inline int INPUT_HEIGHT()  { return VScale(54); }
+    static inline int INPUT_CURSOR_X()   { return HScale(20); }
+    static inline int INPUT_CURSOR_Y()   { return VScale(10); }
+    static inline int INPUT_CURSOR_WIDTH() { return HScale(2); }
+    static inline int INPUT_CURSOR_HEIGHT(){ return VScale(36); }
+    static inline int INPUT_TEXT_X()      { return HScale(24); }
+    static inline int INPUT_TEXT_Y()      { return VScale(11); }
+    static inline int INPUT_TEXT_WIDTH()  { return HScale(480); }
+    static inline int INPUT_TEXT_HEIGHT() { return VScale(38); }
+    static inline int INPUT_ENTER_X()     { return HScale(824); }
+    static inline int INPUT_ENTER_Y()     { return VScale(6); }
+    static inline int INPUT_ENTER_WIDTH() { return HScale(58); }
+    static inline int INPUT_ENTER_HEIGHT(){ return VScale(42); }
+
+    static inline int INPUT_IMAGE_X()      { return HScale(10); }
+    static inline int INPUT_IMAGE_Y()      { return VScale(2); }
+    static inline int INPUT_IMAGE_WIDTH()  { return HScale(38); }
+    static inline int INPUT_IMAGE_HEIGHT() { return VScale(38); }
+
+    static inline int BUTTON_NUM() { return 3; }
+
+    static inline int BUTTON_INTERVAL_X() { return HScale(172); }
+    static inline int BUTTON_INTERVAL_Y() { return VScale(66); }
+    static inline int BUTTON_WIDTH()      { return HScale(160); }
+    static inline int BUTTON_HEIGHT()     { return VScale(54); }
+
+    static inline int SCROLL_WIFI_INPUT_X()      { return HScale(228); }
+    static inline int SCROLL_WIFI_INPUT_Y()      { return VScale(198); }
+    static inline int SCROLL_WIFI_INPUT_WIDTH()  { return HScale(530); }
+    static inline int SCROLL_WIFI_INPUT_HEIGHT() { return VScale(252); }
+
+    /* constants that are resolution-independent */
     constexpr static int RECT_RADIUS = 6;
-    constexpr static int INPUT_X = 36;
-    constexpr static int INPUT_Y = 108;
-    constexpr static int INPUT_WIDTH = 888;
-    constexpr static int INPUT_HEIGHT = 54;
     constexpr static int INPUT_RADIUS = 32;
-    constexpr static int INPUT_CURSOR_X = 20;
-    constexpr static int INPUT_CURSOR_Y = 10;
-    constexpr static int INPUT_CURSOR_WIDTH = 2;
-    constexpr static int INPUT_CURSOR_HEIGHT = 36;
-    constexpr static int INPUT_TEXT_X = 24;
-    constexpr static int INPUT_TEXT_Y = 11;
-    constexpr static int INPUT_TEXT_WIDTH = 480;
-    constexpr static int INPUT_TEXT_HEIGHT = 38;
     constexpr static int INPUT_FONT_SIZE = 28;
-    constexpr static int INPUT_ENTER_X = 824;
-    constexpr static int INPUT_ENTER_Y = 6;
-    constexpr static int INPUT_ENTER_WIDTH = 58;
-    constexpr static int INPUT_ENTER_HEIGHT = 42;
     constexpr static int INPUT_ENTER_RADIUS = 32;
-
-    constexpr static int INPUT_IMAGE_X = 10;
-    constexpr static int INPUT_IMAGE_Y = 2;
-    constexpr static int INPUT_IMAGE_WIDTH = 38;
-    constexpr static int INPUT_IMAGE_HEIGHT = 38;
-
-    constexpr static int BUTTON_NUM = 3;
-
-    constexpr static int BUTTON_INTERVAL_X = 172;
-    constexpr static int BUTTON_INTERVAL_Y = 66;
-    constexpr static int BUTTON_WIDTH = 160;
-    constexpr static int BUTTON_HEIGHT = 54;
-
-    constexpr static int SCROLL_WIFI_INPUT_X = 228;
-    constexpr static int SCROLL_WIFI_INPUT_Y = 198;
-    constexpr static int SCROLL_WIFI_INPUT_WIDTH = 530;
-    constexpr static int SCROLL_WIFI_INPUT_HEIGHT = 252;
+    /* initial cursor X in the 1920x1080 reference; runtime value is HScale-derived */
+    static inline int CURSOR_INIT_X() { return HScale(20); }
 };
 
 } // namespace OHOS

@@ -129,12 +129,14 @@ void GalleryAbilitySlice::InitTitle()
 {
     LOGI("GalleryAbilitySlice::InitTitle | start");
     backIcon_ = new UIImageView();
-    backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
+    backIcon_->SetAutoEnable(false);
+    backIcon_->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    backIcon_->SetPosition(BACK_ICON_POSITION_X(), BACK_ICON_POSITION_Y(), BACK_ICON_WIDTH(), BACK_ICON_HEIGHT());
     backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
 
     backArea_ = new UIViewGroup();
-    backArea_->SetPosition(0, 0, LABEL_POSITION_X, LABEL_HEIGHT);
+    backArea_->SetPosition(0, 0, LABEL_POSITION_X(), LABEL_HEIGHT());
     backArea_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     backArea_->SetTouchable(true);
 
@@ -149,19 +151,19 @@ void GalleryAbilitySlice::InitTitle()
     backArea_->SetOnClickListener(backIconListener_);
 
     titleLabel_ = new UILabel();
-    titleLabel_->SetPosition(LABEL_POSITION_X, LABEL_POSITION_Y, LABEL_WIDTH, LABEL_HEIGHT);
+    titleLabel_->SetPosition(LABEL_POSITION_X(), LABEL_POSITION_Y, LABEL_WIDTH(), LABEL_HEIGHT());
     titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
+    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
     titleLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     titleLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     titleLabel_->SetText("照片");
 
     deleteLabel_ = new UILabel();
-    deleteLabel_->SetPosition(ROOT_VIEW_WIDTH - DELETE_LABEL_WIDTH, LABEL_POSITION_Y,
-                              DELETE_LABEL_WIDTH, LABEL_HEIGHT);
+    deleteLabel_->SetPosition(ROOT_VIEW_WIDTH() - DELETE_LABEL_WIDTH(), LABEL_POSITION_Y,
+                              DELETE_LABEL_WIDTH(), LABEL_HEIGHT());
     deleteLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT,
                            UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    deleteLabel_->SetFont(FONT_NAME, GALLERY_DELETE_FONT_SIZE);
+    deleteLabel_->SetFont(FONT_NAME, GALLERY_DELETE_FONT_SIZE());
     deleteLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     deleteLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     deleteLabel_->SetText("全部删除");
@@ -185,25 +187,25 @@ void GalleryAbilitySlice::InitPictureList()
 {
     LOGI("GalleryAbilitySlice::InitPictureList | start");
     picContainer_ = new UIScrollView();
-    picContainer_->SetPosition(0, LABEL_POSITION_Y + LABEL_HEIGHT);
-    picContainer_->Resize(ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT - (LABEL_POSITION_Y + LABEL_HEIGHT));
+    picContainer_->SetPosition(0, LABEL_POSITION_Y + LABEL_HEIGHT());
+    picContainer_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT() - (LABEL_POSITION_Y + LABEL_HEIGHT()));
     picContainer_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     picContainer_->SetStyle(STYLE_BACKGROUND_COLOR, Color::Silver().full);
     rootView_->Add(picContainer_);
 
     picList_ = new UIViewGroup();
-    picList_->SetPosition(0, 0, ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
+    picList_->SetPosition(0, 0, ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
     picList_->SetStyle(STYLE_BACKGROUND_OPA, 0);
 
-    int16_t numInLine = (ROOT_VIEW_WIDTH + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE);
-    int16_t offset = ((ROOT_VIEW_WIDTH + THUMBNAIL_SPACE) % (THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE)) / 2; // 2: half
+    int16_t numInLine = (ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE);
+    int16_t offset = ((ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) % (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE)) / 2; // 2: half
     AddAllPictures(Point { offset, 0 }, numInLine);
 
-    int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE);
+    int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE);
     if ((pictureCount_ % numInLine) != 0) {
-        totalHeight += THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE;
+        totalHeight += THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE;
     }
-    picList_->Resize(ROOT_VIEW_WIDTH, totalHeight);
+    picList_->Resize(ROOT_VIEW_WIDTH(), totalHeight);
     LOGI("------------ totalHeight : %d ------------", totalHeight);
     picContainer_->Add(picList_);
 }
@@ -248,9 +250,9 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
 
         if ((pictureCount_ % numInLine) == 0) {
             imagePos.x = pos.x;
-            imagePos.y += THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE;
+            imagePos.y += THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE;
         } else {
-            imagePos.x += THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE;
+            imagePos.x += THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE;
         }
     }
     delete info;
@@ -261,7 +263,7 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
 {
     UIImageView* imageView = new UIImageView();
     imageView->SetAutoEnable(false);
-    imageView->Resize(THUMBNAIL_RESOLUTION_X, THUMBNAIL_RESOLUTION_Y);
+    imageView->Resize(THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
     pictureOnClickListener_[pictureOnClickListenerCount_] = GetImageClickListener(imageName);
     imageView->SetOnClickListener(pictureOnClickListener_[pictureOnClickListenerCount_++]);
     imageView->SetTouchable(true);
@@ -270,7 +272,7 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
 
     UIViewGroup* imageItem = new UIViewGroup();
     imageItem->SetStyle(STYLE_BACKGROUND_OPA, 0);
-    imageItem->SetPosition(pos.x, pos.y, THUMBNAIL_RESOLUTION_X, THUMBNAIL_RESOLUTION_Y);
+    imageItem->SetPosition(pos.x, pos.y, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
     imageItem->SetTouchable(true);
     imageItem->SetOnClickListener(imageView->GetOnClickListener());
     imageItem->Add(imageView);
@@ -279,7 +281,7 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
     if (filePath.find("mp4") != std::string::npos) {
         UIImageView* videoTag = new UIImageView();
         std::string videoTagFielPath = videoTagIconAbsolutePath;
-        videoTag->SetPosition(VIDEO_TAG_POSITION_X, VIDEO_TAG_POSITION_Y, VIDEO_TAG_WIDTH, VIDEO_TAG_HEIGHT);
+        videoTag->SetPosition(VIDEO_TAG_POSITION_X(), VIDEO_TAG_POSITION_Y(), VIDEO_TAG_WIDTH(), VIDEO_TAG_HEIGHT());
         videoTag->SetTouchable(true);
         videoTag->SetOnClickListener(imageView->GetOnClickListener());
         imageDecoder_->DecodeImage(videoTagFielPath, [videoTag, videoTagFielPath](ImageInfo imageInfo) {
@@ -288,11 +290,11 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
         });
 
         UILabel* labelView = new UILabel();
-        labelView->SetPosition(0, 0, THUMBNAIL_RESOLUTION_X, THUMBNAIL_RESOLUTION_Y);
+        labelView->SetPosition(0, 0, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
         labelView->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
                             UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
         labelView->SetLineBreakMode(UILabel::LineBreakMode::LINE_BREAK_ELLIPSIS);
-        labelView->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
+        labelView->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
         labelView->SetStyle(STYLE_TEXT_COLOR, Color::White().full);
         labelView->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
         labelView->SetText(imageName);
@@ -394,7 +396,7 @@ void GalleryAbilitySlice::OnStart(const Want &want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(ROOT_VIEW_POSITION_X, ROOT_VIEW_POSITION_Y);
-    rootView_->Resize(ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
+    rootView_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
 
     const char* pathHeader = GetSrcPath();

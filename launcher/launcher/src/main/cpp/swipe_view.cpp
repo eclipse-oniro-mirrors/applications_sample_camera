@@ -46,8 +46,8 @@ SwipeView::~SwipeView()
 void SwipeView::SetUpSwipe()
 {
     swipe_ = new UISwipeView();
-    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     swipe_->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     swipe_->SetLoopState(true);
     swipe_->SetAnimatorTime(20); // set swipe view animator time 20s
@@ -62,8 +62,8 @@ UIViewGroup* SwipeView::AddViewGroup()
     if (viewGroup == nullptr) {
         return viewGroup;
     }
-    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     viewGroup->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     groupCount_++;
     ViewGroupPage* page = new ViewGroupPage(viewGroup);
@@ -75,8 +75,8 @@ UIViewGroup* SwipeView::AddViewGroup()
 UIViewGroup* SwipeView::AddFirstViewGroup()
 {
     UIViewGroup* firstView = new UIViewGroup();
-    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     firstView->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UIViewGroup* viewTimeWeather = new UIViewGroup();

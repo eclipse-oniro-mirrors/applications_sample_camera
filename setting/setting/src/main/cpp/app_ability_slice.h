@@ -62,12 +62,13 @@ private:
     EventListener* buttonBackListener_;
     EventListener* buttonAppInfoListener_;
 
-    constexpr static int APP_IMAGE_X = 12;
-    constexpr static int APP_IMAGE_Y = 12;
-    constexpr static int APP_IMAGE_WIDTH = 64;
-    constexpr static int APP_IMAGE_HEIGHT = 64;
-    constexpr static int APP_NAME_X = 94;
-    constexpr static int APP_NAME_Y = 28;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static inline int APP_IMAGE_X()       { return HScale(12); }
+    static inline int APP_IMAGE_Y()       { return VScale(12); }
+    static inline int APP_IMAGE_WIDTH()   { return HScale(64); }
+    static inline int APP_IMAGE_HEIGHT()  { return VScale(64); }
+    static inline int APP_NAME_X()        { return HScale(94); }
+    static inline int APP_NAME_Y()        { return VScale(28); }
 };
 } // namespace OHOS
 #endif

@@ -147,6 +147,8 @@ void SettingDhcpAbilitySlice::SetHead(void)
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -160,7 +162,7 @@ void SettingDhcpAbilitySlice::SetHead(void)
 void SettingDhcpAbilitySlice::SetToggleButton(void)
 {
     toggleButtonView_ = new UIViewGroup();
-    toggleButtonView_->SetPosition(toggleX, toggleY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    toggleButtonView_->SetPosition(toggleX(), toggleY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     toggleButtonView_->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
@@ -176,7 +178,7 @@ void SettingDhcpAbilitySlice::SetToggleButton(void)
     UIToggleButton* togglebutton = new UIToggleButton();
     changeListener_ = new DhcpBtnOnStateChangeListener(reinterpret_cast<UIView*>(scrollView_));
     togglebutton->SetOnClickListener(changeListener_);
-    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y);
+    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y, DE_TOGGLE_BUTTON_WIDTH, DE_TOGGLE_BUTTON_HEIGHT);
     togglebutton->SetState(g_dhcpStatus != 0);
     scrollView_->SetVisible(g_dhcpStatus != 0);
 
@@ -186,7 +188,7 @@ void SettingDhcpAbilitySlice::SetToggleButton(void)
 void SettingDhcpAbilitySlice::SetUseDhcp(void)
 {
     UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(useDhcpFontX, useDhcpFontY, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFont->SetPosition(useDhcpFontX(), useDhcpFontY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFont->SetText("DHCP信息");
     lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
@@ -197,7 +199,7 @@ void SettingDhcpAbilitySlice::SetScrollDhcp(void)
 {
     scrollView_ = new UIScrollView();
     scrollView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_SCROLL_COLOR);
-    scrollView_->SetPosition(scrollDhcpX, scrollDhcpY, scrollDhcpWidth, scrollDhcpHeight);
+    scrollView_->SetPosition(scrollDhcpX(), scrollDhcpY(), scrollDhcpWidth(), scrollDhcpHeight());
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);

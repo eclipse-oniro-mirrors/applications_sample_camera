@@ -127,7 +127,7 @@ uint16_t RecorderListAdapter::GetCount()
 UIViewGroup* RecorderListAdapter::CreateItemView()
 {
     UIViewGroup* item = new UIViewGroup();
-    item->SetPosition(0, 0, LIST_ITEM_WIDTH, LIST_ITEM_HEIGHT);
+    item->SetPosition(0, 0, LIST_ITEM_WIDTH(), LIST_ITEM_HEIGHT());
     item->SetStyle(STYLE_BORDER_RADIUS, LIST_ITEM_BORDER_RADIUS);
     item->SetStyle(STYLE_BORDER_WIDTH, 0);
     item->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
@@ -147,10 +147,10 @@ UIImageView* RecorderListAdapter::CreateFileIcon()
     UIImageView* fileIcon = new UIImageView();
     fileIcon->SetViewId(VIEW_ID_ICON);
     fileIcon->SetPosition(
-        LIST_ITEM_FILE_ICON_X,
-        LIST_ITEM_FILE_ICON_Y,
-        LIST_ITEM_FILE_ICON_WIDTH,
-        LIST_ITEM_FILE_ICON_HEIGHT);
+        LIST_ITEM_FILE_ICON_X(),
+        LIST_ITEM_FILE_ICON_Y(),
+        LIST_ITEM_FILE_ICON_WIDTH(),
+        LIST_ITEM_FILE_ICON_HEIGHT());
     fileIcon->SetAutoEnable(false);
     fileIcon->SetResizeMode(UIImageView::CONTAIN);
     fileIcon->SetSrc(fileIconAbsolutePath);
@@ -163,12 +163,12 @@ UILabel* RecorderListAdapter::CreateNameLabel()
     UILabel* nameLabel = new UILabel();
     nameLabel->SetViewId(VIEW_ID_NAME);
     nameLabel->SetPosition(
-        LIST_ITEM_NAME_LABEL_X,
-        LIST_ITEM_NAME_LABEL_Y,
-        LIST_ITEM_NAME_LABEL_WIDTH,
-        LIST_ITEM_NAME_LABEL_HEIGHT);
+        LIST_ITEM_NAME_LABEL_X(),
+        LIST_ITEM_NAME_LABEL_Y(),
+        LIST_ITEM_NAME_LABEL_WIDTH(),
+        LIST_ITEM_NAME_LABEL_HEIGHT());
     nameLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    nameLabel->SetFont(FONT_NAME, LIST_ITEM_NAME_LABEL_FONT_SIZE);
+    nameLabel->SetFont(FONT_NAME, LIST_ITEM_NAME_LABEL_FONT_SIZE());
     nameLabel->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     nameLabel->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     return nameLabel;
@@ -179,12 +179,12 @@ UILabel* RecorderListAdapter::CreateTimeLabel()
     UILabel* timeLabel = new UILabel();
     timeLabel->SetViewId(VIEW_ID_TIME);
     timeLabel->SetPosition(
-        LIST_ITEM_TIME_LABEL_X,
-        LIST_ITEM_TIME_LABEL_Y,
-        LIST_ITEM_TIME_LABEL_WIDTH,
-        LIST_ITEM_TIME_LABEL_HEIGHT);
+        LIST_ITEM_TIME_LABEL_X(),
+        LIST_ITEM_TIME_LABEL_Y(),
+        LIST_ITEM_TIME_LABEL_WIDTH(),
+        LIST_ITEM_TIME_LABEL_HEIGHT());
     timeLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    timeLabel->SetFont(FONT_NAME, LIST_ITEM_TIME_LABEL_FONT_SIZE);
+    timeLabel->SetFont(FONT_NAME, LIST_ITEM_TIME_LABEL_FONT_SIZE());
     timeLabel->SetStyle(STYLE_TEXT_COLOR, Color::Gray().full);
     timeLabel->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     return timeLabel;
@@ -195,10 +195,10 @@ UIImageView* RecorderListAdapter::CreatePlayButton()
     UIImageView* playButton = new UIImageView();
     playButton->SetViewId(VIEW_ID_PLAY);
     playButton->SetPosition(
-        LIST_ITEM_PLAY_BUTTON_X,
-        LIST_ITEM_PLAY_BUTTON_Y,
-        LIST_ITEM_PLAY_BUTTON_WIDTH,
-        LIST_ITEM_PLAY_BUTTON_HEIGHT);
+        LIST_ITEM_PLAY_BUTTON_X(),
+        LIST_ITEM_PLAY_BUTTON_Y(),
+        LIST_ITEM_PLAY_BUTTON_WIDTH(),
+        LIST_ITEM_PLAY_BUTTON_HEIGHT());
     playButton->SetAutoEnable(false);
     playButton->SetResizeMode(UIImageView::CONTAIN);
     playButton->SetTouchable(true);
@@ -210,10 +210,10 @@ UIImageView* RecorderListAdapter::CreateDeleteButton()
     UIImageView* deleteButton = new UIImageView();
     deleteButton->SetViewId(VIEW_ID_DELETE);
     deleteButton->SetPosition(
-        LIST_ITEM_DEL_BUTTON_X,
-        LIST_ITEM_DEL_BUTTON_Y,
-        LIST_ITEM_DEL_BUTTON_WIDTH,
-        LIST_ITEM_DEL_BUTTON_HEIGHT);
+        LIST_ITEM_DEL_BUTTON_X(),
+        LIST_ITEM_DEL_BUTTON_Y(),
+        LIST_ITEM_DEL_BUTTON_WIDTH(),
+        LIST_ITEM_DEL_BUTTON_HEIGHT());
     deleteButton->SetAutoEnable(false);
     deleteButton->SetResizeMode(UIImageView::CONTAIN);
     deleteButton->SetSrc(deleteIconAbsolutePath);

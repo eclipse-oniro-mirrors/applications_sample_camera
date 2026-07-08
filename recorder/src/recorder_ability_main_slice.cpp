@@ -48,16 +48,14 @@ void RecorderAbilityMainSlice::InitTitle()
 {
     LOGI("RecorderAbilityMainSlice::InitTitle");
     titleBar_ = new UIViewGroup();
-    titleBar_->SetPosition(TITLE_BAR_X, TITLE_BAR_Y, TITLE_BAR_WIDTH, TITLE_BAR_HEIGHT);
+    titleBar_->SetPosition(TITLE_BAR_X(), TITLE_BAR_Y(), TITLE_BAR_WIDTH(), TITLE_BAR_HEIGHT());
     titleBar_->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
     titleBar_->SetStyle(STYLE_BACKGROUND_OPA, OPA_OPAQUE);
 
     backButton_ = new UIImageView();
-    backButton_->SetPosition(BACK_ICON_X, BACK_ICON_Y, BACK_ICON_WIDTH, BACK_ICON_HEIGHT);
-    backButton_->SetStyle(STYLE_PADDING_LEFT, BACK_ICON_PADDING_H);
-    backButton_->SetStyle(STYLE_PADDING_RIGHT, BACK_ICON_PADDING_H);
-    backButton_->SetStyle(STYLE_PADDING_TOP, BACK_ICON_PADDING_V);
-    backButton_->SetStyle(STYLE_PADDING_BOTTOM, BACK_ICON_PADDING_V);
+    backButton_->SetPosition(BACK_ICON_X(), BACK_ICON_Y(), BACK_ICON_WIDTH(), BACK_ICON_HEIGHT());
+    backButton_->SetAutoEnable(false);
+    backButton_->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     backButton_->SetSrc(backIconAbsolutePath);
     backButton_->SetTouchable(true);
 
@@ -70,9 +68,9 @@ void RecorderAbilityMainSlice::InitTitle()
     backButton_->SetOnClickListener(backButtonListener_);
 
     titleLabel_ = new UILabel();
-    titleLabel_->SetPosition(TITLE_LABEL_X, TITLE_LABEL_Y, TITLE_LABEL_WIDTH, TITLE_LABEL_HEIGHT);
+    titleLabel_->SetPosition(TITLE_LABEL_X(), TITLE_LABEL_Y(), TITLE_LABEL_WIDTH(), TITLE_LABEL_HEIGHT());
     titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    titleLabel_->SetFont(FONT_NAME, TITLE_LABEL_FONT_SIZE);
+    titleLabel_->SetFont(FONT_NAME, TITLE_LABEL_FONT_SIZE());
     titleLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     titleLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     titleLabel_->SetText("录音机");
@@ -93,11 +91,11 @@ void RecorderAbilityMainSlice::InitRecordCtrl()
 void RecorderAbilityMainSlice::InitRecordLabels()
 {
     noticeLabel_ = new UILabel();
-    noticeLabel_->SetPosition(NOTICE_LABEL_X, NOTICE_LABEL_Y, NOTICE_LABEL_WIDTH, NOTICE_LABEL_HEIGHT);
+    noticeLabel_->SetPosition(NOTICE_LABEL_X(), NOTICE_LABEL_Y(), NOTICE_LABEL_WIDTH(), NOTICE_LABEL_HEIGHT());
     noticeLabel_->SetAlign(
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    noticeLabel_->SetFont(FONT_NAME, NOTICE_LABEL_FONT_SIZE);
+    noticeLabel_->SetFont(FONT_NAME, NOTICE_LABEL_FONT_SIZE());
     noticeLabel_->SetStyle(
         STYLE_TEXT_COLOR,
         Color::GetColorFromRGB(NOTICE_COLOR_RED, NOTICE_COLOR_GREEN, NOTICE_COLOR_BLUE).full);
@@ -105,11 +103,11 @@ void RecorderAbilityMainSlice::InitRecordLabels()
     noticeLabel_->SetText("点击下方按钮开始录音");
 
     durationLabel_ = new UILabel();
-    durationLabel_->SetPosition(DURATION_LABEL_X, DURATION_LABEL_Y, DURATION_LABEL_WIDTH, DURATION_LABEL_HEIGHT);
+    durationLabel_->SetPosition(DURATION_LABEL_X(), DURATION_LABEL_Y(), DURATION_LABEL_WIDTH(), DURATION_LABEL_HEIGHT());
     durationLabel_->SetAlign(
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    durationLabel_->SetFont(FONT_NAME, DURATION_LABEL_FONT_SIZE);
+    durationLabel_->SetFont(FONT_NAME, DURATION_LABEL_FONT_SIZE());
     durationLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     durationLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     durationLabel_->SetText("00:00:00");
@@ -118,21 +116,21 @@ void RecorderAbilityMainSlice::InitRecordLabels()
 void RecorderAbilityMainSlice::InitRecordButtons()
 {
     fsImageView_ = new UIImageView();
-    fsImageView_->SetPosition(FS_IMAGE_X, FS_IMAGE_Y, FS_IMAGE_WIDTH, FS_IMAGE_HEIGHT);
+    fsImageView_->SetPosition(FS_IMAGE_X(), FS_IMAGE_Y(), FS_IMAGE_WIDTH(), FS_IMAGE_HEIGHT());
     fsImageView_->SetAutoEnable(false);
     fsImageView_->SetResizeMode(UIImageView::FILL);
     fsImageView_->SetSrc(fsIconAbsolutePath);
     fsImageView_->SetTouchable(false);
 
     startButton_ = new UIImageView();
-    startButton_->SetPosition(START_BUTTON_X, START_BUTTON_Y, START_BUTTON_WIDTH, START_BUTTON_HEIGHT);
+    startButton_->SetPosition(START_BUTTON_X(), START_BUTTON_Y(), START_BUTTON_WIDTH(), START_BUTTON_HEIGHT());
     startButton_->SetAutoEnable(false);
     startButton_->SetResizeMode(UIImageView::CONTAIN);
     startButton_->SetSrc(startIconAbsolutePath);
     startButton_->SetTouchable(true);
 
     pauseButton_ = new UIImageView();
-    pauseButton_->SetPosition(PAUSE_BUTTON_X, PAUSE_BUTTON_Y, PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT);
+    pauseButton_->SetPosition(PAUSE_BUTTON_X(), PAUSE_BUTTON_Y(), PAUSE_BUTTON_WIDTH(), PAUSE_BUTTON_HEIGHT());
     pauseButton_->SetAutoEnable(false);
     pauseButton_->SetResizeMode(UIImageView::CONTAIN);
     pauseButton_->SetSrc(pauseIconAbsolutePath);
@@ -140,7 +138,7 @@ void RecorderAbilityMainSlice::InitRecordButtons()
     pauseButton_->SetVisible(false);
 
     cancelButton_ = new UIImageView();
-    cancelButton_->SetPosition(CANCEL_BUTTON_X, CANCEL_BUTTON_Y, CANCEL_BUTTON_WIDTH, CANCEL_BUTTON_HEIGHT);
+    cancelButton_->SetPosition(CANCEL_BUTTON_X(), CANCEL_BUTTON_Y(), CANCEL_BUTTON_WIDTH(), CANCEL_BUTTON_HEIGHT());
     cancelButton_->SetAutoEnable(false);
     cancelButton_->SetResizeMode(UIImageView::CONTAIN);
     cancelButton_->SetSrc(cancelIconAbsolutePath);
@@ -194,9 +192,7 @@ void RecorderAbilityMainSlice::AddRecordControlsToRoot()
 {
     rootView_->Add(noticeLabel_);
     rootView_->Add(durationLabel_);
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
     rootView_->Add(fsImageView_);
-#endif
     rootView_->Add(startButton_);
     rootView_->Add(pauseButton_);
     rootView_->Add(cancelButton_);
@@ -205,9 +201,9 @@ void RecorderAbilityMainSlice::AddRecordControlsToRoot()
 void RecorderAbilityMainSlice::InitRecordList()
 {
     listLabel_ = new UILabel();
-    listLabel_->SetPosition(LIST_LABEL_X, LIST_LABEL_Y, LIST_LABEL_WIDTH, LIST_LABEL_HEIGHT);
+    listLabel_->SetPosition(LIST_LABEL_X(), LIST_LABEL_Y(), LIST_LABEL_WIDTH(), LIST_LABEL_HEIGHT());
     listLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    listLabel_->SetFont(FONT_NAME, LIST_LABEL_FONT_SIZE);
+    listLabel_->SetFont(FONT_NAME, LIST_LABEL_FONT_SIZE());
     listLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     listLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     listLabel_->SetText("录音列表");
@@ -235,7 +231,7 @@ void RecorderAbilityMainSlice::InitRecordList()
     list_->SetStyle(STYLE_BACKGROUND_OPA, OPA_TRANSPARENT);
     list_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     list_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
-    list_->SetPosition(LIST_X, LIST_Y, LIST_WIDTH, LIST_HEIGHT);
+    list_->SetPosition(LIST_X(), LIST_Y(), LIST_WIDTH(), LIST_HEIGHT());
     list_->SetStartIndex(0);
     list_->SetYScrollBarVisible(false);
     list_->SetAdapter(adapter_);
@@ -248,8 +244,8 @@ void RecorderAbilityMainSlice::OnStart(const Want &want)
 {
     LOGI(
         "RecorderAbilityMainSlice::OnStart, screen size: %dx%d",
-        Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight());
+        GetScrWidth(),
+        GetScrHeight());
     AbilitySlice::OnStart(want);
 
     InitRootView();
@@ -268,8 +264,8 @@ void RecorderAbilityMainSlice::OnStart(const Want &want)
 void RecorderAbilityMainSlice::InitRootView()
 {
     rootView_ = RootView::GetWindowRootView();
-    rootView_->SetPosition(ROOT_VIEW_X, ROOT_VIEW_Y);
-    rootView_->Resize(ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
+    rootView_->SetPosition(ROOT_VIEW_X(), ROOT_VIEW_Y());
+    rootView_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
     rootView_->SetStyle(
         STYLE_BACKGROUND_COLOR,
         Color::GetColorFromRGB(ROOT_COLOR_RED, ROOT_COLOR_GREEN, ROOT_COLOR_BLUE).full);

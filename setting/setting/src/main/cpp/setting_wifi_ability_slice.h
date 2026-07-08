@@ -92,17 +92,18 @@ private:
     EventListener* buttonInputListener_;
     int wpaCount_;
 
-    constexpr static int TOGGLE_X = 36;
-    constexpr static int TOGGLE_Y = 72;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static inline int TOGGLE_X()        { return HScale(36); }
+    static inline int TOGGLE_Y()        { return VScale(72); }
 
-    constexpr static int USE_WIFI_FONT_X = 54;
-    constexpr static int USE_WIFI_FONT_Y = 187;
+    static inline int USE_WIFI_FONT_X() { return HScale(54); }
+    static inline int USE_WIFI_FONT_Y() { return VScale(187); }
 
-    constexpr static int ADD_WIFI_X = 0;
-    constexpr static int SCROLL_WIFI_X = 36;
-    constexpr static int SCROLL_WIFI_Y = 242;
-    constexpr static int SCROLL_WIFI_WIDTH = 960;
-    constexpr static int SCROLL_WIFI_HEIGHT = 238;
+    static inline int ADD_WIFI_X()        { return 0; }
+    static inline int SCROLL_WIFI_X()     { return HScale(36); }
+    static inline int SCROLL_WIFI_Y()     { return VScale(242); }
+    static inline int SCROLL_WIFI_WIDTH() { return HScale(960); }
+    static inline int SCROLL_WIFI_HEIGHT(){ return VScale(238); }
 };
 } // namespace OHOS
 #endif

@@ -176,6 +176,8 @@ void MainAbilitySlice::SetHead(void)
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -189,7 +191,7 @@ void MainAbilitySlice::SetHead(void)
 void MainAbilitySlice::SetWifiButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(WIFI_BUTTON_X, WIFI_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(WIFI_BUTTON_X(), WIFI_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -197,15 +199,15 @@ void MainAbilitySlice::SetWifiButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontWifi = new UILabel();
-    lablelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontWifi->SetText("WiFi");
     lablelFontWifi->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontWifi->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontWifi);
 
     char buff[64] = {0}; // 64 is the longest in this sample
-    int myX = WIFI_BUTTON_TEXT_SSID_X;
-    int myY = WIFI_BUTTON_TEXT_SSID_Y;
+    int myX = WIFI_BUTTON_TEXT_SSID_X();
+    int myY = WIFI_BUTTON_TEXT_SSID_Y();
     int ret = GetCurrentConnInfo(buff, sizeof(buff));
     lablelFontSsid_ = new UILabel();
     lablelFontSsid_->SetPosition(myX, myY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
@@ -221,6 +223,8 @@ void MainAbilitySlice::SetWifiButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -228,7 +232,7 @@ void MainAbilitySlice::SetWifiButtonView(void)
 void MainAbilitySlice::SetDhcpButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(dhcpButtonX, dhcpButtonY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(dhcpButtonX(), dhcpButtonY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -236,14 +240,14 @@ void MainAbilitySlice::SetDhcpButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontDhcp = new UILabel();
-    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, dhcpButtonTextDhcpY, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, dhcpButtonTextDhcpY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontDhcp->SetText("DHCP");
     lablelFontDhcp->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontDhcp->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontDhcp);
 
     lablelFontIp_ = new UILabel();
-    lablelFontIp_->SetPosition(dhcpButtonTextIpX, dhcpButtonTextIpY,
+    lablelFontIp_->SetPosition(dhcpButtonTextIpX(), dhcpButtonTextIpY(),
                                DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
         lablelFontIp_->SetText(g_dhcpIp);
@@ -256,6 +260,8 @@ void MainAbilitySlice::SetDhcpButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -263,7 +269,7 @@ void MainAbilitySlice::SetDhcpButtonView(void)
 void MainAbilitySlice::SetAppButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(APP_BUTTON_X, APP_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(APP_BUTTON_X(), APP_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -280,6 +286,8 @@ void MainAbilitySlice::SetAppButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -287,7 +295,7 @@ void MainAbilitySlice::SetAppButtonView(void)
 void MainAbilitySlice::SetDisplayButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(DISPALY_BUTTON_X, DISPALY_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(DISPALY_BUTTON_X(), DISPALY_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -303,6 +311,8 @@ void MainAbilitySlice::SetDisplayButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -320,7 +330,7 @@ static void setAboutTest(UIViewGroup *buttonView, int positionX, int positionY, 
 void MainAbilitySlice::SetAboutButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(ABOUT_BUTTON_X, ABOUT_BUTTON_Y, DE_BUTTON_WIDTH, ABOUT_BUTTON_HEIGHT);
+    buttonView->SetPosition(ABOUT_BUTTON_X(), ABOUT_BUTTON_Y(), DE_BUTTON_WIDTH, ABOUT_BUTTON_HEIGHT());
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -328,7 +338,7 @@ void MainAbilitySlice::SetAboutButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontAbout = new UILabel();
-    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontAbout->SetText("关于");
     lablelFontAbout->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
@@ -342,7 +352,7 @@ void MainAbilitySlice::SetAboutButtonView(void)
         gDV = nullptr;
         return;
     }
-    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_SYSTEM_X, ABOUT_BUTTON_TEXT_SYSTEM_Y, buff);
+    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_SYSTEM_X(), ABOUT_BUTTON_TEXT_SYSTEM_Y(), buff);
 
     err = memset_s(buff, sizeof(buff), 0, sizeof(buff));
     if (err < EOK) {
@@ -356,10 +366,12 @@ void MainAbilitySlice::SetAboutButtonView(void)
         gPT = nullptr;
         return;
     }
-    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_DEVICE_X, ABOUT_BUTTON_TEXT_DEVICE_Y, buff);
+    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_DEVICE_X(), ABOUT_BUTTON_TEXT_DEVICE_Y(), buff);
 
     UIImageView* imageView = new UIImageView();
-    imageView->SetPosition(DE_FORWARD_IMG_X, ABOUT_BUTTON_IMAGE_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetPosition(DE_FORWARD_IMG_X, ABOUT_BUTTON_IMAGE_Y(), DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }

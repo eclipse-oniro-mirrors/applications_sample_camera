@@ -60,12 +60,9 @@ private:
     constexpr static int SCROLL_ITEM_NUM = 9;
     const char *itemInfo_[SCROLL_ITEM_NUM][2];
     constexpr static int ITEM_X = 0;
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-    constexpr static int itemInfoX = 1225;
-#else
-    constexpr static int itemInfoX = 465;
-#endif
-    constexpr static int ITEM_INFO_Y = 36;
+    /* Info label positions — scaled from 1920x1080 reference, keep proportions at every resolution */
+    static inline int itemInfoX()  { return HScale(1225); }
+    static inline int ITEM_INFO_Y(){ return (DE_BUTTON_HEIGHT - DE_SUBTITLE_TEXT_HEIGHT) / 2; }
 };
 } // namespace OHOS
 #endif

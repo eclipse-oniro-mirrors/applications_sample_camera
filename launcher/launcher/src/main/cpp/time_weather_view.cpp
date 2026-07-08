@@ -18,15 +18,17 @@
 
 #include "time_weather_view.h"
 
+
 namespace OHOS {
 static constexpr int16_t DISPLATE_PICESE = 2;
-static constexpr int16_t BLANK_H = 5;
-static constexpr int16_t BLANK_TW = 15;
-static constexpr int16_t BLANK_W = 100;
-static constexpr int16_t BIGLABEL_H = 100;
-static constexpr int16_t SMALLLABEL_H = 35;
-static constexpr int16_t IMAGE_H = 40;
-static constexpr int16_t IMAGE_W = 40;
+/* Scaled values from 1920x1080 reference */
+static inline int16_t BLANK_H() { return VScale(5); }
+static inline int16_t BLANK_TW() { return HScale(15); }
+static inline int16_t BLANK_W() { return HScale(100); }
+static inline int16_t BIGLABEL_H() { return VScale(100); }
+static inline int16_t SMALLLABEL_H() { return VScale(35); }
+static inline int16_t IMAGE_H() { return UScale(40); }
+static inline int16_t IMAGE_W() { return UScale(40); }
 const char* g_weekDate[WEEK_DAY_MAX] = {"星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
 TimeWeatherView::TimeWeatherView(UIViewGroup* viewGroup)
@@ -73,11 +75,11 @@ void TimeWeatherView::SetUpTimeView()
     if (ret == LAUNCHER_PARAMERROR) { return; }
     if (viewTime_ == nullptr) {
         viewTime_ = new UIViewGroup();
-        viewTime_->SetPosition(BLANK_TW, BLANK_H, viewGroup_->GetWidth() - BLANK_W,
-            viewGroup_->GetHeight() / DISPLATE_PICESE - SMALLLABEL_H);
+        viewTime_->SetPosition(BLANK_TW(), BLANK_H(), viewGroup_->GetWidth() - BLANK_W(),
+            viewGroup_->GetHeight() / DISPLATE_PICESE - SMALLLABEL_H());
         viewTime_->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
         UILabel* lable = new UILabel();
-        lable->SetPosition(BLANK_TW, BLANK_H, viewTime_->GetWidth(), BIGLABEL_H);
+        lable->SetPosition(BLANK_TW(), BLANK_H(), viewTime_->GetWidth(), BIGLABEL_H());
         lable->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_BOTTOM);
         lable->SetText(hour_min);
         lable->SetFont(FOND_PATH, BIGLAUNCHER_FOND_ID);
@@ -87,7 +89,7 @@ void TimeWeatherView::SetUpTimeView()
         lable->SetViewId("labletime");
 
         UILabel* lable2 = new UILabel();
-        lable2->SetPosition(BLANK_TW, BLANK_H + BIGLABEL_H + BLANK_H, viewTime_->GetWidth(), SMALLLABEL_H);
+        lable2->SetPosition(BLANK_TW(), BLANK_H() + BIGLABEL_H() + BLANK_H(), viewTime_->GetWidth(), SMALLLABEL_H());
         lable2->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_TOP);
         lable2->SetText(date);
         lable2->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
@@ -142,20 +144,23 @@ void TimeWeatherView::SetUpWeatherView()
 {
     const int16_t countTimes = 6;
     viewweather_ = new UIViewGroup();
-    viewweather_->SetPosition(BLANK_W, viewGroup_->GetHeight() / DISPLATE_PICESE - SMALLLABEL_H,
-        viewGroup_->GetWidth() / DISPLATE_PICESE + BLANK_TW, DISPLATE_PICESE * (BLANK_H + SMALLLABEL_H) + BLANK_H);
+    viewweather_->SetPosition(BLANK_W(), viewGroup_->GetHeight() / DISPLATE_PICESE - SMALLLABEL_H(),
+        viewGroup_->GetWidth() / DISPLATE_PICESE + BLANK_TW(),
+        DISPLATE_PICESE * (BLANK_H() + SMALLLABEL_H()) + BLANK_H());
     viewweather_->SetStyle(STYLE_BACKGROUND_OPA, HALF_OPACITY);
     viewweather_->SetStyle(STYLE_BORDER_RADIUS, GROUP_VIEW_RADIUS);
     viewweather_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::Gray()));
 
     UIImageView* uiImageView = new UIImageView();
-    uiImageView->SetPosition(BLANK_TW, BLANK_H * countTimes, IMAGE_W, IMAGE_H);
+    uiImageView->SetPosition(BLANK_TW(), BLANK_H(), IMAGE_W(), IMAGE_H());
+    uiImageView->SetAutoEnable(false);
+    uiImageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     uiImageView->SetSrc(RES_WEATHER);
-    uiImageView->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
+    uiImageView->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UILabel* lable = new UILabel();
-    lable->SetPosition(BLANK_TW + IMAGE_W, BLANK_H,
-        viewweather_->GetWidth() - IMAGE_W - BLANK_TW - BLANK_TW - BLANK_TW, SMALLLABEL_H);
+    lable->SetPosition(BLANK_TW() + IMAGE_W(), BLANK_H(),
+        viewweather_->GetWidth() - IMAGE_W() - BLANK_TW() - BLANK_TW() - BLANK_TW(), SMALLLABEL_H());
     lable->SetAlign(TEXT_ALIGNMENT_LEFT, TEXT_ALIGNMENT_CENTER);
     lable->SetText("室内温度 26℃");
     lable->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
@@ -164,8 +169,8 @@ void TimeWeatherView::SetUpWeatherView()
     lable->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UILabel* lable2 = new UILabel();
-    lable2->SetPosition(BLANK_TW + IMAGE_W, SMALLLABEL_H + BLANK_H + BLANK_H,
-        viewweather_->GetWidth() - IMAGE_W - BLANK_TW - BLANK_TW - BLANK_TW, SMALLLABEL_H);
+    lable2->SetPosition(BLANK_TW() + IMAGE_W(), SMALLLABEL_H() + BLANK_H() + BLANK_H(),
+        viewweather_->GetWidth() - IMAGE_W() - BLANK_TW() - BLANK_TW() - BLANK_TW(), SMALLLABEL_H());
     lable2->SetAlign(TEXT_ALIGNMENT_LEFT, TEXT_ALIGNMENT_CENTER);
     lable2->SetText("空气污染指数 136");
     lable2->SetFont(FOND_PATH, LAUNCHER_FOND_ID);

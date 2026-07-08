@@ -86,6 +86,8 @@ void SettingAboutAbilitySlice::SetHead()
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -114,10 +116,10 @@ void SettingAboutAbilitySlice::SetScrollItem(int count)
     itemView->Add(lablelFontName);
 
     UILabel* lablelFontInfo = new UILabel();
-    lablelFontInfo->SetPosition(itemInfoX, ITEM_INFO_Y, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    lablelFontInfo->SetPosition(itemInfoX(), ITEM_INFO_Y(), DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     lablelFontInfo->SetText(itemInfo_[count][1]);
     lablelFontInfo->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
-    lablelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT);
+    lablelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_CENTER);
     lablelFontInfo->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
     itemView->Add(lablelFontInfo);
 }

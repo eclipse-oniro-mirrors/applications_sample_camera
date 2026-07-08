@@ -82,33 +82,34 @@ private:
     EventListener* buttonBackListener_;
     EventListener* buttonDhcpListener_;
 
-    constexpr static int WIFI_BUTTON_X = 0;
-    constexpr static int WIFI_BUTTON_Y = 0;
-    constexpr static int WIFI_BUTTON_TEXT_WIFI_Y = 13;
-    constexpr static int WIFI_BUTTON_TEXT_SSID_X = 18;
-    constexpr static int WIFI_BUTTON_TEXT_SSID_Y = 45;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static inline int WIFI_BUTTON_X()      { return 0; }
+    static inline int WIFI_BUTTON_Y()      { return 0; }
+    static inline int WIFI_BUTTON_TEXT_WIFI_Y()  { return VScale(13); }
+    static inline int WIFI_BUTTON_TEXT_SSID_X()  { return HScale(18); }
+    static inline int WIFI_BUTTON_TEXT_SSID_Y()  { return VScale(45); }
 
-    constexpr static int dhcpButtonX = 0;
-    constexpr static int dhcpButtonY = 95;
-    constexpr static int dhcpButtonTextDhcpY = 13;
-    constexpr static int dhcpButtonTextIpX = 18;
-    constexpr static int dhcpButtonTextIpY = 45;
+    static inline int dhcpButtonX()      { return 0; }
+    static inline int dhcpButtonY()      { return VScale(95); }
+    static inline int dhcpButtonTextDhcpY()  { return VScale(13); }
+    static inline int dhcpButtonTextIpX()   { return HScale(18); }
+    static inline int dhcpButtonTextIpY()   { return VScale(45); }
 
-    constexpr static int APP_BUTTON_X = 0;
-    constexpr static int APP_BUTTON_Y = 95;
+    static inline int APP_BUTTON_X() { return 0; }
+    static inline int APP_BUTTON_Y() { return VScale(95); }
 
-    constexpr static int DISPALY_BUTTON_X = 0;
-    constexpr static int DISPALY_BUTTON_Y = 190;
+    static inline int DISPALY_BUTTON_X() { return 0; }
+    static inline int DISPALY_BUTTON_Y() { return VScale(190); }
 
-    constexpr static int ABOUT_BUTTON_X = 0;
-    constexpr static int ABOUT_BUTTON_Y = 190;
-    constexpr static int ABOUT_BUTTON_HEIGHT = 113;
-    constexpr static int ABOUT_BUTTON_TEXT_ABOUT_Y = 5;
-    constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_X = 18;
-    constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_Y = 39;
-    constexpr static int ABOUT_BUTTON_TEXT_DEVICE_X = 18;
-    constexpr static int ABOUT_BUTTON_TEXT_DEVICE_Y = 72;
-    constexpr static int ABOUT_BUTTON_IMAGE_Y = 34;
+    static inline int ABOUT_BUTTON_X()      { return 0; }
+    static inline int ABOUT_BUTTON_Y()      { return VScale(190); }
+    static inline int ABOUT_BUTTON_HEIGHT() { return VScale(113); }
+    static inline int ABOUT_BUTTON_TEXT_ABOUT_Y()  { return VScale(5); }
+    static inline int ABOUT_BUTTON_TEXT_SYSTEM_X() { return HScale(18); }
+    static inline int ABOUT_BUTTON_TEXT_SYSTEM_Y() { return VScale(39); }
+    static inline int ABOUT_BUTTON_TEXT_DEVICE_X() { return HScale(18); }
+    static inline int ABOUT_BUTTON_TEXT_DEVICE_Y() { return VScale(72); }
+    static inline int ABOUT_BUTTON_IMAGE_Y()        { return VScale(34); }
 };
 }
 

@@ -25,7 +25,7 @@ static const int g_maxPassword = 10;    // Maximum length of a password.
 static char* g_inputSsid = nullptr;
 static char g_inputPassword[g_maxPassword + 1] = { 0 };
 static int g_inputCount = 0;
-static int g_cursorPositionX = 20;    // Initial position of cursor X
+static int g_cursorPositionX = OHOS::HScale(20);    // Initial position of cursor X
 
 SettingWifiInputPasswordAbilitySlice::~SettingWifiInputPasswordAbilitySlice()
 {
@@ -117,6 +117,8 @@ void SettingWifiInputPasswordAbilitySlice::SetHead(void)
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -130,7 +132,7 @@ void SettingWifiInputPasswordAbilitySlice::SetHead(void)
 void SettingWifiInputPasswordAbilitySlice::SetInput(void)
 {
     inputView_ = new UIViewGroup();
-    inputView_->SetPosition(INPUT_X, INPUT_Y, INPUT_WIDTH, INPUT_HEIGHT);
+    inputView_->SetPosition(INPUT_X(), INPUT_Y(), INPUT_WIDTH(), INPUT_HEIGHT());
 
     inputView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     inputView_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
@@ -138,7 +140,7 @@ void SettingWifiInputPasswordAbilitySlice::SetInput(void)
     rootView_->Add(inputView_);
 
     lablelInputText_ = new UILabel();
-    lablelInputText_->SetPosition(INPUT_TEXT_X, INPUT_TEXT_Y, INPUT_TEXT_WIDTH, INPUT_TEXT_HEIGHT);
+    lablelInputText_->SetPosition(INPUT_TEXT_X(), INPUT_TEXT_Y(), INPUT_TEXT_WIDTH(), INPUT_TEXT_HEIGHT());
     lablelInputText_->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     lablelInputText_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     lablelInputText_->SetText("输入密码");
@@ -146,20 +148,22 @@ void SettingWifiInputPasswordAbilitySlice::SetInput(void)
     inputView_->Add(lablelInputText_);
 
     lablelCursorText_ = new UILabel();
-    lablelCursorText_->SetPosition(g_cursorPositionX, INPUT_CURSOR_Y, INPUT_CURSOR_WIDTH, INPUT_CURSOR_HEIGHT);
+    lablelCursorText_->SetPosition(g_cursorPositionX, INPUT_CURSOR_Y(), INPUT_CURSOR_WIDTH(), INPUT_CURSOR_HEIGHT());
     lablelCursorText_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x0D, 0x9F, 0xF8)));
     lablelCursorText_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     inputView_->Add(lablelCursorText_);
 
     UIViewGroup* enterView = new UIViewGroup();
-    enterView->SetPosition(INPUT_ENTER_X, INPUT_ENTER_Y, INPUT_ENTER_WIDTH, INPUT_ENTER_HEIGHT);
+    enterView->SetPosition(INPUT_ENTER_X(), INPUT_ENTER_Y(), INPUT_ENTER_WIDTH(), INPUT_ENTER_HEIGHT());
     enterView->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x0D, 0x9F, 0xF8)));
     enterView->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     enterView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     inputView_->Add(enterView);
 
     UIImageView* imageView = new UIImageView();
-    imageView->SetPosition(INPUT_IMAGE_X, INPUT_IMAGE_Y, INPUT_IMAGE_WIDTH, INPUT_IMAGE_HEIGHT);
+    imageView->SetPosition(INPUT_IMAGE_X(), INPUT_IMAGE_Y(), INPUT_IMAGE_WIDTH(), INPUT_IMAGE_HEIGHT());
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_ENTER);
     enterView->Add(imageView);
     imageView->SetTouchable(true);
@@ -170,15 +174,15 @@ void SettingWifiInputPasswordAbilitySlice::SetInput(void)
 void SettingWifiInputPasswordAbilitySlice::AddInputKeyBoardZero(void)
 {
     char buf[8] = {0};
-    int myUseX = BUTTON_INTERVAL_X;
+    int myUseX = BUTTON_INTERVAL_X();
     int myUseY = 198;
     int inputNum = 0;
     UILabelButton* inputButton = new UILabelButton();
 
     inputButton->SetPosition(myUseX, myUseY);
     sprintf_s(buf, sizeof(buf), "%d", inputNum);
-    inputButton->SetWidth(BUTTON_WIDTH);
-    inputButton->SetHeight(BUTTON_HEIGHT);
+    inputButton->SetWidth(BUTTON_WIDTH());
+    inputButton->SetHeight(BUTTON_HEIGHT());
     inputButton->SetText(buf);
     inputButton->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     inputButton->SetStyle(STYLE_BORDER_RADIUS, RECT_RADIUS);
@@ -186,7 +190,7 @@ void SettingWifiInputPasswordAbilitySlice::AddInputKeyBoardZero(void)
     inputButton->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
 
     clickLeftListener_ = new TestBtnOnClickInputPasswordChangeListener((UILabel*)lablelInputText_, \
-    (UILabel*)lablelCursorText_, inputNum, CURSOR_POSITION_OFFSET);
+    (UILabel*)lablelCursorText_, inputNum, CURSOR_POSITION_OFFSET());
     inputButton->SetOnClickListener(clickLeftListener_);
     scrollView_->Add(inputButton);
 }
@@ -196,19 +200,19 @@ void SettingWifiInputPasswordAbilitySlice::SetScrollView(void)
     char buf[8] = {0};
     int inputNum;
     scrollView_ = new UIScrollView();
-    scrollView_->SetPosition(SCROLL_WIFI_INPUT_X, SCROLL_WIFI_INPUT_Y, SCROLL_WIFI_INPUT_WIDTH,
-        SCROLL_WIFI_INPUT_WIDTH);
+    scrollView_->SetPosition(SCROLL_WIFI_INPUT_X(), SCROLL_WIFI_INPUT_Y(), SCROLL_WIFI_INPUT_WIDTH(),
+        SCROLL_WIFI_INPUT_WIDTH());
     scrollView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_SCROLL_COLOR);
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
-    for (int countFirst = 0; countFirst < BUTTON_NUM; countFirst++) {
-        for (int countSecound = 0; countSecound < BUTTON_NUM; countSecound++) {
-            int myUseX = countSecound * BUTTON_INTERVAL_X;
-            int myUseY = countFirst * BUTTON_INTERVAL_Y;
-            inputNum = ((countFirst * BUTTON_NUM) + countSecound + 1);
+    for (int countFirst = 0; countFirst < BUTTON_NUM(); countFirst++) {
+        for (int countSecound = 0; countSecound < BUTTON_NUM(); countSecound++) {
+            int myUseX = countSecound * BUTTON_INTERVAL_X();
+            int myUseY = countFirst * BUTTON_INTERVAL_Y();
+            inputNum = ((countFirst * BUTTON_NUM()) + countSecound + 1);
             UILabelButton* inputButton = new UILabelButton();
-            inputButton->SetPosition(myUseX, myUseY, BUTTON_WIDTH, BUTTON_HEIGHT);
+            inputButton->SetPosition(myUseX, myUseY, BUTTON_WIDTH(), BUTTON_HEIGHT());
             int err = sprintf_s(buf, sizeof(buf), "%d", inputNum);
             if (err < 0) {
                 printf("[ERROR]sprintf_s failed, err = %d\n", err);
@@ -221,7 +225,7 @@ void SettingWifiInputPasswordAbilitySlice::SetScrollView(void)
             inputButton->SetFont(DE_FONT_OTF, DE_CONTENT_FONT_SIZE);
             UIView::OnClickListener* clickLeftListener = nullptr;
             clickLeftListener = new TestBtnOnClickInputPasswordChangeListener((UILabel*)lablelInputText_,
-                (UILabel*)lablelCursorText_, inputNum, CURSOR_POSITION_OFFSET);
+                (UILabel*)lablelCursorText_, inputNum, CURSOR_POSITION_OFFSET());
             inputButton->SetOnClickListener(clickLeftListener);
             scrollView_->Add(inputButton);
         }
@@ -243,7 +247,7 @@ void SettingWifiInputPasswordAbilitySlice::OnStart(const Want& want)
         return;
     }
     g_inputCount = 0;
-    g_cursorPositionX = 20; // 20
+    g_cursorPositionX = CURSOR_INIT_X();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
@@ -263,7 +267,7 @@ void SettingWifiInputPasswordAbilitySlice::OnActive(const Want& want)
 {
     int err;
     lablelInputText_->SetText("输入密码");
-    g_cursorPositionX = 20; // 20
+    g_cursorPositionX = CURSOR_INIT_X();
     lablelCursorText_->SetX(g_cursorPositionX);
     g_inputCount = 0;
     err = memset_s(g_inputPassword, sizeof(g_inputPassword), 0, sizeof(g_inputPassword));

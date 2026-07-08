@@ -18,9 +18,28 @@
 
 #include "components/ui_view_group.h"
 #include "graphic_config.h"
+#include <common/screen.h>
+
 #define GALLERY_BACKGROUND_COLOR Color::ColorTo32(Color::GetColorFromRGB(0xdd, 0xdd, 0xdd))
 
 namespace OHOS {
+/* Screen-aware scaling helpers — designed for 1920x1080 reference */
+static inline int16_t GetScrWidth() { return Screen::GetInstance().GetWidth(); }
+static inline int16_t GetScrHeight() { return Screen::GetInstance().GetHeight(); }
+static inline int16_t HScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetWidth() / 1920); }
+static inline int16_t VScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080); }
+static inline int16_t UScale(int16_t ref) {
+    float rw = static_cast<float>(Screen::GetInstance().GetWidth()) / 1920.0f;
+    float rh = static_cast<float>(Screen::GetInstance().GetHeight()) / 1080.0f;
+    return static_cast<int16_t>(ref * ((rw < rh) ? rw : rh));
+}
+static inline uint16_t FontScale(uint16_t ref) {
+    int32_t s = static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080;
+    return static_cast<uint16_t>(s < 14 ? 14 : s);
+}
+static inline bool IsScrRes(int16_t w, int16_t h) {
+    return Screen::GetInstance().GetWidth() == w && Screen::GetInstance().GetHeight() == h;
+}
 
 /** icon resource file path */
 static const char* const BACK_ICON_PATH = "/gallery/assets/gallery/resources/drawable/ic_back.png";
@@ -36,43 +55,40 @@ static const char* const THUMBNAIL_DIRECTORY = "/userdata/thumb";
 static const char* const PHOTO_DIRECTORY = "/userdata/photo";
 static const char* const VIDEO_SOURCE_DIRECTORY = "/userdata/photo";
 
-/** general page configuration */
+/** general page configuration — runtime screen aware */
+static inline int ROOT_VIEW_WIDTH() { return GetScrWidth(); }
+static inline int ROOT_VIEW_HEIGHT() { return GetScrHeight(); }
 static constexpr int ROOT_VIEW_POSITION_X = 0;
 static constexpr int ROOT_VIEW_POSITION_Y = 0;
-static constexpr int ROOT_VIEW_WIDTH = HORIZONTAL_RESOLUTION;
-static constexpr int ROOT_VIEW_HEIGHT = VERTICAL_RESOLUTION;
 static constexpr uint16_t ROOT_VIEW_OPACITY = 255;
 
 static const char* const FONT_NAME = "SourceHanSansSC-Regular.otf";
 
-/** back icon 36 x 36 */
-static constexpr int16_t BACK_ICON_POSITION_X = 38;
-static constexpr int16_t BACK_ICON_POSITION_Y = 17;
+/** back icon 36 x 36 — scaled from 36 at 1920x1080 */
+static inline int16_t BACK_ICON_POSITION_X() { return HScale(38); }
+static inline int16_t BACK_ICON_POSITION_Y() { return VScale(17); }
+static inline int16_t BACK_ICON_WIDTH() { return HScale(36); }
+static inline int16_t BACK_ICON_HEIGHT() { return VScale(36); }
 
-/** THUMBNAIL */
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
-static constexpr int16_t THUMBNAIL_RESOLUTION_X = 236;
-static constexpr int16_t THUMBNAIL_RESOLUTION_Y = 236;
-#else
-static constexpr int16_t THUMBNAIL_RESOLUTION_X = 156;
-static constexpr int16_t THUMBNAIL_RESOLUTION_Y = 156;
-#endif
+/** THUMBNAIL — scaled proportionally from 1920x1080 */
+static inline int16_t THUMBNAIL_RESOLUTION_X() { return HScale(236); }
+static inline int16_t THUMBNAIL_RESOLUTION_Y() { return VScale(236); }
 static constexpr int16_t THUMBNAIL_SPACE = 4;
 static constexpr int16_t THUMBNAIL_COLUMN = 3;
 
-static constexpr int16_t VIDEO_TAG_POSITION_X = 10;
-static constexpr int16_t VIDEO_TAG_POSITION_Y = THUMBNAIL_RESOLUTION_Y - 37;
-static constexpr int16_t VIDEO_TAG_WIDTH = 27;
-static constexpr int16_t VIDEO_TAG_HEIGHT = 27;
+static inline int16_t VIDEO_TAG_POSITION_X() { return HScale(10); }
+static inline int16_t VIDEO_TAG_POSITION_Y() { return THUMBNAIL_RESOLUTION_Y() - VScale(37); }
+static inline int16_t VIDEO_TAG_WIDTH() { return HScale(27); }
+static inline int16_t VIDEO_TAG_HEIGHT() { return VScale(27); }
 
 /** title */
-static constexpr int16_t LABEL_POSITION_X = BACK_ICON_POSITION_X + 60;
+static inline int16_t LABEL_POSITION_X() { return BACK_ICON_POSITION_X() + HScale(60); }
 static constexpr int16_t LABEL_POSITION_Y = 0;
-static constexpr int16_t LABEL_WIDTH = 200;
-static constexpr int16_t LABEL_HEIGHT = 70;
-static constexpr uint16_t GALLERY_FONT_SIZE = 25;
-static constexpr uint16_t GALLERY_DELETE_FONT_SIZE = 22;
-static constexpr int16_t DELETE_LABEL_WIDTH = 150;
+static inline int16_t LABEL_WIDTH() { return HScale(200); }
+static inline int16_t LABEL_HEIGHT() { return VScale(70); }
+static inline uint16_t GALLERY_FONT_SIZE() { return FontScale(25); }
+static inline uint16_t GALLERY_DELETE_FONT_SIZE() { return FontScale(22); }
+static inline int16_t DELETE_LABEL_WIDTH() { return HScale(150); }
 
 /** prefix and File Type */
 static const char* const PHOTO_PREFIX = "photo";
@@ -80,29 +96,33 @@ static const char* const AVAILABEL_SOURCE_TYPE = ".mp4";
 static const char* const AVAILABEL_SOURCE_TYPE_MP4 = ".MP4";
 
 /** playback status bar */
-static constexpr uint16_t STATUS_BAR_GROUP_HEIGHT = 96;
-static constexpr uint16_t TOGGLE_BUTTON_OFFSET_X = 36;
-static constexpr uint16_t TOGGLE_BUTTON_OFFSET_Y = 18;
-static constexpr uint16_t TOGGLE_BUTTON_WIDTH = 60;
-static constexpr uint16_t TOGGLE_BUTTON_HEIGHT = 60;
+static inline uint16_t STATUS_BAR_GROUP_HEIGHT() { return VScale(96); }
+static inline uint16_t TOGGLE_BUTTON_OFFSET_X() { return HScale(36); }
+static inline uint16_t TOGGLE_BUTTON_OFFSET_Y() { return VScale(18); }
+static inline uint16_t TOGGLE_BUTTON_WIDTH() { return HScale(60); }
+static inline uint16_t TOGGLE_BUTTON_HEIGHT() { return VScale(60); }
 
-static constexpr uint16_t CURRENT_TIME_LABEL_X = TOGGLE_BUTTON_OFFSET_X + TOGGLE_BUTTON_WIDTH + TOGGLE_BUTTON_OFFSET_Y;
+static inline uint16_t CURRENT_TIME_LABEL_X() {
+    return TOGGLE_BUTTON_OFFSET_X() + TOGGLE_BUTTON_WIDTH() + TOGGLE_BUTTON_OFFSET_Y();
+}
 static constexpr uint16_t CURRENT_TIME_LABEL_Y = 0;
-static constexpr uint16_t CURRENT_TIME_LABEL_WIDTH = 60;
-static constexpr uint16_t CURRENT_TIME_LABEL_HEIGHT = STATUS_BAR_GROUP_HEIGHT;
+static inline uint16_t CURRENT_TIME_LABEL_WIDTH() { return HScale(60); }
+static inline uint16_t CURRENT_TIME_LABEL_HEIGHT() { return STATUS_BAR_GROUP_HEIGHT(); }
 
-static constexpr uint16_t TOTAL_TIME_LABEL_WIDTH = 90;
-static constexpr uint16_t TOTAL_TIME_LABEL_HEIGHT = STATUS_BAR_GROUP_HEIGHT;
-static constexpr uint16_t TOTAL_TIME_LABEL_X = ROOT_VIEW_WIDTH - TOTAL_TIME_LABEL_WIDTH;
+static inline uint16_t TOTAL_TIME_LABEL_WIDTH() { return HScale(90); }
+static inline uint16_t TOTAL_TIME_LABEL_HEIGHT() { return STATUS_BAR_GROUP_HEIGHT(); }
+static inline uint16_t TOTAL_TIME_LABEL_X() { return ROOT_VIEW_WIDTH() - TOTAL_TIME_LABEL_WIDTH(); }
 static constexpr uint16_t TOTAL_TIME_LABEL_Y = 0;
 
-static constexpr uint16_t SLIDER_X = CURRENT_TIME_LABEL_X + CURRENT_TIME_LABEL_WIDTH;
-static constexpr uint16_t SLIDER_Y = 2;
-static constexpr uint16_t SLIDER_HEIGHT = 3;
-static constexpr uint16_t SLIDER_WIDTH = ROOT_VIEW_WIDTH - SLIDER_X - TOTAL_TIME_LABEL_WIDTH - 20;
-static constexpr uint16_t KNOB_WIDTH = 25;
+static inline uint16_t SLIDER_X() { return CURRENT_TIME_LABEL_X() + CURRENT_TIME_LABEL_WIDTH(); }
+static inline uint16_t SLIDER_Y() { return VScale(2); }
+static inline uint16_t SLIDER_HEIGHT() { return VScale(3); }
+static inline uint16_t SLIDER_WIDTH() {
+    return ROOT_VIEW_WIDTH() - SLIDER_X() - TOTAL_TIME_LABEL_WIDTH() - HScale(20);
+}
+static inline uint16_t KNOB_WIDTH() { return HScale(25); }
 
-static constexpr uint16_t PLAYER_FONT_SIZE = 18;
+static inline uint16_t PLAYER_FONT_SIZE() { return FontScale(18); }
 
 } // namespace OHOS
 #endif // OHOS_GALLERY_CONFIG_H

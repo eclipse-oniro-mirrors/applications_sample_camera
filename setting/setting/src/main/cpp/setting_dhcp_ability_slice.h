@@ -76,16 +76,17 @@ private:
     DhcpBtnOnStateChangeListener* changeListener_;
     EventListener* buttonBackListener_;
 
-    constexpr static int toggleX = 36;
-    constexpr static int toggleY = 72;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static inline int toggleX()        { return HScale(36); }
+    static inline int toggleY()        { return VScale(72); }
 
-    constexpr static int useDhcpFontX = 54;
-    constexpr static int useDhcpFontY = 187;
+    static inline int useDhcpFontX()   { return HScale(54); }
+    static inline int useDhcpFontY()   { return VScale(187); }
 
-    constexpr static int scrollDhcpX = 36;
-    constexpr static int scrollDhcpY = 242;
-    constexpr static int scrollDhcpWidth = 960;
-    constexpr static int scrollDhcpHeight = 238;
+    static inline int scrollDhcpX()      { return HScale(36); }
+    static inline int scrollDhcpY()      { return VScale(242); }
+    static inline int scrollDhcpWidth() { return HScale(960); }
+    static inline int scrollDhcpHeight(){ return VScale(238); }
 };
 } // namespace OHOS
 #endif

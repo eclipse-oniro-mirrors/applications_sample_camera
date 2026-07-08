@@ -23,6 +23,10 @@ AppInfo::AppInfo()
 }
 void AppInfo::Release()
 {
+    if (iconView_) {
+        delete iconView_;
+        iconView_ = nullptr;
+    }
     if (button_) {
         delete button_;
         button_ = nullptr;
@@ -50,6 +54,7 @@ void AppInfo::ReSet()
 {
     button_ = nullptr;
     lable_ = nullptr;
+    iconView_ = nullptr;
     appClickListener_ = nullptr;
     appLpListener_ = nullptr;
 }
@@ -65,7 +70,6 @@ void AppInfo::SetButton(UILabelButton* button)
     button->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     button->SetStyle(STYLE_BORDER_OPA, TOTAL_OPACITY);
     button->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::Black()));
-    button->SetImageSrc(appIconDir_, appIconDir_);
     button_ = button;
 }
 

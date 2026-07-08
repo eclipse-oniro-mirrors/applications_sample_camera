@@ -18,8 +18,27 @@
 
 #include <cstdint>
 #include <securec.h>
+#include <common/screen.h>
 
 namespace OHOS {
+/* Screen-aware scaling helpers — designed for 1920x1080 reference */
+static inline int16_t GetScrWidth() { return Screen::GetInstance().GetWidth(); }
+static inline int16_t GetScrHeight() { return Screen::GetInstance().GetHeight(); }
+static inline int16_t HScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetWidth() / 1920); }
+static inline int16_t VScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080); }
+static inline int16_t UScale(int16_t ref) {
+    float rw = static_cast<float>(Screen::GetInstance().GetWidth()) / 1920.0f;
+    float rh = static_cast<float>(Screen::GetInstance().GetHeight()) / 1080.0f;
+    return static_cast<int16_t>(ref * ((rw < rh) ? rw : rh));
+}
+static inline uint16_t FontScale(uint16_t ref) {
+    int32_t s = static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080;
+    return static_cast<uint16_t>(s < 14 ? 14 : s);
+}
+static inline bool IsScrRes(int16_t w, int16_t h) {
+    return Screen::GetInstance().GetWidth() == w && Screen::GetInstance().GetHeight() == h;
+}
+
 constexpr int16_t LABLE_TITLE_HEIGHT = 30; // tail lable height
 constexpr int16_t LABLE_TAIL_HEIGHT = 30;
 constexpr int16_t APP_WIDTH_COUNT = 7;       // blank + app + blank + app + blank
@@ -37,7 +56,8 @@ constexpr int16_t BUTTON_RADIUS = 20;        // app icon radius
 constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
 constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
 constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
-constexpr int16_t APP_ICON_SIZE = 88;        // app icon size
+/* App icon size — scaled from the 1920x1080 reference */
+static inline int16_t APP_ICON_SIZE() { return HScale(88); }
 
 #ifndef TMP_BUF_SIZE
 #define TMP_BUF_SIZE 128
@@ -45,13 +65,9 @@ constexpr int16_t APP_ICON_SIZE = 88;        // app icon size
 
 #define LAUNCHER_BUNDLE_NAME "com.huawei.launcher"
 #define SCREENSAVER_BUNDLE_NAME "com.huawei.screensaver"
-#if (HORIZONTAL_RESOLUTION == 1920 && VERTICAL_RESOLUTION == 1080)
+/* Background image — always use the high-res 1920x1080 version, COVER mode scales it down */
 #define TABLE_BACKGROUND \
     "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/background_1920x1080.png"
-#else
-#define TABLE_BACKGROUND \
-    "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/background.png"
-#endif
 #define RES_WEATHER "/storage/app/run/com.huawei.launcher/launcher/assets/launcher/resources/base/media/weather.png"
 #define FOND_PATH "SourceHanSansSC-Regular.otf"
 
