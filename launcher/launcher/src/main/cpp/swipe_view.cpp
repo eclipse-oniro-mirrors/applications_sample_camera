@@ -134,6 +134,16 @@ void SwipeView::OnSetUpView()
 
 void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count)
 {
+    // Sort by bundleName to ensure consistent icon positions across restarts
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (strcmp(pBundleInfos[i].bundleName, pBundleInfos[j].bundleName) > 0) {
+                BundleInfo temp = pBundleInfos[i];
+                pBundleInfos[i] = pBundleInfos[j];
+                pBundleInfos[j] = temp;
+            }
+        }
+    }
     for (int j = 0; j < count; j++) {
         for (int i = 0; i < groupCount_; i++) {
             if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {

@@ -46,6 +46,7 @@ private:
     static void MyBundleOwnCallback(const uint8_t resultCode, const void* resultMessage);
     static bool GetAailityInfosByBundleName(const char* bundleName, AppInfo* pApp);
     static bool GetAppInstallInfo(const char* bundleName);
+    static void GetAppUninstallInfo(const char* bundleName);
 
 private:
     BundleStatusCallback callBackParam_ { nullptr };

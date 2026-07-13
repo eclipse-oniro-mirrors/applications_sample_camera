@@ -74,13 +74,18 @@ void LongPressView::Show(UIViewGroup* viewParent, AppInfo* pApp)
     bStatus_ = true;
     viewParent_ = viewParent;
     app_ = pApp;
-    viewGroup_->SetPosition(pApp->buttonXY_.x / WIDTH_DISCOUNT + pApp->button_->GetWidth(),
-        pApp->buttonXY_.y / WIDTH_DISCOUNT + pApp->button_->GetHeight(), pApp->button_->GetWidth(),
-        (pApp->button_->GetHeight() * WIDTH_DISCOUNT) / HEIGHT_DISCOUNT + pApp->button_->GetHeight() / WIDTH_DISCOUNT);
-    buttUninstall_->SetPosition(0, 0,
-        pApp->button_->GetWidth(), pApp->button_->GetHeight() / WIDTH_DISCOUNT);
-    buttCancle_->SetPosition(0, (pApp->button_->GetHeight() * WIDTH_DISCOUNT) / HEIGHT_DISCOUNT,
-        pApp->button_->GetWidth(), pApp->button_->GetHeight() / WIDTH_DISCOUNT);
+
+    // Calculate popup size: same width as icon, height = icon height * 2 (two buttons)
+    int16_t popupWidth = pApp->buttonHV_.x;
+    int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
+
+    // Center the popup horizontally on the icon, place it just below the icon
+    int16_t popupX = pApp->buttonXY_.x + (pApp->buttonHV_.x - popupWidth) / 2;
+    int16_t popupY = pApp->buttonXY_.y + pApp->buttonHV_.y;
+
+    viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
+    buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
     viewGroup_->SetVisible(true);
     viewParent_->Add(viewGroup_);
     viewParent_->Invalidate();
