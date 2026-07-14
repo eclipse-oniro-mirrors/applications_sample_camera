@@ -65,6 +65,7 @@ public:
     char appName_[TMP_BUF_SIZE] = { 0 };
     char abilityName_[TMP_BUF_SIZE] = { 0 };
     char appIconDir_[TMP_BUF_SIZE] = { 0 };
+    bool isSystemApp_ = false;
 };
 
 class AppClickListener : public UIView::OnClickListener {

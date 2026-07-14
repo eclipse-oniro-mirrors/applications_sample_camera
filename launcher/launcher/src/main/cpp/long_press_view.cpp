@@ -69,23 +69,34 @@ void LongPressView::RemoveLview()
 
 void LongPressView::Show(UIViewGroup* viewParent, AppInfo* pApp)
 {
-    const int16_t HEIGHT_DISCOUNT = 3;
     const int16_t WIDTH_DISCOUNT = 2;
     bStatus_ = true;
     viewParent_ = viewParent;
     app_ = pApp;
 
-    // Calculate popup size: same width as icon, height = icon height * 2 (two buttons)
     int16_t popupWidth = pApp->buttonHV_.x;
-    int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
-
-    // Center the popup horizontally on the icon, place it just below the icon
     int16_t popupX = pApp->buttonXY_.x + (pApp->buttonHV_.x - popupWidth) / 2;
     int16_t popupY = pApp->buttonXY_.y + pApp->buttonHV_.y;
 
-    viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
-    buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
-    buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    if (pApp->isSystemApp_) {
+        // System app: replace uninstall text with "系统应用"
+        int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
+        viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
+        buttUninstall_->SetVisible(true);
+        buttUninstall_->SetText("系统应用");
+        buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
+        buttCancle_->SetText("取消");
+        buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    } else {
+        // Non-system app: show uninstall and cancel buttons
+        int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
+        viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
+        buttUninstall_->SetVisible(true);
+        buttUninstall_->SetText("卸载");
+        buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
+        buttCancle_->SetText("取消");
+        buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    }
     viewGroup_->SetVisible(true);
     viewParent_->Add(viewGroup_);
     viewParent_->Invalidate();

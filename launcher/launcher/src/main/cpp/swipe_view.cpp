@@ -173,6 +173,7 @@ void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count)
                     strlen(pBundleInfos[j].bigIconPath));
                 app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
             }
+            app->isSystemApp_ = pBundleInfos[j].isSystemApp;
             if (arrPage_[i]->AddApp(app)) {
                 break;
             }

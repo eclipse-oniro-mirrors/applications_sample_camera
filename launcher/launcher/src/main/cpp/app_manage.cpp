@@ -55,6 +55,7 @@ bool AppManage::GetAailityInfosByBundleName(const char* bundleName, AppInfo* pAp
                         strlen(pBundleInfo->bigIconPath));
                     pApp->appIconDir_[strlen(pBundleInfo->bigIconPath)] = 0;
                 }
+                pApp->isSystemApp_ = pBundleInfo->isSystemApp;
                 return true;
             }
         }
@@ -148,6 +149,9 @@ bool AppManage::InstallApp(AppInfo* app)
 
 bool AppManage::UnInstallApp(AppInfo* app)
 {
+    if (app->isSystemApp_) {
+        return false;
+    }
     InstallParam installParam = {0, false};
     return Uninstall(app->appName_, &installParam, MyBundleOwnCallback);
 }
