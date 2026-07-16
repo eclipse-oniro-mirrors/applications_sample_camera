@@ -35,6 +35,9 @@
 #include "setting_utils.h"
 
 namespace OHOS {
+extern int g_dhcpStatus;
+extern char g_dhcpIp[64];
+
 class DhcpBtnOnStateChangeListener : public OHOS::UICheckBox::OnChangeListener, public OHOS::UIView::OnClickListener {
 public:
     ~DhcpBtnOnStateChangeListener() {}
@@ -77,16 +80,49 @@ private:
     EventListener* buttonBackListener_;
 
     /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
-    static inline int toggleX()        { return HScale(36); }
-    static inline int toggleY()        { return VScale(72); }
+    static constexpr int16_t toggleXRef = 36;
+    static constexpr int16_t toggleYRef = 72;
+    static constexpr int16_t useDhcpFontXRef = 54;
+    static constexpr int16_t useDhcpFontYRef = 187;
+    static constexpr int16_t scrollDhcpXRef = 36;
+    static constexpr int16_t scrollDhcpYRef = 242;
+    static constexpr int16_t scrollDhcpWidthRef = 960;
+    static constexpr int16_t scrollDhcpHeightRef = 238;
 
-    static inline int useDhcpFontX()   { return HScale(54); }
-    static inline int useDhcpFontY()   { return VScale(187); }
+    static inline int ToggleX()
+    {
+        return HScale(toggleXRef);
+    }
+    static inline int ToggleY()
+    {
+        return VScale(toggleYRef);
+    }
 
-    static inline int scrollDhcpX()      { return HScale(36); }
-    static inline int scrollDhcpY()      { return VScale(242); }
-    static inline int scrollDhcpWidth() { return HScale(960); }
-    static inline int scrollDhcpHeight(){ return VScale(238); }
+    static inline int UseDhcpFontX()
+    {
+        return HScale(useDhcpFontXRef);
+    }
+    static inline int UseDhcpFontY()
+    {
+        return VScale(useDhcpFontYRef);
+    }
+
+    static inline int ScrollDhcpX()
+    {
+        return HScale(scrollDhcpXRef);
+    }
+    static inline int ScrollDhcpY()
+    {
+        return VScale(scrollDhcpYRef);
+    }
+    static inline int ScrollDhcpWidth()
+    {
+        return HScale(scrollDhcpWidthRef);
+    }
+    static inline int ScrollDhcpHeight()
+    {
+        return VScale(scrollDhcpHeightRef);
+    }
 };
 } // namespace OHOS
 #endif

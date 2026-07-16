@@ -107,10 +107,12 @@ private:
             TransformMap transMap(backgroundView_->GetOrigRect());
             float scaleWidth = 1.0;
             float scaleHeight = 1.0;
-            if (imageWidth > V_GROUP_W())
+            if (imageWidth > V_GROUP_W() && imageWidth > 0) {
                 scaleWidth = static_cast<float>(V_GROUP_W()) / imageWidth;
-            if (imageHeight > V_GROUP_H())
+            }
+            if (imageHeight > V_GROUP_H() && imageHeight > 0) {
                 scaleHeight = static_cast<float>(V_GROUP_H()) / imageHeight;
+            }
 #ifdef KEEP_PICTURE_RECT
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
@@ -331,10 +333,12 @@ private:
             TransformMap transMap(backgroundView_->GetOrigRect());
             float scaleWidth = 1.0;
             float scaleHeight = 1.0;
-            if (imageWidth > V_GROUP_W())
+            if (imageWidth > V_GROUP_W() && imageWidth > 0) {
                 scaleWidth = static_cast<float>(V_GROUP_W()) / imageWidth;
-            if (imageHeight > V_GROUP_H())
+            }
+            if (imageHeight > V_GROUP_H() && imageHeight > 0) {
                 scaleHeight = static_cast<float>(V_GROUP_H()) / imageHeight;
+            }
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
             transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
@@ -435,6 +439,17 @@ void CameraAbilitySlice::SetHead(void)
 
 void CameraAbilitySlice::SetBottom(void)
 {
+    SetBottomScroll();
+    SetBottomLeftButton();
+    SetBottomMidButton();
+    SetBottomRightButton();
+    SetBottomRecordButton();
+    SetBottomSliderAndAnimator();
+    SetBottomButtonListeners();
+}
+
+void CameraAbilitySlice::SetBottomScroll(void)
+{
     scroll = new UIScrollView();
     scroll->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::White()));
     scroll->SetStyle(STYLE_BACKGROUND_OPA, 0);
@@ -443,7 +458,10 @@ void CameraAbilitySlice::SetBottom(void)
     scroll->SetVerticalScrollState(false);
     scroll->SetXScrollBarVisible(false);
     scroll->SetYScrollBarVisible(false);
+}
 
+void CameraAbilitySlice::SetBottomLeftButton(void)
+{
     bttnLeft = new UIImageView();
     bttnLeft->SetTouchable(true);
     bttnLeft->SetPosition(LEFT_BUTTON_X(), LEFT_BUTTON_Y(), LEFT_BUTTON_W(), LEFT_BUTTON_H());
@@ -451,7 +469,10 @@ void CameraAbilitySlice::SetBottom(void)
     bttnLeft->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     bttnLeft->SetSrc(UI_IMAGE_PATH"ic_camera_photo.png");
     bttnLeft->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomMidButton(void)
+{
     bttnMidle = new UIImageView();
     bttnMidle->SetTouchable(true);
     bttnMidle->SetAutoEnable(false);
@@ -459,7 +480,10 @@ void CameraAbilitySlice::SetBottom(void)
     bttnMidle->SetSrc(UI_IMAGE_PATH"ic_camera_shutter.png");
     bttnMidle->SetPosition(MID_BUTTON_X(), MID_BUTTON_Y(), MID_BUTTON_W(), MID_BUTTON_H());
     bttnMidle->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomRightButton(void)
+{
     bttnRight = new UIImageView();
     bttnRight->SetTouchable(true);
     bttnRight->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
@@ -467,7 +491,10 @@ void CameraAbilitySlice::SetBottom(void)
     bttnRight->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     bttnRight->SetSrc(UI_IMAGE_PATH"ic_camera_video.png");
     bttnRight->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomRecordButton(void)
+{
     bttnRecord = new UIImageView();
     bttnRecord->SetTouchable(true);
     bttnRecord->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
@@ -477,7 +504,10 @@ void CameraAbilitySlice::SetBottom(void)
     bttnRecord->SetStyle(STYLE_BACKGROUND_OPA, 0);
     bttnRecord->SetVisible(false);
     bttnRecord->Invalidate();
+}
 
+void CameraAbilitySlice::SetBottomSliderAndAnimator(void)
+{
     slider = new UISlider();
     slider->SetPosition(-1, -1, 1, 1);
 
@@ -485,7 +515,10 @@ void CameraAbilitySlice::SetBottom(void)
     gTaskView_->TaskStart();
 
     animator_ = new SliderAnimator(slider, background_, surfaceView, cam_manager, 10000);    /* 10000 = 10s */
+}
 
+void CameraAbilitySlice::SetBottomButtonListeners(void)
+{
     UIImageView *imageV[BUTTON_NUMS] = {bttnLeft, bttnMidle, bttnRight, bttnRecord};
     for (int i = 0; i < BUTTON_NUMS; i++) {
         bttnImageClick[i] =

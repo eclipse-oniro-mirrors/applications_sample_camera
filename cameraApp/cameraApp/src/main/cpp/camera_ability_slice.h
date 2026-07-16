@@ -137,6 +137,13 @@ private:
 
     void SetHead();
     void SetBottom();
+    void SetBottomScroll();
+    void SetBottomLeftButton();
+    void SetBottomMidButton();
+    void SetBottomRightButton();
+    void SetBottomRecordButton();
+    void SetBottomSliderAndAnimator();
+    void SetBottomButtonListeners();
 };
 }
 

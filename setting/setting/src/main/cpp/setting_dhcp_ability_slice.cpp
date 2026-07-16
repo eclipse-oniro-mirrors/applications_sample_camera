@@ -162,7 +162,7 @@ void SettingDhcpAbilitySlice::SetHead(void)
 void SettingDhcpAbilitySlice::SetToggleButton(void)
 {
     toggleButtonView_ = new UIViewGroup();
-    toggleButtonView_->SetPosition(toggleX(), toggleY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    toggleButtonView_->SetPosition(ToggleX(), ToggleY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     toggleButtonView_->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
@@ -188,7 +188,7 @@ void SettingDhcpAbilitySlice::SetToggleButton(void)
 void SettingDhcpAbilitySlice::SetUseDhcp(void)
 {
     UILabel* lablelFont = new UILabel();
-    lablelFont->SetPosition(useDhcpFontX(), useDhcpFontY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFont->SetPosition(UseDhcpFontX(), UseDhcpFontY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFont->SetText("DHCP信息");
     lablelFont->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFont->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
@@ -199,7 +199,7 @@ void SettingDhcpAbilitySlice::SetScrollDhcp(void)
 {
     scrollView_ = new UIScrollView();
     scrollView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_SCROLL_COLOR);
-    scrollView_->SetPosition(scrollDhcpX(), scrollDhcpY(), scrollDhcpWidth(), scrollDhcpHeight());
+    scrollView_->SetPosition(ScrollDhcpX(), ScrollDhcpY(), ScrollDhcpWidth(), ScrollDhcpHeight());
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);

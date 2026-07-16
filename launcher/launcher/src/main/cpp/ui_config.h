@@ -22,20 +22,44 @@
 
 namespace OHOS {
 /* Screen-aware scaling helpers — designed for 1920x1080 reference */
-static inline int16_t GetScrWidth() { return Screen::GetInstance().GetWidth(); }
-static inline int16_t GetScrHeight() { return Screen::GetInstance().GetHeight(); }
-static inline int16_t HScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetWidth() / 1920); }
-static inline int16_t VScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080); }
-static inline int16_t UScale(int16_t ref) {
-    float rw = static_cast<float>(Screen::GetInstance().GetWidth()) / 1920.0f;
-    float rh = static_cast<float>(Screen::GetInstance().GetHeight()) / 1080.0f;
+constexpr int16_t DESIGN_WIDTH = 1920;
+constexpr int16_t DESIGN_HEIGHT = 1080;
+constexpr uint16_t MIN_FONT_SIZE = 14;
+constexpr int16_t APP_ICON_SIZE_REF = 88;
+
+inline int16_t GetScrWidth()
+{
+    return Screen::GetInstance().GetWidth();
+}
+inline int16_t GetScrHeight()
+{
+    return Screen::GetInstance().GetHeight();
+}
+inline int16_t HScale(int16_t ref)
+{
+    return static_cast<int16_t>(
+        static_cast<int32_t>(ref) * Screen::GetInstance().GetWidth() / DESIGN_WIDTH);
+}
+inline int16_t VScale(int16_t ref)
+{
+    return static_cast<int16_t>(
+        static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / DESIGN_HEIGHT);
+}
+inline int16_t UScale(int16_t ref)
+{
+    float rw = static_cast<float>(Screen::GetInstance().GetWidth()) /
+        static_cast<float>(DESIGN_WIDTH);
+    float rh = static_cast<float>(Screen::GetInstance().GetHeight()) /
+        static_cast<float>(DESIGN_HEIGHT);
     return static_cast<int16_t>(ref * ((rw < rh) ? rw : rh));
 }
-static inline uint16_t FontScale(uint16_t ref) {
-    int32_t s = static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / 1080;
-    return static_cast<uint16_t>(s < 14 ? 14 : s);
+inline uint16_t FontScale(uint16_t ref)
+{
+    int32_t s = static_cast<int32_t>(ref) * Screen::GetInstance().GetHeight() / DESIGN_HEIGHT;
+    return static_cast<uint16_t>(s < MIN_FONT_SIZE ? MIN_FONT_SIZE : s);
 }
-static inline bool IsScrRes(int16_t w, int16_t h) {
+inline bool IsScrRes(int16_t w, int16_t h)
+{
     return Screen::GetInstance().GetWidth() == w && Screen::GetInstance().GetHeight() == h;
 }
 
@@ -57,7 +81,10 @@ constexpr int16_t LABLE_RADIUS = 0;          // lable icon radius
 constexpr int16_t TITLE_LABLE_OPACITY = 255; // translucent
 constexpr int16_t GROUP_VIEW_RADIUS = 20;    // view radius
 /* App icon size — scaled from the 1920x1080 reference */
-static inline int16_t APP_ICON_SIZE() { return HScale(88); }
+inline int16_t APP_ICON_SIZE()
+{
+    return HScale(APP_ICON_SIZE_REF);
+}
 
 #ifndef TMP_BUF_SIZE
 #define TMP_BUF_SIZE 128

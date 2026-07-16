@@ -63,12 +63,37 @@ private:
     EventListener* buttonAppInfoListener_;
 
     /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
-    static inline int APP_IMAGE_X()       { return HScale(12); }
-    static inline int APP_IMAGE_Y()       { return VScale(12); }
-    static inline int APP_IMAGE_WIDTH()   { return HScale(64); }
-    static inline int APP_IMAGE_HEIGHT()  { return VScale(64); }
-    static inline int APP_NAME_X()        { return HScale(94); }
-    static inline int APP_NAME_Y()        { return VScale(28); }
+    static constexpr int16_t appImageXRef = 12;
+    static constexpr int16_t appImageYRef = 12;
+    static constexpr int16_t appImageWidthRef = 64;
+    static constexpr int16_t appImageHeightRef = 64;
+    static constexpr int16_t appNameXRef = 94;
+    static constexpr int16_t appNameYRef = 28;
+
+    static inline int APP_IMAGE_X()
+    {
+        return HScale(appImageXRef);
+    }
+    static inline int APP_IMAGE_Y()
+    {
+        return VScale(appImageYRef);
+    }
+    static inline int APP_IMAGE_WIDTH()
+    {
+        return HScale(appImageWidthRef);
+    }
+    static inline int APP_IMAGE_HEIGHT()
+    {
+        return VScale(appImageHeightRef);
+    }
+    static inline int APP_NAME_X()
+    {
+        return HScale(appNameXRef);
+    }
+    static inline int APP_NAME_Y()
+    {
+        return VScale(appNameYRef);
+    }
 };
 } // namespace OHOS
 #endif
