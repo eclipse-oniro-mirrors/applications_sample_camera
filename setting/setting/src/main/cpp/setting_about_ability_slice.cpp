@@ -34,7 +34,7 @@ SettingAboutAbilitySlice::~SettingAboutAbilitySlice()
         delete buttonBackListener_;
         buttonBackListener_ = nullptr;
     }
-    for (int count = 0; count < SCROLL_ITEM_NUM; count++) {
+    for (int count = 0; count < scrollItemNum; count++) {
         if (!itemInfo_[count][1]) {
             itemInfo_[count][1] = nullptr;
         }
@@ -103,7 +103,7 @@ void SettingAboutAbilitySlice::SetScrollItem(int count)
     int myPositonY = count * DE_ITEM_INTERVAL;
 
     UIViewGroup* itemView = new UIViewGroup();
-    itemView->SetPosition(ITEM_X, myPositonY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    itemView->SetPosition(itemX, myPositonY, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     itemView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     itemView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     scrollView_->Add(itemView);
@@ -116,7 +116,7 @@ void SettingAboutAbilitySlice::SetScrollItem(int count)
     itemView->Add(lablelFontName);
 
     UILabel* lablelFontInfo = new UILabel();
-    lablelFontInfo->SetPosition(itemInfoX(), ITEM_INFO_Y(), DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    lablelFontInfo->SetPosition(ItemInfoX(), ITEM_INFO_Y(), DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     lablelFontInfo->SetText(itemInfo_[count][1]);
     lablelFontInfo->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
     lablelFontInfo->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_CENTER);
@@ -132,7 +132,7 @@ void SettingAboutAbilitySlice::SetScroll()
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
-    for (int count = 0; count < SCROLL_ITEM_NUM; count++) {
+    for (int count = 0; count < scrollItemNum; count++) {
         SetScrollItem(count);
     }
 }

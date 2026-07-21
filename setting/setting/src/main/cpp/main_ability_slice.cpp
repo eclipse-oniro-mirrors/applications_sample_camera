@@ -14,6 +14,7 @@
  */
 
 #include "main_ability_slice.h"
+#include "setting_dhcp_ability_slice.h"
 #include "ability_loader.h"
 #include "ability_slice.h"
 #include "ability_info.h"
@@ -36,9 +37,6 @@
 
 namespace OHOS {
 REGISTER_AS(MainAbilitySlice)
-
-extern int g_dhcpStatus;
-extern char g_dhcpIp[64];
 
 MainAbilitySlice::~MainAbilitySlice()
 {
@@ -232,7 +230,7 @@ void MainAbilitySlice::SetWifiButtonView(void)
 void MainAbilitySlice::SetDhcpButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(dhcpButtonX(), dhcpButtonY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(DhcpButtonX(), DhcpButtonY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -240,14 +238,14 @@ void MainAbilitySlice::SetDhcpButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontDhcp = new UILabel();
-    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, dhcpButtonTextDhcpY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, DhcpButtonTextDhcpY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontDhcp->SetText("DHCP");
     lablelFontDhcp->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontDhcp->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontDhcp);
 
     lablelFontIp_ = new UILabel();
-    lablelFontIp_->SetPosition(dhcpButtonTextIpX(), dhcpButtonTextIpY(),
+    lablelFontIp_->SetPosition(DhcpButtonTextIpX(), DhcpButtonTextIpY(),
                                DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
     if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
         lablelFontIp_->SetText(g_dhcpIp);
@@ -338,7 +336,8 @@ void MainAbilitySlice::SetAboutButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontAbout = new UILabel();
-    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y(),
+                                 DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontAbout->SetText("关于");
     lablelFontAbout->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
@@ -426,7 +425,7 @@ static int GetInterfaceIp(const char *ifname, char *ip, size_t len)
         return -1;
     }
     if (ioctl(sock, SIOCGIFADDR, &ifr) == 0) {
-        struct sockaddr_in *sin = (struct sockaddr_in *)&ifr.ifr_addr;
+        struct sockaddr_in *sin = reinterpret_cast<struct sockaddr_in *>(&ifr.ifr_addr);
         const char *str = inet_ntoa(sin->sin_addr);
         if (str != nullptr) {
             if (strcpy_s(ip, len, str) == 0) {

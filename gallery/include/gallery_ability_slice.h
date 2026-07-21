@@ -42,6 +42,8 @@ private:
     void ClearThumb();
     void ClearPictureList(const UIView* view);
     void InitTitle();
+    void InitTitleBackArea();
+    void InitTitleLabels();
     void InitPictureList();
     void AddAllPictures(const Point& pos, int16_t numInLine);
     UIView* CreateImageItem(const Point& pos, const char* imageName, const char* imagePath);

@@ -128,6 +128,12 @@ void GalleryAbilitySlice::ClearPictureList(const UIView* view)
 void GalleryAbilitySlice::InitTitle()
 {
     LOGI("GalleryAbilitySlice::InitTitle | start");
+    InitTitleBackArea();
+    InitTitleLabels();
+}
+
+void GalleryAbilitySlice::InitTitleBackArea()
+{
     backIcon_ = new UIImageView();
     backIcon_->SetAutoEnable(false);
     backIcon_->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
@@ -150,6 +156,12 @@ void GalleryAbilitySlice::InitTitle()
     backIcon_->SetOnClickListener(backIconListener_);
     backArea_->SetOnClickListener(backIconListener_);
 
+    backArea_->Add(backIcon_);
+    rootView_->Add(backArea_);
+}
+
+void GalleryAbilitySlice::InitTitleLabels()
+{
     titleLabel_ = new UILabel();
     titleLabel_->SetPosition(LABEL_POSITION_X(), LABEL_POSITION_Y, LABEL_WIDTH(), LABEL_HEIGHT());
     titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
@@ -177,8 +189,6 @@ void GalleryAbilitySlice::InitTitle()
     deleteClickListener_ = new EventListener(deleteClick, nullptr);
     deleteLabel_->SetOnClickListener(deleteClickListener_);
 
-    backArea_->Add(backIcon_);
-    rootView_->Add(backArea_);
     rootView_->Add(titleLabel_);
     rootView_->Add(deleteLabel_);
 }
@@ -198,7 +208,8 @@ void GalleryAbilitySlice::InitPictureList()
     picList_->SetStyle(STYLE_BACKGROUND_OPA, 0);
 
     int16_t numInLine = (ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE);
-    int16_t offset = ((ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) % (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE)) / 2; // 2: half
+    int16_t offset = ((ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) %
+        (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE)) / 2; // 2: half
     AddAllPictures(Point { offset, 0 }, numInLine);
 
     int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE);

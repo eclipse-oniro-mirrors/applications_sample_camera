@@ -25,13 +25,32 @@ namespace OHOS {
  * Every layout coordinate below is expressed against the 1920x1080 design and
  * scaled at runtime via HScale/VScale, so the UI keeps the same proportions
  * at every resolution (e.g. 1024x600). Mirrors the camera app approach. */
-static inline int16_t GetScrWidth()  { return Screen::GetInstance().GetWidth(); }
-static inline int16_t GetScrHeight() { return Screen::GetInstance().GetHeight(); }
-static inline int16_t HScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * GetScrWidth()  / 1920); }
-static inline int16_t VScale(int16_t ref) { return static_cast<int16_t>(static_cast<int32_t>(ref) * GetScrHeight() / 1080); }
-static inline uint16_t FontScale(uint16_t ref) {
-    int32_t s = static_cast<int32_t>(ref) * GetScrHeight() / 1080;
-    return static_cast<uint16_t>(s < 14 ? 14 : s);
+constexpr int16_t DESIGN_WIDTH = 1920;
+constexpr int16_t DESIGN_HEIGHT = 1080;
+constexpr uint16_t MIN_FONT_SIZE = 14;
+
+inline int16_t GetScrWidth()
+{
+    return Screen::GetInstance().GetWidth();
+}
+inline int16_t GetScrHeight()
+{
+    return Screen::GetInstance().GetHeight();
+}
+inline int16_t HScale(int16_t ref)
+{
+    return static_cast<int16_t>(
+        static_cast<int32_t>(ref) * GetScrWidth() / DESIGN_WIDTH);
+}
+inline int16_t VScale(int16_t ref)
+{
+    return static_cast<int16_t>(
+        static_cast<int32_t>(ref) * GetScrHeight() / DESIGN_HEIGHT);
+}
+inline uint16_t FontScale(uint16_t ref)
+{
+    int32_t s = static_cast<int32_t>(ref) * GetScrHeight() / DESIGN_HEIGHT;
+    return static_cast<uint16_t>(s < MIN_FONT_SIZE ? MIN_FONT_SIZE : s);
 }
 
 #define DE_IMAGE_BACK "/storage/app/run/com.huawei.setting/setting/assets/setting/resources/base/media/back.png"

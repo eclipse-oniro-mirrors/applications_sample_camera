@@ -103,7 +103,8 @@ void RecorderAbilityMainSlice::InitRecordLabels()
     noticeLabel_->SetText("点击下方按钮开始录音");
 
     durationLabel_ = new UILabel();
-    durationLabel_->SetPosition(DURATION_LABEL_X(), DURATION_LABEL_Y(), DURATION_LABEL_WIDTH(), DURATION_LABEL_HEIGHT());
+    durationLabel_->SetPosition(
+        DURATION_LABEL_X(), DURATION_LABEL_Y(), DURATION_LABEL_WIDTH(), DURATION_LABEL_HEIGHT());
     durationLabel_->SetAlign(
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
         UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);

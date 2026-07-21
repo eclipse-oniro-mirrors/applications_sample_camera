@@ -22,13 +22,20 @@
 namespace OHOS {
 static constexpr int16_t DISPLATE_PICESE = 2;
 /* Scaled values from 1920x1080 reference */
-static inline int16_t BLANK_H() { return VScale(5); }
-static inline int16_t BLANK_TW() { return HScale(15); }
-static inline int16_t BLANK_W() { return HScale(100); }
-static inline int16_t BIGLABEL_H() { return VScale(100); }
-static inline int16_t SMALLLABEL_H() { return VScale(35); }
-static inline int16_t IMAGE_H() { return UScale(40); }
-static inline int16_t IMAGE_W() { return UScale(40); }
+static constexpr int16_t BLANK_H_SCALE = 5;
+static constexpr int16_t BLANK_TW_SCALE = 15;
+static constexpr int16_t BLANK_W_SCALE = 100;
+static constexpr int16_t BIGLABEL_H_SCALE = 100;
+static constexpr int16_t SMALLLABEL_H_SCALE = 35;
+static constexpr int16_t IMAGE_H_SCALE = 40;
+static constexpr int16_t IMAGE_W_SCALE = 40;
+static inline int16_t BLANK_H() { return VScale(BLANK_H_SCALE); }
+static inline int16_t BLANK_TW() { return HScale(BLANK_TW_SCALE); }
+static inline int16_t BLANK_W() { return HScale(BLANK_W_SCALE); }
+static inline int16_t BIGLABEL_H() { return VScale(BIGLABEL_H_SCALE); }
+static inline int16_t SMALLLABEL_H() { return VScale(SMALLLABEL_H_SCALE); }
+static inline int16_t IMAGE_H() { return UScale(IMAGE_H_SCALE); }
+static inline int16_t IMAGE_W() { return UScale(IMAGE_W_SCALE); }
 const char* g_weekDate[WEEK_DAY_MAX] = {"星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
 TimeWeatherView::TimeWeatherView(UIViewGroup* viewGroup)
