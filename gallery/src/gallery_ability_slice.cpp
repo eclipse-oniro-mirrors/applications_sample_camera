@@ -289,7 +289,8 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
     imageItem->Add(imageView);
 
     std::string filePath(imagePath);
-    if (filePath.find("mp4") != std::string::npos) {
+    if (filePath.find(AVAILABEL_SOURCE_TYPE) != std::string::npos || \
+            filePath.find(AVAILABEL_SOURCE_TYPE_MP4) != std::string::npos) {
         UIImageView* videoTag = new UIImageView();
         std::string videoTagFielPath = videoTagIconAbsolutePath;
         videoTag->SetPosition(VIDEO_TAG_POSITION_X(), VIDEO_TAG_POSITION_Y(), VIDEO_TAG_WIDTH(), VIDEO_TAG_HEIGHT());
@@ -340,12 +341,12 @@ EventListener* GalleryAbilitySlice::GetImageClickListener(const char* path)
         }
         AbilitySlice* nextSlice = nullptr;
         std::string filePath(path);
-        if (filePath.find("jpg") != std::string::npos) {
-            LOGI("--------- enter PictureAbilitySlice");
-            nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PictureAbilitySlice");
-        } else {
+        if (filePath.find(AVAILABEL_SOURCE_TYPE) != std::string::npos) {
             LOGI("--------- enter PlayerAbilitySlice");
             nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PlayerAbilitySlice");
+        } else {
+            LOGI("--------- enter PictureAbilitySlice");
+            nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PictureAbilitySlice");
         }
         if (nextSlice == nullptr) {
             LOGW("undefined nextSlice");
