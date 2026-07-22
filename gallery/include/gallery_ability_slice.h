@@ -47,6 +47,7 @@ private:
     void InitPictureList();
     void AddAllPictures(const Point& pos, int16_t numInLine);
     UIView* CreateImageItem(const Point& pos, const char* imageName, const char* imagePath);
+    void AddVideoItemViews(UIViewGroup* imageItem, UIImageView* imageView, const char* imageName);
     EventListener* GetImageClickListener(const char* path);
     void DeleteAllData();
     void DeleteAllFilesInDir(const char* path);

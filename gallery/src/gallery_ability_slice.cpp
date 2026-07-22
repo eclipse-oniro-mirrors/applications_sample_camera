@@ -270,6 +270,34 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
     closedir(drip);
 }
 
+void GalleryAbilitySlice::AddVideoItemViews(UIViewGroup* imageItem, UIImageView* imageView, const char* imageName)
+{
+    UIImageView* videoTag = new UIImageView();
+    std::string videoTagFielPath = videoTagIconAbsolutePath;
+    videoTag->SetPosition(VIDEO_TAG_POSITION_X(), VIDEO_TAG_POSITION_Y(), VIDEO_TAG_WIDTH(), VIDEO_TAG_HEIGHT());
+    videoTag->SetTouchable(true);
+    videoTag->SetOnClickListener(imageView->GetOnClickListener());
+    imageDecoder_->DecodeImage(videoTagFielPath, [videoTag, videoTagFielPath](ImageInfo imageInfo) {
+        LOGI("do SetSrc for img, filePath:%s, dataSize:%u", videoTagFielPath.c_str(), imageInfo.dataSize);
+        videoTag->SetSrc(&imageInfo);
+    });
+
+    UILabel* labelView = new UILabel();
+    labelView->SetPosition(0, 0, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
+    labelView->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
+                        UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
+    labelView->SetLineBreakMode(UILabel::LineBreakMode::LINE_BREAK_ELLIPSIS);
+    labelView->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
+    labelView->SetStyle(STYLE_TEXT_COLOR, Color::White().full);
+    labelView->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
+    labelView->SetText(imageName);
+
+    imageItem->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
+    imageItem->SetStyle(STYLE_BACKGROUND_OPA, OPA_OPAQUE);
+    imageItem->Add(videoTag);
+    imageItem->Add(labelView);
+}
+
 UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* imageName, const char* imagePath)
 {
     UIImageView* imageView = new UIImageView();
@@ -291,34 +319,8 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
     std::string filePath(imagePath);
     if (filePath.find(AVAILABEL_SOURCE_TYPE) != std::string::npos || \
             filePath.find(AVAILABEL_SOURCE_TYPE_MP4) != std::string::npos) {
-        UIImageView* videoTag = new UIImageView();
-        std::string videoTagFielPath = videoTagIconAbsolutePath;
-        videoTag->SetPosition(VIDEO_TAG_POSITION_X(), VIDEO_TAG_POSITION_Y(), VIDEO_TAG_WIDTH(), VIDEO_TAG_HEIGHT());
-        videoTag->SetTouchable(true);
-        videoTag->SetOnClickListener(imageView->GetOnClickListener());
-        imageDecoder_->DecodeImage(videoTagFielPath, [videoTag, videoTagFielPath](ImageInfo imageInfo) {
-            LOGI("do SetSrc for img, filePath:%s, dataSize:%u", videoTagFielPath.c_str(), imageInfo.dataSize);
-            videoTag->SetSrc(&imageInfo);
-        });
-
-        UILabel* labelView = new UILabel();
-        labelView->SetPosition(0, 0, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
-        labelView->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
-                            UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-        labelView->SetLineBreakMode(UILabel::LineBreakMode::LINE_BREAK_ELLIPSIS);
-        labelView->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
-        labelView->SetStyle(STYLE_TEXT_COLOR, Color::White().full);
-        labelView->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
-        labelView->SetText(imageName);
-
-        imageItem->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
-        imageItem->SetStyle(STYLE_BACKGROUND_OPA, OPA_OPAQUE);
-        imageItem->Add(videoTag);
-        imageItem->Add(labelView);
+        AddVideoItemViews(imageItem, imageView, imageName);
     } else {
-        std::string fileName = imageName;
-        std::string filePath = imagePath;
-        static int num = 0;
         imageDecoder_->DecodeImage(filePath, [imageView, filePath](ImageInfo imageInfo) {
             LOGI("do SetSrc for img, filePath:%s, dataSize:%u", filePath.c_str(), imageInfo.dataSize);
             imageView->SetSrc(&imageInfo);
