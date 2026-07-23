@@ -62,7 +62,7 @@ void AppInfo::ReSet()
 void AppInfo::SetButton(UILabelButton* button)
 {
     button->SetPosition(buttonXY_.x, buttonXY_.y, buttonHV_.x, buttonHV_.y);
-    button->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    button->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     button->SetStyleForState(STYLE_BORDER_RADIUS, BUTTON_RADIUS, UIButton::PRESSED);
     button->SetStyleForState(STYLE_BACKGROUND_OPA, TOTAL_OPACITY, UIButton::PRESSED);
     button->SetStyleForState(STYLE_BORDER_OPA, TOTAL_OPACITY, UIButton::PRESSED);
@@ -83,7 +83,7 @@ void AppInfo::SetLable(UILabel* lable)
         lable->SetText(appName_);
     }
     lable->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_TOP);
-    lable->SetFont(FOND_PATH, APP_FOND_ID);
+    lable->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(APP_FOND_ID)));
     lable->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
     lable->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     lable_ = lable;

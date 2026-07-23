@@ -403,13 +403,12 @@ void CameraAbilitySlice::SetHead(void)
     backIcon->SetOnClickListener(buttonListener_);
 
     txtMsgLabel = new UILabel();
-    txtMsgLabel->SetPosition(TXT_LABEL_X(), TXT_LABEL_Y(), TXT_LABEL_W(), TXT_LABEL_H());
+    txtMsgLabel->SetPosition(TXT_LABEL_X(), TITLE_LABEL_Y(), TITLE_LABEL_WIDTH(), TITLE_LABEL_HEIGHT());
     txtMsgLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
 
-    txtMsgLabel->SetFont((const char *)TTF_PATH, FONT_SIZE);
+    txtMsgLabel->SetFont((const char *)TTF_PATH, static_cast<uint8_t>(VScale(TITLE_LABEL_FONT_SIZE_REF)));
 
-    txtMsgLabel->SetAlign(TEXT_ALIGNMENT_LEFT);
-    txtMsgLabel->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
+    txtMsgLabel->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     txtMsgLabel->SetStyle(STYLE_BACKGROUND_OPA, 0);
     txtMsgLabel->SetText((char *)"相机");
 
@@ -426,7 +425,7 @@ void CameraAbilitySlice::SetHead(void)
     tmLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
     tmLabel->SetText("00:00");
 
-    tmLabel->SetFont((const char *)TTF_PATH, FONT_SIZE);
+    tmLabel->SetFont((const char *)TTF_PATH, static_cast<uint8_t>(VScale(FONT_SIZE)));
 
     tmLabel->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     tmLabel->SetStyle(STYLE_BACKGROUND_OPA, 0);

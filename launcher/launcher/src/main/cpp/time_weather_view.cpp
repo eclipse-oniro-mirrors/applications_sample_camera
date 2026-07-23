@@ -89,7 +89,7 @@ void TimeWeatherView::SetUpTimeView()
         lable->SetPosition(BLANK_TW(), BLANK_H(), viewTime_->GetWidth(), BIGLABEL_H());
         lable->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_BOTTOM);
         lable->SetText(hour_min);
-        lable->SetFont(FOND_PATH, BIGLAUNCHER_FOND_ID);
+        lable->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(BIGLAUNCHER_FOND_ID)));
         lable->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
         lable->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
         lable->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
@@ -99,7 +99,7 @@ void TimeWeatherView::SetUpTimeView()
         lable2->SetPosition(BLANK_TW(), BLANK_H() + BIGLABEL_H() + BLANK_H(), viewTime_->GetWidth(), SMALLLABEL_H());
         lable2->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_TOP);
         lable2->SetText(date);
-        lable2->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+        lable2->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
 
         lable2->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
         lable2->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
@@ -170,7 +170,7 @@ void TimeWeatherView::SetUpWeatherView()
         viewweather_->GetWidth() - IMAGE_W() - BLANK_TW() - BLANK_TW() - BLANK_TW(), SMALLLABEL_H());
     lable->SetAlign(TEXT_ALIGNMENT_LEFT, TEXT_ALIGNMENT_CENTER);
     lable->SetText("室内温度 26℃");
-    lable->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    lable->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     lable->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     lable->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
     lable->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
@@ -180,7 +180,7 @@ void TimeWeatherView::SetUpWeatherView()
         viewweather_->GetWidth() - IMAGE_W() - BLANK_TW() - BLANK_TW() - BLANK_TW(), SMALLLABEL_H());
     lable2->SetAlign(TEXT_ALIGNMENT_LEFT, TEXT_ALIGNMENT_CENTER);
     lable2->SetText("空气污染指数 136");
-    lable2->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    lable2->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     lable2->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     lable2->SetStyle(STYLE_BORDER_RADIUS, LABLE_RADIUS);
     lable2->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);

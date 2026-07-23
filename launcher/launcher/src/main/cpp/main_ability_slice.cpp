@@ -61,7 +61,7 @@ void MainAbilitySlice::SetHead()
     label->SetPosition(0, 0, GetScrWidth(), LABLE_TITLE_HEIGHT);
     label->SetText(tmp);
     label->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_TOP);
-    label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    label->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
@@ -78,7 +78,7 @@ void MainAbilitySlice::SetTail()
     sprintf_s(buf, sizeof(buf), ".%d.", 1);
     label->SetText(buf);
     label->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_CENTER);
-    label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    label->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
@@ -114,7 +114,9 @@ void MainAbilitySlice::OnStart(const Want& want)
     rootview_->Resize(GetScrWidth(), GetScrHeight());
     rootview_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     rootview_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x30, 0x30, 0x30)));
+#ifndef LAUNCHER_NO_BACKGROUND
     SetImageView();
+#endif
     SetHead();
     SetTail();
     SetSwipe();

@@ -13,6 +13,35 @@
 
 import("//build/lite/config/hap_pack.gni")
 
+_is_hi3516 = !defined(media_interface_upgrade)
+_res_src = "launcher/src/main/resources"
+_res_dst = "$target_out_dir/launcher_resources"
+
+action("launcher_prepare_resources") {
+  script = "//applications/sample/camera/launcher/copy_resources.py"
+  _res_base = "launcher/src/main/resources/base/media"
+  inputs = [
+    "$_res_base/background.png",
+    "$_res_base/weather.png",
+  ]
+  if (!_is_hi3516) {
+    inputs += [ "$_res_base/background_1920x1080.png" ]
+  }
+  outputs = [ "$_res_dst/.stamp" ]
+  args = [
+    "--src",
+    rebase_path(_res_src),
+    "--dst",
+    rebase_path(_res_dst),
+  ]
+  if (_is_hi3516) {
+    args += [
+      "--exclude",
+      "base/media/background_1920x1080.png",
+    ]
+  }
+}
+
 shared_library("launcher") {
   sources = [
     "launcher/src/main/cpp/app_info.cpp",
@@ -48,16 +77,23 @@ shared_library("launcher") {
     "ABILITY_WINDOW_SUPPORT",
     "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER",
   ]
+
+  if (_is_hi3516) {
+    defines += [ "LAUNCHER_NO_BACKGROUND=1" ]
+  }
 }
 
 hap_pack("launcher_hap") {
-  deps = [ ":launcher" ]
+  deps = [
+    ":launcher",
+    ":launcher_prepare_resources",
+  ]
   mode = "hap"
   json_path = "launcher/src/main/config.json"
   ability_so_path = "$root_out_dir/liblauncher.so"
   force = "true"
   cert_profile = "cert/com.huawei.launcher_AppProvision_release.p7b"
-  resources_path = "launcher/src/main/resources"
+  resources_path = _res_dst
   hap_name = "launcher"
   privatekey = "HOS Application Provision Release"
 }

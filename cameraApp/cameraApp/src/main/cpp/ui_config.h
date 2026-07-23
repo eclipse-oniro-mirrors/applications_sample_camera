@@ -22,9 +22,12 @@
 extern "C" {
 #endif
 
-/* Screen-aware scaling helpers — designed for 1920x1080 reference */
+/* Screen-aware scaling helpers — designed for 1920x1080 reference.
+ * Default fallback resolution is 960x480 when Screen reports 0. */
 static constexpr int16_t DESIGN_WIDTH = 1920;
 static constexpr int16_t DESIGN_HEIGHT = 1080;
+static constexpr int16_t DEFAULT_SCR_WIDTH = 960;
+static constexpr int16_t DEFAULT_SCR_HEIGHT = 480;
 static constexpr int16_t HALF_DIVISOR = 2;
 static constexpr int16_t THIRD_DIVISOR = 3;
 static constexpr int16_t MID_BUTTON_COL_INDEX = 1;
@@ -41,14 +44,19 @@ static constexpr int16_t TXT_LABEL_WIDTH_MULTIPLIER = 3;
 static constexpr int16_t TIME_LABEL_GAP_X = 14;
 static constexpr int16_t SCROLL_VIEW_MARGIN_BOTTOM = 30;
 static constexpr int16_t SCROLL_VIEW_EXTRA_H = 6;
+static constexpr int16_t TITLE_LABEL_WIDTH_REF = 100;
+static constexpr int16_t TITLE_LABEL_HEIGHT_REF = 70;
+static constexpr uint16_t TITLE_LABEL_FONT_SIZE_REF = 25;
 
 static inline int16_t ScrWidth()
 {
-    return OHOS::Screen::GetInstance().GetWidth();
+    uint16_t w = OHOS::Screen::GetInstance().GetWidth();
+    return (w == 0) ? DEFAULT_SCR_WIDTH : static_cast<int16_t>(w);
 }
 static inline int16_t ScrHeight()
 {
-    return OHOS::Screen::GetInstance().GetHeight();
+    uint16_t h = OHOS::Screen::GetInstance().GetHeight();
+    return (h == 0) ? DEFAULT_SCR_HEIGHT : static_cast<int16_t>(h);
 }
 static inline int16_t HScale(int16_t ref)
 {
@@ -65,6 +73,15 @@ static inline int16_t VScale(int16_t ref)
 static inline bool IsHorizontalMode()
 {
     return ScrWidth() >= ScrHeight();
+}
+
+static inline int16_t TITLE_LABEL_Y()
+{
+    return 0;
+}
+static inline int16_t TITLE_LABEL_WIDTH()
+{
+    return HScale(TITLE_LABEL_WIDTH_REF);
 }
 
 /* Base starting point */
@@ -92,6 +109,10 @@ static inline int16_t BUTTON_ICON_BH()
 static inline int16_t TITLE_HEIGHT()
 {
     return VScale(TITLE_HEIGHT_REF);
+}
+static inline int16_t TITLE_LABEL_HEIGHT()
+{
+    return TITLE_HEIGHT();
 }
 
 static inline int16_t ICON_B_WIDTH()

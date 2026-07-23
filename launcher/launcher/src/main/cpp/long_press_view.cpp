@@ -33,7 +33,7 @@ LongPressView::LongPressView(UninstallApp uninstall)
     buttUninstall_->SetStyleForState(STYLE_BORDER_RADIUS, BUTTON_RADIUS, UIButton::PRESSED);
     buttUninstall_->SetStyleForState(STYLE_BACKGROUND_OPA, HALF_OPACITY, UIButton::PRESSED);
     buttUninstall_->SetText("卸载");
-    buttUninstall_->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    buttUninstall_->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     buttUninstall_->SetOnClickListener(this);
 
     buttCancle_ = new UILabelButton();
@@ -43,7 +43,7 @@ LongPressView::LongPressView(UninstallApp uninstall)
     buttCancle_->SetStyleForState(STYLE_BORDER_RADIUS, BUTTON_RADIUS, UIButton::PRESSED);
     buttCancle_->SetStyleForState(STYLE_BACKGROUND_OPA, HALF_OPACITY, UIButton::PRESSED);
     buttCancle_->SetText("取消");
-    buttCancle_->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    buttCancle_->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     buttCancle_->SetOnClickListener(this);
 
     viewGroup_->Add(buttUninstall_);

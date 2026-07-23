@@ -21,19 +21,24 @@
 #include <common/screen.h>
 
 namespace OHOS {
-/* Screen-aware scaling helpers — designed for 1920x1080 reference */
+/* Screen-aware scaling helpers — designed for 1920x1080 reference.
+ * Default fallback resolution is 960x480 when Screen reports 0. */
 constexpr int16_t DESIGN_WIDTH = 1920;
 constexpr int16_t DESIGN_HEIGHT = 1080;
 constexpr uint16_t MIN_FONT_SIZE = 14;
 constexpr int16_t APP_ICON_SIZE_REF = 88;
+constexpr int16_t DEFAULT_SCR_WIDTH = 960;
+constexpr int16_t DEFAULT_SCR_HEIGHT = 480;
 
 inline int16_t GetScrWidth()
 {
-    return Screen::GetInstance().GetWidth();
+    uint16_t w = Screen::GetInstance().GetWidth();
+    return (w == 0) ? DEFAULT_SCR_WIDTH : static_cast<int16_t>(w);
 }
 inline int16_t GetScrHeight()
 {
-    return Screen::GetInstance().GetHeight();
+    uint16_t h = Screen::GetInstance().GetHeight();
+    return (h == 0) ? DEFAULT_SCR_HEIGHT : static_cast<int16_t>(h);
 }
 inline int16_t HScale(int16_t ref)
 {
