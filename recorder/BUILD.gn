@@ -100,3 +100,12 @@ hap_pack("recorder_hap") {
   hap_name = "recorder"
   privatekey = "HOS Application Provision Release"
 }
+
+group("recorder_grop") {
+  deps = []
+  if (defined(media_interface_upgrade)) {
+    deps += [
+      ":recorder_hap",
+    ]
+  }
+}
