@@ -113,8 +113,8 @@ void SwipeView::OnSetUpView()
     AddFirstViewGroup();
     AddViewGroup();
     AddViewGroup();
-    double scale0 = 0.6;
-    double scale1 = 0.69;
+    double scale0 = 0.5;
+    double scale1 = 0.55;
     // Reserved. Touch and hold to add a page.
     arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
     arrPage_[0]->SetScale(scale0);

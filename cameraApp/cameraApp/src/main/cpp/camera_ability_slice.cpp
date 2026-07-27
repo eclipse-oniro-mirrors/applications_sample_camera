@@ -465,7 +465,7 @@ void CameraAbilitySlice::SetBottomLeftButton(void)
     bttnLeft->SetTouchable(true);
     bttnLeft->SetPosition(LEFT_BUTTON_X(), LEFT_BUTTON_Y(), LEFT_BUTTON_W(), LEFT_BUTTON_H());
     bttnLeft->SetAutoEnable(false);
-    bttnLeft->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    bttnLeft->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnLeft->SetSrc(UI_IMAGE_PATH"ic_camera_photo.png");
     bttnLeft->SetStyle(STYLE_BACKGROUND_OPA, 0);
 }
@@ -475,7 +475,7 @@ void CameraAbilitySlice::SetBottomMidButton(void)
     bttnMidle = new UIImageView();
     bttnMidle->SetTouchable(true);
     bttnMidle->SetAutoEnable(false);
-    bttnMidle->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    bttnMidle->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnMidle->SetSrc(UI_IMAGE_PATH"ic_camera_shutter.png");
     bttnMidle->SetPosition(MID_BUTTON_X(), MID_BUTTON_Y(), MID_BUTTON_W(), MID_BUTTON_H());
     bttnMidle->SetStyle(STYLE_BACKGROUND_OPA, 0);
@@ -487,7 +487,7 @@ void CameraAbilitySlice::SetBottomRightButton(void)
     bttnRight->SetTouchable(true);
     bttnRight->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
     bttnRight->SetAutoEnable(false);
-    bttnRight->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    bttnRight->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnRight->SetSrc(UI_IMAGE_PATH"ic_camera_video.png");
     bttnRight->SetStyle(STYLE_BACKGROUND_OPA, 0);
 }

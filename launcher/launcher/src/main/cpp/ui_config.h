@@ -26,7 +26,7 @@ namespace OHOS {
 constexpr int16_t DESIGN_WIDTH = 1920;
 constexpr int16_t DESIGN_HEIGHT = 1080;
 constexpr uint16_t MIN_FONT_SIZE = 14;
-constexpr int16_t APP_ICON_SIZE_REF = 88;
+constexpr int16_t APP_ICON_SIZE_REF = 132;
 constexpr int16_t DEFAULT_SCR_WIDTH = 960;
 constexpr int16_t DEFAULT_SCR_HEIGHT = 480;
 
@@ -75,9 +75,9 @@ constexpr int16_t APP_HEIGHT_COUNT = 4;      // app + lable + app + lable
 constexpr int16_t MAX_VIEWGROUP = 3;         // swipe window count
 constexpr int16_t APP_ROW_COUNT = 2;         // a swipe view app count in row
 constexpr int16_t APP_COL_COUNT = 3;         // a sswipe view app count in col
-constexpr int16_t LAUNCHER_FOND_ID = 16;     // other view fond id
-constexpr int16_t APP_FOND_ID = 16;          // app name fond id
-constexpr int16_t BIGLAUNCHER_FOND_ID = 48;  // time big fond id
+constexpr int16_t LAUNCHER_FOND_ID = 24;     // other view fond id
+constexpr int16_t APP_FOND_ID = 24;          // app name fond id
+constexpr int16_t BIGLAUNCHER_FOND_ID = 72;  // time big fond id
 constexpr int16_t TOTAL_OPACITY = 0;         // transparent
 constexpr int16_t HALF_OPACITY = 50;         // diaphanous
 constexpr int16_t UN_OPACITY = 255;          // opaque

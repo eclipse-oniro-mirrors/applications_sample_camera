@@ -80,8 +80,8 @@ void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t
     int16_t w = viewGroup_->GetWidth();
 
     const double scale = scale_;
-    const int16_t blank1 = 10;
-    const int16_t blank2 = 30;
+    const int16_t blank1 = 15;
+    const int16_t blank2 = 45;
     const int16_t labelH = 2;
     int16_t width = static_cast<int16_t>(static_cast<double>(w) / static_cast<double>(scale * col_ + col_ + scale));
     int16_t heightB = width;

@@ -22,13 +22,13 @@
 namespace OHOS {
 static constexpr int16_t DISPLATE_PICESE = 2;
 /* Scaled values from 1920x1080 reference */
-static constexpr int16_t BLANK_H_SCALE = 5;
-static constexpr int16_t BLANK_TW_SCALE = 15;
-static constexpr int16_t BLANK_W_SCALE = 100;
-static constexpr int16_t BIGLABEL_H_SCALE = 100;
-static constexpr int16_t SMALLLABEL_H_SCALE = 35;
-static constexpr int16_t IMAGE_H_SCALE = 40;
-static constexpr int16_t IMAGE_W_SCALE = 40;
+static constexpr int16_t BLANK_H_SCALE = 8;
+static constexpr int16_t BLANK_TW_SCALE = 22;
+static constexpr int16_t BLANK_W_SCALE = 150;
+static constexpr int16_t BIGLABEL_H_SCALE = 150;
+static constexpr int16_t SMALLLABEL_H_SCALE = 52;
+static constexpr int16_t IMAGE_H_SCALE = 60;
+static constexpr int16_t IMAGE_W_SCALE = 60;
 static inline int16_t BLANK_H() { return VScale(BLANK_H_SCALE); }
 static inline int16_t BLANK_TW() { return HScale(BLANK_TW_SCALE); }
 static inline int16_t BLANK_W() { return HScale(BLANK_W_SCALE); }

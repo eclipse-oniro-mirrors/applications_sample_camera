@@ -33,8 +33,8 @@ static constexpr int16_t THIRD_DIVISOR = 3;
 static constexpr int16_t MID_BUTTON_COL_INDEX = 1;
 static constexpr int16_t RIGHT_BUTTON_COL_INDEX = 2;
 
-static constexpr int16_t BUTTON_ICON_S_REF = 60;
-static constexpr int16_t BUTTON_ICON_B_REF = 114;
+static constexpr int16_t BUTTON_ICON_S_REF = 120;
+static constexpr int16_t BUTTON_ICON_B_REF = 228;
 static constexpr int16_t TITLE_HEIGHT_REF = 80;
 static constexpr int16_t ICON_B_REF = 50;
 static constexpr int16_t ICON_M_REF = 36;
@@ -233,7 +233,7 @@ static inline int16_t SCROLL_VIEW_X()
 }
 static inline int16_t SCROLL_VIEW_Y()
 {
-    return (ScrHeight() - BUTTON_ICON_BH()) - VScale(SCROLL_VIEW_MARGIN_BOTTOM);
+    return (ScrHeight() - BUTTON_ICON_BH()) - VScale(SCROLL_VIEW_MARGIN_BOTTOM) - BUTTON_ICON_BH() / HALF_DIVISOR;
 }
 static inline int16_t SCROLL_VIEW_W()
 {
@@ -241,12 +241,12 @@ static inline int16_t SCROLL_VIEW_W()
 }
 static inline int16_t SCROLL_VIEW_H()
 {
-    return BUTTON_ICON_BH() + VScale(SCROLL_VIEW_EXTRA_H);
+    return BUTTON_ICON_BH() + VScale(SCROLL_VIEW_EXTRA_H) + BUTTON_ICON_BH() / HALF_DIVISOR;
 }
 
 static inline int16_t LEFT_BUTTON_X()
 {
-    return ScrWidth() / THIRD_DIVISOR;
+    return (ScrWidth() / THIRD_DIVISOR) - BUTTON_ICON_SW() / HALF_DIVISOR;
 }
 static inline int16_t LEFT_BUTTON_Y()
 {
@@ -263,8 +263,7 @@ static inline int16_t LEFT_BUTTON_H()
 
 static inline int16_t MID_BUTTON_X()
 {
-    return ((ScrWidth() / THIRD_DIVISOR) - BUTTON_ICON_BW()) / HALF_DIVISOR +
-        MID_BUTTON_COL_INDEX * (ScrWidth() / THIRD_DIVISOR);
+    return (ScrWidth() / HALF_DIVISOR) - BUTTON_ICON_BW() / HALF_DIVISOR;
 }
 static inline int16_t MID_BUTTON_Y()
 {
@@ -281,7 +280,7 @@ static inline int16_t MID_BUTTON_H()
 
 static inline int16_t RIGHT_BUTTON_X()
 {
-    return RIGHT_BUTTON_COL_INDEX * (ScrWidth() / THIRD_DIVISOR) - BUTTON_ICON_SW();
+    return (RIGHT_BUTTON_COL_INDEX * (ScrWidth() / THIRD_DIVISOR)) - BUTTON_ICON_SW() / HALF_DIVISOR;
 }
 static inline int16_t RIGHT_BUTTON_Y()
 {
