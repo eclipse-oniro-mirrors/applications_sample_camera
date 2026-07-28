@@ -87,7 +87,9 @@ public:
     void SetPause();
     void SetResume(Surface *mSurface);
     void SetStop(int s);
+#ifdef MEDIA_INTERFACE_V1_0
     void ReleaseCamera();
+#endif
     bool RecordState();
     bool CameraIsReady();
     bool IsCaptureOver(void);

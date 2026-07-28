@@ -245,10 +245,11 @@ private:
     UILabel *tmLabel;
     void StartGallery(void)
     {
+#ifdef MEDIA_INTERFACE_V1_0
         if (cManager_) {
             cManager_->SampleCameraStop();
         }
-
+#endif
         Want want1 = { nullptr };
         ElementName element = { nullptr };
         SetElementBundleName(&element, "com.huawei.gallery");
@@ -588,8 +589,10 @@ void CameraAbilitySlice::OnStop()
 {
     printf("CameraAbilitySlice::OnStop\n");
     AbilitySlice::OnStop();
+#ifdef MEDIA_INTERFACE_V1_0
     if (cam_manager) {
         cam_manager->SampleCameraStop();
     }
+#endif
 }
 }
