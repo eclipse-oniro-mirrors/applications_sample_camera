@@ -210,7 +210,10 @@ void GalleryAbilitySlice::InitPictureList()
     int16_t numInLine = (ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE);
     int16_t offset = ((ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) %
         (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE)) / 2; // 2: half
-    AddAllPictures(Point { offset, 0 }, numInLine);
+    AddAllPictures(Point { offset, 0 }, numInLine, PHOTO_DIRECTORY);
+#ifndef MEDIA_INTERFACE_V1_0
+    AddAllPictures(Point { offset, 0 }, numInLine, VIDEO_SOURCE_DIRECTORY);
+#endif
 
     int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE);
     if ((pictureCount_ % numInLine) != 0) {
@@ -221,12 +224,12 @@ void GalleryAbilitySlice::InitPictureList()
     picContainer_->Add(picList_);
 }
 
-void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
+void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine, std::string directoryPath)
 {
     LOGI("GalleryAbilitySlice::AddAllPictures | start | %d", numInLine);
     Point imagePos = pos;
-    LOGI("opendir: %s", PHOTO_DIRECTORY);
-    DIR* drip = opendir(PHOTO_DIRECTORY);
+    LOGI("opendir: %s", directoryPath.c_str());
+    DIR* drip = opendir(directoryPath.c_str());
     if (drip == nullptr) {
         return;
     }
@@ -243,13 +246,13 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
         pictureName_[pictureCount_] = imageName;
         pictureCount_++;
 
-        uint16_t pathLen = static_cast<uint16_t>(strlen(PHOTO_DIRECTORY)) + imageNameLen + 1;
+        uint16_t pathLen = static_cast<uint16_t>(strlen(directoryPath.c_str())) + imageNameLen + 1;
         if (pathLen > MAX_PATH_LENGTH) {
             LOGW("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d", pathLen);
             continue;
         }
         char* imagePath = new char[pathLen + 1]();
-        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", PHOTO_DIRECTORY, info->d_name) < 0) {
+        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", directoryPath.c_str(), info->d_name) < 0) {
             LOGE("GalleryAbilitySlice::AddAllPictures | sprintf_s error");
             delete[] imagePath;
             continue;

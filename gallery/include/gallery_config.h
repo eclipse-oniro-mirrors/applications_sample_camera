@@ -107,7 +107,11 @@ static constexpr uint16_t MAX_PATH_LENGTH = 512;
 /** thumb, photo, and video folder path */
 static const char* const THUMBNAIL_DIRECTORY = "/userdata/thumb";
 static const char* const PHOTO_DIRECTORY = "/userdata/photo";
+#ifdef MEDIA_INTERFACE_V1_0
 static const char* const VIDEO_SOURCE_DIRECTORY = "/userdata/photo";
+#else
+static const char* const VIDEO_SOURCE_DIRECTORY = "/userdata/video";
+#endif
 
 /** general page configuration — runtime screen aware */
 static inline int ROOT_VIEW_WIDTH()
