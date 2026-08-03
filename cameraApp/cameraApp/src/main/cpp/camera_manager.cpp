@@ -579,6 +579,7 @@ void SampleCameraStateMng::SetStop(int s)
     gPreviewSta_ = MEDIA_STATE_IDLE;
 }
 
+#ifdef MEDIA_INTERFACE_V1_0
 void SampleCameraStateMng::ReleaseCamera()
 {
     if (cam_ != nullptr) {
@@ -586,6 +587,7 @@ void SampleCameraStateMng::ReleaseCamera()
         cam_ = nullptr;
     }
 }
+#endif
 
 bool SampleCameraStateMng::RecordState()
 {
@@ -602,7 +604,9 @@ SampleCameraManager::~SampleCameraManager()
 {
     if (CamStateMng) {
         CamStateMng->SetStop(1);
+#ifdef MEDIA_INTERFACE_V1_0
         CamStateMng->ReleaseCamera();
+#endif
         delete CamStateMng;
         CamStateMng = nullptr;
     }
