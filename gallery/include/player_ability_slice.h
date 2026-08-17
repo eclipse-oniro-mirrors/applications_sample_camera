@@ -122,7 +122,7 @@ private:
     void Clear();
     void ShowErrorTips();
     void SetUpRootView();
-    void SetUpBackArea(const char* pathHeader);
+    void SetUpBackArea(const char* pathHeader, const char* imageName);
     void SetUpVideoPlayer(const Want &want);
     bool SetUpSurfaceView();
     void SetUpProgress(int64_t duration);
@@ -137,6 +137,7 @@ private:
     RootView* rootView_ { nullptr };
     UIViewGroup* backArea_ { nullptr };
     UIImageView* backIcon_ { nullptr };
+    UILabel* titleLabel_ { nullptr };
     UISurfaceView* surfaceView_ { nullptr };
     UIViewGroup* animatorGroup_ { nullptr };
     UIToggleButton* toggleButton_ { nullptr };

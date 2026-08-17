@@ -14,6 +14,7 @@
  */
 
 #include "main_ability_slice.h"
+#include "setting_dhcp_ability_slice.h"
 #include "ability_loader.h"
 #include "ability_slice.h"
 #include "ability_info.h"
@@ -23,9 +24,16 @@
 #include "module_info.h"
 #include "element_name.h"
 #include "wpa_work.h"
+#include "dhcp_lite_c_client_api.h"
 #include "gfx_utils/style.h"
 #include <cstdint>
 #include <ctime>
+#include <cstring>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <net/if.h>
 
 namespace OHOS {
 REGISTER_AS(MainAbilitySlice)
@@ -64,6 +72,11 @@ MainAbilitySlice::~MainAbilitySlice()
     if (buttonAboutListener_) {
         delete buttonAboutListener_;
         buttonAboutListener_ = nullptr;
+    }
+
+    if (buttonDhcpListener_) {
+        delete buttonDhcpListener_;
+        buttonDhcpListener_ = nullptr;
     }
 }
 
@@ -128,6 +141,21 @@ void MainAbilitySlice::SetButtonListenerAbout(void)
     buttonAboutListener_ = new EventListener(onClick4, nullptr);
 }
 
+void MainAbilitySlice::SetButtonListenerDhcp(void)
+{
+    auto onClick5 = [this](UIView& view, const Event& event) -> bool {
+        Want want1 = { nullptr };
+        AbilitySlice* nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("SettingDhcpAbilitySlice");
+        if (nextSlice == nullptr) {
+            printf("[warning]undefined SettingDhcpAbilitySlice\n");
+        } else {
+            Present(*nextSlice, want1);
+        }
+        return true;
+    };
+    buttonDhcpListener_ = new EventListener(onClick5, nullptr);
+}
+
 void MainAbilitySlice::SetHead(void)
 {
     auto toLaunher = [this] (UIView &view, const Event &event) -> bool {
@@ -146,6 +174,8 @@ void MainAbilitySlice::SetHead(void)
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -159,7 +189,7 @@ void MainAbilitySlice::SetHead(void)
 void MainAbilitySlice::SetWifiButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(WIFI_BUTTON_X, WIFI_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(WIFI_BUTTON_X(), WIFI_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -167,15 +197,15 @@ void MainAbilitySlice::SetWifiButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontWifi = new UILabel();
-    lablelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontWifi->SetPosition(DE_TITLE_TEXT_X, WIFI_BUTTON_TEXT_WIFI_Y(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontWifi->SetText("WiFi");
     lablelFontWifi->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontWifi->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     buttonView->Add(lablelFontWifi);
 
     char buff[64] = {0}; // 64 is the longest in this sample
-    int myX = WIFI_BUTTON_TEXT_SSID_X;
-    int myY = WIFI_BUTTON_TEXT_SSID_Y;
+    int myX = WIFI_BUTTON_TEXT_SSID_X();
+    int myY = WIFI_BUTTON_TEXT_SSID_Y();
     int ret = GetCurrentConnInfo(buff, sizeof(buff));
     lablelFontSsid_ = new UILabel();
     lablelFontSsid_->SetPosition(myX, myY, DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
@@ -191,6 +221,45 @@ void MainAbilitySlice::SetWifiButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    imageView->SetSrc(DE_IMAGE_FORWORD);
+    buttonView->Add(imageView);
+}
+
+void MainAbilitySlice::SetDhcpButtonView(void)
+{
+    UIViewGroup* buttonView = new UIViewGroup();
+    buttonView->SetPosition(DhcpButtonX(), DhcpButtonY(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
+    buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
+    buttonView->SetTouchable(true);
+    buttonView->SetOnClickListener(buttonDhcpListener_);
+    scrollView_->Add(buttonView);
+
+    UILabel* lablelFontDhcp = new UILabel();
+    lablelFontDhcp->SetPosition(DE_TITLE_TEXT_X, DhcpButtonTextDhcpY(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontDhcp->SetText("DHCP");
+    lablelFontDhcp->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
+    lablelFontDhcp->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
+    buttonView->Add(lablelFontDhcp);
+
+    lablelFontIp_ = new UILabel();
+    lablelFontIp_->SetPosition(DhcpButtonTextIpX(), DhcpButtonTextIpY(),
+                               DE_SUBTITLE_TEXT_WIDTH, DE_SUBTITLE_TEXT_HEIGHT);
+    if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
+        lablelFontIp_->SetText(g_dhcpIp);
+    } else {
+        lablelFontIp_->SetText("未连接");
+    }
+    lablelFontIp_->SetFont(DE_FONT_OTF, DE_SUBTITLE_TEXT_SIZE);
+    lablelFontIp_->SetStyle(STYLE_TEXT_COLOR, DE_SUBTITLE_TEXT_COLOR);
+    buttonView->Add(lablelFontIp_);
+
+    UIImageView* imageView = new UIImageView();
+    imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -198,7 +267,7 @@ void MainAbilitySlice::SetWifiButtonView(void)
 void MainAbilitySlice::SetAppButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(APP_BUTTON_X, APP_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(APP_BUTTON_X(), APP_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -215,6 +284,8 @@ void MainAbilitySlice::SetAppButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -222,7 +293,7 @@ void MainAbilitySlice::SetAppButtonView(void)
 void MainAbilitySlice::SetDisplayButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(DISPALY_BUTTON_X, DISPALY_BUTTON_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    buttonView->SetPosition(DISPALY_BUTTON_X(), DISPALY_BUTTON_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -238,6 +309,8 @@ void MainAbilitySlice::SetDisplayButtonView(void)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -255,7 +328,7 @@ static void setAboutTest(UIViewGroup *buttonView, int positionX, int positionY, 
 void MainAbilitySlice::SetAboutButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
-    buttonView->SetPosition(ABOUT_BUTTON_X, ABOUT_BUTTON_Y, DE_BUTTON_WIDTH, ABOUT_BUTTON_HEIGHT);
+    buttonView->SetPosition(ABOUT_BUTTON_X(), ABOUT_BUTTON_Y(), DE_BUTTON_WIDTH, ABOUT_BUTTON_HEIGHT());
     buttonView->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
     buttonView->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     buttonView->SetTouchable(true);
@@ -263,7 +336,8 @@ void MainAbilitySlice::SetAboutButtonView(void)
     scrollView_->Add(buttonView);
 
     UILabel* lablelFontAbout = new UILabel();
-    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    lablelFontAbout->SetPosition(DE_TITLE_TEXT_X, ABOUT_BUTTON_TEXT_ABOUT_Y(),
+                                 DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     lablelFontAbout->SetText("关于");
     lablelFontAbout->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     lablelFontAbout->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
@@ -277,7 +351,7 @@ void MainAbilitySlice::SetAboutButtonView(void)
         gDV = nullptr;
         return;
     }
-    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_SYSTEM_X, ABOUT_BUTTON_TEXT_SYSTEM_Y, buff);
+    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_SYSTEM_X(), ABOUT_BUTTON_TEXT_SYSTEM_Y(), buff);
 
     err = memset_s(buff, sizeof(buff), 0, sizeof(buff));
     if (err < EOK) {
@@ -291,10 +365,12 @@ void MainAbilitySlice::SetAboutButtonView(void)
         gPT = nullptr;
         return;
     }
-    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_DEVICE_X, ABOUT_BUTTON_TEXT_DEVICE_Y, buff);
+    setAboutTest(buttonView, ABOUT_BUTTON_TEXT_DEVICE_X(), ABOUT_BUTTON_TEXT_DEVICE_Y(), buff);
 
     UIImageView* imageView = new UIImageView();
-    imageView->SetPosition(DE_FORWARD_IMG_X, ABOUT_BUTTON_IMAGE_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetPosition(DE_FORWARD_IMG_X, ABOUT_BUTTON_IMAGE_Y(), DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
@@ -307,9 +383,9 @@ void MainAbilitySlice::SetScrollView()
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
-    SetWifiButtonView();
-    SetAppButtonView();
     SetDisplayButtonView();
+    SetWifiButtonView();
+    SetDhcpButtonView();
     SetAboutButtonView();
 }
 
@@ -320,8 +396,10 @@ void MainAbilitySlice::OnStart(const Want& want)
     SetButtonListenerApp();
     SetButtonListenerDisplay();
     SetButtonListenerAbout();
+    SetButtonListenerDhcp();
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
 
     SetHead();
@@ -334,16 +412,59 @@ void MainAbilitySlice::OnInactive()
     AbilitySlice::OnInactive();
 }
 
+static int GetInterfaceIp(const char *ifname, char *ip, size_t len)
+{
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        return -1;
+    }
+    struct ifreq ifr;
+    (void)memset_s(&ifr, sizeof(ifr), 0, sizeof(ifr));
+    if (strcpy_s(ifr.ifr_name, sizeof(ifr.ifr_name), ifname) != 0) {
+        close(sock);
+        return -1;
+    }
+    if (ioctl(sock, SIOCGIFADDR, &ifr) == 0) {
+        struct sockaddr_in *sin = reinterpret_cast<struct sockaddr_in *>(&ifr.ifr_addr);
+        const char *str = inet_ntoa(sin->sin_addr);
+        if (str != nullptr) {
+            if (strcpy_s(ip, len, str) == 0) {
+                close(sock);
+                return 0;
+            }
+        }
+    }
+    close(sock);
+    return -1;
+}
+
 void MainAbilitySlice::OnActive(const Want& want)
 {
-    char buff[64] = {0};
-    int ret = GetCurrentConnInfo(buff, sizeof(buff));
-    if (ret == 0) {
-        printf("##### SetText -> %s \n", buff);
-        lablelFontSsid_->SetText(buff);
-    } else {
-        lablelFontSsid_->SetText("未连接");
+    if (lablelFontSsid_) {
+        char buff[64] = {0};
+        int ret = GetCurrentConnInfo(buff, sizeof(buff));
+        if (ret == 0) {
+            printf("##### SetText -> %s \n", buff);
+            lablelFontSsid_->SetText(buff);
+        } else {
+            lablelFontSsid_->SetText("未连接");
+        }
     }
+
+    if (lablelFontIp_) {
+        char ip[64] = {0};
+        if (GetInterfaceIp("eth0", ip, sizeof(ip)) == 0) {
+            lablelFontIp_->SetText(ip);
+            if (strcpy_s(g_dhcpIp, sizeof(g_dhcpIp), ip) == 0) {
+                g_dhcpStatus = 1;
+            }
+        } else if (g_dhcpStatus != 0 && strlen(g_dhcpIp) > 0) {
+            lablelFontIp_->SetText(g_dhcpIp);
+        } else {
+            lablelFontIp_->SetText("未连接");
+        }
+    }
+
     AbilitySlice::OnActive(want);
 }
 

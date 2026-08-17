@@ -16,24 +16,29 @@
 #include "gallery_ability_slice.h"
 #include "ability_env.h"
 #include "ability_manager.h"
+#include <ability_event_handler.h>
 #include "picture_ability_slice.h"
 
 #include "gfx_utils/file.h"
+#include "gfx_utils/mem_api.h"
 #include "securec.h"
+
+#include "gallery_log.h"
+#include "image_decoder.h"
 
 namespace OHOS {
 REGISTER_AS(GalleryAbilitySlice)
 
 GalleryAbilitySlice::~GalleryAbilitySlice()
 {
-    printf("~GalleryAbilitySlice() | start \n");
+    LOGI("~GalleryAbilitySlice() | start");
     Clear();
-    printf("~GalleryAbilitySlice() | end \n");
+    LOGI("~GalleryAbilitySlice() | end");
 }
 
 void GalleryAbilitySlice::Clear()
 {
-    printf("GalleryAbilitySlice::Clear() | start \n");
+    LOGI("GalleryAbilitySlice::Clear() | start");
     if (backIcon_ != nullptr) {
         delete backIcon_;
         backIcon_ = nullptr;
@@ -58,6 +63,10 @@ void GalleryAbilitySlice::Clear()
         delete deleteLabel_;
         deleteLabel_ = nullptr;
     }
+    if (imageDecoder_ != nullptr) {
+        delete imageDecoder_;
+        imageDecoder_ = nullptr;
+    }
 
     ClearThumb();
 
@@ -65,12 +74,12 @@ void GalleryAbilitySlice::Clear()
         RootView::DestroyWindowRootView(rootView_);
         rootView_ = nullptr;
     }
-    printf("GalleryAbilitySlice::Clear() | end \n");
+    LOGI("GalleryAbilitySlice::Clear() | end");
 }
 
 void GalleryAbilitySlice::ClearThumb()
 {
-    printf("GalleryAbilitySlice::ClearThumb() | start \n");
+    LOGI("GalleryAbilitySlice::ClearThumb() | start");
     if (picContainer_ != nullptr) {
         delete picContainer_;
         picContainer_ = nullptr;
@@ -94,12 +103,12 @@ void GalleryAbilitySlice::ClearThumb()
     }
     pictureCount_ = 0;
     pictureOnClickListenerCount_ = 0;
-    printf("GalleryAbilitySlice::ClearThumb() | end \n");
+    LOGI("GalleryAbilitySlice::ClearThumb() | end");
 }
 
 void GalleryAbilitySlice::ClearPictureList(const UIView* view)
 {
-    printf("GalleryAbilitySlice::ClearPictureList() | start \n");
+    LOGI("GalleryAbilitySlice::ClearPictureList() | start");
     if (view == nullptr || !(view->IsViewGroup())) {
         return;
     }
@@ -113,100 +122,123 @@ void GalleryAbilitySlice::ClearPictureList(const UIView* view)
         delete child;
         child = childNext;
     }
-    printf("GalleryAbilitySlice::ClearPictureList() | end \n");
+    LOGI("GalleryAbilitySlice::ClearPictureList() | end");
 }
 
 void GalleryAbilitySlice::InitTitle()
 {
-    printf("GalleryAbilitySlice::InitTitle | start \n");
+    LOGI("GalleryAbilitySlice::InitTitle | start");
+    InitTitleBackArea();
+    InitTitleLabels();
+}
+
+void GalleryAbilitySlice::InitTitleBackArea()
+{
     backIcon_ = new UIImageView();
-    backIcon_->SetPosition(BACK_ICON_POSITION_X, BACK_ICON_POSITION_Y);
+    backIcon_->SetAutoEnable(false);
+    backIcon_->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
+    backIcon_->SetPosition(BACK_ICON_POSITION_X(), BACK_ICON_POSITION_Y(), BACK_ICON_WIDTH(), BACK_ICON_HEIGHT());
     backIcon_->SetSrc(backIconAbsolutePath);
     backIcon_->SetTouchable(true);
 
     backArea_ = new UIViewGroup();
-    backArea_->SetPosition(0, 0, LABEL_POSITION_X, LABEL_HEIGHT);
+    backArea_->SetPosition(0, 0, LABEL_POSITION_X(), LABEL_HEIGHT());
     backArea_->SetStyle(STYLE_BACKGROUND_OPA, 0);
     backArea_->SetTouchable(true);
 
     auto onClick = [this] (UIView& view, const Event& event) -> bool {
-        printf("############  Next AS enter   #############\n");
+        LOGI("############  Next AS enter   #############");
         TerminateAbility();
-        printf("############  Next AS exit   #############\n");
+        LOGI("############  Next AS exit   #############");
         return true;
     };
     backIconListener_ = new EventListener(onClick, nullptr);
     backIcon_->SetOnClickListener(backIconListener_);
     backArea_->SetOnClickListener(backIconListener_);
 
+    backArea_->Add(backIcon_);
+    rootView_->Add(backArea_);
+}
+
+void GalleryAbilitySlice::InitTitleLabels()
+{
     titleLabel_ = new UILabel();
-    titleLabel_->SetPosition(LABEL_POSITION_X, LABEL_POSITION_Y, LABEL_WIDTH, LABEL_HEIGHT);
+    titleLabel_->SetPosition(LABEL_POSITION_X(), LABEL_POSITION_Y, LABEL_WIDTH(), LABEL_HEIGHT());
     titleLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE);
+    titleLabel_->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
+    titleLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
+    titleLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     titleLabel_->SetText("照片");
 
     deleteLabel_ = new UILabel();
-    deleteLabel_->SetPosition(ROOT_VIEW_WIDTH - DELETE_LABEL_WIDTH, LABEL_POSITION_Y,
-                              DELETE_LABEL_WIDTH, LABEL_HEIGHT);
+    deleteLabel_->SetPosition(ROOT_VIEW_WIDTH() - DELETE_LABEL_WIDTH(), LABEL_POSITION_Y,
+                              DELETE_LABEL_WIDTH(), LABEL_HEIGHT());
     deleteLabel_->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT,
                            UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
-    deleteLabel_->SetFont(FONT_NAME, GALLERY_DELETE_FONT_SIZE);
+    deleteLabel_->SetFont(FONT_NAME, GALLERY_DELETE_FONT_SIZE());
+    deleteLabel_->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
+    deleteLabel_->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
     deleteLabel_->SetText("全部删除");
     deleteLabel_->SetTouchable(true);
     auto deleteClick = [this] (UIView& view, const Event& event) -> bool {
-        printf("############  DeleteAllData click enter #############\n");
+        LOGI("############  DeleteAllData click enter #############");
         DeleteAllData();
-        printf("############  DeleteAllData click exit  #############\n");
+        LOGI("############  DeleteAllData click exit  #############");
         return true;
     };
     deleteClickListener_ = new EventListener(deleteClick, nullptr);
     deleteLabel_->SetOnClickListener(deleteClickListener_);
 
-    backArea_->Add(backIcon_);
-    rootView_->Add(backArea_);
     rootView_->Add(titleLabel_);
     rootView_->Add(deleteLabel_);
 }
 
 void GalleryAbilitySlice::InitPictureList()
 {
-    printf("GalleryAbilitySlice::InitPictureList | start \n");
+    LOGI("GalleryAbilitySlice::InitPictureList | start");
     picContainer_ = new UIScrollView();
-    picContainer_->SetPosition(0, LABEL_POSITION_Y + LABEL_HEIGHT);
-    picContainer_->Resize(ROOT_VIEW_WIDTH, (THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE) * THUMBNAIL_COLUMN);
+    picContainer_->SetPosition(0, LABEL_POSITION_Y + LABEL_HEIGHT());
+    picContainer_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT() - (LABEL_POSITION_Y + LABEL_HEIGHT()));
     picContainer_->SetStyle(STYLE_BACKGROUND_OPA, 0);
+    picContainer_->SetStyle(STYLE_BACKGROUND_COLOR, Color::Silver().full);
     rootView_->Add(picContainer_);
 
     picList_ = new UIViewGroup();
-    picList_->SetPosition(0, 0, ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
+    picList_->SetPosition(0, 0, ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
     picList_->SetStyle(STYLE_BACKGROUND_OPA, 0);
 
-    int16_t numInLine = (ROOT_VIEW_WIDTH + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE);
-    int16_t offset = ((ROOT_VIEW_WIDTH + THUMBNAIL_SPACE) % (THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE)) / 2; // 2: half
-    AddAllPictures(Point { offset, 0 }, numInLine);
+    int16_t numInLine = (ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) / (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE);
+    int16_t offset = ((ROOT_VIEW_WIDTH() + THUMBNAIL_SPACE) %
+        (THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE)) / 2; // 2: half
+    AddAllPictures(Point { offset, 0 }, numInLine, PHOTO_DIRECTORY);
+#ifndef MEDIA_INTERFACE_V1_0
+    AddAllPictures(Point { offset, 0 }, numInLine, VIDEO_SOURCE_DIRECTORY);
+#endif
 
-    int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE);
+    int16_t totalHeight = (pictureCount_ / numInLine) * (THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE);
     if ((pictureCount_ % numInLine) != 0) {
-        totalHeight += THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE;
+        totalHeight += THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE;
     }
-    picList_->Resize(ROOT_VIEW_WIDTH, totalHeight);
-    printf("------------ totalHeight : %d ------------", totalHeight);
+    picList_->Resize(ROOT_VIEW_WIDTH(), totalHeight);
+    LOGI("------------ totalHeight : %d ------------", totalHeight);
     picContainer_->Add(picList_);
 }
 
-void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
+void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine, std::string directoryPath)
 {
-    printf("GalleryAbilitySlice::AddAllPictures | start | %d\n", numInLine);
+    LOGI("GalleryAbilitySlice::AddAllPictures | start | %d", numInLine);
     Point imagePos = pos;
-    DIR* drip = opendir(THUMBNAIL_DIRECTORY);
+    LOGI("opendir: %s", directoryPath.c_str());
+    DIR* drip = opendir(directoryPath.c_str());
     if (drip == nullptr) {
         return;
     }
     struct dirent* info = nullptr;
     while ((info = readdir(drip)) != nullptr  && pictureCount_ < MAX_PICTURE_COUNT) {
+        LOGI("readdir for: %s", info->d_name);
         uint16_t imageNameLen = static_cast<uint16_t>(strlen(info->d_name));
         if (imageNameLen > MAX_PATH_LENGTH || (strcmp(info->d_name, ".") == 0) || (strcmp(info->d_name, "..") == 0)) {
-            printf("GalleryAbilitySlice::AddAllPictures | imageNameLen > MAX_PATH_LENGTH | %d\n", imageNameLen);
+            LOGW("GalleryAbilitySlice::AddAllPictures | imageNameLen > MAX_PATH_LENGTH | %d", imageNameLen);
             continue;
         }
         char* imageName = new char[imageNameLen + 1]();
@@ -214,62 +246,89 @@ void GalleryAbilitySlice::AddAllPictures(const Point& pos, int16_t numInLine)
         pictureName_[pictureCount_] = imageName;
         pictureCount_++;
 
-        uint16_t pathLen = static_cast<uint16_t>(strlen(THUMBNAIL_DIRECTORY)) + imageNameLen + 1;
+        uint16_t pathLen = static_cast<uint16_t>(strlen(directoryPath.c_str())) + imageNameLen + 1;
         if (pathLen > MAX_PATH_LENGTH) {
-            printf("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d\n", pathLen);
+            LOGW("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d", pathLen);
             continue;
         }
         char* imagePath = new char[pathLen + 1]();
-        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", THUMBNAIL_DIRECTORY, info->d_name) < 0) {
-            printf("GalleryAbilitySlice::AddAllPictures | sprintf_s error\n");
+        if (sprintf_s(imagePath, pathLen + 1, "%s/%s", directoryPath.c_str(), info->d_name) < 0) {
+            LOGE("GalleryAbilitySlice::AddAllPictures | sprintf_s error");
             delete[] imagePath;
             continue;
         }
 
+        LOGI("add image: pos:[%d, %d], name:%s, path:%s", imagePos.x, imagePos.y, imageName, imagePath);
         picList_->Add(CreateImageItem(imagePos, imageName, imagePath));
         delete[] imagePath;
 
         if ((pictureCount_ % numInLine) == 0) {
             imagePos.x = pos.x;
-            imagePos.y += THUMBNAIL_RESOLUTION_Y + THUMBNAIL_SPACE;
+            imagePos.y += THUMBNAIL_RESOLUTION_Y() + THUMBNAIL_SPACE;
         } else {
-            imagePos.x += THUMBNAIL_RESOLUTION_X + THUMBNAIL_SPACE;
+            imagePos.x += THUMBNAIL_RESOLUTION_X() + THUMBNAIL_SPACE;
         }
     }
     delete info;
     closedir(drip);
 }
 
+void GalleryAbilitySlice::AddVideoItemViews(UIViewGroup* imageItem, UIImageView* imageView, const char* imageName)
+{
+    UIImageView* videoTag = new UIImageView();
+    std::string videoTagFielPath = videoTagIconAbsolutePath;
+    videoTag->SetPosition(VIDEO_TAG_POSITION_X(), VIDEO_TAG_POSITION_Y(), VIDEO_TAG_WIDTH(), VIDEO_TAG_HEIGHT());
+    videoTag->SetTouchable(true);
+    videoTag->SetOnClickListener(imageView->GetOnClickListener());
+    imageDecoder_->DecodeImage(videoTagFielPath, [videoTag, videoTagFielPath](ImageInfo imageInfo) {
+        LOGI("do SetSrc for img, filePath:%s, dataSize:%u", videoTagFielPath.c_str(), imageInfo.dataSize);
+        videoTag->SetSrc(&imageInfo);
+    });
+
+    UILabel* labelView = new UILabel();
+    labelView->SetPosition(0, 0, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
+    labelView->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER,
+                        UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
+    labelView->SetLineBreakMode(UILabel::LineBreakMode::LINE_BREAK_ELLIPSIS);
+    labelView->SetFont(FONT_NAME, GALLERY_FONT_SIZE());
+    labelView->SetStyle(STYLE_TEXT_COLOR, Color::White().full);
+    labelView->SetStyle(STYLE_TEXT_OPA, OPA_OPAQUE);
+    labelView->SetText(imageName);
+
+    imageItem->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
+    imageItem->SetStyle(STYLE_BACKGROUND_OPA, OPA_OPAQUE);
+    imageItem->Add(videoTag);
+    imageItem->Add(labelView);
+}
+
 UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* imageName, const char* imagePath)
 {
     UIImageView* imageView = new UIImageView();
     imageView->SetAutoEnable(false);
-    imageView->Resize(THUMBNAIL_RESOLUTION_X, THUMBNAIL_RESOLUTION_Y);
-    imageView->SetSrc(imagePath);
+    imageView->Resize(THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
     pictureOnClickListener_[pictureOnClickListenerCount_] = GetImageClickListener(imageName);
     imageView->SetOnClickListener(pictureOnClickListener_[pictureOnClickListenerCount_++]);
     imageView->SetTouchable(true);
-
-    if (strncmp(imageName, PHOTO_PREFIX, strlen(PHOTO_PREFIX)) == 0) {
-        imageView->SetPosition(pos.x, pos.y);
-        return imageView;
-    }
+    imageView->SetResizeMode(UIImageView::FILL);
     imageView->SetPosition(0, 0);
 
     UIViewGroup* imageItem = new UIViewGroup();
     imageItem->SetStyle(STYLE_BACKGROUND_OPA, 0);
-    imageItem->SetPosition(pos.x, pos.y, THUMBNAIL_RESOLUTION_X, THUMBNAIL_RESOLUTION_Y);
+    imageItem->SetPosition(pos.x, pos.y, THUMBNAIL_RESOLUTION_X(), THUMBNAIL_RESOLUTION_Y());
     imageItem->SetTouchable(true);
     imageItem->SetOnClickListener(imageView->GetOnClickListener());
-
-    UIImageView* videoTag = new UIImageView();
-    videoTag->SetPosition(VIDEO_TAG_POSITION_X, VIDEO_TAG_POSITION_Y);
-    videoTag->SetSrc(videoTagIconAbsolutePath);
-    videoTag->SetTouchable(true);
-    videoTag->SetOnClickListener(imageView->GetOnClickListener());
-
     imageItem->Add(imageView);
-    imageItem->Add(videoTag);
+
+    std::string filePath(imagePath);
+    if (filePath.find(AVAILABEL_SOURCE_TYPE) != std::string::npos || \
+            filePath.find(AVAILABEL_SOURCE_TYPE_MP4) != std::string::npos) {
+        AddVideoItemViews(imageItem, imageView, imageName);
+    } else {
+        imageDecoder_->DecodeImage(filePath, [imageView, filePath](ImageInfo imageInfo) {
+            LOGI("do SetSrc for img, filePath:%s, dataSize:%u", filePath.c_str(), imageInfo.dataSize);
+            imageView->SetSrc(&imageInfo);
+        });
+    }
 
     return imageItem;
 }
@@ -277,28 +336,29 @@ UIView* GalleryAbilitySlice::CreateImageItem(const Point& pos, const char* image
 EventListener* GalleryAbilitySlice::GetImageClickListener(const char* path)
 {
     auto onClick = [this, path] (UIView& view, const Event& event) -> bool {
-        printf("############  Next AS enter   #############\n");
+        LOGI("############  Next AS enter   #############");
         Want wantData = { nullptr };
-        printf("------- imagePath: %s \n", path);
+        LOGI("------- imagePath: %s ", path);
         bool ret = SetWantData(&wantData, path, strlen(path) + 1);
         if (!ret) {
-            printf("############  SetWantData error   #############\n");
+            LOGE("############  SetWantData error   #############");
             return ret;
         }
         AbilitySlice* nextSlice = nullptr;
-        if (strncmp(path, PHOTO_PREFIX, strlen(PHOTO_PREFIX)) == 0) {
-            printf("--------- enter PictureAbilitySlice \n");
-            nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PictureAbilitySlice");
-        } else {
-            printf("--------- enter PlayerAbilitySlice \n");
+        std::string filePath(path);
+        if (filePath.find(AVAILABEL_SOURCE_TYPE) != std::string::npos) {
+            LOGI("--------- enter PlayerAbilitySlice");
             nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PlayerAbilitySlice");
+        } else {
+            LOGI("--------- enter PictureAbilitySlice");
+            nextSlice = AbilityLoader::GetInstance().GetAbilitySliceByName("PictureAbilitySlice");
         }
         if (nextSlice == nullptr) {
-            printf("undefined nextSlice\n");
+            LOGW("undefined nextSlice");
         } else {
             Present(*nextSlice, wantData);
         }
-        printf("############  Next AS exit   #############\n");
+        LOGI("############  Next AS exit   #############");
         return true;
     };
     return new EventListener(onClick, nullptr);
@@ -328,23 +388,23 @@ void GalleryAbilitySlice::DeleteAllFilesInDir(const char* path)
         uint16_t fileNameLen = static_cast<uint16_t>(strlen(info->d_name));
         uint16_t pathLen = static_cast<uint16_t>(strlen(path)) + fileNameLen + 1;
         if (pathLen > MAX_PATH_LENGTH) {
-            printf("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d\n", pathLen);
+            LOGW("GalleryAbilitySlice::AddAllPictures | pathLen > MAX_PATH_LENGTH | %d", pathLen);
             continue;
         }
         char* filePath = new char[pathLen + 1]();
         if (sprintf_s(filePath, pathLen + 1, "%s/%s", path, info->d_name) < 0) {
-            printf("GalleryAbilitySlice::AddAllPictures | sprintf_s error\n");
+            LOGE("GalleryAbilitySlice::AddAllPictures | sprintf_s error");
             delete[] filePath;
             continue;
         }
         if (unlink(filePath) != 0) {
-            printf("unlink file error | %s\n", filePath);
+            LOGE("unlink file error | %s", filePath);
         }
         delete[] filePath;
     }
     delete info;
     closedir(drip);
-    printf("GalleryAbilitySlice::DeleteAllFilesInDir() | success | %s\n", path);
+    LOGI("GalleryAbilitySlice::DeleteAllFilesInDir() | success | %s", path);
 }
 
 void GalleryAbilitySlice::OnStart(const Want &want)
@@ -353,18 +413,20 @@ void GalleryAbilitySlice::OnStart(const Want &want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(ROOT_VIEW_POSITION_X, ROOT_VIEW_POSITION_Y);
-    rootView_->Resize(ROOT_VIEW_WIDTH, ROOT_VIEW_HEIGHT);
-    rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::Black().full);
+    rootView_->Resize(ROOT_VIEW_WIDTH(), ROOT_VIEW_HEIGHT());
+    rootView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::White().full);
 
     const char* pathHeader = GetSrcPath();
     if (sprintf_s(backIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, BACK_ICON_PATH) < 0) {
-        printf("GalleryAbilitySlice::OnStart | backIconAbsolutePath error");
+        LOGE("GalleryAbilitySlice::OnStart | backIconAbsolutePath error");
         return;
     }
     if (sprintf_s(videoTagIconAbsolutePath, MAX_PATH_LENGTH, "%s%s", pathHeader, VIDEO_TAG_ICON_PATH) < 0) {
-        printf("GalleryAbilitySlice::OnStart | videoTagIconAbsolutePath error");
+        LOGE("GalleryAbilitySlice::OnStart | videoTagIconAbsolutePath error");
         return;
     }
+
+    imageDecoder_ = new ImageDecoder(AbilityEventHandler::GetCurrentHandler(), 1);
 
     InitTitle();
     InitPictureList();
@@ -373,25 +435,28 @@ void GalleryAbilitySlice::OnStart(const Want &want)
 
 void GalleryAbilitySlice::OnInactive()
 {
-    printf("GalleryAbilitySlice::OnInactive\n");
+    LOGI("GalleryAbilitySlice::OnInactive");
     AbilitySlice::OnInactive();
 }
 
 void GalleryAbilitySlice::OnActive(const Want &want)
 {
-    printf("GalleryAbilitySlice::OnActive\n");
+    LOGI("GalleryAbilitySlice::OnActive");
     AbilitySlice::OnActive(want);
+    if (!imageDecoder_->IsRunning()) {
+        imageDecoder_->Start();
+    }
 }
 
 void GalleryAbilitySlice::OnBackground()
 {
-    printf("GalleryAbilitySlice::OnBackground\n");
+    LOGI("GalleryAbilitySlice::OnBackground");
     AbilitySlice::OnBackground();
 }
 
 void GalleryAbilitySlice::OnStop()
 {
-    printf("GalleryAbilitySlice::OnStop\n");
+    LOGI("GalleryAbilitySlice::OnStop");
     AbilitySlice::OnStop();
     Clear();
 }

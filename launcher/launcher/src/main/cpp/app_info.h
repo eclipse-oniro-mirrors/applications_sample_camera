@@ -19,6 +19,7 @@
 #include <components/ui_label_button.h>
 #include <components/ui_label.h>
 #include <components/ui_view_group.h>
+#include <components/ui_image_view.h>
 
 #include "native_base.h"
 #include "ui_config.h"
@@ -49,6 +50,7 @@ public:
 
     UILabelButton* button_ { nullptr };
     UILabel* lable_ { nullptr };
+    UIImageView* iconView_ { nullptr };
 
     UIView::OnLongPressListener* appLpListener_ { nullptr };
     UIView::OnClickListener* appClickListener_ { nullptr };
@@ -63,6 +65,7 @@ public:
     char appName_[TMP_BUF_SIZE] = { 0 };
     char abilityName_[TMP_BUF_SIZE] = { 0 };
     char appIconDir_[TMP_BUF_SIZE] = { 0 };
+    bool isSystemApp_ = false;
 };
 
 class AppClickListener : public UIView::OnClickListener {

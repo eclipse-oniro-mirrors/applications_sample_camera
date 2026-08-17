@@ -22,6 +22,7 @@
 #include <components/ui_scroll_view.h>
 #include "event_listener.h"
 #include "gallery_config.h"
+#include "image_decoder.h"
 
 namespace OHOS {
 class GalleryAbilitySlice : public AbilitySlice {
@@ -41,9 +42,12 @@ private:
     void ClearThumb();
     void ClearPictureList(const UIView* view);
     void InitTitle();
+    void InitTitleBackArea();
+    void InitTitleLabels();
     void InitPictureList();
-    void AddAllPictures(const Point& pos, int16_t numInLine);
+    void AddAllPictures(const Point& pos, int16_t numInLine, std::string directoryPath);
     UIView* CreateImageItem(const Point& pos, const char* imageName, const char* imagePath);
+    void AddVideoItemViews(UIViewGroup* imageItem, UIImageView* imageView, const char* imageName);
     EventListener* GetImageClickListener(const char* path);
     void DeleteAllData();
     void DeleteAllFilesInDir(const char* path);
@@ -63,6 +67,7 @@ private:
     char videoTagIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
     uint16_t pictureOnClickListenerCount_ { 0 };
     EventListener* pictureOnClickListener_[MAX_PICTURE_COUNT] = { nullptr };
+    ImageDecoder* imageDecoder_ { nullptr };
 };
 }
 #endif // OHOS_GALLERY_ABILITY_SLICE_H

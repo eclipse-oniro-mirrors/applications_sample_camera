@@ -72,6 +72,8 @@ void SettingDisplayAbilitySlice::SetHead(void)
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -85,7 +87,7 @@ void SettingDisplayAbilitySlice::SetHead(void)
 void SettingDisplayAbilitySlice::SetToggleButton(void)
 {
     toggleButtonView_ = new UIViewGroup();
-    toggleButtonView_->SetPosition(TOGGLE_X, TOGGLE_Y, DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
+    toggleButtonView_->SetPosition(TOGGLE_X(), TOGGLE_Y(), DE_BUTTON_WIDTH, DE_BUTTON_HEIGHT);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_BUTTON_BACKGROUND_COLOR);
     toggleButtonView_->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     toggleButtonView_->SetStyle(STYLE_BORDER_RADIUS, DE_BUTTON_RADIUS);
@@ -103,7 +105,7 @@ void SettingDisplayAbilitySlice::SetToggleButton(void)
     togglebutton->SetState(true);
     changeListener_ = new DisBtnOnStateChangeListener(togglebutton);
     togglebutton->SetOnClickListener(changeListener_);
-    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y);
+    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y, DE_TOGGLE_BUTTON_WIDTH, DE_TOGGLE_BUTTON_HEIGHT);
     toggleButtonView_->Add(togglebutton);
 }
 
@@ -113,6 +115,7 @@ void SettingDisplayAbilitySlice::OnStart(const Want& want)
 
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
+    rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->SetStyle(STYLE_BACKGROUND_COLOR, DE_ROOT_BACKGROUND_COLOR);
     SetButtonListener();
     SetHead();

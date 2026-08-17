@@ -80,8 +80,8 @@ void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t
     int16_t w = viewGroup_->GetWidth();
 
     const double scale = scale_;
-    const int16_t blank1 = 10;
-    const int16_t blank2 = 30;
+    const int16_t blank1 = 15;
+    const int16_t blank2 = 45;
     const int16_t labelH = 2;
     int16_t width = static_cast<int16_t>(static_cast<double>(w) / static_cast<double>(scale * col_ + col_ + scale));
     int16_t heightB = width;
@@ -91,10 +91,10 @@ void ViewGroupPage::CalculateAppPosition(AppInfo* pAppInfo, int16_t row, int16_t
     int16_t xL = xB;
     int16_t yL = yB + heightB + blank1;
 
-    pAppInfo->buttonXY_.x = xB;
-    pAppInfo->buttonXY_.y = yB;
-    pAppInfo->buttonHV_.x = width;
-    pAppInfo->buttonHV_.y = heightB;
+    pAppInfo->buttonXY_.x = xB + (width - APP_ICON_SIZE()) / 2; // 2: half of the app icon size
+    pAppInfo->buttonXY_.y = yB + (heightB - APP_ICON_SIZE()) / 2; // 2: half of the app icon size
+    pAppInfo->buttonHV_.x = APP_ICON_SIZE();
+    pAppInfo->buttonHV_.y = APP_ICON_SIZE();
 
     pAppInfo->lableXY_.x = xL;
     pAppInfo->lableXY_.y = yL;
@@ -111,7 +111,17 @@ void ViewGroupPage::SetUpApp(AppInfo *pAppInfo)
     pAppInfo->SetButton(button);
     pAppInfo->SetLable(lable);
 
+    /* Create a UIImageView for the app icon with proper scaling */
+    pAppInfo->iconView_ = new UIImageView();
+    pAppInfo->iconView_->SetPosition(pAppInfo->buttonXY_.x, pAppInfo->buttonXY_.y,
+                                     pAppInfo->buttonHV_.x, pAppInfo->buttonHV_.y);
+    pAppInfo->iconView_->SetAutoEnable(false);
+    pAppInfo->iconView_->SetResizeMode(UIImageView::ImageResizeMode::COVER);
+    pAppInfo->iconView_->SetSrc(pAppInfo->appIconDir_);
+    pAppInfo->iconView_->SetTouchable(false);
+
     pAppInfo->SetListener(pAppInfo);
+    viewGroup_->Add(pAppInfo->iconView_);
     viewGroup_->Add(button);
     viewGroup_->Add(lable);
     viewGroup_->Invalidate();
@@ -159,6 +169,9 @@ bool ViewGroupPage::RemoveApp(const char* pAppName)
             row_col_[app->data_->row_col_.x][app->data_->row_col_.y] = false;
             viewGroup_->Remove(app->data_->button_);
             viewGroup_->Remove(app->data_->lable_);
+            if (app->data_->iconView_) {
+                viewGroup_->Remove(app->data_->iconView_);
+            }
             viewGroup_->Invalidate();
             appInfo_.Remove(app);
             return true;

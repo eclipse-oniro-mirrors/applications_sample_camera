@@ -68,6 +68,8 @@ void AppInfoAbilitySlice::SetHead()
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     printf("[LOG] bundleName_-> %s +11->%s \n", bundleName_, bundleName_ + 11); // 11:jump behind bundleName
@@ -101,7 +103,7 @@ void AppInfoAbilitySlice::SetAppPermissionInfo(int index, PermissionSaved& permi
     nameLabel->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
     itemView->Add(nameLabel);
     UIToggleButton* togglebutton = new UIToggleButton();
-    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y);
+    togglebutton->SetPosition(DE_TOGGLE_BUTTON_X, DE_TOGGLE_BUTTON_Y, DE_TOGGLE_BUTTON_WIDTH, DE_TOGGLE_BUTTON_HEIGHT);
     if (permissions.granted == 0) {
         togglebutton->SetState(false);
     } else {

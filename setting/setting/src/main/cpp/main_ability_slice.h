@@ -44,6 +44,7 @@ class MainAbilitySlice : public AbilitySlice {
 public:
     MainAbilitySlice()
         : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), lablelFontSsid_(nullptr),
+          lablelFontIp_(nullptr),
           buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonDisplayListener_(nullptr),
           buttonAboutListener_(nullptr), buttonBackListener_(nullptr) {}
     virtual ~MainAbilitySlice();
@@ -60,10 +61,12 @@ private:
     void SetButtonListenerApp();
     void SetButtonListenerDisplay();
     void SetButtonListenerAbout();
+    void SetButtonListenerDhcp();
     void SetAboutButtonView();
     void SetAppButtonView();
     void SetDisplayButtonView();
     void SetWifiButtonView();
+    void SetDhcpButtonView();
     void SetScrollView();
     void SetHead();
 
@@ -71,33 +74,134 @@ private:
     UIScrollView* scrollView_;
     RootView* rootView_;
     UILabel* lablelFontSsid_;
+    UILabel* lablelFontIp_;
     EventListener* buttonWifiListener_;
     EventListener* buttonAppListener_;
     EventListener* buttonDisplayListener_;
     EventListener* buttonAboutListener_;
     EventListener* buttonBackListener_;
+    EventListener* buttonDhcpListener_;
 
-    constexpr static int WIFI_BUTTON_X = 0;
-    constexpr static int WIFI_BUTTON_Y = 0;
-    constexpr static int WIFI_BUTTON_TEXT_WIFI_Y = 13;
-    constexpr static int WIFI_BUTTON_TEXT_SSID_X = 18;
-    constexpr static int WIFI_BUTTON_TEXT_SSID_Y = 45;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static constexpr int16_t wifiButtonTextWifiYRef = 13;
+    static constexpr int16_t wifiButtonTextSsidXRef = 18;
+    static constexpr int16_t wifiButtonTextSsidYRef = 45;
 
-    constexpr static int APP_BUTTON_X = 0;
-    constexpr static int APP_BUTTON_Y = 95;
+    static constexpr int16_t dhcpButtonXRef = 0;
+    static constexpr int16_t dhcpButtonYRef = 95;
+    static constexpr int16_t dhcpButtonTextDhcpYRef = 13;
+    static constexpr int16_t dhcpButtonTextIpXRef = 18;
+    static constexpr int16_t dhcpButtonTextIpYRef = 45;
 
-    constexpr static int DISPALY_BUTTON_X = 0;
-    constexpr static int DISPALY_BUTTON_Y = 190;
+    static constexpr int16_t appButtonYRef = 95;
 
-    constexpr static int ABOUT_BUTTON_X = 0;
-    constexpr static int ABOUT_BUTTON_Y = 190;
-    constexpr static int ABOUT_BUTTON_HEIGHT = 113;
-    constexpr static int ABOUT_BUTTON_TEXT_ABOUT_Y = 5;
-    constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_X = 18;
-    constexpr static int ABOUT_BUTTON_TEXT_SYSTEM_Y = 39;
-    constexpr static int ABOUT_BUTTON_TEXT_DEVICE_X = 18;
-    constexpr static int ABOUT_BUTTON_TEXT_DEVICE_Y = 72;
-    constexpr static int ABOUT_BUTTON_IMAGE_Y = 34;
+    static constexpr int16_t dispalyButtonYRef = 190;
+
+    static constexpr int16_t aboutButtonYRef = 190;
+    static constexpr int16_t aboutButtonHeightRef = 113;
+    static constexpr int16_t aboutButtonTextAboutYRef = 5;
+    static constexpr int16_t aboutButtonTextSystemXRef = 18;
+    static constexpr int16_t aboutButtonTextSystemYRef = 39;
+    static constexpr int16_t aboutButtonTextDeviceXRef = 18;
+    static constexpr int16_t aboutButtonTextDeviceYRef = 72;
+    static constexpr int16_t aboutButtonImageYRef = 34;
+
+    static inline int WIFI_BUTTON_X()
+    {
+        return 0;
+    }
+    static inline int WIFI_BUTTON_Y()
+    {
+        return 0;
+    }
+    static inline int WIFI_BUTTON_TEXT_WIFI_Y()
+    {
+        return VScale(wifiButtonTextWifiYRef);
+    }
+    static inline int WIFI_BUTTON_TEXT_SSID_X()
+    {
+        return HScale(wifiButtonTextSsidXRef);
+    }
+    static inline int WIFI_BUTTON_TEXT_SSID_Y()
+    {
+        return VScale(wifiButtonTextSsidYRef);
+    }
+
+    static inline int DhcpButtonX()
+    {
+        return dhcpButtonXRef;
+    }
+    static inline int DhcpButtonY()
+    {
+        return VScale(dhcpButtonYRef);
+    }
+    static inline int DhcpButtonTextDhcpY()
+    {
+        return VScale(dhcpButtonTextDhcpYRef);
+    }
+    static inline int DhcpButtonTextIpX()
+    {
+        return HScale(dhcpButtonTextIpXRef);
+    }
+    static inline int DhcpButtonTextIpY()
+    {
+        return VScale(dhcpButtonTextIpYRef);
+    }
+
+    static inline int APP_BUTTON_X()
+    {
+        return 0;
+    }
+    static inline int APP_BUTTON_Y()
+    {
+        return VScale(appButtonYRef);
+    }
+
+    static inline int DISPALY_BUTTON_X()
+    {
+        return 0;
+    }
+    static inline int DISPALY_BUTTON_Y()
+    {
+        return VScale(dispalyButtonYRef);
+    }
+
+    static inline int ABOUT_BUTTON_X()
+    {
+        return 0;
+    }
+    static inline int ABOUT_BUTTON_Y()
+    {
+        return VScale(aboutButtonYRef);
+    }
+    static inline int ABOUT_BUTTON_HEIGHT()
+    {
+        return VScale(aboutButtonHeightRef);
+    }
+    static inline int ABOUT_BUTTON_TEXT_ABOUT_Y()
+    {
+        return VScale(aboutButtonTextAboutYRef);
+    }
+    static inline int ABOUT_BUTTON_TEXT_SYSTEM_X()
+    {
+        return HScale(aboutButtonTextSystemXRef);
+    }
+    static inline int ABOUT_BUTTON_TEXT_SYSTEM_Y()
+    {
+        return VScale(aboutButtonTextSystemYRef);
+    }
+    static inline int ABOUT_BUTTON_TEXT_DEVICE_X()
+    {
+        return HScale(aboutButtonTextDeviceXRef);
+    }
+    static inline int ABOUT_BUTTON_TEXT_DEVICE_Y()
+    {
+        return VScale(aboutButtonTextDeviceYRef);
+    }
+    static inline int ABOUT_BUTTON_IMAGE_Y()
+    {
+        return VScale(aboutButtonImageYRef);
+    }
 };
 }
 

@@ -46,8 +46,8 @@ SwipeView::~SwipeView()
 void SwipeView::SetUpSwipe()
 {
     swipe_ = new UISwipeView();
-    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    swipe_->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     swipe_->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     swipe_->SetLoopState(true);
     swipe_->SetAnimatorTime(20); // set swipe view animator time 20s
@@ -62,8 +62,8 @@ UIViewGroup* SwipeView::AddViewGroup()
     if (viewGroup == nullptr) {
         return viewGroup;
     }
-    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    viewGroup->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     viewGroup->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
     groupCount_++;
     ViewGroupPage* page = new ViewGroupPage(viewGroup);
@@ -75,8 +75,8 @@ UIViewGroup* SwipeView::AddViewGroup()
 UIViewGroup* SwipeView::AddFirstViewGroup()
 {
     UIViewGroup* firstView = new UIViewGroup();
-    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, Screen::GetInstance().GetWidth(),
-        Screen::GetInstance().GetHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
+    firstView->SetPosition(0, LABLE_TITLE_HEIGHT, GetScrWidth(),
+        GetScrHeight() - LABLE_TITLE_HEIGHT - LABLE_TAIL_HEIGHT);
     firstView->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
     UIViewGroup* viewTimeWeather = new UIViewGroup();
@@ -113,8 +113,8 @@ void SwipeView::OnSetUpView()
     AddFirstViewGroup();
     AddViewGroup();
     AddViewGroup();
-    double scale0 = 0.6;
-    double scale1 = 0.69;
+    double scale0 = 0.5;
+    double scale1 = 0.55;
     // Reserved. Touch and hold to add a page.
     arrPage_[0]->SetMatrix(APP_ROW_COUNT, APP_COL_COUNT);
     arrPage_[0]->SetScale(scale0);
@@ -134,6 +134,16 @@ void SwipeView::OnSetUpView()
 
 void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count)
 {
+    // Sort by bundleName to ensure consistent icon positions across restarts
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (strcmp(pBundleInfos[i].bundleName, pBundleInfos[j].bundleName) > 0) {
+                BundleInfo temp = pBundleInfos[i];
+                pBundleInfos[i] = pBundleInfos[j];
+                pBundleInfos[j] = temp;
+            }
+        }
+    }
     for (int j = 0; j < count; j++) {
         for (int i = 0; i < groupCount_; i++) {
             if (memcmp(LAUNCHER_BUNDLE_NAME, pBundleInfos[j].bundleName, strlen(pBundleInfos[j].bundleName)) == 0) {
@@ -163,6 +173,7 @@ void SwipeView::BundleInfoScan(BundleInfo* pBundleInfos, int count)
                     strlen(pBundleInfos[j].bigIconPath));
                 app->appIconDir_[strlen(pBundleInfos[j].bigIconPath)] = 0;
             }
+            app->isSystemApp_ = pBundleInfos[j].isSystemApp;
             if (arrPage_[i]->AddApp(app)) {
                 break;
             }

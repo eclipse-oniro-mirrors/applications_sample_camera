@@ -105,14 +105,16 @@ private:
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
-        if (imageWidth > SCREEN_WIDTH || imageHeight > SCREEN_HEIGHT) {
+        if (imageWidth > V_GROUP_W() || imageHeight > V_GROUP_H()) {
             TransformMap transMap(backgroundView_->GetOrigRect());
             float scaleWidth = 1.0;
             float scaleHeight = 1.0;
-            if (imageWidth > SCREEN_WIDTH)
-                scaleWidth = static_cast<float>(SCREEN_WIDTH) / imageWidth;
-            if (imageHeight > SCREEN_HEIGHT)
-                scaleHeight = static_cast<float>(SCREEN_HEIGHT) / imageHeight;
+            if (imageWidth > V_GROUP_W() && imageWidth > 0) {
+                scaleWidth = static_cast<float>(V_GROUP_W()) / imageWidth;
+            }
+            if (imageHeight > V_GROUP_H() && imageHeight > 0) {
+                scaleHeight = static_cast<float>(V_GROUP_H()) / imageHeight;
+            }
 #ifdef KEEP_PICTURE_RECT
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
@@ -130,8 +132,8 @@ private:
             imageHeight = imageHeight * scaleHeight;
 #endif
         }
-        int16_t imagePosX = (SCREEN_WIDTH - imageWidth) / 2;    /* 2 half */
-        int16_t imagePosY = (SCREEN_HEIGHT - imageHeight) / 2;    /* 2 half */
+        int16_t imagePosX = (V_GROUP_W() - imageWidth) / 2;    /* 2 half */
+        int16_t imagePosY = (V_GROUP_H() - imageHeight) / 2;    /* 2 half */
         backgroundView_->SetPosition(imagePosX, imagePosY);
     }
 };
@@ -266,9 +268,9 @@ private:
                 return;
             }
             g_curButtonIdx = 1;
-            bttnLeft->SetPosition(LEFT_BUTTON_X, LEFT_BUTTON_Y, LEFT_BUTTON_W, LEFT_BUTTON_H);
-            bttnMidle->SetPosition(MID_BUTTON_X, MID_BUTTON_Y, MID_BUTTON_W, MID_BUTTON_H);
-            bttnRight->SetPosition(RIGHT_BUTTON_X, RIGHT_BUTTON_Y, RIGHT_BUTTON_W, RIGHT_BUTTON_H);
+            bttnLeft->SetPosition(LEFT_BUTTON_X(), LEFT_BUTTON_Y(), LEFT_BUTTON_W(), LEFT_BUTTON_H());
+            bttnMidle->SetPosition(MID_BUTTON_X(), MID_BUTTON_Y(), MID_BUTTON_W(), MID_BUTTON_H());
+            bttnRight->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
             bttnMidle->SetSrc(UI_IMAGE_PATH"ic_camera_shutter.png");
             bttnRight->SetSrc(UI_IMAGE_PATH"ic_camera_video.png");
         } else {
@@ -282,8 +284,8 @@ private:
     {
         if (g_curButtonIdx != 2) {    /* 2 record */
             g_curButtonIdx = 2;    /* 2 record */
-            bttnRight->SetPosition(MID_BUTTON_X, MID_BUTTON_Y, MID_BUTTON_W, MID_BUTTON_H);
-            bttnMidle->SetPosition(RIGHT_BUTTON_X, RIGHT_BUTTON_Y, RIGHT_BUTTON_W, RIGHT_BUTTON_H);
+            bttnRight->SetPosition(MID_BUTTON_X(), MID_BUTTON_Y(), MID_BUTTON_W(), MID_BUTTON_H());
+            bttnMidle->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
 
             bttnMidle->SetSrc(UI_IMAGE_PATH"ic_camera_record_camra.png");
             bttnRight->SetSrc(UI_IMAGE_PATH"ic_camera_record.png");
@@ -335,14 +337,16 @@ private:
         backgroundView_->SetSrc(image);
         int16_t imageWidth = backgroundView_->GetWidth();
         int16_t imageHeight = backgroundView_->GetHeight();
-        if (imageWidth > SCREEN_WIDTH || imageHeight > SCREEN_HEIGHT) {
+        if (imageWidth > V_GROUP_W() || imageHeight > V_GROUP_H()) {
             TransformMap transMap(backgroundView_->GetOrigRect());
             float scaleWidth = 1.0;
             float scaleHeight = 1.0;
-            if (imageWidth > SCREEN_WIDTH)
-                scaleWidth = static_cast<float>(SCREEN_WIDTH) / imageWidth;
-            if (imageHeight > SCREEN_HEIGHT)
-                scaleHeight = static_cast<float>(SCREEN_HEIGHT) / imageHeight;
+            if (imageWidth > V_GROUP_W() && imageWidth > 0) {
+                scaleWidth = static_cast<float>(V_GROUP_W()) / imageWidth;
+            }
+            if (imageHeight > V_GROUP_H() && imageHeight > 0) {
+                scaleHeight = static_cast<float>(V_GROUP_H()) / imageHeight;
+            }
             float scale = (scaleWidth < scaleHeight) ? scaleWidth : scaleHeight;
 
             transMap.Scale(Vector2<float>(scale, scale), Vector2<float>(0, 0));
@@ -351,8 +355,8 @@ private:
             imageWidth = imageWidth * scale;
             imageHeight = imageHeight * scale;
         }
-        int16_t imagePosX = (SCREEN_WIDTH - imageWidth) / 2;    /* 2 half */
-        int16_t imagePosY = (SCREEN_HEIGHT - imageHeight) / 2;    /* 2 half */
+        int16_t imagePosX = (V_GROUP_W() - imageWidth) / 2;    /* 2 half */
+        int16_t imagePosY = (V_GROUP_H() - imageHeight) / 2;    /* 2 half */
         backgroundView_->SetPosition(imagePosX, imagePosY);
     }
 };
@@ -386,12 +390,14 @@ void CameraAbilitySlice::SetHead(void)
 {
     backIcon = new UIImageView();
     backIcon->SetTouchable(true);
+    backIcon->SetAutoEnable(false);
+    backIcon->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     backIcon->SetSrc(UI_IMAGE_PATH"ic_back.png");
-    backIcon->SetPosition(BACK_LABEL_X, BACK_LABEL_Y, BACK_LABEL_W, BACK_LABEL_H);
+    backIcon->SetPosition(BACK_LABEL_X(), BACK_LABEL_Y(), BACK_LABEL_W(), BACK_LABEL_H());
 
     backBttn = new UIImageView();
     backBttn->SetTouchable(true);
-    backBttn->SetPosition(0, 0, BACK_LABEL_W * 4, BACK_LABEL_H * 4);    /* 4 cups of icon size */
+    backBttn->SetPosition(0, 0, BACK_LABEL_W() * 4, BACK_LABEL_H() * 4);    /* 4 cups of icon size */
     backBttn->SetStyle(STYLE_BACKGROUND_OPA, 0);
     auto backBttnonClick = [this](UIView &view, const Event &event) -> bool {
         printf("############  from launcher enter  #############\n");
@@ -405,28 +411,29 @@ void CameraAbilitySlice::SetHead(void)
     backIcon->SetOnClickListener(buttonListener_);
 
     txtMsgLabel = new UILabel();
-    txtMsgLabel->SetPosition(TXT_LABEL_X, TXT_LABEL_Y, TXT_LABEL_W, TXT_LABEL_H);
+    txtMsgLabel->SetPosition(TXT_LABEL_X(), TITLE_LABEL_Y(), TITLE_LABEL_WIDTH(), TITLE_LABEL_HEIGHT());
     txtMsgLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
 
-    txtMsgLabel->SetFont((const char *)TTF_PATH, FONT_SIZE);
+    txtMsgLabel->SetFont((const char *)TTF_PATH, static_cast<uint8_t>(VScale(TITLE_LABEL_FONT_SIZE_REF)));
 
-    txtMsgLabel->SetAlign(TEXT_ALIGNMENT_LEFT);
-    txtMsgLabel->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
+    txtMsgLabel->SetStyle(STYLE_TEXT_COLOR, Color::Black().full);
     txtMsgLabel->SetStyle(STYLE_BACKGROUND_OPA, 0);
     txtMsgLabel->SetText((char *)"相机");
 
     recordImage = new UIImageView();
     recordImage->SetTouchable(false);
+    recordImage->SetAutoEnable(false);
+    recordImage->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     recordImage->SetSrc(UI_IMAGE_PATH"ic_timer.png");
-    recordImage->SetPosition(RECORD_IMAGE_X, RECORD_IMAGE_Y, RECORD_IMAGE_W, RECORD_IMAGE_H);
+    recordImage->SetPosition(RECORD_IMAGE_X(), RECORD_IMAGE_Y(), RECORD_IMAGE_W(), RECORD_IMAGE_H());
     recordImage->SetStyle(STYLE_BACKGROUND_OPA, 0);
 
     tmLabel = new UILabel();
-    tmLabel->SetPosition(TIME_LABEL_X, TIME_LABEL_Y, TIME_LABEL_W, TIME_LABEL_H);
+    tmLabel->SetPosition(TIME_LABEL_X(), TIME_LABEL_Y(), TIME_LABEL_W(), TIME_LABEL_H());
     tmLabel->SetAlign(UITextLanguageAlignment::TEXT_ALIGNMENT_LEFT, UITextLanguageAlignment::TEXT_ALIGNMENT_CENTER);
     tmLabel->SetText("00:00");
 
-    tmLabel->SetFont((const char *)TTF_PATH, FONT_SIZE);
+    tmLabel->SetFont((const char *)TTF_PATH, static_cast<uint8_t>(VScale(FONT_SIZE)));
 
     tmLabel->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     tmLabel->SetStyle(STYLE_BACKGROUND_OPA, 0);
@@ -439,41 +446,75 @@ void CameraAbilitySlice::SetHead(void)
 
 void CameraAbilitySlice::SetBottom(void)
 {
+    SetBottomScroll();
+    SetBottomLeftButton();
+    SetBottomMidButton();
+    SetBottomRightButton();
+    SetBottomRecordButton();
+    SetBottomSliderAndAnimator();
+    SetBottomButtonListeners();
+}
+
+void CameraAbilitySlice::SetBottomScroll(void)
+{
     scroll = new UIScrollView();
     scroll->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::White()));
     scroll->SetStyle(STYLE_BACKGROUND_OPA, 0);
-    scroll->SetPosition(SCROLL_VIEW_X, SCROLL_VIEW_Y, SCROLL_VIEW_W, SCROLL_VIEW_H);
+    scroll->SetPosition(SCROLL_VIEW_X(), SCROLL_VIEW_Y(), SCROLL_VIEW_W(), SCROLL_VIEW_H());
     scroll->SetHorizontalScrollState(true);
     scroll->SetVerticalScrollState(false);
     scroll->SetXScrollBarVisible(false);
     scroll->SetYScrollBarVisible(false);
+}
 
+void CameraAbilitySlice::SetBottomLeftButton(void)
+{
     bttnLeft = new UIImageView();
     bttnLeft->SetTouchable(true);
-    bttnLeft->SetPosition(LEFT_BUTTON_X, LEFT_BUTTON_Y, LEFT_BUTTON_W, LEFT_BUTTON_H);
+    bttnLeft->SetPosition(LEFT_BUTTON_X(), LEFT_BUTTON_Y(), LEFT_BUTTON_W(), LEFT_BUTTON_H());
+    bttnLeft->SetAutoEnable(false);
+    bttnLeft->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnLeft->SetSrc(UI_IMAGE_PATH"ic_camera_photo.png");
     bttnLeft->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomMidButton(void)
+{
     bttnMidle = new UIImageView();
     bttnMidle->SetTouchable(true);
+    bttnMidle->SetAutoEnable(false);
+    bttnMidle->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnMidle->SetSrc(UI_IMAGE_PATH"ic_camera_shutter.png");
-    bttnMidle->SetPosition(MID_BUTTON_X, MID_BUTTON_Y, MID_BUTTON_W, MID_BUTTON_H);
+    bttnMidle->SetPosition(MID_BUTTON_X(), MID_BUTTON_Y(), MID_BUTTON_W(), MID_BUTTON_H());
     bttnMidle->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomRightButton(void)
+{
     bttnRight = new UIImageView();
     bttnRight->SetTouchable(true);
-    bttnRight->SetPosition(RIGHT_BUTTON_X, RIGHT_BUTTON_Y, RIGHT_BUTTON_W, RIGHT_BUTTON_H);
+    bttnRight->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
+    bttnRight->SetAutoEnable(false);
+    bttnRight->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     bttnRight->SetSrc(UI_IMAGE_PATH"ic_camera_video.png");
     bttnRight->SetStyle(STYLE_BACKGROUND_OPA, 0);
+}
 
+void CameraAbilitySlice::SetBottomRecordButton(void)
+{
     bttnRecord = new UIImageView();
     bttnRecord->SetTouchable(true);
-    bttnRecord->SetPosition(RIGHT_BUTTON_X, RIGHT_BUTTON_Y, RIGHT_BUTTON_W, RIGHT_BUTTON_H);
+    bttnRecord->SetPosition(RIGHT_BUTTON_X(), RIGHT_BUTTON_Y(), RIGHT_BUTTON_W(), RIGHT_BUTTON_H());
+    bttnRecord->SetAutoEnable(false);
+    bttnRecord->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     bttnRecord->SetSrc(UI_IMAGE_PATH"ic_camera_record_pause.png");
     bttnRecord->SetStyle(STYLE_BACKGROUND_OPA, 0);
     bttnRecord->SetVisible(false);
     bttnRecord->Invalidate();
+}
 
+void CameraAbilitySlice::SetBottomSliderAndAnimator(void)
+{
     slider = new UISlider();
     slider->SetPosition(-1, -1, 1, 1);
 
@@ -481,7 +522,10 @@ void CameraAbilitySlice::SetBottom(void)
     gTaskView_->TaskStart();
 
     animator_ = new SliderAnimator(slider, background_, surfaceView, cam_manager, 10000);    /* 10000 = 10s */
+}
 
+void CameraAbilitySlice::SetBottomButtonListeners(void)
+{
     UIImageView *imageV[BUTTON_NUMS] = {bttnLeft, bttnMidle, bttnRight, bttnRecord};
     for (int i = 0; i < BUTTON_NUMS; i++) {
         bttnImageClick[i] =
@@ -504,13 +548,15 @@ void CameraAbilitySlice::OnStart(const Want &want)
     printf("CameraAbilitySlice onstart \n");
 
     surfaceView = new UISurfaceView();
-    surfaceView->SetPosition(V_GROUP_X, V_GROUP_Y, V_GROUP_W, V_GROUP_H);
+    surfaceView->SetPosition(V_GROUP_X(), V_GROUP_Y(), V_GROUP_W(), V_GROUP_H());
     surfaceView->GetSurface()->SetWidthAndHeight(IMAGE_WIDTH, IMAGE_HEIGHT);
 
     background_ = new UIImageView();
     background_->SetTouchable(false);
+    background_->SetAutoEnable(false);
+    background_->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     background_->SetSrc("/userdata/tmp.jpg");
-    background_->SetPosition(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    background_->SetPosition(0, 0, V_GROUP_W(), V_GROUP_H());
     background_->SetVisible(true);
     background_->Invalidate();
 
@@ -527,7 +573,7 @@ void CameraAbilitySlice::OnStart(const Want &want)
 
     RootView *rootView = RootView::GetWindowRootView();
     rootView->SetPosition(0, 0);
-    rootView->Resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    rootView->Resize(V_GROUP_W(), V_GROUP_H());
     rootView->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::Black()));
 
     rootView->Add(surfaceView);
