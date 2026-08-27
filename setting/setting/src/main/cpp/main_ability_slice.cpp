@@ -14,7 +14,9 @@
  */
 
 #include "main_ability_slice.h"
+#ifdef ENABLE_DHCP_SETTINGS
 #include "setting_dhcp_ability_slice.h"
+#endif
 #include "ability_loader.h"
 #include "ability_slice.h"
 #include "ability_info.h"
@@ -24,7 +26,9 @@
 #include "module_info.h"
 #include "element_name.h"
 #include "wpa_work.h"
+#ifdef ENABLE_DHCP_SETTINGS
 #include "dhcp_lite_c_client_api.h"
+#endif
 #include "gfx_utils/style.h"
 #include <cstdint>
 #include <ctime>
@@ -74,10 +78,12 @@ MainAbilitySlice::~MainAbilitySlice()
         buttonAboutListener_ = nullptr;
     }
 
+#ifdef ENABLE_DHCP_SETTINGS
     if (buttonDhcpListener_) {
         delete buttonDhcpListener_;
         buttonDhcpListener_ = nullptr;
     }
+#endif
 }
 
 void MainAbilitySlice::SetButtonListenerWifi(void)
@@ -141,6 +147,7 @@ void MainAbilitySlice::SetButtonListenerAbout(void)
     buttonAboutListener_ = new EventListener(onClick4, nullptr);
 }
 
+#ifdef ENABLE_DHCP_SETTINGS
 void MainAbilitySlice::SetButtonListenerDhcp(void)
 {
     auto onClick5 = [this](UIView& view, const Event& event) -> bool {
@@ -155,6 +162,7 @@ void MainAbilitySlice::SetButtonListenerDhcp(void)
     };
     buttonDhcpListener_ = new EventListener(onClick5, nullptr);
 }
+#endif
 
 void MainAbilitySlice::SetHead(void)
 {
@@ -227,6 +235,7 @@ void MainAbilitySlice::SetWifiButtonView(void)
     buttonView->Add(imageView);
 }
 
+#ifdef ENABLE_DHCP_SETTINGS
 void MainAbilitySlice::SetDhcpButtonView(void)
 {
     UIViewGroup* buttonView = new UIViewGroup();
@@ -263,6 +272,7 @@ void MainAbilitySlice::SetDhcpButtonView(void)
     imageView->SetSrc(DE_IMAGE_FORWORD);
     buttonView->Add(imageView);
 }
+#endif
 
 void MainAbilitySlice::SetAppButtonView(void)
 {
@@ -383,9 +393,12 @@ void MainAbilitySlice::SetScrollView()
     scrollView_->SetXScrollBarVisible(false);
     scrollView_->SetYScrollBarVisible(false);
     rootView_->Add(scrollView_);
-    SetDisplayButtonView();
     SetWifiButtonView();
+    SetAppButtonView();
+    SetDisplayButtonView();
+#ifdef ENABLE_DHCP_SETTINGS
     SetDhcpButtonView();
+#endif
     SetAboutButtonView();
 }
 
@@ -395,8 +408,10 @@ void MainAbilitySlice::OnStart(const Want& want)
     SetButtonListenerWifi();
     SetButtonListenerApp();
     SetButtonListenerDisplay();
-    SetButtonListenerAbout();
+#ifdef ENABLE_DHCP_SETTINGS
     SetButtonListenerDhcp();
+#endif
+    SetButtonListenerAbout();
     rootView_ = RootView::GetWindowRootView();
     rootView_->SetPosition(DE_ROOT_X, DE_ROOT_Y, DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
     rootView_->Resize(DE_ROOT_WIDTH, DE_ROOT_HEIGHT);
@@ -412,6 +427,7 @@ void MainAbilitySlice::OnInactive()
     AbilitySlice::OnInactive();
 }
 
+#ifdef ENABLE_DHCP_SETTINGS
 static int GetInterfaceIp(const char *ifname, char *ip, size_t len)
 {
     int sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -437,6 +453,7 @@ static int GetInterfaceIp(const char *ifname, char *ip, size_t len)
     close(sock);
     return -1;
 }
+#endif
 
 void MainAbilitySlice::OnActive(const Want& want)
 {
@@ -451,6 +468,7 @@ void MainAbilitySlice::OnActive(const Want& want)
         }
     }
 
+#ifdef ENABLE_DHCP_SETTINGS
     if (lablelFontIp_) {
         char ip[64] = {0};
         if (GetInterfaceIp("eth0", ip, sizeof(ip)) == 0) {
@@ -464,6 +482,7 @@ void MainAbilitySlice::OnActive(const Want& want)
             lablelFontIp_->SetText("未连接");
         }
     }
+#endif
 
     AbilitySlice::OnActive(want);
 }
