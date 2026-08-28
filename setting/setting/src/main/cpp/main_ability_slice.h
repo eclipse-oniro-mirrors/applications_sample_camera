@@ -44,7 +44,9 @@ class MainAbilitySlice : public AbilitySlice {
 public:
     MainAbilitySlice()
         : headView_(nullptr), scrollView_(nullptr), rootView_(nullptr), lablelFontSsid_(nullptr),
+#ifdef ENABLE_DHCP_SETTINGS
           lablelFontIp_(nullptr),
+#endif
           buttonWifiListener_(nullptr), buttonAppListener_(nullptr), buttonDisplayListener_(nullptr),
           buttonAboutListener_(nullptr), buttonBackListener_(nullptr) {}
     virtual ~MainAbilitySlice();
@@ -61,12 +63,16 @@ private:
     void SetButtonListenerApp();
     void SetButtonListenerDisplay();
     void SetButtonListenerAbout();
+#ifdef ENABLE_DHCP_SETTINGS
     void SetButtonListenerDhcp();
+#endif
     void SetAboutButtonView();
     void SetAppButtonView();
     void SetDisplayButtonView();
     void SetWifiButtonView();
+#ifdef ENABLE_DHCP_SETTINGS
     void SetDhcpButtonView();
+#endif
     void SetScrollView();
     void SetHead();
 
@@ -74,30 +80,44 @@ private:
     UIScrollView* scrollView_;
     RootView* rootView_;
     UILabel* lablelFontSsid_;
+#ifdef ENABLE_DHCP_SETTINGS
     UILabel* lablelFontIp_;
+#endif
     EventListener* buttonWifiListener_;
     EventListener* buttonAppListener_;
     EventListener* buttonDisplayListener_;
     EventListener* buttonAboutListener_;
     EventListener* buttonBackListener_;
+#ifdef ENABLE_DHCP_SETTINGS
     EventListener* buttonDhcpListener_;
+#endif
 
     /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
     static constexpr int16_t wifiButtonTextWifiYRef = 13;
     static constexpr int16_t wifiButtonTextSsidXRef = 18;
     static constexpr int16_t wifiButtonTextSsidYRef = 45;
 
+#ifdef ENABLE_DHCP_SETTINGS
     static constexpr int16_t dhcpButtonXRef = 0;
     static constexpr int16_t dhcpButtonYRef = 95;
     static constexpr int16_t dhcpButtonTextDhcpYRef = 13;
     static constexpr int16_t dhcpButtonTextIpXRef = 18;
     static constexpr int16_t dhcpButtonTextIpYRef = 45;
+#endif
 
+#ifdef ENABLE_DHCP_SETTINGS
+    static constexpr int16_t appButtonYRef = 190;
+
+    static constexpr int16_t dispalyButtonYRef = 285;
+
+    static constexpr int16_t aboutButtonYRef = 285;
+#else
     static constexpr int16_t appButtonYRef = 95;
 
     static constexpr int16_t dispalyButtonYRef = 190;
 
     static constexpr int16_t aboutButtonYRef = 190;
+#endif
     static constexpr int16_t aboutButtonHeightRef = 113;
     static constexpr int16_t aboutButtonTextAboutYRef = 5;
     static constexpr int16_t aboutButtonTextSystemXRef = 18;
@@ -127,6 +147,7 @@ private:
         return VScale(wifiButtonTextSsidYRef);
     }
 
+#ifdef ENABLE_DHCP_SETTINGS
     static inline int DhcpButtonX()
     {
         return dhcpButtonXRef;
@@ -147,6 +168,7 @@ private:
     {
         return VScale(dhcpButtonTextIpYRef);
     }
+#endif
 
     static inline int APP_BUTTON_X()
     {
