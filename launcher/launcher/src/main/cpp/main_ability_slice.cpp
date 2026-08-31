@@ -58,10 +58,10 @@ void MainAbilitySlice::SetHead()
     sprintf_s(tmp, sizeof(tmp), "%02d : %02d", st->tm_hour, st->tm_min);
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, 0, Screen::GetInstance().GetWidth(), LABLE_TITLE_HEIGHT);
+    label->SetPosition(0, 0, GetScrWidth(), LABLE_TITLE_HEIGHT);
     label->SetText(tmp);
     label->SetAlign(TEXT_ALIGNMENT_RIGHT, TEXT_ALIGNMENT_TOP);
-    label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    label->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
@@ -72,13 +72,13 @@ void MainAbilitySlice::SetTail()
 {
     UILabel* label = new UILabel();
     rootview_->Add(label);
-    label->SetPosition(0, Screen::GetInstance().GetHeight() - LABLE_TAIL_HEIGHT,
-                       Screen::GetInstance().GetWidth(), LABLE_TAIL_HEIGHT);
+    label->SetPosition(0, GetScrHeight() - LABLE_TAIL_HEIGHT,
+                       GetScrWidth(), LABLE_TAIL_HEIGHT);
     char buf[TMP_BUF_SIZE] = { 0 };
     sprintf_s(buf, sizeof(buf), ".%d.", 1);
     label->SetText(buf);
     label->SetAlign(TEXT_ALIGNMENT_CENTER, TEXT_ALIGNMENT_CENTER);
-    label->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    label->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     label->SetStyle(STYLE_TEXT_COLOR, Color::ColorTo32(Color::White()));
     label->SetStyle(STYLE_BACKGROUND_OPA, TOTAL_OPACITY);
 
@@ -90,8 +90,10 @@ void MainAbilitySlice::SetImageView()
     uiImageView_ = new UIImageView();
     // modify image view height
 
-    uiImageView_->SetPosition(0, 0, Screen::GetInstance().GetWidth(), Screen::GetInstance().GetHeight());
+    uiImageView_->SetPosition(0, 0, GetScrWidth(), GetScrHeight());
     uiImageView_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::White()));
+    uiImageView_->SetAutoEnable(false);
+    uiImageView_->SetResizeMode(UIImageView::ImageResizeMode::COVER);
     uiImageView_->SetSrc(TABLE_BACKGROUND);
     uiImageView_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     rootview_->Add(uiImageView_);
@@ -109,10 +111,12 @@ void MainAbilitySlice::OnStart(const Want& want)
     AbilitySlice::OnStart(want);
     rootview_ = RootView::GetWindowRootView();
     rootview_->SetPosition(0, 0);
-    rootview_->Resize(Screen::GetInstance().GetWidth(), Screen::GetInstance().GetHeight());
+    rootview_->Resize(GetScrWidth(), GetScrHeight());
     rootview_->SetStyle(STYLE_BACKGROUND_OPA, UN_OPACITY);
     rootview_->SetStyle(STYLE_BACKGROUND_COLOR, Color::ColorTo32(Color::GetColorFromRGB(0x30, 0x30, 0x30)));
-
+#ifndef LAUNCHER_NO_BACKGROUND
+    SetImageView();
+#endif
     SetHead();
     SetTail();
     SetSwipe();

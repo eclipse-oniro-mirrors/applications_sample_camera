@@ -90,6 +90,8 @@ void AppAbilitySlice::SetHead()
     UIImageView* imageView = new UIImageView();
     headView_->Add(imageView);
     imageView->SetPosition(DE_HEAD_IMAGE_X, DE_HEAD_IMAGE_Y, DE_HEAD_IMAGE_WIDTH, DE_HEAD_IMAGE_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_BACK);
 
     UILabel* lablelFont = new UILabel();
@@ -122,14 +124,16 @@ void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)
     scrollView_->Add(itemView);
 
     UIImageView* imageIdView = new UIImageView();
-    imageIdView->SetPosition(APP_IMAGE_X, APP_IMAGE_Y, APP_IMAGE_WIDTH, APP_IMAGE_HEIGHT);
+    imageIdView->SetPosition(APP_IMAGE_X(), APP_IMAGE_Y(), APP_IMAGE_WIDTH(), APP_IMAGE_HEIGHT());
+    imageIdView->SetAutoEnable(false);
+    imageIdView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageIdView->SetStyle(STYLE_BACKGROUND_OPA, DE_OPACITY_ALL);
     imageIdView->SetSrc(DE_IMAGE_APP);
     itemView->Add(imageIdView);
 
     int bundleNameOffset = 11;
     UILabel* name = new UILabel();
-    name->SetPosition(APP_NAME_X, APP_NAME_Y, DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
+    name->SetPosition(APP_NAME_X(), APP_NAME_Y(), DE_TITLE_TEXT_WIDTH, DE_TITLE_TEXT_HEIGHT);
     name->SetText(pBundleInfo.bundleName + bundleNameOffset);
     name->SetFont(DE_FONT_OTF, DE_TITLE_TEXT_SIZE);
     name->SetStyle(STYLE_TEXT_COLOR, DE_TITLE_TEXT_COLOR);
@@ -137,6 +141,8 @@ void AppAbilitySlice::SetAnAppInfo(const int count, BundleInfo& pBundleInfo)
 
     UIImageView* imageView = new UIImageView();
     imageView->SetPosition(DE_FORWARD_IMG_X, DE_FORWARD_IMG_Y, DE_FORWARD_IMG_WIDTH, DE_FORWARD_IMG_HEIGHT);
+    imageView->SetAutoEnable(false);
+    imageView->SetResizeMode(UIImageView::ImageResizeMode::CONTAIN);
     imageView->SetSrc(DE_IMAGE_FORWORD);
     itemView->Add(imageView);
 }

@@ -33,7 +33,7 @@ LongPressView::LongPressView(UninstallApp uninstall)
     buttUninstall_->SetStyleForState(STYLE_BORDER_RADIUS, BUTTON_RADIUS, UIButton::PRESSED);
     buttUninstall_->SetStyleForState(STYLE_BACKGROUND_OPA, HALF_OPACITY, UIButton::PRESSED);
     buttUninstall_->SetText("卸载");
-    buttUninstall_->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    buttUninstall_->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     buttUninstall_->SetOnClickListener(this);
 
     buttCancle_ = new UILabelButton();
@@ -43,7 +43,7 @@ LongPressView::LongPressView(UninstallApp uninstall)
     buttCancle_->SetStyleForState(STYLE_BORDER_RADIUS, BUTTON_RADIUS, UIButton::PRESSED);
     buttCancle_->SetStyleForState(STYLE_BACKGROUND_OPA, HALF_OPACITY, UIButton::PRESSED);
     buttCancle_->SetText("取消");
-    buttCancle_->SetFont(FOND_PATH, LAUNCHER_FOND_ID);
+    buttCancle_->SetFont(FOND_PATH, static_cast<uint8_t>(FontScale(LAUNCHER_FOND_ID)));
     buttCancle_->SetOnClickListener(this);
 
     viewGroup_->Add(buttUninstall_);
@@ -69,18 +69,34 @@ void LongPressView::RemoveLview()
 
 void LongPressView::Show(UIViewGroup* viewParent, AppInfo* pApp)
 {
-    const int16_t HEIGHT_DISCOUNT = 3;
     const int16_t WIDTH_DISCOUNT = 2;
     bStatus_ = true;
     viewParent_ = viewParent;
     app_ = pApp;
-    viewGroup_->SetPosition(pApp->buttonXY_.x / WIDTH_DISCOUNT + pApp->button_->GetWidth(),
-        pApp->buttonXY_.y / WIDTH_DISCOUNT + pApp->button_->GetHeight(), pApp->button_->GetWidth(),
-        (pApp->button_->GetHeight() * WIDTH_DISCOUNT) / HEIGHT_DISCOUNT + pApp->button_->GetHeight() / WIDTH_DISCOUNT);
-    buttUninstall_->SetPosition(0, 0,
-        pApp->button_->GetWidth(), pApp->button_->GetHeight() / WIDTH_DISCOUNT);
-    buttCancle_->SetPosition(0, (pApp->button_->GetHeight() * WIDTH_DISCOUNT) / HEIGHT_DISCOUNT,
-        pApp->button_->GetWidth(), pApp->button_->GetHeight() / WIDTH_DISCOUNT);
+
+    int16_t popupWidth = pApp->buttonHV_.x;
+    int16_t popupX = pApp->buttonXY_.x + (pApp->buttonHV_.x - popupWidth) / 2;
+    int16_t popupY = pApp->buttonXY_.y + pApp->buttonHV_.y;
+
+    if (pApp->isSystemApp_) {
+        // System app: replace uninstall text with "系统应用"
+        int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
+        viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
+        buttUninstall_->SetVisible(true);
+        buttUninstall_->SetText("系统应用");
+        buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
+        buttCancle_->SetText("取消");
+        buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    } else {
+        // Non-system app: show uninstall and cancel buttons
+        int16_t popupHeight = pApp->buttonHV_.y * WIDTH_DISCOUNT;
+        viewGroup_->SetPosition(popupX, popupY, popupWidth, popupHeight);
+        buttUninstall_->SetVisible(true);
+        buttUninstall_->SetText("卸载");
+        buttUninstall_->SetPosition(0, 0, popupWidth, popupHeight / WIDTH_DISCOUNT);
+        buttCancle_->SetText("取消");
+        buttCancle_->SetPosition(0, popupHeight / WIDTH_DISCOUNT, popupWidth, popupHeight / WIDTH_DISCOUNT);
+    }
     viewGroup_->SetVisible(true);
     viewParent_->Add(viewGroup_);
     viewParent_->Invalidate();

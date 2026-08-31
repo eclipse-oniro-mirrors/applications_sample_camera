@@ -55,6 +55,7 @@ bool AppManage::GetAailityInfosByBundleName(const char* bundleName, AppInfo* pAp
                         strlen(pBundleInfo->bigIconPath));
                     pApp->appIconDir_[strlen(pBundleInfo->bigIconPath)] = 0;
                 }
+                pApp->isSystemApp_ = pBundleInfo->isSystemApp;
                 return true;
             }
         }
@@ -90,15 +91,29 @@ bool AppManage::GetAppInstallInfo(const char* bundleName)
     return false;
 }
 
+void AppManage::GetAppUninstallInfo(const char* bundleName)
+{
+    if (bundleName == nullptr) {
+        return;
+    }
+    for (int i = 0; i < size_; i++) {
+        if (viewPage_[i] && viewPage_[i]->RemoveApp(bundleName)) {
+            return;
+        }
+    }
+}
+
 void AppManage::MyBundleStateCallback(
     const uint8_t installType, const uint8_t resultCode, const void* resultMessage, const char* bundleName, void* data)
 {
-    if (installType == 0) { // install update
-        if (resultCode == 0 && bundleName != nullptr) {
-            char tmpName[TMP_BUF_SIZE] = {0};
-            if (memcpy_s(tmpName, sizeof(tmpName), bundleName, strlen(bundleName)) == LAUNCHER_SUCCESS) {
-                tmpName[strlen(bundleName)] = 0;
+    if (resultCode == 0 && bundleName != nullptr) {
+        char tmpName[TMP_BUF_SIZE] = {0};
+        if (memcpy_s(tmpName, sizeof(tmpName), bundleName, strlen(bundleName)) == LAUNCHER_SUCCESS) {
+            tmpName[strlen(bundleName)] = 0;
+            if (installType == 0) { // install update
                 GetAppInstallInfo(tmpName);
+            } else if (installType == 1) { // uninstall
+                GetAppUninstallInfo(tmpName);
             }
         }
     }
@@ -134,7 +149,11 @@ bool AppManage::InstallApp(AppInfo* app)
 
 bool AppManage::UnInstallApp(AppInfo* app)
 {
-    return Uninstall(app->appName_, nullptr, MyBundleOwnCallback);
+    if (app->isSystemApp_) {
+        return false;
+    }
+    InstallParam installParam = {0, false};
+    return Uninstall(app->appName_, &installParam, MyBundleOwnCallback);
 }
 
 bool AppManage::StartApp(AppInfo* app)

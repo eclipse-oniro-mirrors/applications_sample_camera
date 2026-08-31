@@ -13,6 +13,8 @@
 
 import("//build/lite/config/hap_pack.gni")
 
+enable_dhcp_settings = defined(media_interface_upgrade)
+
 shared_library("setting") {
   sources = [
     "setting/src/main/cpp/app_ability_slice.cpp",
@@ -62,6 +64,21 @@ shared_library("setting") {
     "ABILITY_WINDOW_SUPPORT",
     "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER",
   ]
+
+  if (enable_dhcp_settings) {
+    sources += [
+      "setting/src/main/cpp/setting_dhcp_ability_slice.cpp"
+    ]
+    deps += [
+      "//foundation/communication/dhcp/frameworks/native:dhcp_client_sdk"
+    ]
+    include_dirs += [
+      "//foundation/communication/dhcp/interfaces/kits/c"
+    ]
+    defines += [
+      "ENABLE_DHCP_SETTINGS",
+    ]
+  }
 }
 
 hap_pack("setting_hap") {

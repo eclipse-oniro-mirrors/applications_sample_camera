@@ -57,11 +57,21 @@ private:
     UIScrollView* scrollView_;
     RootView* rootView_;
     EventListener *buttonBackListener_;
-    constexpr static int SCROLL_ITEM_NUM = 9;
-    const char *itemInfo_[SCROLL_ITEM_NUM][2];
-    constexpr static int ITEM_X = 0;
-    constexpr static int ITEM_INFO_X = 465;
-    constexpr static int ITEM_INFO_Y = 36;
+    constexpr static int scrollItemNum = 9;
+    const char *itemInfo_[scrollItemNum][2];
+    constexpr static int itemX = 0;
+    /* Info label positions — scaled from 1920x1080 reference, keep proportions at every resolution */
+    static constexpr int16_t itemInfoXRef = 1225;
+    static constexpr int halfDivisor = 2;
+
+    static inline int ItemInfoX()
+    {
+        return HScale(itemInfoXRef);
+    }
+    static inline int ITEM_INFO_Y()
+    {
+        return (DE_BUTTON_HEIGHT - DE_SUBTITLE_TEXT_HEIGHT) / halfDivisor;
+    }
 };
 } // namespace OHOS
 #endif

@@ -8,7 +8,7 @@
 
 ## 简介<a name="section11660541593"></a>
 
-CAMERA\_SAMPLE\_APP组件，提供媒体能力开发的相关应用，提供桌面应用和设置应用。
+CAMERA\_SAMPLE\_APP组件，提供媒体能力开发的相关应用，包括相机、图库、桌面、录音机和设置等应用。
 
 **图 1**  媒体子系统架构（蓝色虚线框是sample\_app）<a name="fig189881143114217"></a>  
 ![](figures/媒体子系统架构（蓝色虚线框是sample_app）.png "媒体子系统架构（蓝色虚线框是sample_app）")
@@ -21,6 +21,7 @@ applications/sample/camera
 ├── gallery     图库应用
 ├── launcher    桌面应用 
 ├── media       拍照录像应用和音视频播放应用
+├── recorder    录音应用
 └── setting     设置
 ```
 
