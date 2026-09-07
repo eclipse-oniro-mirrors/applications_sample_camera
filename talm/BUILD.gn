@@ -1,0 +1,70 @@
+import("//build/lite/config/hap_pack.gni")
+import("//build/lite/config/subsystem/applications/config.gni")
+
+if (camera_sample_app_enable_talm) {
+
+# Run ace-loader webpack to compile HML/CSS/JS into ace_lite-compatible bundle.js.
+# Source: talm/src/main/js/MainAbility/{app.js, pages/*/{*.hml,*.js,*.css}}
+# Output: $root_out_dir/talm/assets/js/default/ (matches AceAbility's hardcoded lookup path)
+action("talm_js_bundle") {
+  script = "talm_build_js.py"
+  sources = [
+    "talm/src/main/js/MainAbility/app.js",
+    "talm/src/main/js/MainAbility/manifest.json",
+    "talm/src/main/js/MainAbility/pages/index/index.hml",
+    "talm/src/main/js/MainAbility/pages/index/index.js",
+    "talm/src/main/js/MainAbility/pages/index/index.css",
+    "talm/src/main/js/MainAbility/pages/gradient/gradient.hml",
+    "talm/src/main/js/MainAbility/pages/gradient/gradient.js",
+    "talm/src/main/js/MainAbility/pages/gradient/gradient.css",
+    "talm/src/main/js/MainAbility/pages/svg/svg.hml",
+    "talm/src/main/js/MainAbility/pages/svg/svg.js",
+    "talm/src/main/js/MainAbility/pages/svg/svg.css",
+    "talm/src/main/js/MainAbility/pages/flex/flex.hml",
+    "talm/src/main/js/MainAbility/pages/flex/flex.js",
+    "talm/src/main/js/MainAbility/pages/flex/flex.css",
+    "talm/src/main/js/MainAbility/pages/animation/animation.hml",
+    "talm/src/main/js/MainAbility/pages/animation/animation.js",
+    "talm/src/main/js/MainAbility/pages/animation/animation.css",
+    "talm_build_js.py",
+  ]
+  outputs = [
+    "$root_out_dir/talm/assets/js/default/app.js",
+    "$root_out_dir/talm/assets/js/default/manifest.json",
+    "$root_out_dir/talm/assets/js/default/pages/index/index.js",
+    "$root_out_dir/talm/assets/js/default/pages/gradient/gradient.js",
+    "$root_out_dir/talm/assets/js/default/pages/svg/svg.js",
+    "$root_out_dir/talm/assets/js/default/pages/flex/flex.js",
+    "$root_out_dir/talm/assets/js/default/pages/animation/animation.js",
+  ]
+  args = [
+    rebase_path("talm/src/main/js/MainAbility"),
+    rebase_path("$root_out_dir/talm/assets/js/default"),
+  ]
+}
+
+group("talm_js_assets") {
+  deps = [ ":talm_js_bundle" ]
+}
+
+hap_pack("talm_hap_pack") {
+  deps = [
+    ":talm_js_assets",
+  ]
+  mode = "hap"
+  json_path = "talm/src/main/config.json"
+  assets_path = "$root_out_dir/talm/assets"
+  force = "true"
+  cert_profile = "cert/com.ohos.talm_AppProvision_release.p7b"
+  resources_path = "talm/src/main/resources"
+  hap_name = "talm"
+}
+}
+
+# Stable entry referenced by bundle.json. Empty when the switch is off,
+# so the component always resolves but nothing is built.
+group("talm_hap") {
+  if (camera_sample_app_enable_talm) {
+    deps = [ ":talm_hap_pack" ]
+  }
+}

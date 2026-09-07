@@ -1,0 +1,38 @@
+{
+    "app": {
+        "bundleName": "com.ohos.graphicdemo",
+        "vendor": "example",
+        "version": {
+            "code": 1,
+            "name": "1.0"
+        },
+        "apiVersion": {
+            "compatible": 3,
+            "target": 4
+        }
+    },
+    "deviceConfig": {
+        "default": {
+        }
+    },
+    "module": {
+        "package": "com.ohos.graphicdemo",
+        "name": ".GraphicDemoPackage",
+        "deviceType": [
+            "phone", "tv", "tablet", "car", "smartWatch", "sportsWatch", "smartVision"
+        ],
+        "distro": {
+            "deliveryWithInstall": true,
+            "moduleName": "graphic",
+            "moduleType": "entry"
+        },
+        "abilities": [{
+            "name": "MainDemoAbility",
+            "icon": "assets/graphic/resources/base/media/graphic.png",
+            "label": "UI组件验证",
+            "launchType": "standard",
+            "type": "page",
+            "visible": true
+        }]
+    }
+}
