@@ -1,0 +1,54 @@
+{
+  "app": {
+    "bundleName": "com.ohos.talm",
+    "vendor": "example",
+    "version": {
+      "code": 1,
+      "name": "1.0"
+    },
+    "apiVersion": {
+      "compatible": 3,
+      "target": 4
+    }
+  },
+  "deviceConfig": {
+    "default": {}
+  },
+  "module": {
+    "package": "com.ohos.talm",
+    "name": ".MyHarmonyAbilityPackage",
+    "deviceType": [
+        "phone", "tv", "tablet", "car", "smartWatch", "sportsWatch", "smartVision"
+    ],
+    "distro": {
+      "deliveryWithInstall": true,
+      "moduleName": "entry",
+      "moduleType": "entry"
+    },
+    "abilities": [
+      {
+        "name": "AceAbility",
+        "srcLanguage": "js",
+        "srcPath": "default",
+        "icon": "assets/entry/resources/base/media/icon.png",
+        "description": "Talm demo ability",
+        "label": "Talm",
+        "type": "page",
+        "visible": true,
+        "launchType": "standard"
+      }
+    ],
+    "js": [
+      {
+        "pages": [
+          "pages/index/index",
+          "pages/gradient/gradient",
+          "pages/flex/flex",
+          "pages/animation/animation",
+          "pages/svg/svg"
+        ],
+        "name": "AceAbility"
+      }
+    ]
+  }
+}

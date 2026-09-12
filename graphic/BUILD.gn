@@ -1,0 +1,82 @@
+# Copyright (c) 2026 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/lite/config/hap_pack.gni")
+import("//build/lite/config/subsystem/applications/config.gni")
+
+# lite 构建默认 language_cpp 为 c++11，本模块使用 std::make_unique 需要 c++14。
+# 注意：目标直写 cflags_cc 会排在默认配置之前而被 -std=c++11 覆盖，
+# 必须经 public_configs 追加（与 ace_engine_lite 做法一致），使 -std=c++14 位于最后生效。
+config("graphic_cppstd") {
+  cflags_cc = [ "-std=c++14" ]
+}
+
+if (camera_sample_app_enable_graphic) {
+shared_library("graphic") {
+  public_configs = [ ":graphic_cppstd" ]
+  sources = [
+    "graphic/src/main/cpp/main_demo_ability.cpp",
+    "graphic/src/main/cpp/main_menu_ability_slice.cpp",
+    "graphic/src/main/cpp/component_demo_slice.cpp",
+    "graphic/src/main/cpp/graphic_utils.cpp",
+    "graphic/src/main/cpp/button_demo_ability_slice.cpp",
+    "graphic/src/main/cpp/scroller_demo_ability_slice.cpp",
+    "graphic/src/main/cpp/switch_demo_ability_slice.cpp",
+    "graphic/src/main/cpp/slider_demo_ability_slice.cpp"
+  ]
+
+  deps = [
+    "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
+    "${appexecfwk_lite_path}/frameworks/bundle_lite:bundle",
+    "//foundation/arkui/ui_lite:ui_lite",
+    "//third_party/bounds_checking_function:libsec_shared"
+  ]
+  include_dirs = [
+    "graphic/src/main/cpp",
+    "${aafwk_lite_path}/interfaces/kits/ability_lite",
+    "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
+    "${aafwk_lite_path}/interfaces/kits/want_lite",
+    "//foundation/arkui/ui_lite/interfaces/kits",
+    "//foundation/arkui/ui_lite/interfaces/innerkits"
+  ]
+
+  defines = [
+    "ENABLE_WINDOW=1",
+    "ABILITY_WINDOW_SUPPORT",
+    "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER",
+    "ABILITY_SO_NAME=libgraphic.so",
+    "ENABLE_SCROLLER_INDICATOR_STYLE_CONFIG=1",
+    "ENABLE_SWITCH_STYLE_CONFIG=1",
+  ]
+}
+
+hap_pack("graphic_hap_pack") {
+  deps = [ ":graphic" ]
+  mode = "hap"
+  json_path = "graphic/src/main/config.json"
+  ability_so_path = "$root_out_dir/libgraphic.so"
+  force = "true"
+  cert_profile = "cert/com.ohos.graphicdemo_AppProvision_release.p7b"
+  resources_path = "graphic/src/main/resources"
+  hap_name = "graphic"
+  privatekey = "HOS Application Provision Release"
+}
+}
+
+# Stable entry referenced by bundle.json. Empty when the switch is off,
+# so the component always resolves but nothing gets built.
+group("graphic_hap") {
+  if (camera_sample_app_enable_graphic) {
+    deps = [ ":graphic_hap_pack" ]
+  }
+}

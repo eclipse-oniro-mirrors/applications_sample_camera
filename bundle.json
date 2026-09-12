@@ -13,7 +13,10 @@
         "name": "camera_sample_app",
         "subsystem": "applications",
         "syscap": [],
-        "features": [],
+        "features": [
+            "camera_sample_app_enable_graphic",
+            "camera_sample_app_enable_talm"
+        ],
         "adapted_system_type": [
             "small"
         ],
@@ -45,7 +48,9 @@
                 "//applications/sample/camera/cameraApp:cameraApp_hap",
                 "//applications/sample/camera/setting:setting_hap",
                 "//applications/sample/camera/gallery:gallery_hap",
-                "//applications/sample/camera/media:media_sample"
+                "//applications/sample/camera/media:media_sample",
+                "//applications/sample/camera/graphic:graphic_hap",
+                "//applications/sample/camera/talm:talm_hap"
             ],
             "inner_kits": [],
             "test": []

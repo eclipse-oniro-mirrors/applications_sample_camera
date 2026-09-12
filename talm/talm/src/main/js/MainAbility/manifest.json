@@ -1,0 +1,17 @@
+{
+  "appID": "com.ohos.talm",
+  "appName": "Talm",
+  "versionName": "1.0.0",
+  "versionCode": 1,
+  "minPlatformVersion": 4,
+  "pages": [
+    "pages/index/index",
+    "pages/gradient/gradient",
+    "pages/flex/flex",
+    "pages/animation/animation",
+    "pages/svg/svg"
+  ],
+  "deviceType": [
+    "phone", "tv","tablet","car","smartWatch","sportsWatch","smartVision"
+  ]
+}
