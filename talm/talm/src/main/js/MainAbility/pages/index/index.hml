@@ -9,5 +9,6 @@
     <input class="menu-btn" type="button" value="SVG验证" onclick="goSvg" />
     <input class="menu-btn" type="button" value="动画验证" onclick="goAnimation" />
     <input class="menu-btn" type="button" value="渐变验证" onclick="goGradient" />
+    <input class="menu-btn" type="button" value="页面切换动效验证" onclick="goPageAnimation" />
   </div>
 </div>

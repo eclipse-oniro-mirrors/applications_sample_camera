@@ -5,6 +5,7 @@ if (camera_sample_app_enable_talm) {
 
 # Run ace-loader webpack to compile HML/CSS/JS into ace_lite-compatible bundle.js.
 # Source: talm/src/main/js/MainAbility/{app.js, pages/*/{*.hml,*.js,*.css}}
+# (pages/page_animation/ groups its sub-pages one level deeper)
 # Output: $root_out_dir/talm/assets/js/default/ (matches AceAbility's hardcoded lookup path)
 action("talm_js_bundle") {
   script = "talm_build_js.py"
@@ -26,6 +27,27 @@ action("talm_js_bundle") {
     "talm/src/main/js/MainAbility/pages/animation/animation.hml",
     "talm/src/main/js/MainAbility/pages/animation/animation.js",
     "talm/src/main/js/MainAbility/pages/animation/animation.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/page_animation.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/page_animation.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/page_animation.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/fade/fade.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/fade/fade.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/fade/fade.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/scale/scale.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/scale/scale.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/scale/scale.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/slide/slide.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/slide/slide.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/slide/slide.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/over/over.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/over/over.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/over/over.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/edge/edge.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/edge/edge.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/edge/edge.css",
+    "talm/src/main/js/MainAbility/pages/page_animation/target/target.hml",
+    "talm/src/main/js/MainAbility/pages/page_animation/target/target.js",
+    "talm/src/main/js/MainAbility/pages/page_animation/target/target.css",
     "talm_build_js.py",
   ]
   outputs = [
@@ -36,6 +58,13 @@ action("talm_js_bundle") {
     "$root_out_dir/talm/assets/js/default/pages/svg/svg.js",
     "$root_out_dir/talm/assets/js/default/pages/flex/flex.js",
     "$root_out_dir/talm/assets/js/default/pages/animation/animation.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/page_animation.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/fade/fade.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/scale/scale.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/slide/slide.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/over/over.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/edge/edge.js",
+    "$root_out_dir/talm/assets/js/default/pages/page_animation/target/target.js",
   ]
   args = [
     rebase_path("talm/src/main/js/MainAbility"),

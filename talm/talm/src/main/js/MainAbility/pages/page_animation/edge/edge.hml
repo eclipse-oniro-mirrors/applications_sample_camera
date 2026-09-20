@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="on">
+    <list-item class="title-item">
+      <text class="title">页面切换动效验证 - 异常与边界</text>
+    </list-item>
+    <list-item class="section-item">
+      <text class="section">异常与边界</text>
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="无动效 (baseline)" onclick="goBaseline" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="无效 type (降级)" onclick="goInvalidType" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="duration 缺省 (默认 300ms)" onclick="goDefaultDuration" />
+    </list-item>
+  </list>
+</div>

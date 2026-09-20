@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="on">
+    <list-item class="title-item">
+      <text class="title">页面切换动效验证 - 双向滑动</text>
+    </list-item>
+    <list-item class="section-item">
+      <text class="section">双向滑动</text>
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Left（10000ms）" onclick="goSlideLeft" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Left（2500ms）" onclick="goSlideLeft2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Left（0ms）" onclick="goSlideLeftZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Left（二次触发）" onclick="goSlideLeftDouble" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Right（10000ms）" onclick="goSlideRight" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Right（2500ms）" onclick="goSlideRight2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Right（0ms）" onclick="goSlideRightZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Right（二次触发）" onclick="goSlideRightDouble" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Up（10000ms）" onclick="goSlideUp" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Up（2500ms）" onclick="goSlideUp2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Up（0ms）" onclick="goSlideUpZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Up（二次触发）" onclick="goSlideUpDouble" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Down（10000ms）" onclick="goSlideDown" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Down（2500ms）" onclick="goSlideDown2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Down（0ms）" onclick="goSlideDownZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Slide Down（二次触发）" onclick="goSlideDownDouble" />
+    </list-item>
+  </list>
+</div>
