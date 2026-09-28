@@ -22,5 +22,8 @@ export default {
   },
   goGradient() {
     router.replace({ uri: 'pages/gradient/gradient'});
+  },
+  goPageAnimation() {
+    router.replace({ uri: 'pages/page_animation/page_animation'});
   }
 };

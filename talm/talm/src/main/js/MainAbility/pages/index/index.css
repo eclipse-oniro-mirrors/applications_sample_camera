@@ -42,19 +42,19 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 312px;
+  height: 340px;
   margin-top: 20px;
 }
 .menu-btn {
   width: 86%;
-  height: 62px;
-  font-size: 30px;
+  height: 52px;
+  font-size: 28px;
   color: #ff7a00;
   background-color: #ffffff;
   border-width: 2px;
   border-color: #e3e7eb;
   border-radius: 16px;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 .menu-btn:active {
   background-color: #fff3e2;

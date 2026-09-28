@@ -45,7 +45,14 @@
           "pages/gradient/gradient",
           "pages/flex/flex",
           "pages/animation/animation",
-          "pages/svg/svg"
+          "pages/svg/svg",
+          "pages/page_animation/page_animation",
+          "pages/page_animation/fade/fade",
+          "pages/page_animation/scale/scale",
+          "pages/page_animation/slide/slide",
+          "pages/page_animation/over/over",
+          "pages/page_animation/edge/edge",
+          "pages/page_animation/target/target"
         ],
         "name": "AceAbility"
       }
