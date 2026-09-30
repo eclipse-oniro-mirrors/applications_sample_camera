@@ -1,0 +1,28 @@
+<!-- RM.005 边界约束-渐变边界：角度极值 / 同色退化 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">渐变边界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 016 角度极值：360deg 应与 0deg 视觉一致 -->
+    <list-item class="card">
+      <text class="label">023 角度极值 360deg vs 0deg</text>
+      <div class="compare-row">
+        <div class="compare-box cmp-360"></div>
+        <div class="compare-box cmp-0"></div>
+      </div>
+      <text class="expect">预期：左 360deg / 右 0deg，均为底部红 → 顶部蓝，视觉完全一致</text>
+    </list-item>
+
+    <!-- 017 同色渐变退化：两色相同应呈纯色 -->
+    <list-item class="card">
+      <text class="label">024 两色相同退化</text>
+      <div class="g-box g-same"></div>
+      <text class="expect">预期：整体呈均匀绿色纯色，无条纹/杂色</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

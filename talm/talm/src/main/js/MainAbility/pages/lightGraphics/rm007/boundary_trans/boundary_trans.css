@@ -1,0 +1,155 @@
+/* RM.007 边界约束用例-转场时长边界页样式 — 009~012 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 340px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+  align-items: center;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 转场舞台：300×150 */
+.stage {
+  position: relative;
+  width: 300px;
+  height: 150px;
+  background-color: #16213e;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-text {
+  width: 100%;
+  height: 60px;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* 边界用例统一配色 */
+.pa { background-color: #1565c0; }
+.pb { background-color: #616161; display: none; }
+
+.btn-row {
+  width: 100%;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* 尾部占位 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}
+
+/* 各边界场景的转场配置 */
+.t-zero {
+  transition-effect: slide-left;
+  transition-duration: 0;
+  transition-timing-function: ease-in-out;
+}
+
+.t-long {
+  transition-effect: slide-right;
+  transition-duration: 5000;
+  transition-timing-function: ease-in-out;
+}
+
+.t-neg {
+  transition-effect: slide-up;
+  transition-duration: -100;
+  transition-timing-function: ease-in-out;
+}
+
+.t-huge {
+  transition-effect: slide-down;
+  transition-duration: 999999;
+  transition-timing-function: ease-in-out;
+}

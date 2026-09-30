@@ -1,0 +1,45 @@
+<!-- RM.008 异常场景用例-非法路径值容错：非法 offset-path / offset-rotate / animation-duration，每个用例独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">非法路径值容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 013 非法 offset-path -->
+    <list-item class="card">
+      <text class="label">013 非法 offset-path</text>
+      <div class="stage sp-line">
+        <div class="dot a-bad-path" if="{{p1}}"></div>
+        <div class="dot" if="{{!p1}}"></div>
+      </div>
+      <input type="button" value="{{p1 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p1')" />
+      <text class="expect">预期：非法 offset-path 被忽略，元素保持原位静止，页面不崩溃</text>
+    </list-item>
+
+    <!-- 014 三次贝塞尔曲线自动旋转 -->
+    <list-item class="card">
+      <text class="label">014 非法 offset-rotate</text>
+      <div class="stage sp-bezier">
+        <div class="rect-wide m-bezier-011 a-bad-rotate" if="{{p2}}"></div>
+        <div class="rect-wide m-bezier-011" if="{{!p2}}"></div>
+      </div>
+      <input type="button" value="{{p2 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p2')" />
+      <text class="expect">预期：宽扁长方形沿三次贝塞尔曲线移动，始终保持固定朝向不旋转（非法值被当作 0deg 处理），结束后停在终点</text>
+    </list-item>
+
+    <!-- 015 非法 animation-duration -->
+    <list-item class="card">
+      <text class="label">015 非法 animation-duration</text>
+      <div class="stage sp-line">
+        <div class="dot a-bad-dur" if="{{p3}}" style="animation-duration: {{ badDur }}"></div>
+        <div class="dot" if="{{!p3}}"></div>
+      </div>
+      <input type="button" value="{{p3 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p3')" />
+      <text class="expect">预期：非法 animation-duration 被忽略，元素保持原位静止，页面不崩溃</text>
+    </list-item>
+
+    <!-- 尾部占位：让最后一个 list-item 能完整显示（参考 RM.005） -->
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

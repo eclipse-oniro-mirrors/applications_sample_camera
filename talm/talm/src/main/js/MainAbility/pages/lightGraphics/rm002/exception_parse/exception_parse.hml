@@ -1,0 +1,146 @@
+<!-- RM.002 异常场景-非法与边界容错：属性值非法（类型错误、无法解析、非法命令） -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">异常场景-非法与边界容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 023 非法内容容错：合法元素须正常显示，非法部分被忽略或安全降级 -->
+    <list-item class="card">
+      <text class="label">023 非法内容容错</text>
+      <div class="svg-item">
+        <svg width="450" height="240" viewBox="0 0 300 160">
+          <!-- 合法基准元素 -->
+          <rect x="20" y="20" width="80" height="50" fill="#4488ff"/>
+          <!-- 非法描边颜色 -->
+          <circle cx="160" cy="45" r="25" fill="none" stroke="notacolor" stroke-width="4"/>
+          <!-- 非法描边宽度 -->
+          <line x1="20" y1="95" x2="120" y2="95" stroke="#ff4444" stroke-width="abc"/>
+          <!-- 未知变换函数 -->
+          <rect x="160" y="75" width="60" height="40" fill="#ffaa00" transform="fly(10)"/>
+          <!-- 合法基准文本 -->
+          <text x="20" y="135" font-size="16" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：预期：蓝色矩形与OK文本正常显示；stroke非法颜色降级为stroke:none；stroke-width非法字符串回退默认值1；未知变换函数transform整体丢弃，元素保持原始位置。</text>
+    </list-item>
+
+    <!-- 024 路径数据非法：不完整命令/非法字符/非数字坐标 -->
+    <list-item class="card">
+      <text class="label">024 路径数据非法</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <!-- 合法路径基准 -->
+          <path d="M20,60 L100,60" fill="none" stroke="#4488ff" stroke-width="3"/>
+          <!-- M后无坐标：应忽略或降级 -->
+          <path d="M" fill="none" stroke="#ff4444" stroke-width="3"/>
+          <!-- 非法命令字符X -->
+          <path d="M120,60 X200,60" fill="none" stroke="#44cc44" stroke-width="3"/>
+          <!-- 坐标非数字 -->
+          <path d="M20,100 Labc,def" fill="none" stroke="#ffaa00" stroke-width="3"/>
+          <text x="220" y="80" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色基准线正常显示；非法路径被忽略或安全降级；OK正常显示</text>
+    </list-item>
+
+    <!-- 025 变换非法值：非数字参数/空变换/未知函数 -->
+    <list-item class="card">
+      <text class="label">025 变换非法值</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 300 110">
+          <!-- 合法变换基准 -->
+          <rect x="20" y="25" width="50" height="50" fill="#dddddd"/>
+          <rect x="20" y="25" width="50" height="50" fill="#4488ff" transform="translate(20,0)"/>
+          <!-- 非数字translate -->
+          <rect x="110" y="25" width="50" height="50" fill="#ff4444" transform="translate(abc,0)"/>
+          <!-- 空变换 -->
+          <rect x="180" y="25" width="50" height="50" fill="#44cc44" transform=""/>
+          <!-- 未知矩阵函数 -->
+          <rect x="240" y="25" width="50" height="50" fill="#ffaa00" transform="matrix(a,b,c,d,e,f)"/>
+          <text x="240" y="90" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色矩形正常偏移；非法变换被忽略，元素保持原位；OK正常显示</text>
+    </list-item>
+
+    <!-- 026 描边填充非法值：非法颜色字符串 -->
+    <list-item class="card">
+      <text class="label">026 描边填充非法值</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 300 110">
+          <!-- fill 非法 -->
+          <circle cx="55" cy="50" r="35" fill="badcolor" stroke="#333333" stroke-width="2"/>
+          <text x="25" y="95" font-size="12" fill="#ffffff">fill=bad</text>
+          <!-- stroke 非法 -->
+          <circle cx="150" cy="50" r="35" fill="#4488ff" stroke="badcolor" stroke-width="4"/>
+          <text x="120" y="95" font-size="12" fill="#ffffff">stroke=bad</text>
+          <!-- 正常 -->
+          <circle cx="245" cy="50" r="35" fill="#66bb6a" stroke="#333333" stroke-width="2"/>
+          <text x="215" y="95" font-size="12" fill="#ffffff">正常</text>
+        </svg>
+      </div>
+      <text class="expect">预期：非法fill降级为fill:none，圆形无填充；非法stroke降级为stroke:none，描边消失；绿色正常圆完整渲染</text>
+    </list-item>
+
+    <!-- 027 stroke-linejoin 非法：非法值被忽略 -->
+    <list-item class="card">
+      <text class="label">027 stroke-linejoin 非法</text>
+      <div class="svg-item">
+        <svg width="450" height="150" viewBox="0 0 300 100">
+          <path d="M20,80 L60,20 L100,80" fill="none" stroke="#ff4444" stroke-width="8" stroke-linejoin="abc"/>
+          <path d="M120,80 L160,20 L200,80" fill="none" stroke="#44cc44" stroke-width="8" stroke-linejoin="miter"/>
+          <text x="220" y="60" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：红色线非法 linejoin 被忽略，默认 miter；绿色线正常显示；OK 正常显示</text>
+    </list-item>
+
+    <!-- 028 描边颜色透明非法：stroke-opacity 非法字符串 -->
+    <list-item class="card">
+      <text class="label">028 描边颜色透明非法</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 300 110">
+          <circle cx="60" cy="50" r="35" fill="none" stroke="#4488ff" stroke-width="6" stroke-opacity="abc"/>
+          <circle cx="160" cy="50" r="35" fill="none" stroke="#ff4444" stroke-width="6" stroke-opacity="0.5"/>
+          <circle cx="260" cy="50" r="35" fill="none" stroke="#44cc44" stroke-width="6" stroke-opacity="1"/>
+          <text x="220" y="90" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色圆非法 opacity 被忽略，显示不透明；红色圆半透明；绿色圆正常不透明；OK 正常显示</text>
+    </list-item>
+
+    <!-- 029 描边虚线非法：非法 stroke-dasharray 被忽略 -->
+    <list-item class="card">
+      <text class="label">029 描边虚线非法</text>
+      <div class="svg-item">
+        <svg width="450" height="150" viewBox="0 0 300 100">
+          <line x1="20" y1="50" x2="280" y2="50" stroke="#4488ff" stroke-width="4" stroke-dasharray="abc"/>
+          <line x1="20" y1="80" x2="280" y2="80" stroke="#ff4444" stroke-width="4" stroke-dasharray="5,5"/>
+          <text x="220" y="40" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：非法 dasharray 被忽略，蓝线显示实线；红线正常虚线；OK 正常显示</text>
+    </list-item>
+
+    <!-- 030 路径命令参数缺失：C 缺控制点 / A 缺参数 -->
+    <list-item class="card">
+      <text class="label">030 路径命令参数缺失</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <!-- 合法路径基准 -->
+          <path d="M20,60 L100,60" fill="none" stroke="#4488ff" stroke-width="3"/>
+          <!-- C 命令缺控制点：参数不足 -->
+          <path d="M120,60 C150" fill="none" stroke="#ff4444" stroke-width="3"/>
+          <!-- A 命令缺参数 -->
+          <path d="M180,60 A20" fill="none" stroke="#44cc44" stroke-width="3"/>
+          <text x="220" y="90" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色基准线正常显示；C、A命令参数不足解析终止，无有效绘制线段，红色、绿色路径不可见；OK正常显示。</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

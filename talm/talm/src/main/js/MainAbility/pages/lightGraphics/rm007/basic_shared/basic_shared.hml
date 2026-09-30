@@ -1,0 +1,27 @@
+<!-- RM.007 共享元素转场：007 — 按开发 demo 重写，show + startTransition -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">共享元素转场</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="card">
+      <text class="label">007 共享元素转场 shared-element</text>
+      <div ref="sharedStage" class="stage shared-stage">
+        <div ref="sharedA" class="panel panel-a">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="sharedB" class="panel panel-b">
+          <text class="panel-text">B</text>
+        </div>
+        <div ref="sharedStar" class="shared-star"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switchShared" />
+      </div>
+      <text class="expect">预期：黄色圆圈从左上平滑移动到中心偏右下并放大，背景红绿切换，约 600ms 完成；再次点击还原</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

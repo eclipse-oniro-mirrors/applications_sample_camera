@@ -13,6 +13,7 @@
 
 import("//build/lite/config/hap_pack.gni")
 import("//build/lite/config/subsystem/applications/config.gni")
+import("//foundation/arkui/ui_lite/ui.gni")
 
 # lite 构建默认 language_cpp 为 c++11，本模块使用 std::make_unique 需要 c++14。
 # 注意：目标直写 cflags_cc 会排在默认配置之前而被 -std=c++11 覆盖，
@@ -29,11 +30,37 @@ shared_library("graphic") {
     "graphic/src/main/cpp/main_menu_ability_slice.cpp",
     "graphic/src/main/cpp/component_demo_slice.cpp",
     "graphic/src/main/cpp/graphic_utils.cpp",
-    "graphic/src/main/cpp/button_demo_ability_slice.cpp",
-    "graphic/src/main/cpp/scroller_demo_ability_slice.cpp",
-    "graphic/src/main/cpp/switch_demo_ability_slice.cpp",
-    "graphic/src/main/cpp/slider_demo_ability_slice.cpp"
+    "graphic/src/main/cpp/rm_test_utils.cpp"
   ]
+
+  if (ui_lite_enable_button_animation_touch_extend_config) {
+    sources += [
+      "graphic/src/main/cpp/button_rm_case_view.cpp",
+      "graphic/src/main/cpp/button_rm_test_slice.cpp",
+    ]
+  }
+ 
+  if (ui_lite_enable_scroller_indicator_style_adapt) {
+    sources += [
+      "graphic/src/main/cpp/scroller_rm_case_view.cpp",
+      "graphic/src/main/cpp/scroller_rm_test_slice.cpp",
+    ]
+  }
+ 
+  if (ui_lite_enable_switch_config) {
+    sources += [
+      "graphic/src/main/cpp/switch_rm_case_view.cpp",
+      "graphic/src/main/cpp/switch_rm_test_slice.cpp",
+    ]
+  }
+ 
+  if (ui_lite_enable_slider_config) {
+    sources += [
+      "graphic/src/main/cpp/slider_rm_case_view.cpp",
+      "graphic/src/main/cpp/slider_rm_test_slice.cpp",
+    ]
+  }
+ 
 
   deps = [
     "${aafwk_lite_path}/frameworks/ability_lite:aafwk_abilitykit_lite",
@@ -47,7 +74,8 @@ shared_library("graphic") {
     "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
     "${aafwk_lite_path}/interfaces/kits/want_lite",
     "//foundation/arkui/ui_lite/interfaces/kits",
-    "//foundation/arkui/ui_lite/interfaces/innerkits"
+    "//foundation/arkui/ui_lite/interfaces/innerkits",
+    "//foundation/arkui/ui_lite/frameworks"
   ]
 
   defines = [

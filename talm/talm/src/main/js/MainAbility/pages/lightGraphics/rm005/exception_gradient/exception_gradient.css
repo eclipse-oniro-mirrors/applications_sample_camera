@@ -1,0 +1,107 @@
+/* RM.005 非法渐变容错页样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+/*  display: flex;*/
+/*  flex-direction: column;*/
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片：固定高度，lite 下不设高度会塌缩 */
+.card {
+/*  display: flex;*/
+  flex-direction: column;
+  width: 100%;
+  height: 280px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 渐变展示块：渐变本身是被测对象，写在 CSS 类里 */
+.g-box {
+  width: 100%;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+/* 018 非法方向关键字：整条声明应被忽略，仅显示灰色底色 */
+.g-invalid {
+  background-color: #888888;
+  background: linear-gradient(to nowhere, #ff0000, #0000ff);
+}
+
+/* 019 非法角度值：整条声明应被忽略，仅显示灰色底色 */
+.g-invalid-angle {
+  background-color: #888888;
+  background: linear-gradient(abcdeg, #ff0000, #0000ff);
+}
+
+/* 020 空渐变：整条声明应被忽略，仅显示灰色底色 */
+.g-invalid-empty {
+  background-color: #888888;
+  background: linear-gradient();
+}
+
+/* 021 大写函数名：真机实测被容错识别，正常渲染左红 → 右蓝渐变 */
+.g-invalid-upper {
+  background-color: #888888;
+  background: LINEAR-GRADIENT(to right, #ff0000, #0000ff);
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 009 参考：尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

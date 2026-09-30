@@ -1,0 +1,45 @@
+<!-- RM.008 基础用例-贝塞尔曲线路径动画：二次/三次贝塞尔，每个用例独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">贝塞尔曲线路径动画</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 006 二次贝塞尔曲线路径动画 -->
+    <list-item class="card">
+      <text class="label">006 二次贝塞尔曲线路径</text>
+      <div class="stage">
+        <div class="dot m-quad a-quad" if="{{p1}}"></div>
+        <div class="dot m-quad" if="{{!p1}}"></div>
+      </div>
+      <input type="button" value="{{p1 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p1')" />
+      <text class="expect">预期：开始后蓝点沿上凸二次贝塞尔曲线移动，结束后停在终点</text>
+    </list-item>
+
+    <!-- 007 三次贝塞尔曲线路径动画 -->
+    <list-item class="card">
+      <text class="label">007 三次贝塞尔曲线路径</text>
+      <div class="stage">
+        <div class="dot m-cubic a-cubic" if="{{p2}}"></div>
+        <div class="dot m-cubic" if="{{!p2}}"></div>
+      </div>
+      <input type="button" value="{{p2 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p2')" />
+      <text class="expect">预期：开始后蓝点沿 S 形三次贝塞尔曲线移动，结束后停在终点</text>
+    </list-item>
+
+    <!-- 008 贝塞尔曲线+长方形+auto 旋转 -->
+    <list-item class="card">
+      <text class="label">008 贝塞尔曲线长方形自动旋转</text>
+      <div class="stage">
+        <div class="rect-wide m-bezier-auto a-bezier-auto" if="{{p3}}"></div>
+        <div class="rect-wide m-bezier-auto" if="{{!p3}}"></div>
+      </div>
+      <input type="button" value="{{p3 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p3')" />
+      <text class="expect">预期：宽扁长方形沿上凸二次贝塞尔曲线移动，随切线自动旋转，结束后停在终点</text>
+    </list-item>
+
+    <!-- 尾部占位：让最后一个 list-item 能完整显示（参考 RM.005） -->
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

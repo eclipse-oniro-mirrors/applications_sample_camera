@@ -1,0 +1,81 @@
+<!-- RM.002 边界约束-SVG描边样式：值合法但超出正常范围（超宽/超大/负值/极大） -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">边界约束-描边与变换超界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 018 超宽描边：stroke-width 999 与正常 2 对比 -->
+    <list-item class="card">
+      <text class="label">018 超宽描边</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <line x1="20" y1="30" x2="180" y2="30" stroke="#ff4444" stroke-width="999"/>
+          <text x="20" y="55" font-size="12" fill="#ffffff">width=999</text>
+          <line x1="20" y1="75" x2="180" y2="75" stroke="#4488ff" stroke-width="2"/>
+          <text x="20" y="100" font-size="12" fill="#ffffff">width=2</text>
+        </svg>
+      </div>
+      <text class="expect">预期：红线使用超大描边宽度 999；遵循 SVG 规范无强制截断，可能铺满视口；若引擎存在数值容错 clamp 则宽度受限；蓝线正常细描边</text>
+    </list-item>
+
+    <!-- 019 超大半径：r=9999 与正常 r=30 对比 -->
+    <list-item class="card">
+      <text class="label">019 超大半径</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <circle cx="100" cy="55" r="9999" fill="#66bb6a"/>
+          <text x="20" y="95" font-size="12" fill="#ffffff">r=9999</text>
+          <circle cx="300" cy="55" r="30" fill="#dddddd"/>
+          <text x="250" y="95" font-size="12" fill="#ffffff">r=30</text>
+        </svg>
+      </div>
+      <text class="expect">预期：直接使用半径参与计算，无强制截断；圆心在视口内，巨大圆形会填满整个 svg 视口</text>
+    </list-item>
+
+    <!-- 020 超大平移：translate(9999,0) -->
+    <list-item class="card">
+      <text class="label">020 超大平移</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="20" y="20" width="50" height="50" fill="#ee6666" transform="translate(9999,0)"/>
+          <text x="20" y="85" font-size="12" fill="#ffffff">translate=9999</text>
+          <rect x="200" y="20" width="50" height="50" fill="#dddddd"/>
+          <text x="200" y="85" font-size="12" fill="#ffffff">正常位置</text>
+        </svg>
+      </div>
+      <text class="expect">预期：极大平移使矩形移出画布不可见；灰色参考矩形留在原位</text>
+    </list-item>
+
+    <!-- 021 超大缩放：scale=999 -->
+    <list-item class="card">
+      <text class="label">021 超大缩放</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="20" y="20" width="40" height="40" fill="#ffaa33" transform="scale(999)"/>
+          <text x="20" y="75" font-size="12" fill="#ffffff">scale=999</text>
+          <rect x="200" y="20" width="40" height="40" fill="#dddddd" transform="scale(1)"/>
+          <text x="200" y="75" font-size="12" fill="#ffffff">scale=1</text>
+        </svg>
+      </div>
+      <text class="expect">预期：scale(999)直接参与矩阵运算无强制钳制；橙色矩形放大后超出可视画布，画面可见局部或完全消失；右侧scale=1灰色参考矩形完整正常渲染</text>
+    </list-item>
+
+    <!-- 022 负值缩放镜像：scale(-1,1) -->
+    <list-item class="card">
+      <text class="label">022 负值缩放镜像</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="80" y="30" width="50" height="50" fill="#ee6666" transform="scale(-1,1)"/>
+          <text x="20" y="95" font-size="12" fill="#ffffff">scale(-1,1)</text>
+          <rect x="250" y="30" width="50" height="50" fill="#dddddd"/>
+          <text x="250" y="95" font-size="12" fill="#ffffff">正常</text>
+        </svg>
+      </div>
+      <text class="expect">scale(-1,1)以SVG画布原点(0,0)做水平镜像翻转；本用例坐标下图形翻转至视口X负方向外侧，画面不可见</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,67 @@
+<!-- RM.008 基础用例-沿指定路径移动：直线路径/折线路径/沿路径旋转，每个用例独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">沿指定路径移动</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 直线路径移动 -->
+    <list-item class="card">
+      <text class="label">001 直线路径移动</text>
+      <div class="stage sp-line">
+        <div class="dot a-line" if="{{p1}}"></div>
+        <div class="dot" if="{{!p1}}"></div>
+      </div>
+      <input type="button" value="{{p1 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p1')" />
+      <text class="expect">预期：开始后长方形从左到右沿水平直线匀速移动，结束后停在终点</text>
+    </list-item>
+
+    <!-- 002 折线路径移动 -->
+    <list-item class="card">
+      <text class="label">002 折线路径移动</text>
+      <div class="stage sp-poly">
+        <div class="dot a-poly" if="{{p2}}"></div>
+        <div class="dot" if="{{!p2}}"></div>
+      </div>
+      <input type="button" value="{{p2 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p2')" />
+      <text class="expect">预期：开始后长方形沿折线（右→下→右）移动，保持不旋转</text>
+    </list-item>
+
+    <!-- 003 沿路径自动旋转 -->
+    <list-item class="card">
+      <text class="label">003 沿路径自动旋转</text>
+      <div class="stage sp-rotate">
+        <div class="shape-wide a-rotate" if="{{p3}}"></div>
+        <div class="shape-wide" if="{{!p3}}"></div>
+      </div>
+      <input type="button" value="{{p3 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p3')" />
+      <text class="expect">预期：矩形沿折线（右→下→右）移动，随切线自动旋转（水平段保持水平，下行段旋转），结束后停在终点</text>
+    </list-item>
+
+    <!-- 004 循环路径动画：矩形 Z 闭合路径，infinite 无限循环 -->
+    <list-item class="card">
+      <text class="label">004 循环路径动画</text>
+      <div class="stage sp-loop">
+        <div class="dot a-loop" if="{{p4}}"></div>
+        <div class="dot" if="{{!p4}}"></div>
+      </div>
+      <input type="button" value="{{p4 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p4')" />
+      <text class="expect">预期：开始后长方形沿矩形折线持续循环移动（Z 闭合回起点），结束后复位到起点</text>
+    </list-item>
+
+    <!-- 005 折线固定90度旋转 -->
+    <list-item class="card">
+      <text class="label">005 折线固定90度旋转</text>
+      <div class="stage sp-rotate-90">
+        <div class="shape-wide a-rotate-90" if="{{p5}}"></div>
+        <div class="shape-wide" if="{{!p5}}"></div>
+      </div>
+      <input type="button" value="{{p5 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p5')" />
+      <text class="expect">预期：长方形沿折线（右→下→右）移动，始终保持旋转90度，结束后停在终点</text>
+    </list-item>
+
+    <!-- 尾部占位：让最后一个 list-item 能完整显示（参考 RM.005） -->
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

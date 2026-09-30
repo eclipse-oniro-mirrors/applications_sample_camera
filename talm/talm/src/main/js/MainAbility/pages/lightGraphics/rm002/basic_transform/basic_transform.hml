@@ -1,0 +1,144 @@
+<!-- RM.002 基础用例-SVG变换：平移 / 缩放 / 旋转 / 复合变换 / g分组，点击按钮变换，再次点击恢复 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">SVG变换</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 007 transform translate 平移 -->
+    <list-item class="card">
+      <text class="label">007 transform translate 平移</text>
+      <div class="svg-item">
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{applied7}}">
+          <rect x="40" y="40" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="40" y="40" width="60" height="60" fill="#4488ff" transform="translate(80,20)"/>
+        </svg>
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{!applied7}}">
+          <rect x="40" y="40" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="40" y="40" width="60" height="60" fill="#4488ff"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied7 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied7')" />
+      </div>
+      <text class="expect">预期：点击后蓝色方块向右80、向下20偏移，形态固定静止；恢复后与虚线参考框完全重合</text>
+    </list-item>
+
+    <!-- 008 transform scale 缩放 -->
+    <list-item class="card">
+      <text class="label">008 transform scale 缩放</text>
+      <div class="svg-item">
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{applied8}}">
+          <rect x="50" y="50" width="50" height="50" fill="#ffaa33" transform="scale(0.6)"/>
+        </svg>
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{!applied8}}">
+          <rect x="50" y="50" width="50" height="50" fill="#ffaa33"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied8 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied8')" />
+      </div>
+      <text class="expect">预期：点击后方块缩小，以左上角为变换原点，静止不变；恢复后回到原始大小</text>
+    </list-item>
+
+    <!-- 009 transform rotate 定点旋转 -->
+    <list-item class="card">
+      <text class="label">009 transform rotate 定点旋转</text>
+      <div class="svg-item">
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{applied9}}">
+          <circle cx="70" cy="70" r="3" fill="#f00"/>
+          <rect x="40" y="40" width="60" height="60" fill="#66bb6a" transform="rotate(30,70,70)"/>
+        </svg>
+        <svg width="450" height="140" viewBox="0 0 400 140" if="{{!applied9}}">
+          <circle cx="70" cy="70" r="3" fill="#f00"/>
+          <rect x="40" y="40" width="60" height="60" fill="#66bb6a"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied9 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied9')" />
+      </div>
+      <text class="expect">预期：点击后方块以红点中心顺时针旋转30°，姿态固定；恢复后恢复水平</text>
+    </list-item>
+
+    <!-- 010 transform 复合变换：平移+缩放+旋转 -->
+    <list-item class="card">
+      <text class="label">010 transform 复合变换：平移+缩放+旋转</text>
+      <div class="svg-item">
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{applied10}}">
+          <rect x="0" y="0" width="60" height="60" fill="#ee6666" transform="translate(60,40) scale(0.8) rotate(20)"/>
+        </svg>
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{!applied10}}">
+          <rect x="0" y="0" width="60" height="60" fill="#ee6666"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied10 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied10')" />
+      </div>
+      <text class="expect">预期：点击后依次执行平移、缩放、旋转矩阵运算，图形姿态正确；恢复后回到原始位置</text>
+    </list-item>
+
+    <!-- 011 g分组静态transform，批量变换 -->
+    <list-item class="card">
+      <text class="label">011 g分组静态transform，批量变换</text>
+      <div class="svg-item">
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{applied11}}">
+          <g transform="translate(60,40) rotate(15)">
+            <rect x="0" y="0" width="50" height="50" fill="#4488ff"/>
+            <circle cx="65" cy="25" r="20" fill="#ffaa33"/>
+          </g>
+        </svg>
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{!applied11}}">
+          <g>
+            <rect x="0" y="0" width="50" height="50" fill="#4488ff"/>
+            <circle cx="65" cy="25" r="20" fill="#ffaa33"/>
+          </g>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied11 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied11')" />
+      </div>
+      <text class="expect">预期：点击后组内矩形、圆形跟随g统一变换；恢复后回到原始位置</text>
+    </list-item>
+
+    <!-- 012 matrix() 矩阵变换：平移+缩放+旋转复合矩阵 -->
+    <list-item class="card">
+      <text class="label">012 matrix矩阵变换</text>
+      <div class="svg-item">
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{applied12}}">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="0" y="0" width="60" height="60" fill="#ff8800" transform="matrix(0.8,0.2,-0.2,0.8,60,40)"/>
+        </svg>
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{!applied12}}">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="0" y="0" width="60" height="60" fill="#ff8800"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied12 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied12')" />
+      </div>
+      <text class="expect">预期：橙色方块通过 matrix 实现旋转、缩放、平移复合变换。</text>
+    </list-item>
+
+    <!-- 013 skewX() 斜切变换 -->
+    <list-item class="card">
+      <text class="label">013 skewX斜切变换</text>
+      <div class="svg-item">
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{applied13}}">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="0" y="0" width="60" height="60" fill="#4488ff" transform="skewX(20)"/>
+        </svg>
+        <svg width="450" height="160" viewBox="0 0 400 160" if="{{!applied13}}">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#aaaaaa" stroke-dasharray="4 3"/>
+          <rect x="0" y="0" width="60" height="60" fill="#4488ff"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{applied13 ? '恢复原位' : '执行变换'}}" class="btn" onclick="toggle('applied13')" />
+      </div>
+      <text class="expect">预期：蓝色方块沿 X 轴斜切 20°，图形右侧向下偏移，形成平行四边形；恢复后回到原始矩形</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

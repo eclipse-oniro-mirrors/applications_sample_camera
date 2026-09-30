@@ -1,0 +1,120 @@
+/* RM.008 性能用例-批量路径动画样式 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 性能卡片适当加高，容纳 4列×3行 网格 */
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 290px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+/* 用例标题 */
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 单用例开始/结束按钮：独占一行放在预期文字上方（lite 卡片内行布局右顶定位会把按钮顶出屏幕） */
+.case-btn {
+  width: 72px;
+  height: 30px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+/* 批量网格：4 列，自动换行（必须显式 row，lite 默认 column 会竖排） */
+.batch-wrap {
+  width: 100%;
+  height: 150px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* 单元格：固定宽高，lite 下不设高度会塌缩。
+   padding 决定小点布局原位（即路径起点 (10,14)）：lite 的 offset-path 坐标是相对
+   元素布局原位的位移（必须 M 0 0 起步），且动画元素挂载首帧按布局位置渲染——
+   原位与路径起点重合，开始/结束才不会跳变；静态点小点不放 margin，保持同一原位 */
+.cell {
+  width: 25%;
+  height: 50px;
+  padding-left: 10px;
+  padding-top: 14px;
+}
+
+.cell-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background-color: #42a5f5;
+}
+
+/* 批量路径动画关键帧 */
+@keyframes moveBatch {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 016 批量路径动画：短路径高频率 */
+.a-batch {
+  offset-path: path('M 0 0 L 44 0');
+  offset-rotate: 0deg;
+  animation-name: moveBatch;
+  animation-duration: 1200ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}

@@ -14,14 +14,8 @@ export default {
   goFlex() {
     router.replace({ uri: 'pages/flex/flex'});
   },
-  goSvg() {
-    router.replace({ uri: 'pages/svg/svg'});
-  },
-  goAnimation() {
-    router.replace({ uri: 'pages/animation/animation'});
-  },
-  goGradient() {
-    router.replace({ uri: 'pages/gradient/gradient'});
+  goLightGraphics() {
+    router.replace({ uri: 'pages/lightGraphics/lightGraphics'});
   },
   goPageAnimation() {
     router.replace({ uri: 'pages/page_animation/page_animation'});

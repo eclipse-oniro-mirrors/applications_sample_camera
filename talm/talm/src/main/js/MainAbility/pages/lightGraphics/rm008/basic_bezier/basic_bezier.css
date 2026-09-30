@@ -1,0 +1,174 @@
+/* RM.008 基础用例-贝塞尔曲线路径动画样式 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片（305px：label + stage170 + 按钮行 + expect + padding） */
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 305px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+/* 用例标题 */
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 单用例开始/结束按钮：独占一行放在预期文字上方（lite 卡片内行布局右顶定位会把按钮顶出屏幕） */
+.case-btn {
+  width: 72px;
+  height: 30px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+/* 动画舞台：高度 170px，容纳更大振幅的贝塞尔曲线 */
+.stage {
+  width: 100%;
+  height: 170px;
+}
+
+.dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #42a5f5;
+}
+
+/* 宽扁长方形（宽度大于长度，用于贝塞尔auto旋转用例，若旋转则方向变化更明显） */
+.rect-wide {
+  width: 44px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: #42a5f5;
+}
+
+/* 008 贝塞尔auto：元素布局原位 */
+.m-bezier-auto {
+  margin-left: 15px;
+  margin-top: 100px;
+}
+
+/* 元素布局原位（即路径起点，lite 的 offset-path 坐标是相对原位的位移，必须 M 0 0 起步）：
+   用元素自身 margin 定位，不用 stage padding——margin 区域在父 content box 内可绘制，
+   动画元素挂载首帧按布局位置渲染，静态对照元素加同样 margin 保持同一原位 */
+/* 006 二次贝塞尔：原位 (15,100)。上拱控制点 y=-100，顶点 100-100=0 刚好贴 stage 顶，水平终点 260 */
+.m-quad {
+  margin-left: 15px;
+  margin-top: 100px;
+}
+
+/* 007 三次贝塞尔：原位 (15,70)。控制点 y=±70：上顶点 0，下底部 70+70+26=166 ≤ stage 170，水平终点 260 */
+.m-cubic {
+  margin-left: 15px;
+  margin-top: 70px;
+}
+
+/* 006 二次贝塞尔路径动画关键帧 */
+@keyframes moveQuad {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 006 二次贝塞尔：Q 控制点，上拱幅度 -100，水平终点 260 */
+.a-quad {
+  offset-path: path('M 0 0 Q 130 -100 260 0');
+  offset-rotate: 0deg;
+  animation-name: moveQuad;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 007 三次贝塞尔路径动画关键帧 */
+@keyframes moveCubic {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 007 三次贝塞尔：C 两个控制点，上下幅度 ±70，水平终点 260 */
+.a-cubic {
+  offset-path: path('M 0 0 C 65 -70 195 70 260 0');
+  offset-rotate: 0deg;
+  animation-name: moveCubic;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 008 贝塞尔曲线+长方形+auto 旋转动画关键帧 */
+@keyframes moveBezierAuto {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 008 贝塞尔曲线+长方形+auto：二次贝塞尔上凸路径，幅度 -100，水平终点 260 */
+.a-bezier-auto {
+  offset-path: path('M 0 0 Q 130 -100 260 0');
+  offset-rotate: auto;
+  animation-name: moveBezierAuto;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 尾部占位：让 list 最后一个 item 能完整显示（参考 RM.005） */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

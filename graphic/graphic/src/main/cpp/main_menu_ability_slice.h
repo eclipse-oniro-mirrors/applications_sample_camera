@@ -35,7 +35,7 @@ private:
     void AddMenuItem(const char* title, const char* target, int16_t y, int16_t index);
 
     // UI布局常量
-    static constexpr int16_t menuItemCount = 4;
+    static constexpr int16_t menuItemMaxCount = 8;
     static constexpr int16_t menuItemHeight = 80;
     static constexpr int16_t menuItemGap = 12;
     static constexpr int16_t menuItemStartY = 16;
@@ -51,8 +51,9 @@ private:
 
     UIScrollView* scrollView_ = nullptr;
     // 菜单项归属 scrollView_ 视图树；保存指针仅为析构时解除监听绑定
-    UIViewGroup* itemViews_[menuItemCount] = {};
-    std::unique_ptr<EventListener> itemListeners_[menuItemCount] = {};
+    int16_t menuItemCount_ = 0;
+    UIViewGroup* itemViews_[menuItemMaxCount] = {};
+    std::unique_ptr<EventListener> itemListeners_[menuItemMaxCount] = {};
 };
 } // namespace OHOS
 #endif // GRAPHIC_MAIN_MENU_ABILITY_SLICE_H

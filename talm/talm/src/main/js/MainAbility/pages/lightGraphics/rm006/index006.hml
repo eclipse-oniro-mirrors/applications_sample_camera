@@ -1,0 +1,21 @@
+<!-- RM.006 线性渐变能力测试 入口页：按用例分类导航 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">线性渐变测试 RM.006</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <!-- 用例分类列表，lite 小屏用 list+list-item 滚动 -->
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic')">
+      <text class="nav-text">基础用例</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('boundary_gradient')">
+      <text class="nav-text">边界约束用例</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('exception_gradient')">
+      <text class="nav-text">异常场景用例</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

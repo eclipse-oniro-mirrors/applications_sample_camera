@@ -1,0 +1,79 @@
+<!-- RM.007 边界约束用例-转场时长边界：009~012，新写法 show + startTransition -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">转场时长边界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 009 0ms -->
+    <list-item class="card">
+      <text class="label">009 转场时长 0ms</text>
+      <div ref="st009" class="stage t-zero">
+        <div ref="a009" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b009" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch009" />
+      </div>
+      <text class="expect">预期：切换立即完成无过渡动画，页面无异常</text>
+    </list-item>
+
+    <!-- 010 5000ms -->
+    <list-item class="card">
+      <text class="label">010 超长转场时长 5000ms</text>
+      <div ref="st010" class="stage t-long">
+        <div ref="a010" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b010" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch010" />
+      </div>
+      <text class="expect">预期：过渡缓慢持续约 5000ms（截断为10s）；过渡中再次点击可打断并反向过渡，无异常</text>
+    </list-item>
+
+    <!-- 011 -100ms -->
+    <list-item class="card">
+      <text class="label">011 负数转场时长 -100ms</text>
+      <div ref="st011" class="stage t-neg">
+        <div ref="a011" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b011" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch011" />
+      </div>
+      <text class="expect">预期：负数时长被安全处理，切换立即完成无过渡，页面无异常</text>
+    </list-item>
+
+    <!-- 012 999999ms -->
+    <list-item class="card">
+      <text class="label">012 超大转场时长 999999ms</text>
+      <div ref="st012" class="stage t-huge">
+        <div ref="a012" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b012" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch012" />
+      </div>
+      <text class="expect">预期：超大时长被截断10s，页面不崩溃、不卡死</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

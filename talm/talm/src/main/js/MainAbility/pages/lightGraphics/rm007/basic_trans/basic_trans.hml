@@ -1,0 +1,113 @@
+<!-- RM.007 基础转场：001~006，新写法 show + startTransition -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础转场</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 淡入淡出 -->
+    <list-item class="card">
+      <text class="label">001 淡入淡出 fade</text>
+      <div ref="st001" class="stage t-fade">
+        <div ref="a001" class="panel pa1">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b001" class="panel pb1">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch001" />
+      </div>
+      <text class="expect">预期：A 淡出、B 淡入，约 500ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <!-- 002 左滑 -->
+    <list-item class="card">
+      <text class="label">002 左滑 slide-left</text>
+      <div ref="st002" class="stage t-slide-left">
+        <div ref="a002" class="panel pa2">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b002" class="panel pb2">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch002" />
+      </div>
+      <text class="expect">预期：A 向左滑出、B 从右滑入，约 400ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <!-- 003 右滑 -->
+    <list-item class="card">
+      <text class="label">003 右滑 slide-right</text>
+      <div ref="st003" class="stage t-slide-right">
+        <div ref="a003" class="panel pa3">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b003" class="panel pb3">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch003" />
+      </div>
+      <text class="expect">预期：A 向右滑出、B 从左滑入，约 400ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <!-- 004 上滑 -->
+    <list-item class="card">
+      <text class="label">004 上滑 slide-up</text>
+      <div ref="st004" class="stage t-slide-up">
+        <div ref="a004" class="panel pa4">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b004" class="panel pb4">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch004" />
+      </div>
+      <text class="expect">预期：A 向上滑出、B 从下滑入，约 400ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <!-- 005 下滑 -->
+    <list-item class="card">
+      <text class="label">005 下滑 slide-down</text>
+      <div ref="st005" class="stage t-slide-down">
+        <div ref="a005" class="panel pa5">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b005" class="panel pb5">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch005" />
+      </div>
+      <text class="expect">预期：A 向下滑出、B 从上滑入，约 400ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <!-- 006 缩放 -->
+    <list-item class="card">
+      <text class="label">006 缩放 scale</text>
+      <div ref="st006" class="stage t-scale">
+        <div ref="a006" class="panel pa6">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b006" class="panel pb6">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch006" />
+      </div>
+      <text class="expect">预期：A 缩小消失、B 放大出现，约 500ms 完成；再次点击反向过渡</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,13 @@
+<!-- RM.008 性能用例 分类页：批量路径动画入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">性能用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('perf_path')">
+      <text class="nav-text">批量路径动画</text>
+    </list-item>
+  </list>
+</div>

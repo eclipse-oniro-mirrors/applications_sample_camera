@@ -1,0 +1,39 @@
+<!-- RM.006 基础用例-颜色渐变：双色 / 多色，background 与 background-image 两种写法 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">颜色渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 双色渐变 background 缩写：左侧红 → 右侧蓝 -->
+    <list-item class="card">
+      <text class="label">001 双色渐变 background 缩写</text>
+      <div class="g-box g-dual-bg"></div>
+      <text class="expect">预期：左侧红 → 右侧蓝，水平方向平滑渐变</text>
+    </list-item>
+
+    <!-- 002 双色对角渐变 background 缩写：左下红 → 右上蓝 -->
+    <list-item class="card">
+      <text class="label">002 双色对角渐变 background 缩写</text>
+      <div class="g-box g-dual-diag"></div>
+      <text class="expect">预期：左下红 → 右上蓝，对角方向平滑渐变</text>
+    </list-item>
+
+    <!-- 003 三色渐变 background 缩写：红 → 黄 → 蓝 -->
+    <list-item class="card">
+      <text class="label">003 三色渐变 background 缩写</text>
+      <div class="g-box g-tri"></div>
+      <text class="expect">预期：左侧红 → 中间黄 → 右侧蓝，三段平滑过渡</text>
+    </list-item>
+
+    <!-- 004 五色渐变 background 缩写：红橙黄绿蓝 -->
+    <list-item class="card">
+      <text class="label">004 五色渐变 background 缩写</text>
+      <div class="g-box g-multi"></div>
+      <text class="expect">预期：红 → 橙 → 黄 → 绿 → 蓝，background 缩写设置五色渐变生效</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>
