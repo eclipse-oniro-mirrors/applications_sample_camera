@@ -1,0 +1,20 @@
+<!-- RM.001 基础用例 分类页：三大特性入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_composite')">
+      <text class="nav-text">SVG组合绘制</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_text')">
+      <text class="nav-text">SVG文本绘制</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_animation')">
+      <text class="nav-text">SVG动画</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

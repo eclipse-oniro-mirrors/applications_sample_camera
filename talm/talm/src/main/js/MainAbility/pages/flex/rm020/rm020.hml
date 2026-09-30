@@ -1,0 +1,134 @@
+<div class="container">
+    <div class="top-bar">
+        <input class="btn-back" type="button" value="返回" onclick="goBack" />
+        <text class="scene-title">{{ "  5：Flex(350px,180px) 功能验证，子项(50px,50px)  "}}</text>
+    </div>
+    <div class="display-area">
+    <!-- flex容器1：子项-width:50px，height:50px -->
+        <div class="scene-box-flex-1" style="
+                display: {{flex1Display}};
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                gap: {{gapValue}};
+                column-gap: {{columnGapValue}};
+                row-gap: {{rowGapValue}};
+                ">
+            <div class="item item0"><text>1</text></div>
+            <div class="item item2" style="display: {{itemDisplay4to6}};"><text>2</text></div>
+            <div class="item item3" style="display: {{itemDisplay4to6}};"><text>3</text></div>
+            <div class="item item4" style="display: {{itemDisplay4to6}};"><text>4</text></div>
+            <div class="item item5" style="display: {{itemDisplay4to6}};"><text>5</text></div>
+            <div class="item item6" style="display: {{itemDisplay4to6}};"><text>6</text></div>
+            <div class="item item7" style="display: {{itemDisplay}};"><text>7</text></div>
+            <div class="item item8" style="display: {{itemDisplay}};"><text>8</text></div>
+            <div class="item item9" style="display: {{itemDisplay}};"><text>9</text></div>
+            <div class="item item10" style="display: {{itemDisplay}};"><text>10</text></div>
+            <div class="item item11" style="display: {{itemDisplay}};"><text>11</text></div>
+            <div class="item item12" style="display: {{itemDisplay}};"><text>12</text></div>
+            <div class="item item13" style="display: {{itemDisplay}};"><text>13</text></div>
+            <div class="item item14" style="display: {{itemDisplay}};"><text>14</text></div>
+            <div class="item item15" style="display: {{itemDisplay}};"><text>15</text></div>
+        </div>
+    </div>
+    <div class="button-wrapper" clip="true">
+        <list class="button-area" scrollbar="on">
+        <!-- 显示/隐藏子项 -->
+            <list-item class="btn-item">
+                <text class="group-label">显示/隐藏：</text>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 2-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 2-6"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 2-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 2-6"/>
+                <input class="btn btn-active" show="{{ idxFlex1Display === 0 }}" type="button" onclick="setPropAndSelect('idxFlex1Display', 0, 'flex1Display', 'flex')" value="显示flex1"/>
+                <input class="btn" show="{{ idxFlex1Display !== 0 }}" type="button" onclick="setPropAndSelect('idxFlex1Display', 0, 'flex1Display', 'flex')" value="显示flex1"/>
+                <input class="btn btn-active" show="{{ idxFlex1Display === 1 }}" type="button" onclick="setPropAndSelect('idxFlex1Display', 1, 'flex1Display', 'none')" value="隐藏flex1"/>
+                <input class="btn" show="{{ idxFlex1Display !== 1 }}" type="button" onclick="setPropAndSelect('idxFlex1Display', 1, 'flex1Display', 'none')" value="隐藏flex1"/>
+            </list-item>
+        <!-- 溢出控制overflow -->
+            <list-item class="btn-item">
+                <text class="group-label">溢出控制：</text>
+                <input class="btn btn-active" show="{{ idxOverflow === 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn" show="{{ idxOverflow !== 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn btn-active" show="{{ idxOverflow === 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+                <input class="btn" show="{{ idxOverflow !== 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+                <text class="group-label">换行 flex-wrap：</text>
+                <input class="btn btn-active" show="{{ idxWrap === 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn" show="{{ idxWrap !== 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn btn-active" show="{{ idxWrap === 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+                <input class="btn" show="{{ idxWrap !== 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+                <text class="group-label">容器方向 flex-direction：</text>
+                <input class="btn btn-active" show="{{ idxDir === 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn" show="{{ idxDir !== 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn btn-active" show="{{ idxDir === 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+                <input class="btn" show="{{ idxDir !== 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+            </list-item>
+            <!-- Flex gap -->
+            <list-item class="btn-item">
+                <text class="group-label">flex gap：</text>
+                <input class="btn btn-active" show="{{ idxGap === 0 }}" type="button" onclick="setPropAndSelect('idxGap', 0, 'gap', '-10px')" value="-10px"/>
+                <input class="btn" show="{{ idxGap !== 0 }}" type="button" onclick="setPropAndSelect('idxGap', 0, 'gap', '-10px')" value="-10px"/>
+                <input class="btn btn-active" show="{{ idxGap === 1 }}" type="button" onclick="setPropAndSelect('idxGap', 1, 'gap', '0px')" value="0px"/>
+                <input class="btn" show="{{ idxGap !== 1 }}" type="button" onclick="setPropAndSelect('idxGap', 1, 'gap', '0px')" value="0px"/>
+                <input class="btn btn-active" show="{{ idxGap === 2 }}" type="button" onclick="setPropAndSelect('idxGap', 2, 'gap', '10px')" value="10px"/>
+                <input class="btn" show="{{ idxGap !== 2 }}" type="button" onclick="setPropAndSelect('idxGap', 2, 'gap', '10px')" value="10px"/>
+                <input class="btn btn-active" show="{{ idxGap === 3 }}" type="button" onclick="setPropAndSelect('idxGap', 3, 'gap', '20px 20px')" value="20px 20px"/>
+                <input class="btn" show="{{ idxGap !== 3 }}" type="button" onclick="setPropAndSelect('idxGap', 3, 'gap', '20px 20px')" value="20px 20px"/>
+                <input class="btn btn-active" show="{{ idxGap === 4 }}" type="button" onclick="setPropAndSelect('idxGap', 4, 'gap', '10%')" value="10%"/>
+                <input class="btn" show="{{ idxGap !== 4 }}" type="button" onclick="setPropAndSelect('idxGap', 4, 'gap', '10%')" value="10%"/>
+                <input class="btn btn-active" show="{{ idxGap === 5 }}" type="button" onclick="setPropAndSelect('idxGap', 5, 'gap', '15% 15px')" value="15% 15px"/>
+                <input class="btn" show="{{ idxGap !== 5 }}" type="button" onclick="setPropAndSelect('idxGap', 5, 'gap', '15% 15px')" value="15% 15px"/>
+                <input class="btn btn-active" show="{{ idxGap === 6 }}" type="button" onclick="setPropAndSelect('idxGap', 6, 'gap', '20% 20%')" value="20% 20%"/>
+                <input class="btn" show="{{ idxGap !== 6 }}" type="button" onclick="setPropAndSelect('idxGap', 6, 'gap', '20% 20%')" value="20% 20%"/>
+            </list-item>
+            <!-- Flex column-gap -->
+            <list-item class="btn-item">
+                <text class="group-label">flex column-gap：</text>
+                <input class="btn btn-active" show="{{ idxColumnGap === 0 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 0, 'columnGap', '-10px')" value="-10px"/>
+                <input class="btn" show="{{ idxColumnGap !== 0 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 0, 'columnGap', '-10px')" value="-10px"/>
+                <input class="btn btn-active" show="{{ idxColumnGap === 1 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 1, 'columnGap', '0px')" value="0px"/>
+                <input class="btn" show="{{ idxColumnGap !== 1 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 1, 'columnGap', '0px')" value="0px"/>
+                <input class="btn btn-active" show="{{ idxColumnGap === 2 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 2, 'columnGap', '15px')" value="15px"/>
+                <input class="btn" show="{{ idxColumnGap !== 2 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 2, 'columnGap', '15px')" value="15px"/>
+                <input class="btn btn-active" show="{{ idxColumnGap === 3 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 3, 'columnGap', '25px')" value="25px"/>
+                <input class="btn" show="{{ idxColumnGap !== 3 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 3, 'columnGap', '25px')" value="25px"/>
+                <input class="btn btn-active" show="{{ idxColumnGap === 4 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 4, 'columnGap', '10%')" value="10%"/>
+                <input class="btn" show="{{ idxColumnGap !== 4 }}" type="button" onclick="setPropAndSelect('idxColumnGap', 4, 'columnGap', '10%')" value="10%"/>
+            </list-item>
+            <!-- Flex row-gap（wrap） -->
+            <list-item class="btn-item">
+                <text class="group-label">flex row-gap（wrap）：</text>
+                <input class="btn btn-active" show="{{ idxRowGap === 0 }}" type="button" onclick="setPropAndSelect('idxRowGap', 0, 'rowGap', '-10px')" value="-10px"/>
+                <input class="btn" show="{{ idxRowGap !== 0 }}" type="button" onclick="setPropAndSelect('idxRowGap', 0, 'rowGap', '-10px')" value="-10px"/>
+                <input class="btn btn-active" show="{{ idxRowGap === 1 }}" type="button" onclick="setPropAndSelect('idxRowGap', 1, 'rowGap', '0px')" value="0px"/>
+                <input class="btn" show="{{ idxRowGap !== 1 }}" type="button" onclick="setPropAndSelect('idxRowGap', 1, 'rowGap', '0px')" value="0px"/>
+                <input class="btn btn-active" show="{{ idxRowGap === 2 }}" type="button" onclick="setPropAndSelect('idxRowGap', 2, 'rowGap', '15px')" value="15px"/>
+                <input class="btn" show="{{ idxRowGap !== 2 }}" type="button" onclick="setPropAndSelect('idxRowGap', 2, 'rowGap', '15px')" value="15px"/>
+                <input class="btn btn-active" show="{{ idxRowGap === 3 }}" type="button" onclick="setPropAndSelect('idxRowGap', 3, 'rowGap', '25px')" value="25px"/>
+                <input class="btn" show="{{ idxRowGap !== 3 }}" type="button" onclick="setPropAndSelect('idxRowGap', 3, 'rowGap', '25px')" value="25px"/>
+                <input class="btn btn-active" show="{{ idxRowGap === 4 }}" type="button" onclick="setPropAndSelect('idxRowGap', 4, 'rowGap', '10%')" value="10%"/>
+                <input class="btn" show="{{ idxRowGap !== 4 }}" type="button" onclick="setPropAndSelect('idxRowGap', 4, 'rowGap', '10%')" value="10%"/>
+            </list-item>
+            <!-- 高频切换50次 -->
+            <list-item class="btn-item">
+                <text class="group-label">高频切换50次：</text>
+                <input class="btn" type="button" onclick="stopAutoTest()" value="停止"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoGap }}" type="button" onclick="autoGap()" value="gap"/>
+                <input class="btn-larger-bg" show="{{ !isAutoGap }}" type="button" onclick="autoGap()" value="gap"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoColumnGap }}" type="button" onclick="autoColumnGap()" value="column-gap"/>
+                <input class="btn-larger-bg" show="{{ !isAutoColumnGap }}" type="button" onclick="autoColumnGap()" value="column-gap"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoRowGap }}" type="button" onclick="autoRowGap()" value="row-gap"/>
+                <input class="btn-larger-bg" show="{{ !isAutoRowGap }}" type="button" onclick="autoRowGap()" value="row-gap"/>
+            </list-item>
+            <!-- 子项控制 -->
+            <list-item class="btn-item">
+                <text class="group-label">重置：</text>
+                <input class="btn-larger" type="button" onclick="resetAll()" value="重置全部参数"/>
+            </list-item>
+        </list>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<!-- RM.005 异常场景-非法渐变容错：非法方向关键字 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">非法渐变容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 018 非法方向关键字：整条声明被忽略，只显示灰色底色（真机实测无渐变） -->
+    <list-item class="card">
+      <text class="label">025 非法方向容错</text>
+      <div class="g-box g-invalid"></div>
+      <text class="expect">预期：无渐变，非法方向声明被忽略，只显示灰色底色，页面不崩溃</text>
+    </list-item>
+
+    <!-- 019 非法角度值容错 -->
+    <list-item class="card">
+      <text class="label">026 非法角度值容错</text>
+      <div class="g-box g-invalid-angle"></div>
+      <text class="expect">预期：非法角度渐变被忽略（显示底色或安全降级），页面不崩溃</text>
+    </list-item>
+
+    <!-- 020 空渐变容错 -->
+    <list-item class="card">
+      <text class="label">027 空渐变容错</text>
+      <div class="g-box g-invalid-empty"></div>
+      <text class="expect">预期：空渐变声明被忽略（显示底色或安全降级），页面不崩溃</text>
+    </list-item>
+
+    <!-- 021 大写函数名容错：LINEAR-GRADIENT 被容错识别，正常渲染渐变（真机实测有渐变） -->
+    <list-item class="card">
+      <text class="label">028 大写函数名容错</text>
+      <div class="g-box g-invalid-upper"></div>
+      <text class="expect">预期：有渐变，大写函数名被容错识别，左侧红 → 右侧蓝正常渲染</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

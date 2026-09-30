@@ -1,0 +1,24 @@
+<!-- RM.006 基础用例-Button 颜色渐变：验证 button 元素支持背景颜色渐变 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">Button 颜色渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 007 button 多色水平渐变 -->
+    <list-item class="card">
+      <text class="label">007 Button 多色水平</text>
+      <input type="button" value="多色水平" class="btn-gradient btn-dual" />
+      <text class="expect">预期：按钮背景左侧红 → 橙 → 黄 → 绿 → 右侧蓝，多色水平平滑渐变</text>
+    </list-item>
+
+    <!-- 008 button 多色对角渐变 -->
+    <list-item class="card">
+      <text class="label">008 Button 多色对角</text>
+      <input type="button" value="多色对角" class="btn-gradient btn-diag" />
+      <text class="expect">预期：按钮背景左下红 → 橙 → 黄 → 绿 → 右上蓝，多色对角平滑渐变</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,178 @@
+<!-- RM.001 边界约束用例：属性值合法但超出正常范围（超界/极大/极小） -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">边界约束-属性超界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 021 opacity 超界：负值与极大值 -->
+    <list-item class="card">
+      <text class="label">021 opacity 超界</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="20" y="20" width="80" height="60" fill="#4488ff" opacity="-1"/>
+          <text x="20" y="95" font-size="12" fill="#ffffff">opacity=-1</text>
+          <rect x="140" y="20" width="80" height="60" fill="#4488ff" opacity="0.5"/>
+          <text x="140" y="95" font-size="12" fill="#ffffff">opacity=0.5</text>
+          <rect x="260" y="20" width="80" height="60" fill="#4488ff" opacity="999"/>
+          <text x="260" y="95" font-size="12" fill="#ffffff">opacity=999</text>
+        </svg>
+      </div>
+      <text class="expect">预期：负值被钳制为透明，左矩形不可见；中间正常半透明；极大值被钳制为不透明，右矩形与正常蓝色一致</text>
+    </list-item>
+
+    <!-- 022 stroke-width 超大：999 与正常 2 对比 -->
+    <list-item class="card">
+      <text class="label">022 stroke-width 超大</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <line x1="20" y1="30" x2="180" y2="30" stroke="#ff4444" stroke-width="999"/>
+          <text x="20" y="55" font-size="12" fill="#ffffff">width=999</text>
+          <line x1="20" y1="75" x2="180" y2="75" stroke="#4488ff" stroke-width="2"/>
+          <text x="20" y="100" font-size="12" fill="#ffffff">width=2</text>
+        </svg>
+      </div>
+      <text class="expect">预期：红线描边极大，被 clamp 或铺满区域；蓝线正常细描边</text>
+    </list-item>
+
+    <!-- 023 rotate 超大角度：9999 度 -->
+    <list-item class="card">
+      <text class="label">023 rotate 超大角度</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="60" y="30" width="60" height="60" fill="#66bb6a" transform="rotate(9999,90,60)"/>
+          <text x="150" y="40" font-size="12" fill="#ffffff">rotate=9999</text>
+          <rect x="250" y="30" width="60" height="60" fill="#dddddd" transform="rotate(45,280,60)"/>
+          <text x="250" y="105" font-size="12" fill="#ffffff">rotate=45</text>
+        </svg>
+      </div>
+      <text class="expect">预期：渲染不崩溃；渲染引擎对超大旋转角度做模360处理，rotate(9999)等价rotate(279°)，图形旋转姿态正确</text>
+    </list-item>
+
+    <!-- 024 scale 超大：999 倍 -->
+    <list-item class="card">
+      <text class="label">024 scale 超大</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="20" y="20" width="40" height="40" fill="#ffaa33" transform="scale(999)"/>
+          <text x="20" y="75" font-size="12" fill="#ffffff">scale=999</text>
+          <rect x="200" y="20" width="40" height="40" fill="#dddddd" transform="scale(1)"/>
+          <text x="200" y="75" font-size="12" fill="#ffffff">scale=1</text>
+        </svg>
+      </div>
+      <text class="expect">预期：scale(999)超大缩放，橙色矩形放大后超出可视范围，画面可见局部或完全消失；右侧scale=1灰色参考矩形完整正常渲染</text>
+    </list-item>
+
+    <!-- 025 translate 超大：9999 偏移 -->
+    <list-item class="card">
+      <text class="label">025 translate 超大</text>
+      <div class="svg-item">
+        <svg width="450" height="165" viewBox="0 0 420 110">
+          <rect x="20" y="20" width="50" height="50" fill="#ee6666" transform="translate(9999,0)"/>
+          <text x="20" y="85" font-size="12" fill="#ffffff">translate=9999</text>
+          <rect x="200" y="20" width="50" height="50" fill="#dddddd"/>
+          <text x="200" y="85" font-size="12" fill="#ffffff">正常位置</text>
+        </svg>
+      </div>
+      <text class="expect">预期：极大平移使矩形移出画布不可见；灰色参考矩形留在原位</text>
+    </list-item>
+
+    <!-- 026 大量图层嵌套：大量图层渲染边界 -->
+    <list-item class="card">
+      <text class="label">026 大量图层嵌套</text>
+      <div class="svg-item">
+        <svg width="450" height="225" viewBox="0 0 400 200">
+          <rect x="10" y="6" width="380" height="188" fill="#3949ab"/>
+          <rect x="17.2" y="9.4" width="365.6" height="181.2" fill="#66bb6a"/>
+          <rect x="24.4" y="12.8" width="351.2" height="174.4" fill="#3949ab"/>
+          <rect x="31.6" y="16.2" width="336.8" height="167.6" fill="#66bb6a"/>
+          <rect x="38.8" y="19.6" width="322.4" height="160.8" fill="#3949ab"/>
+          <rect x="46" y="23" width="308" height="154" fill="#66bb6a"/>
+          <rect x="53.2" y="26.4" width="293.6" height="147.2" fill="#3949ab"/>
+          <rect x="60.4" y="29.8" width="279.2" height="140.4" fill="#66bb6a"/>
+          <rect x="67.6" y="33.2" width="264.8" height="133.6" fill="#3949ab"/>
+          <rect x="74.8" y="36.6" width="250.4" height="126.8" fill="#66bb6a"/>
+          <rect x="82" y="40" width="236" height="120" fill="#3949ab"/>
+          <rect x="89.2" y="43.4" width="221.6" height="113.2" fill="#66bb6a"/>
+          <rect x="96.4" y="46.8" width="207.2" height="106.4" fill="#3949ab"/>
+          <rect x="103.6" y="50.2" width="192.8" height="99.6" fill="#66bb6a"/>
+          <rect x="110.8" y="53.6" width="178.4" height="92.8" fill="#3949ab"/>
+          <rect x="118" y="57" width="164" height="86" fill="#66bb6a"/>
+          <rect x="125.2" y="60.4" width="149.6" height="79.2" fill="#3949ab"/>
+          <rect x="132.4" y="63.8" width="135.2" height="72.4" fill="#66bb6a"/>
+          <rect x="139.6" y="67.2" width="120.8" height="65.6" fill="#3949ab"/>
+          <rect x="146.8" y="70.6" width="106.4" height="58.8" fill="#66bb6a"/>
+          <rect x="154" y="74" width="92" height="52" fill="#3949ab"/>
+          <rect x="161.2" y="77.4" width="77.6" height="45.2" fill="#66bb6a"/>
+          <rect x="168.4" y="80.8" width="63.2" height="38.4" fill="#3949ab"/>
+          <rect x="175.6" y="84.2" width="48.8" height="31.6" fill="#66bb6a"/>
+          <rect x="182.8" y="87.6" width="34.4" height="24.8" fill="#3949ab"/>
+          <rect x="190" y="91" width="20" height="18" fill="#66bb6a"/>
+          <rect x="197.2" y="94.4" width="5.6" height="11.2" fill="#3949ab"/>
+        </svg>
+      </div>
+      <text class="expect">预期：大量嵌套矩形全部完整渲染，无图层缺失，页面不卡顿</text>
+    </list-item>
+
+    <!-- 027 文本极值字号：极小/极大字号与下行字母 -->
+    <list-item class="card">
+      <text class="label">027文本极值字号</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 400 160">
+          <text x="20" y="30" font-size="4" fill="#ffffff">tiny font 4px gpqy</text>
+          <text x="20" y="60" font-size="16" fill="#ffffff">normal font gpqy</text>
+          <text x="20" y="110" font-size="60" fill="#ffffff">Big gpqy</text>
+          <text x="20" y="155" font-size="18" fill="#ffffff">Bottom line gpqy test</text>
+        </svg>
+      </div>
+      <text class="expect">预期：4px 小字、60px 大字正常渲染；gpqy 下行字母完整显示，不被画布底部裁切</text>
+    </list-item>
+
+    <!-- 028scale 负数缩放：值正确但超界（负数镜像） -->
+    <list-item class="card">
+      <text class="label">028scale 负数缩放</text>
+      <div class="svg-item">
+        <svg width="450" height="150" viewBox="0 0 420 140" if="{{play22}}">
+          <g transform="translate(120,70)">
+            <rect x="-30" y="-30" width="60" height="60" fill="#ff9933"/>
+            <animateTransform attributeName="transform" type="scale" values="1;-0.6;1" dur="3s" repeatCount="indefinite"/>
+          </g>
+          <text x="40" y="125" font-size="13" fill="#ffffff">观察方块变换效果</text>
+        </svg>
+        <svg width="450" height="150" viewBox="0 0 420 140" if="{{!play22}}">
+          <g transform="translate(120,70)">
+            <rect x="-30" y="-30" width="60" height="60" fill="#ff9933"/>
+          </g>
+          <text x="40" y="125" font-size="13" fill="#ffffff">观察方块变换效果</text>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{play22 ? '停止' : '播放'}}" class="btn" onclick="togglePlay('play22')" />
+      </div>
+      <text class="expect">预期：橙色方块以组中心循环动画，3秒周期在scale=1与scale=-0.6之间平滑过渡；scale负值产生镜像翻转效果，动画流畅无卡顿，渲染不崩溃。</text>
+    </list-item>
+
+    <!-- 029opacity 动画起止值越界：值正确但超界 -->
+    <list-item class="card">
+      <text class="label">029opacity 动画越界</text>
+      <div class="svg-item">
+        <svg width="450" height="129" viewBox="0 0 420 120" if="{{play23}}">
+          <rect id="rect3" x="40" y="30" width="80" height="60" fill="#66bb6a"/>
+          <animate href="#rect3" attributeName="opacity" from="1.3" to="-0.3" dur="2.5s" repeatCount="indefinite"/>
+          <text x="40" y="105" font-size="13" fill="#ffffff">动画区间超出 0~1</text>
+        </svg>
+        <svg width="450" height="129" viewBox="0 0 420 120" if="{{!play23}}">
+          <rect id="rect3" x="40" y="30" width="80" height="60" fill="#66bb6a"/>
+          <text x="40" y="105" font-size="13" fill="#ffffff">动画区间超出 0~1</text>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{play23 ? '停止' : '播放'}}" class="btn" onclick="togglePlay('play23')" />
+      </div>
+      <text class="expect">预期：插值得到的透明度结果钳位至合法区间，在合法区间正常动画</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,32 @@
+<!-- RM.006 边界约束-渐变边界：同色退化 / 多色无位置自动均分 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">渐变边界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 011 双色同色退化：两色相同应呈均匀纯色 -->
+    <list-item class="card">
+      <text class="label">011 两色相同退化</text>
+      <div class="stage"><div class="g-box g-same"></div></div>
+      <text class="expect">预期：整体呈均匀绿色纯色，无条纹/杂色</text>
+    </list-item>
+
+    <!-- 012 多色无位置自动均分：不写色标位置时按 W3C 标准均分 -->
+    <list-item class="card">
+      <text class="label">012 多色无位置自动均分</text>
+      <div class="stage"><div class="g-box g-even"></div></div>
+      <text class="expect">预期：红0% → 黄约33% → 绿约67% → 蓝100%，四段均匀过渡</text>
+    </list-item>
+
+    <!-- 013 偏移量乱序：80% 在 20% 之前，强制拉平为单调递增 -->
+    <list-item class="card">
+      <text class="label">013 偏移量乱序容错</text>
+      <div class="stage"><div class="g-box g-disorder"></div></div>
+      <text class="expect">预期：乱序偏移被强制拉平为单调递增，红0% → 绿 → 蓝100%，不崩溃</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

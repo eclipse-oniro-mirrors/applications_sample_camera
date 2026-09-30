@@ -1,0 +1,47 @@
+<!-- RM.009 基础用例-串行/并行动画：单 keyframes 串行 / 并行 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">串行/并行动画</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 011 单 keyframes 串行 -->
+    <list-item class="card">
+      <text class="label">011 串行动画（单 keyframes）</text>
+      <div class="stage">
+        <div if="{{rendered010}}" class="a-box a-serial" style="animation-name: {{ p010 ? 'serialAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p010 ? '结束' : '开始'}}" class="btn" onclick="toggle010" />
+      </div>
+      <text class="expect">预期：块先旋转 90 度（约1秒），旋转完成后再右移 120px（约1秒），两段先后执行</text>
+    </list-item>
+
+    <!-- 012 并行动画 -->
+    <list-item class="card">
+      <text class="label">012 并行动画 parallel</text>
+      <div class="stage">
+        <div if="{{rendered011}}" class="a-box a-parallel" style="animation-name: {{ p011 ? 'parallelAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p011 ? '结束' : '开始'}}" class="btn" onclick="toggle011" />
+      </div>
+      <text class="expect">预期：块旋转 90 度与右移 120px 同时进行，2 秒内同步完成</text>
+    </list-item>
+
+    <!-- 013 单一 keyframes 多属性复合 -->
+    <list-item class="card">
+      <text class="label">013 单一 keyframes 多属性复合</text>
+      <div class="stage">
+        <div if="{{rendered012}}" class="a-box a-multi-transform" style="animation-name: {{ p012 ? 'multiTransformAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p012 ? '结束' : '开始'}}" class="btn" onclick="toggle012" />
+      </div>
+      <text class="expect">预期：块同时右移 120px 并旋转 90 度，约2秒同步完成（单一 keyframes 内多属性）</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,132 @@
+/* RM.005 角度渐变页样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+/*  display: flex;*/
+/*  flex-direction: column;*/
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片：固定高度，lite 下不设高度会塌缩 */
+.card {
+/*  display: flex;*/
+  flex-direction: column;
+  width: 100%;
+  height: 280px;
+  background-color: #000000;
+/*  border-radius: 8px;*/
+/*  margin-top: 8px;*/
+/*  margin-bottom: 8px;*/
+/*  padding: 10px;*/
+}
+
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 渐变展示块：渐变本身是被测对象，写在 CSS 类里 */
+.g-box {
+  width: 100%;
+  height: 200px;
+}
+
+/* 005 0deg：底部 → 顶部 */
+.g-deg0 {
+  background: linear-gradient(0deg, #ff0000, #0000ff);
+}
+
+/* 006 45deg：左下 → 右上 */
+.g-deg45 {
+  background: linear-gradient(45deg, #ff0000, #0000ff);
+}
+
+/* 007 90deg：左侧 → 右侧 */
+.g-deg90 {
+  background: linear-gradient(90deg, #ff0000, #0000ff);
+}
+
+/* 008 135deg：左上 → 右下 */
+.g-deg135 {
+  background: linear-gradient(135deg, #ff0000, #0000ff);
+}
+
+/* 026 180deg：顶部 → 底部 */
+.g-deg180 {
+  background: linear-gradient(180deg, #ff0000, #0000ff);
+}
+
+/* 027 270deg：右侧 → 左侧 */
+.g-deg270 {
+  background: linear-gradient(270deg, #ff0000, #0000ff);
+}
+
+/* 028 -45deg：负角度合法，右下 → 左上（等同 315deg） */
+.g-deg-45 {
+  background: linear-gradient(-45deg, #ff0000, #0000ff);
+}
+
+/* 029 省略角度：默认 to bottom */
+.g-deg-default {
+  background: linear-gradient(#ff0000, #0000ff);
+}
+
+/* 030 rad 单位：1.5708rad ≈ 90deg */
+.g-rad {
+  background: linear-gradient(1.5708rad, #ff0000, #0000ff);
+}
+
+/* 031 turn 单位：0.25turn = 90deg */
+.g-turn {
+  background: linear-gradient(0.25turn, #ff0000, #0000ff);
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 009 参考：尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

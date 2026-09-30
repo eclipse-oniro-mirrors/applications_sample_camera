@@ -1,0 +1,20 @@
+<!-- RM.002 基础用例 分类页：三大特性入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_stroke')">
+      <text class="nav-text">SVG描边样式</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_transform')">
+      <text class="nav-text">SVG变换</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_star')">
+      <text class="nav-text">SVG星形路径</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

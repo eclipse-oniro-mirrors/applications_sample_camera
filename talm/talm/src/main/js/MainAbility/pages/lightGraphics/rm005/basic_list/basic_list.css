@@ -1,0 +1,113 @@
+/* RM.005 List 方向渐变页样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+/*  display: flex;*/
+/*  flex-direction: column;*/
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片 */
+.card {
+/*  display: flex;*/
+  flex-direction: column;
+  width: 100%;
+  height: 160px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 内部列表容器 */
+.list-wrap {
+  width: 100%;
+  height: 56px;
+}
+
+.inner-list {
+  width: 100%;
+  height: 100%;
+}
+
+/* 渐变列表项：必须显式高度 */
+.li-gradient {
+  width: 100%;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.li-text {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* 014 水平 to right */
+.li-right {
+  background: linear-gradient(to right, #ff0000, #0000ff);
+}
+
+/* 015 垂直 to bottom */
+.li-bottom {
+  background: linear-gradient(to bottom, #ff0000, #0000ff);
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 009 参考：尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

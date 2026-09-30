@@ -1,0 +1,172 @@
+/* RM.008 边界约束用例-路径边界样式 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片 */
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 210px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+/* 用例标题 */
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 单用例开始/结束按钮：独占一行放在预期文字上方（lite 卡片内行布局右顶定位会把按钮顶出屏幕） */
+.case-btn {
+  width: 72px;
+  height: 30px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.stage {
+  width: 100%;
+  height: 70px;
+}
+
+.dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #42a5f5;
+}
+
+/* 各用例 stage 的 padding 决定元素布局原位（即路径起点）：
+   lite 的 offset-path 坐标是相对元素布局原位的位移（必须 M 0 0 起步），
+   且动画元素挂载首帧按布局位置渲染——原位与路径起点重合，开始/结束才不会跳变。
+   静态对照元素不放任何 margin，与动画元素保持同一原位 */
+/* 009 零长度路径：原位 (110,35)，起止点重合 */
+.sp-zero {
+  padding-left: 110px;
+  padding-top: 35px;
+}
+
+/* 010/011/012 直线：原位 (15,35) */
+.sp-line {
+  padding-left: 15px;
+  padding-top: 35px;
+}
+
+/* 009 零长度路径 */
+.a-zero {
+  offset-path: path('M 0 0 L 0 0');
+  offset-rotate: 0deg;
+  animation-name: moveZero;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveZero {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 010 超长时长路径 */
+.a-long {
+  offset-path: path('M 0 0 L 205 0');
+  offset-rotate: 0deg;
+  animation-name: moveLong;
+  animation-duration: 8000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveLong {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 011 负数 animation-duration */
+.a-neg {
+  offset-path: path('M 0 0 L 205 0');
+  offset-rotate: 0deg;
+  animation-name: moveNeg;
+  animation-duration: -1000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveNeg {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 012 0ms animation-duration */
+.a-zero-dur {
+  offset-path: path('M 0 0 L 205 0');
+  offset-rotate: 0deg;
+  animation-name: moveZeroDur;
+  animation-duration: 0ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveZeroDur {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 尾部占位：让 list 最后一个 item 能完整显示（参考 RM.005） */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

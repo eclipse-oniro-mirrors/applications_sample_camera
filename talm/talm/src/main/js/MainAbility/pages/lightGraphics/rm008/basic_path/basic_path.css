@@ -1,0 +1,228 @@
+/* RM.008 基础用例-沿指定路径移动样式 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片 */
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 240px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+/* 用例标题 */
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 单用例开始/结束按钮：独占一行放在预期文字上方（lite 卡片内行布局右顶定位会把按钮顶出屏幕） */
+.case-btn {
+  width: 72px;
+  height: 30px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+/* 动画舞台：002/003 折线最低 y=60，加元素高度与旋转余量需 100px */
+.stage {
+  width: 100%;
+  height: 100px;
+}
+
+/* 静态小点（统一为宽扁长方形，便于与 003/005 旋转效果对比） */
+.dot {
+  width: 30px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: #42a5f5;
+}
+
+/* 静态矩形（用于沿路径旋转对照） */
+.shape {
+  width: 40px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: #42a5f5;
+}
+
+/* 宽扁长方形（宽度大于长度，用于90度旋转和贝塞尔auto用例，旋转后方向变化更明显） */
+.shape-wide {
+  width: 44px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: #42a5f5;
+}
+
+/* 各用例 stage 的 padding 决定元素布局原位（即路径起点）：
+   lite 的 offset-path 坐标是相对元素布局原位的位移（必须 M 0 0 起步），
+   且动画元素挂载首帧按布局位置渲染——原位与路径起点重合，开始/结束才不会跳变。
+   静态对照元素不放任何 margin，与动画元素保持同一原位 */
+/* 001 直线：原位 (15,35) */
+.sp-line {
+  padding-left: 15px;
+  padding-top: 35px;
+}
+
+/* 002 折线：原位 (15,15) */
+.sp-poly {
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+/* 003 旋转：原位 (20,10)，下行段预留旋转外扩余量 */
+.sp-rotate {
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+/* 004 循环矩形：原位 (15,20) */
+.sp-loop {
+  padding-left: 15px;
+  padding-top: 20px;
+}
+
+/* 005 折线90度旋转：原位 (20,25)，预留旋转后上方余量防止裁剪 */
+.sp-rotate-90 {
+  padding-left: 20px;
+  padding-top: 25px;
+}
+
+/* 001 直线路径动画关键帧 */
+@keyframes moveLine {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 001 直线路径移动 */
+.a-line {
+  offset-path: path('M 0 0 L 205 0');
+  offset-rotate: 0deg;
+  animation-name: moveLine;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 002 折线路径动画关键帧 */
+@keyframes movePoly {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 002 折线路径移动（不旋转） */
+.a-poly {
+  offset-path: path('M 0 0 L 100 0 L 100 45 L 205 45');
+  offset-rotate: 0deg;
+  animation-name: movePoly;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 003 沿路径自动旋转动画关键帧 */
+@keyframes moveRotate {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 003 沿路径自动旋转（offset-rotate: auto；折线路径才有切线变化，水平直线切线恒为 0° 看不到旋转） */
+.a-rotate {
+  offset-path: path('M 0 0 L 100 0 L 100 50 L 210 50');
+  offset-rotate: auto;
+  animation-name: moveRotate;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 005 折线固定90度旋转动画关键帧 */
+@keyframes moveRotate90 {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 005 折线固定90度旋转：offset-rotate 固定90度，验证旋转功能本身是否正常 */
+.a-rotate-90 {
+  offset-path: path('M 0 0 L 100 0 L 100 50 L 210 50');
+  offset-rotate: 90deg;
+  animation-name: moveRotate90;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 004 循环路径动画关键帧 */
+@keyframes moveLoop {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* 004 循环路径动画：矩形 Z 闭合路径 + animation-iteration-count: infinite 无限循环 */
+.a-loop {
+  offset-path: path('M 0 0 L 180 0 L 180 30 L 0 30 Z');
+  offset-rotate: 0deg;
+  animation-name: moveLoop;
+  animation-duration: 3000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 尾部占位：让 list 最后一个 item 能完整显示（参考 RM.005） */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

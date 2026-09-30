@@ -6,9 +6,7 @@
   <text class="subtitle">AceLite 功能验证</text>
   <div class="menu">
     <input class="menu-btn" type="button" value="Flex验证" onclick="goFlex" />
-    <input class="menu-btn" type="button" value="SVG验证" onclick="goSvg" />
-    <input class="menu-btn" type="button" value="动画验证" onclick="goAnimation" />
-    <input class="menu-btn" type="button" value="渐变验证" onclick="goGradient" />
+    <input class="menu-btn" type="button" value="轻图形验证" onclick="goLightGraphics" />
     <input class="menu-btn" type="button" value="页面切换动效验证" onclick="goPageAnimation" />
   </div>
 </div>

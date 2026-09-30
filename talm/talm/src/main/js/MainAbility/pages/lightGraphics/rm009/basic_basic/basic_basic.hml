@@ -1,0 +1,119 @@
+<!-- RM.009 基础用例-基础动画：透明度/放大/缩小/旋转/颜色/位移，每个动画独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础动画</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 透明度渐变 -->
+    <list-item class="card">
+      <text class="label">001 透明度渐变</text>
+      <div class="stage">
+        <div if="{{rendered001}}" class="a-box a-fade" style="animation-name: {{ p001 ? 'fadeAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p001 ? '结束' : '开始'}}" class="btn" onclick="toggle001" />
+      </div>
+      <text class="expect">预期：开始后块从半透明(0.1)渐变到不透明(1)，结束后复位</text>
+    </list-item>
+
+    <!-- 002 缩放动画（放大） -->
+    <list-item class="card">
+      <text class="label">002 缩放动画（放大）</text>
+      <div class="stage">
+        <div if="{{rendered002}}" class="a-box a-scale" style="animation-name: {{ p002 ? 'scaleAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p002 ? '结束' : '开始'}}" class="btn" onclick="toggle002" />
+      </div>
+      <text class="expect">预期：开始后块从原始大小放大到 1.5 倍，结束后复位</text>
+    </list-item>
+
+    <!-- 003 缩放动画（缩小） -->
+    <list-item class="card">
+      <text class="label">003 缩放动画（缩小）</text>
+      <div class="stage">
+        <div if="{{rendered003}}" class="a-box a-shrink" style="animation-name: {{ p003 ? 'shrinkAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p003 ? '结束' : '开始'}}" class="btn" onclick="toggle003" />
+      </div>
+      <text class="expect">预期：开始后块从原始大小缩小到 0.5 倍，结束后复位</text>
+    </list-item>
+
+    <!-- 004 旋转动画 -->
+    <list-item class="card">
+      <text class="label">004 旋转动画</text>
+      <div class="stage">
+        <div if="{{rendered004}}" class="a-box a-rotate" style="animation-name: {{ p004 ? 'rotateAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p004 ? '结束' : '开始'}}" class="btn" onclick="toggle004" />
+      </div>
+      <text class="expect">预期：开始后块绕中心从 0 度平滑旋转到 90 度，结束后复位</text>
+    </list-item>
+
+    <!-- 005 颜色渐变 -->
+    <list-item class="card">
+      <text class="label">005 颜色渐变</text>
+      <div class="stage">
+        <div if="{{rendered005}}" class="a-box a-color" style="animation-name: {{ p005 ? 'colorAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p005 ? '结束' : '开始'}}" class="btn" onclick="toggle005" />
+      </div>
+      <text class="expect">预期：开始后块背景色从红色渐变到蓝色，结束后恢复红色</text>
+    </list-item>
+
+    <!-- 006 位移动画 -->
+    <list-item class="card">
+      <text class="label">006 位移动画</text>
+      <div class="stage">
+        <div if="{{rendered006}}" class="a-box a-move" style="animation-name: {{ p006 ? 'moveAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p006 ? '结束' : '开始'}}" class="btn" onclick="toggle006" />
+      </div>
+      <text class="expect">预期：开始后块从左侧匀速右移 120px，结束后回到原位</text>
+    </list-item>
+
+    <!-- 007 纵向位移动画 -->
+    <list-item class="card">
+      <text class="label">007 纵向位移动画</text>
+      <div class="stage">
+        <div if="{{rendered007}}" class="a-box a-move-y" style="animation-name: {{ p007 ? 'moveYAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p007 ? '结束' : '开始'}}" class="btn" onclick="toggle007" />
+      </div>
+      <text class="expect">预期：开始后块从中心匀速下移 60px，约2秒完成；结束后回到原位</text>
+    </list-item>
+
+    <!-- 008 ease-in-out 缓动 -->
+    <list-item class="card">
+      <text class="label">008 ease-in-out 缓动</text>
+      <div class="stage">
+        <div if="{{rendered008}}" class="a-box a-ease-in-out" style="animation-name: {{ p008 ? 'moveAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p008 ? '结束' : '开始'}}" class="btn" onclick="toggle008" />
+      </div>
+      <text class="expect">预期：开始后块先慢后快再慢地右移 120px，约2秒完成；结束后回到原位</text>
+    </list-item>
+
+    <!-- 013 动画延迟 -->
+    <list-item class="card">
+      <text class="label">013 动画延迟 2s</text>
+      <div class="stage">
+        <div if="{{rendered013}}" class="a-box a-delay" style="animation-name: {{ p013 ? 'moveAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p013 ? '结束' : '开始'}}" class="btn" onclick="toggle013" />
+      </div>
+      <text class="expect">预期：点击开始 2 秒后块才开始右移，动画约 2 秒完成；结束后复位</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

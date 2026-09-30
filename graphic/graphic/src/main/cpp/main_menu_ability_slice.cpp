@@ -28,7 +28,7 @@ MainMenuAbilitySlice::~MainMenuAbilitySlice()
 {
     // 先解除菜单项对 listener 的引用并释放 listener，再销毁视图树，
     // 防止视图树销毁过程中触发回调访问已释放的 listener
-    for (int16_t i = 0; i < menuItemCount; i++) {
+    for (int16_t i = 0; i < menuItemCount_; i++) {
         if (itemViews_[i] != nullptr) {
             itemViews_[i]->SetOnClickListener(nullptr);
         }
@@ -67,14 +67,23 @@ void MainMenuAbilitySlice::SetupContent(UIViewGroup* content)
         const char* target;
     };
 
-    const MenuItem items[menuItemCount] = {
-        { "Button组件验证", "ButtonDemoAbilitySlice" },
-        { "Scroller组件验证", "ScrollerDemoAbilitySlice" },
-        { "Switch组件验证", "SwitchDemoAbilitySlice" },
-        { "Slider组件验证", "SliderDemoAbilitySlice" },
-    };
+    MenuItem items[menuItemMaxCount];
+    int16_t count = 0;
+#if defined(GRAPHIC_ENABLE_BUTTON_FLAG) && GRAPHIC_ENABLE_BUTTON_FLAG
+    items[count++] = { "Button 组件验证", "ButtonRmTestSlice" };
+#endif
+#if defined(GRAPHIC_ENABLE_SCROLL_FLAG) && GRAPHIC_ENABLE_SCROLL_FLAG
+    items[count++] = { "Scroller 组件验证", "ScrollerRmTestSlice" };
+#endif
+#if defined(GRAPHIC_ENABLE_SWITCH_FLAG) && GRAPHIC_ENABLE_SWITCH_FLAG
+    items[count++] = { "Switch 组件验证", "SwitchRmTestSlice" };
+#endif
+#if defined(GRAPHIC_ENABLE_SLIDER_FLAG) && GRAPHIC_ENABLE_SLIDER_FLAG
+    items[count++] = { "Slider 组件验证", "SliderRmTestSlice" };
+#endif
+    menuItemCount_ = count;
 
-    for (int16_t i = 0; i < menuItemCount; i++) {
+    for (int16_t i = 0; i < menuItemCount_; i++) {
         int16_t itemY = menuItemStartY + i * (menuItemHeight + menuItemGap);
         AddMenuItem(items[i].title, items[i].target, itemY, i);
     }

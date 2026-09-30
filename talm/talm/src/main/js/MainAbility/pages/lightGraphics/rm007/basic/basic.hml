@@ -1,0 +1,20 @@
+<!-- RM.007 基础用例 分类页：基础转场/共享元素转场/延迟转场 入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_trans')">
+      <text class="nav-text">基础转场（001~006）</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_shared')">
+      <text class="nav-text">共享元素转场（007）</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_delay')">
+      <text class="nav-text">延迟转场（008）</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

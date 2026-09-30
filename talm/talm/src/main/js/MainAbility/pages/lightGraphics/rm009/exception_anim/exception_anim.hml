@@ -1,0 +1,109 @@
+<!-- RM.009 异常场景用例-非法动画容错：多组异常值安全降级测试 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">非法动画容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 016 非法动画属性 -->
+    <list-item class="card">
+      <text class="label">016 非法 duration / timing-function</text>
+      <div class="stage">
+        <div if="{{rendered016}}" class="a-box a-invalid" style="animation-duration: {{ badDuration }}; animation-timing-function: {{ badTiming }}; animation-name: {{ p016 ? 'moveAnim' : 'none' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p016 ? '结束' : '开始'}}" class="btn" onclick="toggle016" />
+      </div>
+      <text class="expect">预期：非法值被忽略，块显示灰底停在原位</text>
+    </list-item>
+
+    <!-- 017 负数动画时长 -->
+    <list-item class="card">
+      <text class="label">017 负数动画时长</text>
+      <div class="stage">
+        <div if="{{rendered017}}" class="a-box a-invalid" style="animation-duration: {{ negativeDuration }}; animation-name: {{ p017 ? 'moveAnim' : 'none' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p017 ? '结束' : '开始'}}" class="btn" onclick="toggle017" />
+      </div>
+      <text class="expect">预期：负数时长被忽略或取 0，块不移动</text>
+    </list-item>
+
+    <!-- 018 极大动画时长 -->
+    <list-item class="card">
+      <text class="label">018 极大动画时长</text>
+      <div class="stage">
+        <div if="{{rendered018}}" class="a-box a-invalid" style="animation-duration: {{ hugeDuration }}; animation-name: {{ p018 ? 'moveAnim' : 'none' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p018 ? '结束' : '开始'}}" class="btn" onclick="toggle018" />
+      </div>
+      <text class="expect">预期：极大时长动画正常执行，页面不卡死</text>
+    </list-item>
+
+    <!-- 019 负数迭代次数 -->
+    <list-item class="card">
+      <text class="label">019 负数迭代次数</text>
+      <div class="stage">
+        <div if="{{rendered019}}" class="a-box a-invalid" style="animation-iteration-count: {{ negativeIter }}; animation-name: {{ p019 ? 'moveAnim' : 'none' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p019 ? '结束' : '开始'}}" class="btn" onclick="toggle019" />
+      </div>
+      <text class="expect">预期：负数迭代按一次执行，块移动一次</text>
+    </list-item>
+
+    <!-- 020 超界透明度 -->
+    <list-item class="card">
+      <text class="label">020 超界透明度 (opacity: 2)</text>
+      <div class="stage">
+        <div if="{{rendered020}}" class="a-box a-invalid" style="animation-name: {{ p020 ? 'moveAnim' : 'none' }};">
+          <div class="a-opacity-box" style="opacity: {{ hugeOpacity }};"></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p020 ? '结束' : '开始'}}" class="btn" onclick="toggle020" />
+      </div>
+      <text class="expect">预期：超界透明度被截断到 0~1，块可见且动画正常</text>
+    </list-item>
+
+    <!-- 021 超界缩放 -->
+    <list-item class="card">
+      <text class="label">021 超界缩放 (scale: 9999)</text>
+      <div class="stage">
+        <div if="{{rendered021}}" class="a-box a-invalid" style="animation-name: {{ p021 ? 'scaleAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p021 ? '结束' : '开始'}}" class="btn" onclick="toggle021" />
+      </div>
+      <text class="expect">预期：正常放大，页面不崩溃</text>
+    </list-item>
+
+    <!-- 022 迭代次数 0 -->
+    <list-item class="card">
+      <text class="label">022 迭代次数 0</text>
+      <div class="stage">
+        <div if="{{rendered022}}" class="a-box a-invalid" style="animation-name: {{ p022 ? 'moveAnim' : 'none' }}; animation-iteration-count: {{ p022 ? '0' : '1' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p022 ? '结束' : '开始'}}" class="btn" onclick="toggle022" />
+      </div>
+      <text class="expect">预期：迭代 0 次，块不移动</text>
+    </list-item>
+
+    <!-- 023 无限迭代次数 -->
+    <list-item class="card">
+      <text class="label">023 无限迭代次数 (infinite)</text>
+      <div class="stage">
+        <div if="{{rendered023}}" class="a-box a-invalid" style="animation-name: {{ p023 ? 'moveAnim' : 'none' }}; animation-iteration-count: {{ p023 ? 'infinite' : '1' }};"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p023 ? '结束' : '开始'}}" class="btn" onclick="toggle023" />
+      </div>
+      <text class="expect">预期：无限循环播放，点击结束停止</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

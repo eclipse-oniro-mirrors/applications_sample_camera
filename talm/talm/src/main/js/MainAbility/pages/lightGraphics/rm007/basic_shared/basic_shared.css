@@ -1,0 +1,155 @@
+/* RM.007 共享元素转场页样式 — 007，按开发 demo 重写 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 340px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+  align-items: center;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 转场舞台：300×150，和基础转场保持一致 */
+.stage {
+  position: relative;
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 两个面板绝对定位叠放，填满舞台 */
+.panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-text {
+  width: 100%;
+  height: 60px;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* 视图A：红色背景 */
+.panel-a {
+  background-color: #ff5555;
+}
+
+/* 视图B：绿色背景，默认隐藏 */
+.panel-b {
+  background-color: #55ff77;
+  display: none;
+}
+
+/* 共享元素 — 黄色圆形星星，初始位置 30,30，尺寸 40×40 */
+.shared-star {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffff00;
+  border-radius: 20px;
+}
+
+.btn-row {
+  width: 100%;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* 尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}
+
+/* 共享元素转场配置 */
+.shared-stage {
+  transition-effect: shared-element;
+  transition-duration: 600;
+  transition-timing-function: ease-in-out;
+}

@@ -1,0 +1,35 @@
+<!-- RM.009 边界约束用例-动画边界：时长 0ms / 缩放至 0 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">动画边界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 014 时长 0ms -->
+    <list-item class="card">
+      <text class="label">014 动画时长 0ms</text>
+      <div class="stage">
+        <div if="{{rendered014}}" class="a-box a-zero" style="animation-name: {{ p014 ? 'moveAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p014 ? '结束' : '开始'}}" class="btn" onclick="toggle014" />
+      </div>
+      <text class="expect">预期：0ms 不产生动画，块保持原位，页面无异常</text>
+    </list-item>
+
+    <!-- 015 缩放至 0 -->
+    <list-item class="card">
+      <text class="label">015 缩放至 0</text>
+      <div class="stage">
+        <div if="{{rendered015}}" class="a-box a-scale-zero" style="animation-name: {{ p015 ? 'scaleZeroAnim' : 'none' }}"></div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{p015 ? '结束' : '开始'}}" class="btn" onclick="toggle015" />
+      </div>
+      <text class="expect">预期：块从原始大小逐渐缩小直至消失，无花屏/崩溃</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

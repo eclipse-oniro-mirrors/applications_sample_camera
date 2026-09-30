@@ -1,0 +1,80 @@
+<!-- RM.005 基础用例-角度渐变：deg 全象限 / 负角度 / 默认省略 / rad / turn -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">角度渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+  <list class="content">
+    <!-- 005 0deg：等同 to top，底部红 → 顶部蓝 -->
+    <list-item class="card">
+      <text class="label">009 角度 0deg</text>
+      <div class="g-box g-deg0"></div>
+      <text class="expect">预期：底部红 → 顶部蓝（与 to top 等价）</text>
+    </list-item>
+
+    <!-- 006 45deg：等同 to top right，左下红 → 右上蓝 -->
+    <list-item class="card">
+      <text class="label">010 角度 45deg</text>
+      <div class="g-box g-deg45"></div>
+      <text class="expect">预期：左下角红 → 右上角蓝（与 to top right 等价）</text>
+    </list-item>
+
+    <!-- 007 90deg：等同 to right，左侧红 → 右侧蓝 -->
+    <list-item class="card">
+      <text class="label">011 角度 90deg</text>
+      <div class="g-box g-deg90"></div>
+      <text class="expect">预期：左侧红 → 右侧蓝（与 to right 等价）</text>
+    </list-item>
+
+    <!-- 008 135deg：等同 to bottom right，左上红 → 右下蓝 -->
+    <list-item class="card">
+      <text class="label">012 角度 135deg</text>
+      <div class="g-box g-deg135"></div>
+      <text class="expect">预期：左上角红 → 右下角蓝（与 to bottom right 等价）</text>
+    </list-item>
+
+    <!-- 026 180deg：等同 to bottom，顶部红 → 底部蓝 -->
+    <list-item class="card">
+      <text class="label">013 角度 180deg</text>
+      <div class="g-box g-deg180"></div>
+      <text class="expect">预期：顶部红 → 底部蓝（与 to bottom 等价）</text>
+    </list-item>
+
+    <!-- 027 270deg：等同 to left，右侧红 → 左侧蓝 -->
+    <list-item class="card">
+      <text class="label">014 角度 270deg</text>
+      <div class="g-box g-deg270"></div>
+      <text class="expect">预期：右侧红 → 左侧蓝（与 to left 等价）</text>
+    </list-item>
+
+    <!-- 028 -45deg：负角度合法，等同 315deg / to top left，右下红 → 左上蓝 -->
+    <list-item class="card">
+      <text class="label">015 角度 -45deg</text>
+      <div class="g-box g-deg-45"></div>
+      <text class="expect">预期：右下角红 → 左上角蓝（与 315deg / to top left 等价）</text>
+    </list-item>
+
+    <!-- 029 省略角度：默认 to bottom，顶部红 → 底部蓝 -->
+    <list-item class="card">
+      <text class="label">016 省略角度（默认）</text>
+      <div class="g-box g-deg-default"></div>
+      <text class="expect">预期：顶部红 → 底部蓝（省略时默认 to bottom，与 180deg 视觉一致）</text>
+    </list-item>
+
+    <!-- 030 rad 单位：1.5708rad ≈ 90deg，左侧红 → 右侧蓝 -->
+    <list-item class="card">
+      <text class="label">017 角度 1.5708rad</text>
+      <div class="g-box g-rad"></div>
+      <text class="expect">预期：左侧红 → 右侧蓝（rad 单位，约等于 90deg）</text>
+    </list-item>
+
+    <!-- 031 turn 单位：0.25turn = 90deg，左侧红 → 右侧蓝 -->
+    <list-item class="card">
+      <text class="label">018 角度 0.25turn</text>
+      <div class="g-box g-turn"></div>
+      <text class="expect">预期：左侧红 → 右侧蓝（turn 单位，等于 90deg）</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

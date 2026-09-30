@@ -1,0 +1,101 @@
+<!-- RM.003 异常场景-非法与边界容错：属性值非法（类型错误、无法解析、非法命令） -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">异常场景-非法与边界容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 027 非法内容容错：合法元素须正常显示，非法部分被忽略或安全降级 -->
+    <list-item class="card">
+      <text class="label">027非法内容容错</text>
+      <div class="svg-item">
+        <svg width="450" height="225" viewBox="0 0 300 150">
+          <!-- 合法矩形：必须正常显示 -->
+          <rect x="20" y="20" width="120" height="50" fill="#4488ff"/>
+          <!-- 非法圆心坐标：cx 不是数字 -->
+          <circle cx="abc" cy="45" r="25" fill="#ff4444"/>
+          <!-- 失效引用：渐变 notexist 未定义 -->
+          <rect x="160" y="20" width="120" height="50" fill="url(#notexist)"/>
+          <!-- 未知路径命令：X 不是合法命令 -->
+          <path d="M20,100 X60,120 L100,100" fill="none" stroke="#44aa44" stroke-width="3"/>
+          <!-- 合法文本：必须正常显示 -->
+          <text x="230" y="130" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色矩形完整正常显示，cx="abc" 的 circle 渲染出红色半圆贴在画布最左边，fill="url (#notexist)" 矩形完全看不见，path 遇到非法 X 命令没有绘制任何线条，OK 文字正常显示。</text>
+    </list-item>
+
+    <!-- 028 渐变定义异常：非法 offset -->
+    <list-item class="card">
+      <text class="label">028渐变定义异常</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <defs>
+            <!-- 非法 offset -->
+            <linearGradient id="gBad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="abc" stop-color="#00ff00"/>
+              <stop offset="100%" stop-color="#0000ff"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="20" width="120" height="40" fill="url(#gBad2)"/>
+          <rect x="160" y="20" width="120" height="40" fill="#ffaa00"/>
+          <text x="160" y="95" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：offset="abc"解析失败，该stop钳制；渐变绿色-蓝色正常显示；黄色基准矩形、OK正常显示</text>
+    </list-item>
+
+    <!-- 029 形状非法尺寸：width="abc" / r="abc" -->
+    <list-item class="card">
+      <text class="label">029形状非法尺寸</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <!-- 非法宽 -->
+          <rect x="30" y="20" width="abc" height="40" fill="#4488ff"/>
+          <!-- 非法半径 -->
+          <circle cx="150" cy="40" r="abc" fill="#ff4444"/>
+          <!-- 正常基准 -->
+          <rect x="30" y="70" width="80" height="35" fill="#ffaa00"/>
+          <text x="160" y="95" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：非法尺寸被忽略或降级，不可见；黄色矩形与 OK 正常显示</text>
+    </list-item>
+
+    <!-- 030 渐变坐标非法：非法百分比被忽略 -->
+    <list-item class="card">
+      <text class="label">030渐变坐标非法</text>
+      <div class="svg-item">
+        <svg width="450" height="150" viewBox="0 0 300 100">
+          <defs>
+            <linearGradient id="gBad3" x1="abc" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff0000"/>
+              <stop offset="100%" stop-color="#0000ff"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="20" width="120" height="40" fill="url(#gBad3)"/>
+          <rect x="160" y="20" width="120" height="40" fill="#ffaa00"/>
+          <text x="160" y="80" font-size="14" fill="#ffffff">OK</text>
+        </svg>
+      </div>
+      <text class="expect">预期：x1="abc"解析失败，使用linearGradient x1默认值0%，渐变正常红‑蓝水平渐变；黄色矩形、OK正常显示</text>
+    </list-item>
+
+    <!-- 031 形状非法颜色：fill="abc" -->
+    <list-item class="card">
+      <text class="label">031形状非法颜色</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <rect x="20" y="20" width="80" height="60" fill="abc"/>
+          <text x="20" y="95" font-size="12" fill="#ffffff">fill=abc</text>
+          <rect x="140" y="20" width="80" height="60" fill="#4488ff"/>
+          <text x="140" y="95" font-size="12" fill="#ffffff">正常</text>
+        </svg>
+      </div>
+      <text class="expect">预期：非法颜色无法解析，被降级为默认黑色或透明；蓝色正常矩形正常显示</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

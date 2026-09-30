@@ -1,0 +1,116 @@
+<!-- RM.001 基础用例-SVG文本绘制：不同字号 / 不同颜色 / 标准对比 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">SVG文本绘制</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 005 不同字号：8/16/24/36/48 五档 -->
+    <list-item class="card">
+      <text class="label">005 不同字号</text>
+      <div class="svg-item">
+        <svg width="540" height="390" viewBox="0 0 360 260">
+          <text x="10" y="30" font-size="8" fill="#ffffff">8px SVG测试</text>
+          <text x="10" y="60" font-size="16" fill="#ffffff">16px SVG测试</text>
+          <text x="10" y="100" font-size="24" fill="#ffffff">24px SVG测试</text>
+          <text x="10" y="150" font-size="36" fill="#ffffff">36px SVG测试</text>
+          <text x="10" y="200" font-size="48" fill="#ffffff">48px测试</text>
+        </svg>
+      </div>
+      <text class="expect">预期：5档字号（8/16/24/36/48 px）文字完整清晰，无截断或渲染错误</text>
+    </list-item>
+
+    <!-- 006 不同颜色：颜色关键字/十六进制/rgb -->
+    <list-item class="card">
+      <text class="label">006 不同颜色</text>
+      <div class="svg-item">
+        <svg width="450" height="225" viewBox="0 0 300 150">
+          <text x="10" y="40" font-size="18" fill="#ff0000">red 关键字</text>
+          <text x="10" y="80" font-size="18" fill="#00aa00">#00aa00 十六进制</text>
+          <text x="10" y="120" font-size="18" fill="rgb(0,0,255)">rgb(0,0,255)</text>
+        </svg>
+      </div>
+      <text class="expect">预期：红（red关键字）、绿（#00aa00）、蓝（rgb(0,0,255)）三行文字颜色与定义一致</text>
+    </list-item>
+
+    <!-- 007 标准对比：非标准 value 属性 vs 标准标签内容（两者均应正常渲染） -->
+    <list-item class="card">
+      <text class="label">007 标准对比：value属性 vs 标签内容</text>
+      <div class="svg-item">
+        <svg width="450" height="240" viewBox="0 0 400 160">
+          <!-- 左侧：非标准 value 属性（开发工程写法，网页可正常渲染） -->
+          <text x="10" y="40" font-size="16" fill="#e53935" value="非标准value属性"></text>
+          <!-- 右侧：标准标签内容 -->
+          <text x="200" y="40" font-size="16" fill="#4488ff">标准标签内容</text>
+          <text x="10" y="90" font-size="14" fill="#ffffff">说明：SVG标准未定义value属性，</text>
+          <text x="10" y="120" font-size="14" fill="#ffffff">但部分引擎可兼容渲染</text>
+        </svg>
+      </div>
+      <text class="expect">预期：左侧红色文字（非标准value属性）与右侧蓝色文字（标准标签内容）均正常显示，两种写法渲染结果一致</text>
+    </list-item>
+    <!-- 008 tspan 文本子元素：同一 text 内嵌不同样式 tspan -->
+    <list-item class="card">
+      <text class="label">008 tspan文本子元素</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <text x="10" y="40" font-size="18" fill="#ffffff">
+            <tspan x="10" y="40" value="红色"/>
+            <tspan x="50" y="40" value="放大" fill="#ff4444" font-size="24"/>
+            <tspan x="110" y="40" value="蓝色" fill="#4488ff"/>
+          </text>
+          <text x="10" y="85" font-size="16" fill="#ffffff">
+            <tspan x="10" y="85" value="正常"/>
+            <tspan x="50" y="85" value="绿色" fill="#44cc44"/>
+            <tspan x="130" y="85" value="正常"/>
+          </text>
+        </svg>
+      </div>
+      <text class="expect">预期：同一 text 标签内 tspan 可独立设置颜色、字号，样式继承与覆盖正确，文字排列无错位</text>
+    </list-item>
+
+    <!-- 009 text-anchor 对齐：start / middle / end 三行对比 -->
+    <list-item class="card">
+      <text class="label">009 text-anchor对齐</text>
+      <div class="svg-item">
+        <svg width="450" height="200" viewBox="0 0 300 160">
+          <line x1="150" y1="10" x2="150" y2="150" stroke="#aaaaaa" stroke-width="1" stroke-dasharray="4 2"/>
+          <text x="150" y="40" font-size="18" fill="#ff4444" text-anchor="start">start左对齐</text>
+          <text x="150" y="80" font-size="18" fill="#44cc44" text-anchor="middle">middle居中</text>
+          <text x="150" y="120" font-size="18" fill="#4488ff" text-anchor="end">end右对齐</text>
+        </svg>
+      </div>
+      <text class="expect">预期：三条文字以同一条垂直虚线为基准，分别左对齐、居中、右对齐，位置准确无偏移</text>
+    </list-item>
+
+    <!-- 010 textArea 多行文本区域：指定宽高自动换行 -->
+    <list-item class="card">
+      <text class="label">010 textArea多行文本</text>
+      <div class="svg-item">
+        <svg width="450" height="200" viewBox="0 0 300 160">
+          <rect x="20" y="20" width="260" height="120" fill="#f5f5f5" stroke="#cccccc" stroke-width="1"/>
+          <textArea x="25" y="40" width="250" height="110" font-size="14" fill="#000000" value="这是一段多行文本，用于验证 textArea
+           在指定宽高范围内的自动换行与渲染能力。"/>
+        </svg>
+      </div>
+      <text class="expect">预期：文字在指定矩形区域内自动换行，多行文本完整显示，不溢出边界</text>
+    </list-item>
+
+    <!-- 011 tref 文本引用：引用外部 text 元素内容 -->
+    <list-item class="card">
+      <text class="label">011 tref文本引用</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <text id="refText" x="10" y="40" font-size="16" fill="#ff4444" value="被引用的原文"/>
+          <text x="10" y="85" font-size="16" fill="#4488ff">
+            <tref xlink:href="#refText"/>
+          </text>
+          <text x="10" y="110" font-size="12" fill="#ffffff">蓝色行通过 tref 引用上方红色文字内容</text>
+        </svg>
+      </div>
+      <text class="expect">预期：蓝色行文字内容与上方红色行完全一致，tref 引用解析正确，文字正常渲染</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

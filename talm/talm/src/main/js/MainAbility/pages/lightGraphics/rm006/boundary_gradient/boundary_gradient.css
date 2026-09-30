@@ -1,0 +1,109 @@
+/* RM.006 渐变边界页样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+/*  display: flex;*/
+/*  flex-direction: column;*/
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片：固定高度，lite 下不设高度会塌缩 */
+.card {
+/*  display: flex;*/
+  flex-direction: column;
+  width: 100%;
+  height: 310px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 渐变展示块：渐变本身是被测对象，写在 CSS 类里 */
+.g-box {
+  width: 100%;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+/* 011 两色相同：退化为纯色 */
+.g-same {
+  background: linear-gradient(to right, #44aa44, #44aa44);
+}
+
+/* 012 四色不写位置：按 W3C 标准自动均分（0%/33.3%/66.7%/100%） */
+.g-even {
+  background: linear-gradient(to right, #ff0000, #ffeb3b, #44aa44, #0000ff);
+}
+
+/* 013 偏移量乱序：0% 80% 20% 100%，实现应强制拉平为单调递增 */
+.g-disorder {
+  background: linear-gradient(to right, #ff0000 0%, #00ff00 80%, #0000ff 20%, #ff00ff 100%);
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 009 参考：stage 容器给固定高度，防止子元素塌缩 */
+.stage {
+  width: 100%;
+  height: 200px;
+  min-height: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 009 参考：尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

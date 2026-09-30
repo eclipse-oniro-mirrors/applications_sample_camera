@@ -1,0 +1,161 @@
+/* RM.009 弹跳插值动画页样式 — 参考 RM007 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #1a1a2e;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 72px;
+  height: 40px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 440px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 动画舞台：固定 300×190（两行），黑色背景 */
+.stage {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #16213e;
+  border-radius: 10px;
+}
+
+/* 单条轨道 */
+.track {
+  width: 100%;
+  height: 84px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-row {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+.a-box {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+@keyframes bounceRight {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(180px); }
+  55%  { transform: translateX(70px); }
+  70%  { transform: translateX(145px); }
+  80%  { transform: translateX(95px); }
+  88%  { transform: translateX(130px); }
+  94%  { transform: translateX(110px); }
+  100% { transform: translateX(120px); }
+}
+
+@keyframes linearRight {
+  from { transform: translateX(0px); }
+  to   { transform: translateX(120px); }
+}
+
+.a-bounce {
+  transform: translateX(0);
+  background-color: #ab47bc;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.a-linear {
+  transform: translateX(0px);
+  background-color: #42a5f5;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

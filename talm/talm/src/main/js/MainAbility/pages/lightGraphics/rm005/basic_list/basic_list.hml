@@ -1,0 +1,36 @@
+<!-- RM.005 基础用例-List 方向渐变：验证 list-item 元素支持背景渐变 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">List 方向渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 014 list-item 水平方向渐变 -->
+    <list-item class="card">
+      <text class="label">021 List-item 水平 to right</text>
+      <div class="list-wrap">
+        <list class="inner-list">
+          <list-item class="li-gradient li-right">
+            <text class="li-text">水平渐变项</text>
+          </list-item>
+        </list>
+      </div>
+      <text class="expect">预期：列表项背景左侧红 → 右侧蓝，水平方向平滑渐变</text>
+    </list-item>
+
+    <!-- 015 list-item 垂直方向渐变 -->
+    <list-item class="card">
+      <text class="label">022 List-item 垂直 to bottom</text>
+      <div class="list-wrap">
+        <list class="inner-list">
+          <list-item class="li-gradient li-bottom">
+            <text class="li-text">垂直渐变项</text>
+          </list-item>
+        </list>
+      </div>
+      <text class="expect">预期：列表项背景顶部红 → 底部蓝，垂直方向平滑渐变</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>
