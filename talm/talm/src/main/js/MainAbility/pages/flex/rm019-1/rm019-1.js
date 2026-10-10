@@ -1,53 +1,7 @@
 import router from '@system.router';
 
-const baseData = {
-    // Flex容器配置
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    flexWrap: 'nowrap',
-    boxOverflow: 'visible',
-};
-
-const itemData = {
-    // Flex子项配置（红色item1生效）
-    itemGrow: 0,
-    itemShrink: 0,
-
-    itemWidth: '50px',
-    itemHeight: '50px',
-    itemDisplay: 'flex',
-    itemDisplay4to6: 'flex',
-    c2ItemDisplay4to11: 'flex',
-    c2BoxDisplay: 'flex',
-};
-
-const constraintData = {
-    // 尺寸约束
-    item1MinWidth: undefined,
-    item2MinWidth: undefined,
-    item3MinWidth: undefined,
-    item4MinWidth: undefined,
-    item5MinWidth: undefined,
-    item1MaxWidth: undefined,
-    item2MaxWidth: undefined,
-    item3MaxWidth: undefined,
-    item4MaxWidth: undefined,
-    item5MaxWidth: undefined,
-    item1MinHeight: undefined,
-    item2MinHeight: undefined,
-    item3MinHeight: undefined,
-    item4MinHeight: undefined,
-    item5MinHeight: undefined,
-
-    // 容器2高频测试变量
-    c2Item1MinWidth: undefined,
-    c2Item1Shrink: 0,
-    c2Item2MaxWidth: undefined,
-    c2Item2Grow: 0,
-    c2Item3MinHeight: undefined,
-};
-
-const stateData = {
+function createStateData() {
+    return {
     // 高频切换选中状态
     isAutoMinWidthShrink: false,
     isAutoMaxWidthGrow: false,
@@ -71,11 +25,59 @@ const stateData = {
     idxC2ItemDisplay4to11: -1,
     idxC2BoxDisplay: -1,
     idxSizeConstraint: -1,
-};
+    };
+}
 
 export default {
     data() {
-        return Object.assign({}, baseData, itemData, constraintData, stateData);
+        const data = {
+            // Flex容器配置
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            flexWrap: 'nowrap',
+            boxOverflow: 'visible',
+
+            // Flex子项配置（红色item1生效）
+            itemGrow: 0,
+            itemShrink: 0,
+
+            itemWidth: '50px',
+            itemHeight: '50px',
+            itemDisplay: 'flex',
+            itemDisplay4to6: 'flex',
+            c2ItemDisplay4to11: 'flex',
+            c2BoxDisplay: 'flex',
+
+            // 尺寸约束
+            item1MinWidth: undefined,
+            item2MinWidth: undefined,
+            item3MinWidth: undefined,
+            item4MinWidth: undefined,
+            item5MinWidth: undefined,
+            item1MaxWidth: undefined,
+            item2MaxWidth: undefined,
+            item3MaxWidth: undefined,
+            item4MaxWidth: undefined,
+            item5MaxWidth: undefined,
+            item1MinHeight: undefined,
+            item2MinHeight: undefined,
+            item3MinHeight: undefined,
+            item4MinHeight: undefined,
+            item5MinHeight: undefined,
+
+            // 容器2高频测试变量
+            c2Item1MinWidth: undefined,
+            c2Item1Shrink: 0,
+            c2Item2MaxWidth: undefined,
+            c2Item2Grow: 0,
+            c2Item3MinHeight: undefined,
+
+        };
+        const state = createStateData();
+        Object.keys(state).forEach(key => {
+            data[key] = state[key];
+        });
+        return data;
     },
     onShow() {
         // 页面进来默认每行选中第一个
