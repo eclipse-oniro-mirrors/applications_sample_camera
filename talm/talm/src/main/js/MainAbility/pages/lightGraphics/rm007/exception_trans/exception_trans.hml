@@ -1,0 +1,79 @@
+<!-- RM.007 异常场景用例-非法转场容错：013~015，新写法 show + startTransition -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">非法转场容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 013 非法 transition-effect -->
+    <list-item class="card">
+      <text class="label">013 非法 transition-effect</text>
+      <div ref="st013" class="stage t-bad-effect">
+        <div ref="a013" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b013" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch013" />
+      </div>
+      <text class="expect">预期：非法 effect 被忽略或降级，仍能正常切换，页面不崩溃</text>
+    </list-item>
+
+    <!-- 014 非法 transition-timing-function -->
+    <list-item class="card">
+      <text class="label">014 非法 transition-timing-function</text>
+      <div ref="st014" class="stage t-bad-ease">
+        <div ref="a014" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b014" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch014" />
+      </div>
+      <text class="expect">预期：非法 timing-function 被忽略或降级，仍能正常切换，页面不崩溃</text>
+    </list-item>
+
+    <!-- 015 非法 transition-duration -->
+    <list-item class="card">
+      <text class="label">015 非法 transition-duration</text>
+      <div ref="st015" class="stage t-bad-dur">
+        <div ref="a015" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b015" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch015" />
+      </div>
+      <text class="expect">预期：非法 duration 被忽略或降级，仍能正常切换，页面不崩溃</text>
+    </list-item>
+
+    <!-- 016 duration 不带单位 -->
+    <list-item class="card">
+      <text class="label">016 duration 不带单位</text>
+      <div ref="st016" class="stage t-no-unit">
+        <div ref="a016" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="b016" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switch016" />
+      </div>
+      <text class="expect">预期：duration 500 不带单位被默认按 500ms 解析，过渡约 500ms 正常完成</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,56 @@
+<!-- RM.008 边界约束用例-路径边界：零长度路径/超长时长打断/负数duration/0ms duration，每个用例独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">路径边界</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 009 零长度路径 -->
+    <list-item class="card">
+      <text class="label">009 零长度路径</text>
+      <div class="stage sp-zero">
+        <div class="dot a-zero" if="{{p1}}"></div>
+        <div class="dot" if="{{!p1}}"></div>
+      </div>
+      <input type="button" value="{{p1 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p1')" />
+      <text class="expect">预期：开始后元素保持原位不动（起止点重合），页面无异常</text>
+    </list-item>
+
+    <!-- 010 超长时长与打断 -->
+    <list-item class="card">
+      <text class="label">010 超长时长与打断</text>
+      <div class="stage sp-line">
+        <div class="dot a-long" if="{{p2}}"></div>
+        <div class="dot" if="{{!p2}}"></div>
+      </div>
+      <input type="button" value="{{p2 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p2')" />
+      <text class="expect">预期：开始后缓慢移动一段时间；中途结束立即复位，无异常</text>
+    </list-item>
+
+    <!-- 011 负数 animation-duration -->
+    <list-item class="card">
+      <text class="label">011 负数 animation-duration</text>
+      <div class="stage sp-line">
+        <div class="dot a-neg" if="{{p3}}"></div>
+        <div class="dot" if="{{!p3}}"></div>
+      </div>
+      <input type="button" value="{{p3 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p3')" />
+      <text class="expect">预期：负数 duration 被安全处理，元素保持原位静止，页面无异常</text>
+    </list-item>
+
+    <!-- 012 0ms animation-duration -->
+    <list-item class="card">
+      <text class="label">012 0ms animation-duration</text>
+      <div class="stage sp-line">
+        <div class="dot a-zero-dur" if="{{p4}}"></div>
+        <div class="dot" if="{{!p4}}"></div>
+      </div>
+      <input type="button" value="{{p4 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p4')" />
+      <text class="expect">预期：该时长被安全处理，元素保持原位静止，页面无异常</text>
+    </list-item>
+
+    <!-- 尾部占位：让最后一个 list-item 能完整显示（参考 RM.005） -->
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

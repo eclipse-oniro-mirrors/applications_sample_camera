@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="on">
+    <list-item class="title-item">
+      <text class="title">页面切换动效验证 - Fade 淡入淡出</text>
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Fade 淡入淡出（10000ms）" onclick="goFade" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Fade 淡入淡出（2500ms）" onclick="goFade2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Fade 淡入淡出（0ms）" onclick="goFadeZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Fade 淡入淡出（二次触发）" onclick="goFadeDouble" />
+    </list-item>
+  </list>
+</div>

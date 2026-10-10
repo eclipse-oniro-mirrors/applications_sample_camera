@@ -1,0 +1,28 @@
+<!-- RM.009 基础用例-弹跳插值动画：bounce 与 linear 同参数对拍 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">弹跳插值动画</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 010 弹跳插值动画 -->
+    <list-item class="card">
+      <text class="label">010 弹跳插值（bounce 右弹 / linear 匀速右移）</text>
+      <div class="stage">
+        <div class="track">
+          <div if="{{rendered}}" class="a-box a-bounce" style="animation-name: {{ playing ? 'bounceRight' : 'none' }}"></div>
+        </div>
+        <div class="track">
+          <div if="{{rendered}}" class="a-box a-linear" style="animation-name: {{ playing ? 'linearRight' : 'none' }}"></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{playing ? '结束' : '开始'}}" class="btn" onclick="toggle" />
+      </div>
+      <text class="expect">预期：上行 bounce 带有明显 overshoot 回弹，下行 linear 匀速直线，两者终点相同（右移 120px）</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+    <text class="page-title">SVG验证</text>
+  </div>
+  <div class="content">
+    <div class="card">
+      <text class="card-hint">SVG 渲染验证内容将在此展示</text>
+    </div>
+  </div>
+</div>

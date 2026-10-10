@@ -1,0 +1,174 @@
+/* RM.007 基础转场页样式 — 001~006 */
+.container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card {
+  flex-direction: column;
+  width: 100%;
+  height: 340px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+  align-items: center;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 转场舞台：固定 300×150，黑色背景，大气圆角 */
+.stage {
+  position: relative;
+  width: 300px;
+  height: 150px;
+  background-color: #16213e;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 两个 panel 绝对定位叠放，填满舞台 */
+.panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* panel 内大字标签，让转场效果更明显 */
+.panel-text {
+  width: 100%;
+  height: 60px;
+  font-size: 30px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* 切换按钮行 */
+.btn-row {
+  width: 100%;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* 尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}
+
+/* 丰富配色（正常用例 001~006） */
+.pa1 { background-color: #2979ff; } .pb1 { background-color: #ff9100; display: none; }
+.pa2 { background-color: #7c4dff; } .pb2 { background-color: #00e676; display: none; }
+.pa3 { background-color: #ff4081; } .pb3 { background-color: #ffd740; display: none; }
+.pa4 { background-color: #009688; } .pb4 { background-color: #ffc107; display: none; }
+.pa5 { background-color: #3f51b5; } .pb5 { background-color: #8bc34a; display: none; }
+.pa6 { background-color: #e53935; } .pb6 { background-color: #43a047; display: none; }
+
+/* 各转场类型 CSS 配置 */
+.t-fade {
+  transition-effect: fade;
+  transition-duration: 500;
+  transition-timing-function: ease-in-out;
+}
+
+.t-slide-left {
+  transition-effect: slide-left;
+  transition-duration: 400;
+  transition-timing-function: ease-in-out;
+}
+
+.t-slide-right {
+  transition-effect: slide-right;
+  transition-duration: 400;
+  transition-timing-function: ease-in-out;
+}
+
+.t-slide-up {
+  transition-effect: slide-up;
+  transition-duration: 400;
+  transition-timing-function: ease-in-out;
+}
+
+.t-slide-down {
+  transition-effect: slide-down;
+  transition-duration: 400;
+  transition-timing-function: ease-in-out;
+}
+
+.t-scale {
+  transition-effect: scale;
+  transition-duration: 500;
+  transition-timing-function: ease-in-out;
+}

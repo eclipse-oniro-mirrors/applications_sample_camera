@@ -1,0 +1,36 @@
+<!-- RM.006 基础用例-List 颜色渐变：验证 list-item 元素支持背景颜色渐变 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">List 颜色渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 009 list-item 双色水平渐变 -->
+    <list-item class="card">
+      <text class="label">009 List-item 双色水平</text>
+      <div class="list-wrap">
+        <list class="inner-list">
+          <list-item class="li-gradient li-dual">
+            <text class="li-text">双色水平项</text>
+          </list-item>
+        </list>
+      </div>
+      <text class="expect">预期：列表项背景左侧红 → 右侧蓝，双色水平平滑渐变</text>
+    </list-item>
+
+    <!-- 010 list-item 多色渐变 -->
+    <list-item class="card">
+      <text class="label">010 List-item 多色渐变</text>
+      <div class="list-wrap">
+        <list class="inner-list">
+          <list-item class="li-gradient li-multi">
+            <text class="li-text">多色渐变项</text>
+          </list-item>
+        </list>
+      </div>
+      <text class="expect">预期：列表项背景红→橙→黄→绿→蓝，多色平滑过渡</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

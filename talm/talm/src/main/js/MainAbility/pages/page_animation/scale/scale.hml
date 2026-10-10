@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="on">
+    <list-item class="title-item">
+      <text class="title">页面切换动效验证 - Scale 缩放</text>
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Scale 缩放（10000ms）" onclick="goScale" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Scale 缩放（2500ms）" onclick="goScale2500" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Scale 缩放（0ms）" onclick="goScaleZero" />
+    </list-item>
+    <list-item class="btn-item">
+      <input class="btn" type="button" value="Scale 缩放（二次触发）" onclick="goScaleDouble" />
+    </list-item>
+  </list>
+</div>

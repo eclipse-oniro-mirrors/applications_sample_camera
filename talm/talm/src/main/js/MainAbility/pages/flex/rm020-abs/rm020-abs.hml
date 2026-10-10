@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="top-bar">
+        <input class="btn-back" type="button" value="返回" onclick="goBack" />
+        <text class="scene-title">绝对定位用例验证</text>
+    </div>
+    <div class="main-area">
+        <div class="left-controls">
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 0 }}" type="button" onclick="setC2Item1TopLeft('-25px', '-25px', 0)" value="top + left:-25,-25"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 0 }}" type="button" onclick="setC2Item1TopLeft('-25px', '-25px', 0)" value="top + left:-25,-25"/>
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 1 }}" type="button" onclick="setC2Item1TopLeft('0px', '0px', 1)" value="top + left:0,0"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 1 }}" type="button" onclick="setC2Item1TopLeft('0px', '0px', 1)" value="top + left:0,0"/>
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 2 }}" type="button" onclick="setC2Item1TopLeft('10%', '10%', 2)" value="top + left:10%,10%"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 2 }}" type="button" onclick="setC2Item1TopLeft('10%', '10%', 2)" value="top + left:10%,10%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 3 }}" type="button" onclick="setC2Item1TopLeft('45%', '45%', 3)" value="top + left:45%,45%"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 3 }}" type="button" onclick="setC2Item1TopLeft('45%', '45%', 3)" value="top + left:45%,45%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 4 }}" type="button" onclick="setC2Item1TopLeft('90%', '90%', 4)" value="top + left:90%,90%"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 4 }}" type="button" onclick="setC2Item1TopLeft('90%', '90%', 4)" value="top + left:90%,90%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1TopLeft === 5 }}" type="button" onclick="setC2Item1TopLeft('120%', '120%', 5)" value="top + left:120%,120%"/>
+            <input class="btn" show="{{ idxC2Item1TopLeft !== 5 }}" type="button" onclick="setC2Item1TopLeft('120%', '120%', 5)" value="top + left:120%,120%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1Center === 0 }}" type="button" onclick="setC2Item1Center()" value="子项1定位:居中"/>
+            <input class="btn" show="{{ idxC2Item1Center !== 0 }}" type="button" onclick="setC2Item1Center()" value="子项1定位:居中"/>
+            <input class="btn" type="button" onclick="setC2Item1Origin()" value="子项1定位:初始"/>
+            <input class="btn" type="button" onclick="setC2Item1Both()" value="子项1定位:同时设置"/>
+        </div>
+        <div class="center-display">
+            <div class="scene-box-flex-2">
+                <div class="item-only-width item0" show="{{ !isC2Item1Both }}" style="top: {{c2Item1Top}}; left: {{c2Item1Left}};"><text>1</text></div>
+                <div class="item-only-width item0" show="{{ isC2Item1Both }}" style="top: {{c2Item1Top}}; left: {{c2Item1Left}}; right: {{c2Item1Right}}; bottom: {{c2Item1Bottom}};"><text>1</text></div>
+                <div class="item-only-width item2" style="right: {{c2Item2Right}}; bottom: {{c2Item2Bottom}};"><text>2</text></div>
+            </div>
+        </div>
+        <div class="right-controls">
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 0 }}" type="button" onclick="setC2Item1BottomRight('0px', '0px', 0)" value="right + bottom:0,0"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 0 }}" type="button" onclick="setC2Item1BottomRight('0px', '0px', 0)" value="right + bottom:0,0"/>
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 1 }}" type="button" onclick="setC2Item1BottomRight('10%', '10%', 1)" value="right + bottom:10%,10%"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 1 }}" type="button" onclick="setC2Item1BottomRight('10%', '10%', 1)" value="right + bottom:10%,10%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 2 }}" type="button" onclick="setC2Item1BottomRight('45%', '45%', 2)" value="right + bottom:45%,45%"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 2 }}" type="button" onclick="setC2Item1BottomRight('45%', '45%', 2)" value="right + bottom:45%,45%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 3 }}" type="button" onclick="setC2Item1BottomRight('90%', '90%', 3)" value="right + bottom:90%,90%"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 3 }}" type="button" onclick="setC2Item1BottomRight('90%', '90%', 3)" value="right + bottom:90%,90%"/>
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 4 }}" type="button" onclick="setC2Item1BottomRight('-35px', '-35px', 4)" value="right + bottom:-35,-35"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 4 }}" type="button" onclick="setC2Item1BottomRight('-35px', '-35px', 4)" value="right + bottom:-35,-35"/>
+            <input class="btn btn-active" show="{{ idxC2Item1BottomRight === 5 }}" type="button" onclick="setC2Item1BottomRight('120%', '120%', 5)" value="right + bottom:120%,120%"/>
+            <input class="btn" show="{{ idxC2Item1BottomRight !== 5 }}" type="button" onclick="setC2Item1BottomRight('120%', '120%', 5)" value="right + bottom:120%,120%"/>
+            <input class="btn" type="button" onclick="stopAutoTest()" value="高频切换50次:停止"/>
+            <input class="btn-larger-bg btn-active" show="{{ isAutoTopLeft }}" type="button" onclick="autoTopLeft()" value="高频切换50次:top+left"/>
+            <input class="btn-larger-bg" show="{{ !isAutoTopLeft }}" type="button" onclick="autoTopLeft()" value="高频切换50次:top+left"/>
+            <input class="btn-larger-bg btn-active" show="{{ isAutoBottomRight }}" type="button" onclick="autoBottomRight()" value="高频切换50次:right+bottom"/>
+            <input class="btn-larger-bg" show="{{ !isAutoBottomRight }}" type="button" onclick="autoBottomRight()" value="高频切换50次:right+bottom"/>
+            <input class="btn-larger" type="button" onclick="resetAll()" value="重置全部参数"/>
+        </div>
+    </div>
+    <div class="scroll-spacer"></div>
+</div>

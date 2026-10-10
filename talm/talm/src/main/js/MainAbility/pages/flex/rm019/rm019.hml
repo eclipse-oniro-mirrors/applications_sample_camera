@@ -1,0 +1,189 @@
+<div class="container">
+    <div class="top-bar">
+        <input class="btn-back" type="button" value="返回" onclick="goBack" />
+        <text class="scene-title">{{ "  3：Flex(350px,180px) 功能验证，子项(50px,50px)  "}}</text>
+    </div>
+    <div class="display-area">
+    <!-- flex容器1：子项-width:50px，height:50px -->
+        <div class="scene-box-flex-1" style="
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                ">
+            <div class="item item0" style="
+                    width: {{item1Width}};
+                    height: {{item1Height}};
+                    min-width: {{item1MinWidth}};
+                    max-width: {{item1MaxWidth}};
+                    min-height: {{item1MinHeight}};
+                    aspect-ratio: {{itemAspectRatio}};
+                    "><text>1</text></div>
+            <div class="item item2" style="display: flex;
+                    width: {{item2Width}};
+                    height: {{item2Height}};
+                    min-width: {{item2MinWidth}};
+                    max-width: {{item2MaxWidth}};
+                    min-height: {{item2MinHeight}};
+                    aspect-ratio: {{itemAspectRatio}};
+                    "><text>2</text></div>
+            <div class="item item3" style="display: flex;
+                    width: {{item3Width}};
+                    height: {{item3Height}};
+                    min-width: {{item3MinWidth}};
+                    max-width: {{item3MaxWidth}};
+                    min-height: {{item3MinHeight}};
+                    aspect-ratio: {{itemAspectRatio}};
+                    "><text>3</text></div>
+            <div class="item item4" style="display: {{itemDisplay4to6}};
+                    width: {{itemWidth}};
+                    height: {{itemHeight}};
+                    min-width: {{item4MinWidth}};
+                    max-width: {{item4MaxWidth}};
+                    min-height: {{item4MinHeight}};
+                    "><text>4</text></div>
+            <div class="item item5" style="display: {{itemDisplay4to6}};
+                    min-width: {{item5MinWidth}};
+                    max-width: {{item5MaxWidth}};
+                    min-height: {{item5MinHeight}};
+                    "><text>5</text></div>
+            <div class="item item6" style="display: {{itemDisplay4to6}};"><text>6</text></div>
+            <div class="item item7" style="display: {{itemDisplay}};"><text>7</text></div>
+            <div class="item item8" style="display: {{itemDisplay}};"><text>8</text></div>
+            <div class="item item9" style="display: {{itemDisplay}};
+                    width: {{item1Width}};
+                    height: {{item1Height}};
+                    "><text>9</text></div>
+            <div class="item item10" style="display: {{itemDisplay}};
+                    width: {{itemWidth}};
+                    height: {{itemHeight}};
+                    "><text>10</text></div>
+            <div class="item item11" style="display: {{itemDisplay}};"><text>11</text></div>
+            <div class="item item12" style="display: {{itemDisplay}};"><text>12</text></div>
+            <div class="item item13" style="display: {{itemDisplay}};"><text>13</text></div>
+            <div class="item item14" style="display: {{itemDisplay}};"><text>14</text></div>
+            <div class="item item15" style="display: {{itemDisplay}};"><text>15</text></div>
+        </div>
+    <!-- flex容器2：子项-width:50px，height: -->
+        <div class="scene-box-flex-2" style="
+                display: {{flex2Display}};
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                align-items: {{alignItems}};
+                ">
+            <div class="item-only-width item0" style="aspect-ratio: {{itemAspectRatio}};" ><text>1</text></div>
+            <div class="item-only-width item2" style="aspect-ratio: {{itemAspectRatio}};" ><text>2</text></div>
+            <div class="item-only-width item3" style="aspect-ratio: {{itemAspectRatio}};" ><text>3</text></div>
+            <div class="item-only-width item4" style="" ><text>4</text></div>
+            <div class="item-only-width item5" style="aspect-ratio: {{itemAspectRatio}};" ><text>5</text></div>
+            <div class="item-only-width item6" style="" ><text>6</text></div>
+            <div class="item-only-width item7" style="" ><text>7</text></div>
+            <div class="item-only-width item0" style="" ><text>8</text></div>
+            <div class="item-only-width item9" style="" ><text>9</text></div>
+            <div class="item-only-width item10" style="" ><text>10</text></div>
+            <div class="item-only-width item11" style="" ><text>11</text></div>
+        </div>
+    </div>
+    <div class="button-wrapper" clip="true">
+        <list class="button-area" scrollbar="on">
+        <!-- 显示/隐藏子项 -->
+            <list-item class="btn-item">
+                <text class="group-label">显示/隐藏：</text>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 4-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 4-6"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 4-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 4-6"/>
+                <input class="btn btn-active" show="{{ idxFlex2Display === 0 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 0, 'flex2Display', 'flex')" value="显示 flex2"/>
+                <input class="btn" show="{{ idxFlex2Display !== 0 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 0, 'flex2Display', 'flex')" value="显示 flex2"/>
+                <input class="btn btn-active" show="{{ idxFlex2Display === 1 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 1, 'flex2Display', 'none')" value="隐藏 flex2"/>
+                <input class="btn" show="{{ idxFlex2Display !== 1 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 1, 'flex2Display', 'none')" value="隐藏 flex2"/>
+            </list-item>
+        <!-- 溢出控制overflow -->
+            <list-item class="btn-item">
+                <text class="group-label">溢出控制：</text>
+                <input class="btn btn-active" show="{{ idxOverflow === 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn" show="{{ idxOverflow !== 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn btn-active" show="{{ idxOverflow === 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+                <input class="btn" show="{{ idxOverflow !== 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+                <text class="group-label">换行 flex-wrap：</text>
+                <input class="btn btn-active" show="{{ idxWrap === 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn" show="{{ idxWrap !== 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn btn-active" show="{{ idxWrap === 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+                <input class="btn" show="{{ idxWrap !== 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+                <text class="group-label">容器方向 flex-direction：</text>
+                <input class="btn btn-active" show="{{ idxDir === 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn" show="{{ idxDir !== 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn btn-active" show="{{ idxDir === 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+                <input class="btn" show="{{ idxDir !== 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+            </list-item>
+            <list-item class="btn-item">
+                <text class="group-label">尺寸约束-宽：</text>
+                <input class="btn btn-active" show="{{ idxSizeConstraintW === 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 0, 'constraintW', 'fixed')" value="宽:100px"/>
+                <input class="btn" show="{{ idxSizeConstraintW !== 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 0, 'constraintW', 'fixed')" value="宽:100px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintW === 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 1, 'constraintW', 'percent')" value="宽:50%"/>
+                <input class="btn" show="{{ idxSizeConstraintW !== 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 1, 'constraintW', 'percent')" value="宽:50%"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintW === 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 2, 'constraintW', 'zero')" value="宽:0px"/>
+                <input class="btn" show="{{ idxSizeConstraintW !== 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 2, 'constraintW', 'zero')" value="宽:0px"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintW === 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 3, 'constraintW', 'huge')" value="宽超大:1000px"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintW !== 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 3, 'constraintW', 'huge')" value="宽超大:1000px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintW === 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 4, 'constraintW', 'negative')" value="负:-50px"/>
+                <input class="btn" show="{{ idxSizeConstraintW !== 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 4, 'constraintW', 'negative')" value="负:-50px"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintW === 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 5, 'constraintW', 'w80')" value="宽:80/90/100px"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintW !== 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 5, 'constraintW', 'w80')" value="宽:80/90/100px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintW === 6 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 6, 'constraintW', 'reset')" value="还原"/>
+                <input class="btn" show="{{ idxSizeConstraintW !== 6 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintW', 6, 'constraintW', 'reset')" value="还原"/>
+            </list-item>
+            <list-item class="btn-item">
+                <text class="group-label">尺寸约束-高：</text>
+                <input class="btn btn-active" show="{{ idxSizeConstraintH === 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 0, 'constraintH', 'fixed')" value="高:100px"/>
+                <input class="btn" show="{{ idxSizeConstraintH !== 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 0, 'constraintH', 'fixed')" value="高:100px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintH === 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 1, 'constraintH', 'percent')" value="高:50%"/>
+                <input class="btn" show="{{ idxSizeConstraintH !== 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 1, 'constraintH', 'percent')" value="高:50%"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintH === 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 2, 'constraintH', 'zero')" value="高:0px"/>
+                <input class="btn" show="{{ idxSizeConstraintH !== 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 2, 'constraintH', 'zero')" value="高:0px"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintH === 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 3, 'constraintH', 'huge')" value="高超大:1000px"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintH !== 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 3, 'constraintH', 'huge')" value="高超大:1000px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintH === 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 4, 'constraintH', 'negative')" value="负:-50px"/>
+                <input class="btn" show="{{ idxSizeConstraintH !== 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 4, 'constraintH', 'negative')" value="负:-50px"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintH === 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 5, 'constraintH', 'h60')" value="高:60/70/80px"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintH !== 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 5, 'constraintH', 'h60')" value="高:60/70/80px"/>
+                <input class="btn btn-active" show="{{ idxSizeConstraintH === 6 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 6, 'constraintH', 'reset')" value="还原"/>
+                <input class="btn" show="{{ idxSizeConstraintH !== 6 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintH', 6, 'constraintH', 'reset')" value="还原"/>
+            </list-item>
+            <list-item class="btn-item">
+                <text class="group-label">尺寸约束-按比例缩放：</text>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 0, 'constraint', 'aspect2')" value="aspect:2"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 0 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 0, 'constraint', 'aspect2')" value="aspect:2"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 1, 'constraint', 'aspect')" value="aspect:1.5"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 1 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 1, 'constraint', 'aspect')" value="aspect:1.5"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 2, 'constraint', 'aspect0_65')" value="aspect:0.65"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 2 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 2, 'constraint', 'aspect0_65')" value="aspect:0.65"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 3, 'constraint', 'aspect0')" value="aspect:0"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 3 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 3, 'constraint', 'aspect0')" value="aspect:0"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 4, 'constraint', 'aspectNeg1')" value="aspect:-1"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 4 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 4, 'constraint', 'aspectNeg1')" value="aspect:-1"/>
+                <input class="btn-larger btn-active" show="{{ idxSizeConstraintAspect === 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 5, 'constraint', 'aspect999999')" value="aspect:999999"/>
+                <input class="btn-larger" show="{{ idxSizeConstraintAspect !== 5 }}" type="button" onclick="setPropAndSelect('idxSizeConstraintAspect', 5, 'constraint', 'aspect999999')" value="aspect:999999"/>
+            </list-item>
+        <!-- 自动测试 -->
+            <list-item class="btn-item">
+                <text class="group-label">高频切换50次：</text>
+                <input class="btn" type="button" onclick="stopAutoTest()" value="停止"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoItemWidth }}" type="button" onclick="autoFlexItemWidth()" value="item-width"/>
+                <input class="btn-larger-bg" show="{{ !isAutoItemWidth }}" type="button" onclick="autoFlexItemWidth()" value="item-width"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoItemHeight }}" type="button" onclick="autoFlexItemHeight()" value="item-height"/>
+                <input class="btn-larger-bg" show="{{ !isAutoItemHeight }}" type="button" onclick="autoFlexItemHeight()" value="item-height"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoAspect }}" type="button" onclick="autoFlexAspect()" value="aspect"/>
+                <input class="btn-larger-bg" show="{{ !isAutoAspect }}" type="button" onclick="autoFlexAspect()" value="aspect"/>
+            </list-item>
+            <list-item class="btn-item">
+                <text class="group-label">重置：</text>
+                <input class="btn-larger" type="button" onclick="resetAll()" value="重置全部参数"/>
+            </list-item>
+        </list>
+    </div>
+</div>

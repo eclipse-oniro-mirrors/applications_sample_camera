@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="header">
+    <text class="title">Talm</text>
+    <input class="exit-btn" type="button" value="退出" onclick="goBack" />
+  </div>
+  <text class="subtitle">AceLite 功能验证</text>
+  <div class="menu">
+    <input class="menu-btn" type="button" value="Flex验证" onclick="goFlex" />
+    <input class="menu-btn" type="button" value="轻图形验证" onclick="goLightGraphics" />
+    <input class="menu-btn" type="button" value="页面切换动效验证" onclick="goPageAnimation" />
+  </div>
+</div>

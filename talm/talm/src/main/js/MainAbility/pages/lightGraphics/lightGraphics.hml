@@ -1,0 +1,61 @@
+<!-- rm001-rm009 -->
+
+<div class="container">
+
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="on">
+    <list-item class="text-item">
+      <div class="nav-item" onclick="navigateTo('001')">
+        <text class="nav-text">RM.001: 轻图形SVG渲染能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('002')">
+        <text class="nav-text">RM.002: 轻图形SVG渲染能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('003')">
+        <text class="nav-text">RM.003: 轻图形SVG渲染能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" onclick="navigateTo('005')">
+        <text class="nav-text">RM.005: 轻图形线性渐变功能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('006')">
+        <text class="nav-text">RM.006: 轻图形线性渐变功能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('007')">
+        <text class="nav-text">RM.007: 轻图形转场动画功能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('008')">
+        <text class="nav-text">RM.008: 轻图形路径动画功能开发</text>
+      </div>
+    </list-item>
+
+    <list-item class="text-item">
+      <div class="nav-item" @click="navigateTo('009')">
+        <text class="nav-text">RM.009: 轻图形过渡动画功能开发</text>
+      </div>
+    </list-item>
+
+    <!-- 尾部占位：lite 的 list 最后一项滚不到底，加一个空项兜底 -->
+    <list-item class="tail-spacer">
+    </list-item>
+  </list>
+</div>

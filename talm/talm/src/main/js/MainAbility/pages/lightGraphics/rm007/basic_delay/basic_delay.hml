@@ -1,0 +1,26 @@
+<!-- RM.007 延迟转场：008 — 验证 transition-delay 正常生效 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">延迟转场</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="card">
+      <text class="label">008 延迟转场 transition-delay</text>
+      <div ref="delayStage" class="stage t-delay">
+        <div ref="delayA" class="panel pa">
+          <text class="panel-text">A</text>
+        </div>
+        <div ref="delayB" class="panel pb">
+          <text class="panel-text">B</text>
+        </div>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="切换" class="btn" onclick="switchDelay" />
+      </div>
+      <text class="expect">预期：点击后等待约 1000ms 再开始缩放过渡；再次点击反向</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

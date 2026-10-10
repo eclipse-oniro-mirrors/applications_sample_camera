@@ -1,0 +1,24 @@
+<!-- RM.005 基础用例-Button 方向渐变：验证 button 元素支持背景渐变 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">Button 方向渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 012 button 水平方向渐变 -->
+    <list-item class="card">
+      <text class="label">019 Button 水平 to right</text>
+      <input type="button" value="红→蓝" class="btn-gradient btn-right" />
+      <text class="expect">预期：按钮背景左侧红 → 右侧蓝，水平方向平滑渐变</text>
+    </list-item>
+
+    <!-- 013 button 垂直方向渐变 -->
+    <list-item class="card">
+      <text class="label">020 Button 垂直 to bottom</text>
+      <input type="button" value="红→蓝" class="btn-gradient btn-bottom" />
+      <text class="expect">预期：按钮背景顶部红 → 底部蓝，垂直方向平滑渐变</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

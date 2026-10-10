@@ -1,0 +1,254 @@
+/* RM.009 基础动画页样式 — 参考 RM007 布局 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #1a1a2e;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 72px;
+  height: 40px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片：参考 RM007，align-items: center 让内容居中 */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 400px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 动画舞台：固定 300×160，黑色背景，大气圆角；参考 RM007 */
+.stage {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #16213e;
+  border-radius: 10px;
+}
+
+/* 按钮行：参考 RM007 */
+.btn-row {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* 切换按钮：参考 RM007，宽大按钮 */
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+/* 动画块基础样式：固定 80×80，避免旋转/放大时超界 */
+.a-box {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+/* 001 透明度渐变关键帧 */
+@keyframes fadeAnim {
+  from { opacity: 0.1; }
+  to { opacity: 1; }
+}
+
+/* 002 缩放放大关键帧 */
+@keyframes scaleAnim {
+  from { transform: scale(1.0); }
+  to { transform: scale(1.5); }
+}
+
+/* 003 缩放缩小关键帧 */
+@keyframes shrinkAnim {
+  from { transform: scale(1.0); }
+  to { transform: scale(0.5); }
+}
+
+/* 004 旋转动画关键帧 */
+@keyframes rotateAnim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+
+/* 005 颜色渐变关键帧 */
+@keyframes colorAnim {
+  from { background-color: #ff0000; }
+  to { background-color: #0000ff; }
+}
+
+/* 006 位移动画关键帧 */
+@keyframes moveAnim {
+  from { transform: translateX(0px); }
+  to { transform: translateX(120px); }
+}
+
+/* 007 纵向位移动画关键帧 */
+@keyframes moveYAnim {
+  from { transform: translateY(0px); }
+  to { transform: translateY(60px); }
+}
+
+/* 001 透明度渐变 */
+.a-fade {
+  opacity: 0.1;
+  background-color: #ff0000;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 002 缩放放大 */
+.a-scale {
+  transform: scale(1.0);
+  background-color: #ffa726;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 003 缩放缩小 */
+.a-shrink {
+  transform: scale(1.0);
+  background-color: #ff7043;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 004 旋转动画 */
+.a-rotate {
+  transform: rotate(0deg);
+  background-color: #66bb6a;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 005 颜色渐变 */
+.a-color {
+  background-color: #ff0000;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 006 位移动画：宽度固定 80px 避免超出舞台 */
+.a-move {
+  width: 80px;
+  min-width: 80px;
+  background-color: #42a5f5;
+  transform: translateX(0px);
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 007 纵向位移动画 */
+.a-move-y {
+  width: 80px;
+  min-width: 80px;
+  background-color: #26a69a;
+  transform: translateY(0px);
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* 008 ease-in-out 缓动 */
+.a-ease-in-out {
+  width: 80px;
+  min-width: 80px;
+  background-color: #ab47bc;
+  transform: translateX(0px);
+  animation-duration: 2000ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+/* 013 动画延迟 */
+.a-delay {
+  width: 80px;
+  min-width: 80px;
+  background-color: #ec407a;
+  transform: translateX(0px);
+  animation-duration: 2000ms;
+  animation-delay: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

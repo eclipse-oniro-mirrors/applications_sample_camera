@@ -1,0 +1,259 @@
+<div class="container">
+    <div class="top-bar">
+        <input class="btn-back" type="button" value="返回" onclick="goBack" />
+        <text class="scene-title">{{ "  2：Flex(350px,180px) 功能验证，子项(50px,50px)  "}}</text>
+    </div>
+    <div class="display-area">
+    <!-- flex容器1：子项-width:50px，height:50px -->
+        <div class="scene-box-flex-1" style="
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                justify-content: {{justifyContent}};
+                align-items: {{alignItems}};
+                align-content: {{alignContent}};
+                "
+                >
+            <div class="item item0" style="
+                    width: {{itemWidth}};
+                    height: {{itemHeight}};
+                    align-self: {{itemAlignSelf}};
+
+                    flex-grow: {{itemGrow}};
+                    flex-shrink: {{itemShrink}};
+                    flex-basis: {{itemBasis}};
+                    "><text>1</text></div>
+            <div class="item item2" style="display: {{itemDisplay2to3}};
+                    flex-grow: {{item2Grow}};
+                    flex-shrink: {{item2Shrink}};
+                    flex-basis: {{item2Basis}};
+                    "><text>2</text></div>
+            <div class="item item3" style="display: {{itemDisplay2to3}};
+                    flex-grow: {{item3Grow}};
+                    flex-shrink: {{item3Shrink}};
+                    flex-basis: {{item3Basis}};
+                    "><text>3</text></div>
+            <div class="item item4" style="display: {{itemDisplay4to6}};"><text>4</text></div>
+            <div class="item item5" style="display: {{itemDisplay4to6}};"><text>5</text></div>
+            <div class="item item0" style="display: {{itemDisplay4to6}};
+                    width: {{itemWidth}};
+                    height: {{itemHeight}};
+                    align-self: {{itemAlignSelf}};
+
+                    flex-grow: {{itemGrow}};
+                    flex-shrink: {{itemShrink}};
+                    flex-basis: {{itemBasis}};
+                    "><text>6</text></div>
+            <div class="item item7" style="display: {{itemDisplay}};"><text>7</text></div>
+            <div class="item item8" style="display: {{itemDisplay}};"><text>8</text></div>
+            <div class="item item0" style="display: {{itemDisplay}};
+                    width: {{itemWidth}};
+                    height: {{itemHeight}};
+                    "><text>9</text></div>
+            <div class="item item10" style="display: {{itemDisplay}};"><text>10</text></div>
+            <div class="item item11" style="display: {{itemDisplay}};"><text>11</text></div>
+            <div class="item item12" style="display: {{itemDisplay}};"><text>12</text></div>
+            <div class="item item13" style="display: {{itemDisplay}};"><text>13</text></div>
+            <div class="item item14" style="display: {{itemDisplay}};"><text>14</text></div>
+            <div class="item item15" style="display: {{itemDisplay}};"><text>15</text></div>
+        </div>
+
+    <!-- flex容器2：子项-width:50px，height: -->
+        <div class="scene-box-flex-2" style="display: {{flex2Display}};
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                justify-content: {{justifyContent}};
+                align-items: {{alignItems}};
+                align-content: {{alignContent}};
+                "
+                >
+            <div class="item-only-width item0" style="
+                    height: {{ itemNoHeight }};
+                    align-self: {{itemAlignSelf}};
+                    " ><text>1</text></div>
+            <div class="item-only-width item2" style="align-self: {{itemAlignSelf}};" ><text>2</text></div>
+            <div class="item-only-width item3" style="align-self: {{itemAlignSelf}};" ><text>3</text></div>
+            <div class="item-only-width item4" style="align-self: {{itemAlignSelf}};" ><text>4</text></div>
+            <div class="item-only-width item5" style="align-self: {{itemAlignSelf}};" ><text>5</text></div>
+            <div class="item-only-width item6" style="align-self: {{itemAlignSelf}};" ><text>6</text></div>
+            <div class="item-only-width item7" style="align-self: {{itemAlignSelf}};" ><text>7</text></div>
+            <div class="item-only-width item0" style="
+                    height: {{itemNoHeight}};
+                    align-self: {{itemAlignSelf}};
+                    " ><text>8</text></div>
+            <div class="item-only-width item9" style="align-self: {{itemAlignSelf}};" ><text>9</text></div>
+            <div class="item-only-width item10" style="align-self: {{itemAlignSelf}};" ><text>10</text></div>
+            <div class="item-only-width item11" style="align-self: {{itemAlignSelf}};" ><text>11</text></div>
+        </div>
+    <!-- flex容器1：子项-width:，height:50px -->
+        <div class="scene-box-flex-3" style="display: {{flex3Display}};
+                overflow: {{boxOverflow}};
+                flex-wrap: {{flexWrap}};
+                flex-direction: {{flexDirection}};
+                justify-content: {{justifyContent}};
+                align-items: {{alignItems}};
+                align-content: {{alignContent}};
+                "
+                >
+            <div class="item-only-height item0" style="
+                    width: {{ itemNoWidth }};
+                    align-self: {{itemAlignSelf}};
+                    " ><text>1</text></div>
+            <div class="item-only-height item2" style="align-self: {{itemAlignSelf}};" ><text>2</text></div>
+            <div class="item-only-height item3" style="align-self: {{itemAlignSelf}};" ><text>3</text></div>
+            <div class="item-only-height item4" style="align-self: {{itemAlignSelf}};" ><text>4</text></div>
+            <div class="item-only-height item5" style="align-self: {{itemAlignSelf}};" ><text>5</text></div>
+            <div class="item-only-height item6" style="align-self: {{itemAlignSelf}};" ><text>6</text></div>
+            <div class="item-only-height item7" style="align-self: {{itemAlignSelf}};" ><text>7</text></div>
+            <div class="item-only-height item0" style="
+                    width: {{itemNoWidth}};
+                    align-self: {{itemAlignSelf}};
+                    " ><text>8</text></div>
+            <div class="item-only-height item9" style="align-self: {{itemAlignSelf}};" ><text>9</text></div>
+            <div class="item-only-height item10" style="align-self: {{itemAlignSelf}};" ><text>10</text></div>
+            <div class="item-only-height item11" style="align-self: {{itemAlignSelf}};" ><text>11</text></div>
+        </div>
+    </div>
+    <div class="button-wrapper" clip="true">
+        <list class="button-area" scrollbar="on">
+        <!-- 子项控制 -->
+            <list-item class="btn-item">
+                <text class="group-label">子项大小设置：</text>
+                <input class="btn btn-active" show="{{ idxItemWidth === 0 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 0, 'width', '400px')" value="宽:400px"/>
+                <input class="btn" show="{{ idxItemWidth !== 0 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 0, 'width', '400px')" value="宽:400px"/>
+                <input class="btn btn-active" show="{{ idxItemWidth === 1 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 1, 'width', '30px')" value="宽:30px"/>
+                <input class="btn" show="{{ idxItemWidth !== 1 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 1, 'width', '30px')" value="宽:30px"/>
+                <input class="btn btn-active" show="{{ idxItemWidth === 2 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 2, 'width', '50px')" value="宽:50px"/>
+                <input class="btn" show="{{ idxItemWidth !== 2 }}" type="button" onclick="setPropAndSelect('idxItemWidth', 2, 'width', '50px')" value="宽:50px"/>
+                <input class="btn btn-active" show="{{ idxItemHeight === 0 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 0, 'height', '250px')" value="高:250px"/>
+                <input class="btn" show="{{ idxItemHeight !== 0 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 0, 'height', '250px')" value="高:250px"/>
+                <input class="btn btn-active" show="{{ idxItemHeight === 1 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 1, 'height', '30px')" value="高:30px"/>
+                <input class="btn" show="{{ idxItemHeight !== 1 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 1, 'height', '30px')" value="高:30px"/>
+                <input class="btn btn-active" show="{{ idxItemHeight === 2 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 2, 'height', '50px')" value="高:50px"/>
+                <input class="btn" show="{{ idxItemHeight !== 2 }}" type="button" onclick="setPropAndSelect('idxItemHeight', 2, 'height', '50px')" value="高:50px"/>
+                <input class="btn btn-active" show="{{ idxNoHeight1 === 0 }}" type="button" onclick="setPropAndSelect('idxNoHeight1', 0, 'noHeight', '100px')" value="无高:100px"/>
+                <input class="btn" show="{{ idxNoHeight1 !== 0 }}" type="button" onclick="setPropAndSelect('idxNoHeight1', 0, 'noHeight', '100px')" value="无高:100px"/>
+                <input class="btn btn-active" show="{{ idxNoHeight1 === 1 }}" type="button" onclick="setPropAndSelect('idxNoHeight1', 1, 'noHeight', 'undefined')" value="无高:还原"/>
+                <input class="btn" show="{{ idxNoHeight1 !== 1 }}" type="button" onclick="setPropAndSelect('idxNoHeight1', 1, 'noHeight', 'undefined')" value="无高:还原"/>
+                <input class="btn btn-active" show="{{ idxNoWidth1 === 0 }}" type="button" onclick="setPropAndSelect('idxNoWidth1', 0, 'noWidth', '100px')" value="无宽:100px"/>
+                <input class="btn" show="{{ idxNoWidth1 !== 0 }}" type="button" onclick="setPropAndSelect('idxNoWidth1', 0, 'noWidth', '100px')" value="无宽:100px"/>
+                <input class="btn btn-active" show="{{ idxNoWidth1 === 1 }}" type="button" onclick="setPropAndSelect('idxNoWidth1', 1, 'noWidth', 'undefined')" value="无宽:还原"/>
+                <input class="btn" show="{{ idxNoWidth1 !== 1 }}" type="button" onclick="setPropAndSelect('idxNoWidth1', 1, 'noWidth', 'undefined')" value="无宽:还原"/>
+            </list-item>
+        <!-- 显示/隐藏子项 -->
+            <list-item class="btn-item">
+                <text class="group-label">显示/隐藏：</text>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 0, 'itemDisplay', 'flex')" value="显示 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn" show="{{ idxItemDisplay !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay', 1, 'itemDisplay', 'none')" value="隐藏 7-15"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 4-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 0, 'itemDisplay4to6', 'flex')" value="显示 4-6"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay4to6 === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 4-6"/>
+                <input class="btn" show="{{ idxItemDisplay4to6 !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay4to6', 1, 'itemDisplay4to6', 'none')" value="隐藏 4-6"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay2to3 === 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay2to3', 0, 'itemDisplay2to3', 'flex')" value="显示 2-3"/>
+                <input class="btn" show="{{ idxItemDisplay2to3 !== 0 }}" type="button" onclick="setPropAndSelect('idxItemDisplay2to3', 0, 'itemDisplay2to3', 'flex')" value="显示 2-3"/>
+                <input class="btn btn-active" show="{{ idxItemDisplay2to3 === 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay2to3', 1, 'itemDisplay2to3', 'none')" value="隐藏 2-3"/>
+                <input class="btn" show="{{ idxItemDisplay2to3 !== 1 }}" type="button" onclick="setPropAndSelect('idxItemDisplay2to3', 1, 'itemDisplay2to3', 'none')" value="隐藏 2-3"/>
+                <input class="btn btn-active" show="{{ idxFlex2Display === 0 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 0, 'flex2Display', 'flex')" value="显示flex2"/>
+                <input class="btn" show="{{ idxFlex2Display !== 0 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 0, 'flex2Display', 'flex')" value="显示flex2"/>
+                <input class="btn btn-active" show="{{ idxFlex2Display === 1 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 1, 'flex2Display', 'none')" value="隐藏flex2"/>
+                <input class="btn" show="{{ idxFlex2Display !== 1 }}" type="button" onclick="setPropAndSelect('idxFlex2Display', 1, 'flex2Display', 'none')" value="隐藏flex2"/>
+                <input class="btn btn-active" show="{{ idxFlex3Display === 0 }}" type="button" onclick="setPropAndSelect('idxFlex3Display', 0, 'flex3Display', 'flex')" value="显示flex3"/>
+                <input class="btn" show="{{ idxFlex3Display !== 0 }}" type="button" onclick="setPropAndSelect('idxFlex3Display', 0, 'flex3Display', 'flex')" value="显示flex3"/>
+                <input class="btn btn-active" show="{{ idxFlex3Display === 1 }}" type="button" onclick="setPropAndSelect('idxFlex3Display', 1, 'flex3Display', 'none')" value="隐藏flex3"/>
+                <input class="btn" show="{{ idxFlex3Display !== 1 }}" type="button" onclick="setPropAndSelect('idxFlex3Display', 1, 'flex3Display', 'none')" value="隐藏flex3"/>
+            </list-item>
+        <!-- 溢出控制overflow -->
+            <list-item class="btn-item">
+                <text class="group-label">溢出控制：</text>
+                <input class="btn btn-active" show="{{ idxOverflow === 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn" show="{{ idxOverflow !== 0 }}" type="button" onclick="setPropAndSelect('idxOverflow', 0, 'overflow', 'visible')" value="visible"/>
+                <input class="btn btn-active" show="{{ idxOverflow === 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+                <input class="btn" show="{{ idxOverflow !== 1 }}" type="button" onclick="setPropAndSelect('idxOverflow', 1, 'overflow', 'hidden')" value="hidden"/>
+        <!--  flex-wrap -->
+                <text class="group-label">换行 flex-wrap：</text>
+                <input class="btn btn-active" show="{{ idxWrap === 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn" show="{{ idxWrap !== 0 }}" type="button" onclick="setPropAndSelect('idxWrap', 0, 'wrap', 'nowrap')" value="nowrap"/>
+                <input class="btn btn-active" show="{{ idxWrap === 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+                <input class="btn" show="{{ idxWrap !== 1 }}" type="button" onclick="setPropAndSelect('idxWrap', 1, 'wrap', 'wrap')" value="wrap"/>
+        <!-- 主轴方向 flex-direction -->
+                <text class="group-label">容器方向 flex-direction：</text>
+                <input class="btn btn-active" show="{{ idxDir === 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn" show="{{ idxDir !== 0 }}" type="button" onclick="setPropAndSelect('idxDir', 0, 'dir', 'row')" value="row"/>
+                <input class="btn btn-active" show="{{ idxDir === 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+                <input class="btn" show="{{ idxDir !== 1 }}" type="button" onclick="setPropAndSelect('idxDir', 1, 'dir', 'column')" value="column"/>
+            </list-item>
+        <!-- 交叉轴对齐 align-items -->
+            <list-item class="btn-item">
+                <text class="group-label">交叉轴对齐 align-items：</text>
+                <input class="btn btn-active" show="{{ idxCross === 0 }}" type="button" onclick="setPropAndSelect('idxCross', 0, 'cross', 'flex-start')" value="flex-start"/>
+                <input class="btn" show="{{ idxCross !== 0 }}" type="button" onclick="setPropAndSelect('idxCross', 0, 'cross', 'flex-start')" value="flex-start"/>
+                <input class="btn btn-active" show="{{ idxCross === 1 }}" type="button" onclick="setPropAndSelect('idxCross', 1, 'cross', 'center')" value="center"/>
+                <input class="btn" show="{{ idxCross !== 1 }}" type="button" onclick="setPropAndSelect('idxCross', 1, 'cross', 'center')" value="center"/>
+                <input class="btn btn-active" show="{{ idxCross === 2 }}" type="button" onclick="setPropAndSelect('idxCross', 2, 'cross', 'flex-end')" value="flex-end"/>
+                <input class="btn" show="{{ idxCross !== 2 }}" type="button" onclick="setPropAndSelect('idxCross', 2, 'cross', 'flex-end')" value="flex-end"/>
+                <input class="btn btn-active" show="{{ idxCross === 3 }}" type="button" onclick="setPropAndSelect('idxCross', 3, 'cross', 'stretch')" value="stretch"/>
+                <input class="btn" show="{{ idxCross !== 3 }}" type="button" onclick="setPropAndSelect('idxCross', 3, 'cross', 'stretch')" value="stretch"/>
+            </list-item>
+        <!-- 子项独立对齐 align-self -->
+            <list-item class="btn-item">
+                <text class="group-label">子项独立对齐 align-self：</text>
+                <input class="btn btn-active" show="{{ idxAlignSelf === 0 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 0, 'alignSelf', 'center')" value="center"/>
+                <input class="btn" show="{{ idxAlignSelf !== 0 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 0, 'alignSelf', 'center')" value="center"/>
+                <input class="btn btn-active" show="{{ idxAlignSelf === 1 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 1, 'alignSelf', 'flex-end')" value="flex-end"/>
+                <input class="btn" show="{{ idxAlignSelf !== 1 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 1, 'alignSelf', 'flex-end')" value="flex-end"/>
+                <input class="btn btn-active" show="{{ idxAlignSelf === 2 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 2, 'alignSelf', 'stretch')" value="stretch"/>
+                <input class="btn" show="{{ idxAlignSelf !== 2 }}" type="button" onclick="setPropAndSelect('idxAlignSelf', 2, 'alignSelf', 'stretch')" value="stretch"/>
+            </list-item>
+        <!-- 子项伸缩 -->
+            <list-item class="btn-item">
+                <text class="group-label">子项伸缩 flex-grow/shrink/basis：</text>
+                <input class="btn btn-active" show="{{ idxFlexGrow === 0 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 0, 'grow', '1/2/1')" value="grow:1/2/1"/>
+                <input class="btn" show="{{ idxFlexGrow !== 0 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 0, 'grow', '1/2/1')" value="grow:1/2/1"/>
+                <input class="btn btn-active" show="{{ idxFlexGrow === 1 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 1, 'grow', '0')" value="grow:0"/>
+                <input class="btn" show="{{ idxFlexGrow !== 1 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 1, 'grow', '0')" value="grow:0"/>
+                <input class="btn btn-active" show="{{ idxFlexGrow === 2 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 2, 'grow', '1')" value="grow:1"/>
+                <input class="btn" show="{{ idxFlexGrow !== 2 }}" type="button" onclick="setPropAndSelect('idxFlexGrow', 2, 'grow', '1')" value="grow:1"/>
+                <input class="btn btn-active" show="{{ idxFlexShrink === 0 }}" type="button" onclick="setPropAndSelect('idxFlexShrink', 0, 'shrink', '0')" value="shrink:0"/>
+                <input class="btn" show="{{ idxFlexShrink !== 0 }}" type="button" onclick="setPropAndSelect('idxFlexShrink', 0, 'shrink', '0')" value="shrink:0"/>
+                <input class="btn btn-active" show="{{ idxFlexShrink === 1 }}" type="button" onclick="setPropAndSelect('idxFlexShrink', 1, 'shrink', '1')" value="shrink:1"/>
+                <input class="btn" show="{{ idxFlexShrink !== 1 }}" type="button" onclick="setPropAndSelect('idxFlexShrink', 1, 'shrink', '1')" value="shrink:1"/>
+                <input class="btn btn-active" show="{{ idxFlexBasis === 0 }}" type="button" onclick="setPropAndSelect('idxFlexBasis', 0, 'basis', '100px')" value="basis:100px"/>
+                <input class="btn" show="{{ idxFlexBasis !== 0 }}" type="button" onclick="setPropAndSelect('idxFlexBasis', 0, 'basis', '100px')" value="basis:100px"/>
+                <input class="btn btn-active" show="{{ idxFlexBasis === 1 }}" type="button" onclick="setPropAndSelect('idxFlexBasis', 1, 'basis', '200px')" value="basis:200px"/>
+                <input class="btn" show="{{ idxFlexBasis !== 1 }}" type="button" onclick="setPropAndSelect('idxFlexBasis', 1, 'basis', '200px')" value="basis:200px"/>
+            </list-item>
+        <!-- 多行对齐 align-content -->
+            <list-item class="btn-item">
+                <text class="group-label">多行对齐 align-content：</text>
+                <input class="btn btn-active" show="{{ idxAlignContent === 0 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 0, 'alignContent', 'flex-start')" value="flex-start"/>
+                <input class="btn" show="{{ idxAlignContent !== 0 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 0, 'alignContent', 'flex-start')" value="flex-start"/>
+                <input class="btn btn-active" show="{{ idxAlignContent === 1 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 1, 'alignContent', 'center')" value="center"/>
+                <input class="btn" show="{{ idxAlignContent !== 1 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 1, 'alignContent', 'center')" value="center"/>
+                <input class="btn btn-active" show="{{ idxAlignContent === 2 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 2, 'alignContent', 'flex-end')" value="flex-end"/>
+                <input class="btn" show="{{ idxAlignContent !== 2 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 2, 'alignContent', 'flex-end')" value="flex-end"/>
+                <input class="btn-larger btn-active" show="{{ idxAlignContent === 3 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 3, 'alignContent', 'space-between')" value="space-between"/>
+                <input class="btn-larger" show="{{ idxAlignContent !== 3 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 3, 'alignContent', 'space-between')" value="space-between"/>
+                <input class="btn btn-active" show="{{ idxAlignContent === 4 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 4, 'alignContent', 'stretch')" value="stretch"/>
+                <input class="btn" show="{{ idxAlignContent !== 4 }}" type="button" onclick="setPropAndSelect('idxAlignContent', 4, 'alignContent', 'stretch')" value="stretch"/>
+            </list-item>
+        <!-- 自动测试 -->
+            <list-item class="btn-item">
+                <text class="group-label">高频切换50次：</text>
+                <input class="btn" type="button" onclick="stopAutoTest()" value="停止"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoWrap }}" type="button" onclick="autoFlexWrap()" value="flex-wrap"/>
+                <input class="btn-larger-bg" show="{{ !isAutoWrap }}" type="button" onclick="autoFlexWrap()" value="flex-wrap"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoDir }}" type="button" onclick="autoFlexDir()" value="flex-direction"/>
+                <input class="btn-larger-bg" show="{{ !isAutoDir }}" type="button" onclick="autoFlexDir()" value="flex-direction"/>
+                <input class="btn-larger-bg btn-active" show="{{ isAutoAlignContent }}" type="button" onclick="autoAlignContent()" value="align-content"/>
+                <input class="btn-larger-bg" show="{{ !isAutoAlignContent }}" type="button" onclick="autoAlignContent()" value="align-content"/>
+            </list-item>
+            <list-item class="btn-item">
+                <text class="group-label">重置：</text>
+                <input class="btn-larger" type="button" onclick="resetAll()" value="重置全部参数"/>
+            </list-item>
+        </list>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+/* 全局容器，纵向排列，子元素水平居中 */
+.container {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #1a1a2e;
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 顶部导航栏 */
+.header {
+  width: 100%;
+  height: 68px;
+/*  background-color: #16213e;*/
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 顶部导航栏容器：固定高度，lite 下无固定高度会塌缩 */
+.top-bar {
+  width: 100%;
+  height: 60px;
+}
+
+/* 返回按钮 */
+.back-btn {
+  font-size: 28px;
+  width: 140px;
+  height: 50px;
+  color: #223344;
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.row-item {
+  width: 100%;
+  height: 180px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  scrollbar: on;
+}
+
+/* 页面主标题，宽度自适应 */
+.title {
+  font-size: 28px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* list-item：固定高度，lite 下 list-item 高度不随内容自适应，不设会塌缩成线 */
+.text-item {
+  width: 100%;
+  height: 80px;
+}
+
+/* 尾部占位项：撑出滚动余量，让最后一项能完整滚入可视区 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}
+
+/* 单个导航项，高度压缩，圆角 */
+.nav-item {
+  background-color: #000000;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+/* 导航项文字，宽度自适应 */
+.nav-text {
+  width: 100%;
+  font-size: 22px;
+  color: #ffffff;
+  text-align: center;
+}
