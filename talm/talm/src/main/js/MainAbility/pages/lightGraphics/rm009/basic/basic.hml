@@ -1,0 +1,19 @@
+<!-- RM.009 基础用例 分类页：基础动画/弹跳插值/串行并行三大特性入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_basic')">
+      <text class="nav-text">基础动画</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_bounce')">
+      <text class="nav-text">弹跳插值动画</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_combine')">
+      <text class="nav-text">串行/并行动画</text>
+    </list-item>
+  </list>
+</div>

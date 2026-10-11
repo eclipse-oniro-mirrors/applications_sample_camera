@@ -1,0 +1,34 @@
+<!-- SVG Tiny 1.2 渲染能力测试 - 导航首页 -->
+<div class="container">
+
+<!-- 返回 -->
+    <div class="header">
+        <input type="button" value="返回" class="back-btn" onclick="goBack" />
+        <text class="header-title">Flex 功能验证</text>
+    </div>
+
+    <div class="nav-item" onclick="navigateTo('rm017')">
+        <text class="nav-text">1、Flex 溢出控制、外边距、换行、容器方向、主轴对齐、交叉轴对齐</text>
+    </div>
+
+    <div class="nav-item" @click="navigateTo('rm018')">
+        <text class="nav-text">2、Flex 子项独立对齐、子项伸缩、多行对齐、换行、容器方向</text>
+    </div>
+
+    <div class="nav-item" @click="navigateTo('rm019')">
+        <text class="nav-text">3、Flex 尺寸约束:宽、高、按比例缩放，换行、容器方向</text>
+    </div>
+
+    <div class="nav-item" @click="navigateTo('rm019-1')">
+        <text class="nav-text">4、Flex 尺寸约束:最大最小宽度、最小高度，换行、容器方向</text>
+    </div>
+
+    <div class="nav-item" @click="navigateTo('rm020')">
+        <text class="nav-text">5、Flex 间距、换行、容器方向</text>
+    </div>
+
+    <div class="nav-item" @click="navigateTo('rm020-abs')">
+        <text class="nav-text">6、Flex 绝对定位初始包含块</text>
+    </div>
+
+</div>

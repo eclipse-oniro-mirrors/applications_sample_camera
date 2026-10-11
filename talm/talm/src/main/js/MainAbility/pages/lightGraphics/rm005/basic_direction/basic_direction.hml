@@ -1,0 +1,66 @@
+<!-- RM.005 基础用例-方向渐变：to 方向关键字（对角线 + 轴向） -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">方向渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 对角线 to top right：左下红 → 右上蓝 -->
+    <list-item class="card">
+      <text class="label">001 对角线 to top right</text>
+      <div class="stage"><div class="g-box g-tr"></div></div>
+      <text class="expect">预期：左下角红 → 右上角蓝，沿对角线平滑渐变</text>
+    </list-item>
+
+    <!-- 002 对角线 to bottom right：左上红 → 右下蓝 -->
+    <list-item class="card">
+      <text class="label">002 对角线 to bottom right</text>
+      <div class="stage"><div class="g-box g-br"></div></div>
+      <text class="expect">预期：左上角红 → 右下角蓝，沿对角线平滑渐变</text>
+    </list-item>
+
+    <!-- 003 轴向 to top：底部红 → 顶部蓝 -->
+    <list-item class="card">
+      <text class="label">003 轴向 to top</text>
+      <div class="stage"><div class="g-box g-t"></div></div>
+      <text class="expect">预期：底部红 → 顶部蓝，垂直方向平滑渐变</text>
+    </list-item>
+
+    <!-- 004 轴向 to right：左侧红 → 右侧蓝 -->
+    <list-item class="card">
+      <text class="label">004 轴向 to right</text>
+      <div class="stage"><div class="g-box g-r"></div></div>
+      <text class="expect">预期：左侧红 → 右侧蓝，水平方向平滑渐变</text>
+    </list-item>
+    <!-- 022 轴向 to bottom：顶部红 → 底部蓝（默认方向） -->
+    <list-item class="card">
+      <text class="label">005 轴向 to bottom</text>
+      <div class="stage"><div class="g-box g-b"></div></div>
+      <text class="expect">预期：顶部红 → 底部蓝，垂直方向平滑渐变（默认方向）</text>
+    </list-item>
+
+    <!-- 023 轴向 to left：右侧红 → 左侧蓝 -->
+    <list-item class="card">
+      <text class="label">006 轴向 to left</text>
+      <div class="stage"><div class="g-box g-l"></div></div>
+      <text class="expect">预期：右侧红 → 左侧蓝，水平方向平滑渐变</text>
+    </list-item>
+
+    <!-- 024 对角线 to bottom left：右上红 → 左下蓝 -->
+    <list-item class="card">
+      <text class="label">007 对角线 to bottom left</text>
+      <div class="stage"><div class="g-box g-bl"></div></div>
+      <text class="expect">预期：右上角红 → 左下角蓝，沿对角线平滑渐变</text>
+    </list-item>
+
+    <!-- 025 对角线 to top left：右下红 → 左上蓝 -->
+    <list-item class="card">
+      <text class="label">008 对角线 to top left</text>
+      <div class="stage"><div class="g-box g-tl"></div></div>
+      <text class="expect">预期：右下角红 → 左上角蓝，沿对角线平滑渐变</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

@@ -1,0 +1,166 @@
+.container {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #4a3a55;
+}
+.top-bar {
+    flex-direction: row;
+    width: 100%;
+    height: 10%;
+    padding-left: 10px;
+    align-items: center;
+}
+.btn-back {
+    font-size: 28px;
+    width: 120px;
+    height: 60px;
+    color: #4a3a55;
+    background-color: #ffffff;
+    border-radius: 6px;
+}
+.display-area {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+/*    background-color: #ffececad;*/
+/*    flex: 2;*/
+}
+.scene-title {
+    font-size: 28px;
+    text-align: center;
+    color: #ffee00;
+    margin-bottom: 5px;
+}
+.scene-box-flex-1 {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 350px;
+    height: 180px;
+    background-color: #ffb89e7c;
+}
+.scene-box-flex-2 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 350px;
+    height: 180px;
+    background-color: #ff857b5c;
+}
+/* Flex子项 */
+.item {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 6px;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;      /* 垂直居中 */
+}
+.item-only-width {
+    width: 100px;
+/*    height: 50px;*/
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 6px;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;      /* 垂直居中 */
+}
+.item0 {
+    background-color: #4caf50; /* 绿 */
+}
+.item1 {
+    background-color: #f44336; /* 红 */
+}
+.item2 {
+    background-color: #795548; /* 咖啡色 */
+}
+.item3 {
+    background-color: #ff9800; /* 橙 */
+}
+.item4 {
+    background-color: #2196f3; /* 蓝 */
+}
+.item5 {
+    background-color: #9c27b0; /* 紫 */
+}
+.item6 {
+    background-color: #00bcd4; /* 青色 */
+}
+.item7 {
+    background-color: #e91e63; /* 玫红 */
+}
+.item8 {
+    background-color: #8bc34a; /* 浅草绿 */
+}
+.item9 {
+    background-color: #3f51b5; /* 靛蓝 */
+}
+.item10 {
+    background-color: #ff5722; /* 深橘红 */
+}
+.item11 {
+    background-color: #cddc39; /* 酸柠黄 */
+}
+.item12 {
+    background-color: #673ab7; /* 深紫罗兰 */
+}
+.item13 {
+    background-color: #795548; /* 咖啡色 */
+}
+.item14 {
+    background-color: #607d8b; /* 灰蓝 */
+}
+.item15 {
+    background-color: #ffc107; /* 金黄 */
+}
+.button-wrapper {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+}
+.button-area {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 240px;
+}
+.btn-item {
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.group-label {
+    font-size: 18px;
+    color: #fff3efef;
+    margin-bottom: 6px;
+}
+.btn {
+    font-size: 14px;
+    width: 80px;
+    height: 50px;
+}
+.btn-larger {
+    font-size: 14px;
+    width: 110px;
+    height: 50px;
+}
+.btn-larger-bg {
+    font-size: 14px;
+    width: 110px;
+    height: 50px;
+    background-color: #ff208c9d; /* 青色 */
+}
+/* 选中橙色高亮样式，独立class，不存在组合选择器 */
+.btn-active {
+    background-color: #ff7800;
+    color: #ffffff;
+    border-color: #ff7800;
+}

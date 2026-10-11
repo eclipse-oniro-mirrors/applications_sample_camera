@@ -1,0 +1,166 @@
+/* RM.009 串行/并行动画页样式 — 参考 RM007 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: #1a1a2e;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 72px;
+  height: 40px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 400px;
+  background-color: #000000;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+}
+
+.label {
+  width: 100%;
+  font-size: 20px;
+  color: #ffd54f;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.stage {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #16213e;
+  border-radius: 10px;
+}
+
+.btn-row {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #0f3460;
+  border-radius: 8px;
+}
+
+.a-box {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background-color: #ab47bc;
+}
+
+.a-inner {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  border-radius: 10px;
+  background-color: #ab47bc;
+}
+
+/* 串行动画：单 keyframes 内分阶段，0~50% 先旋转、50~100% 再位移 */
+@keyframes serialAnim {
+  0%   { transform: translateX(0px) rotate(0deg); }
+  50%  { transform: translateX(0px) rotate(90deg); }
+  100% { transform: translateX(120px) rotate(90deg); }
+}
+
+/* 并行动画：单 keyframes 内多属性同步变化 */
+@keyframes parallelAnim {
+  from { transform: translateX(0px) rotate(0deg); }
+  to   { transform: translateX(120px) rotate(90deg); }
+}
+
+/* 单一 keyframes 多属性复合：translateX + rotate 同时生效 */
+@keyframes multiTransformAnim {
+  from { transform: translateX(0px) rotate(0deg); }
+  to   { transform: translateX(120px) rotate(90deg); }
+}
+
+.a-serial {
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.a-parallel {
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.a-multi-transform {
+  background-color: #ff7043;
+  animation-duration: 2000ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expect {
+  width: 100%;
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

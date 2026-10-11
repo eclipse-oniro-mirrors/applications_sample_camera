@@ -1,0 +1,39 @@
+<!-- RM.006 异常场景-非法渐变容错：非法颜色值 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">非法渐变容错</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 014 非法颜色值容错：非法颜色，渐变不生效但页面不崩溃 -->
+    <list-item class="card">
+      <text class="label">014 非法颜色值容错</text>
+      <div class="stage"><div class="g-box g-invalid"></div></div>
+      <text class="expect">预期：非法颜色渐变被忽略（显示灰色底色或安全降级），页面不崩溃、其余卡片正常</text>
+    </list-item>
+
+    <!-- 015 非法方向关键字容错 -->
+    <list-item class="card">
+      <text class="label">015 非法方向关键字容错</text>
+      <div class="stage"><div class="g-box g-invalid-dir"></div></div>
+      <text class="expect">预期：非法方向渐变被忽略（显示灰色底色或安全降级），页面不崩溃</text>
+    </list-item>
+
+    <!-- 016 缺少终止色容错 -->
+    <list-item class="card">
+      <text class="label">016 缺少终止色容错</text>
+      <div class="stage"><div class="g-box g-invalid-missing"></div></div>
+      <text class="expect">预期：缺少终止色的渐变被忽略（显示灰色底色或安全降级），页面不崩溃</text>
+    </list-item>
+
+    <!-- 017 偏移量超界：-20% / 150% 不钳位，可视区只截取渐变中间片段 -->
+    <list-item class="card">
+      <text class="label">017 偏移量超界容错</text>
+      <div class="stage"><div class="g-box g-invalid-offset"></div></div>
+      <text class="expect">预期：偏移不会钳位0~100%；可视区域只截取渐变中间片段，左右看不到纯红/纯蓝</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

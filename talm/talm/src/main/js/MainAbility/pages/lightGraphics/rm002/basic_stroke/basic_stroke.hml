@@ -1,0 +1,103 @@
+<!-- RM.002 基础用例-SVG描边样式：不同宽度 / 不同颜色的描边 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">SVG描边样式</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 001 不同宽度描边：stroke-width 1/2/4/8 逐级加粗 -->
+    <list-item class="card">
+      <text class="label">001 不同宽度描边</text>
+      <div class="svg-item">
+        <svg width="450" height="225" viewBox="0 0 300 150">
+          <circle cx="45" cy="75" r="20" fill="none" stroke="#ff4444" stroke-width="1"/>
+          <rect x="90" y="55" width="40" height="40" fill="none" stroke="#ff4444" stroke-width="2"/>
+          <polygon points="165,55 205,55 185,95" fill="none" stroke="#ff4444" stroke-width="4"/>
+          <ellipse cx="255" cy="75" rx="28" ry="12" fill="none" stroke="#ff4444" stroke-width="8"/>
+        </svg>
+      </div>
+      <text class="expect">预期：四个形状描边按1/2/4/8逐级加粗，粗细差异清晰可辨</text>
+    </list-item>
+
+    <!-- 002 不同颜色描边：颜色关键字 / 十六进制 / rgb 三种格式 -->
+    <list-item class="card">
+      <text class="label">002 不同颜色描边</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <circle cx="55" cy="60" r="40" fill="none" stroke="red" stroke-width="4"/>
+          <circle cx="150" cy="60" r="40" fill="none" stroke="#00aa00" stroke-width="4"/>
+          <circle cx="245" cy="60" r="40" fill="none" stroke="rgb(0,0,255)" stroke-width="4"/>
+        </svg>
+      </div>
+      <text class="expect">预期：三个空心圆描边依次为红（red关键字）、绿（#00aa00）、蓝（rgb(0,0,255)），三种颜色格式均正确解析</text>
+    </list-item>
+
+    <!-- 003 描边圆环：填充描边与空心描边 -->
+    <list-item class="card">
+      <text class="label">003 描边圆环</text>
+      <div class="svg-item">
+        <svg width="450" height="270" viewBox="0 0 300 180">
+          <circle cx="60" cy="80" r="40" fill="#ffeecc" stroke="#2266dd" stroke-width="4" />
+          <circle cx="160" cy="80" r="40" fill="none" stroke="#dd3333" stroke-width="3" />
+        </svg>
+      </div>
+      <text class="expect">预期：左侧圆环填充浅黄色并带蓝色描边，右侧圆环空心仅红色描边</text>
+    </list-item>
+
+    <!-- 004 虚线、端头与偏移 -->
+    <list-item class="card">
+      <text class="label">004 虚线、端头与偏移</text>
+      <div class="svg-item">
+        <svg width="450" height="270" viewBox="0 0 300 180">
+          <circle cx="60" cy="80" r="45" fill="none" stroke="#222222" stroke-width="3" stroke-dasharray="10 5"/>
+          <circle cx="150" cy="80" r="45" fill="none" stroke="#4488ff" stroke-width="6" stroke-dasharray="12 6" stroke-linecap="round"/>
+          <circle cx="240" cy="80" r="45" fill="none" stroke="#22bb55" stroke-width="4" stroke-dasharray="140 280" stroke-dashoffset="30"/>
+        </svg>
+      </div>
+      <text class="expect">预期：左圆虚线等距排列，中圆圆角线端，右圆虚线偏移后显示部分缺口</text>
+    </list-item>
+
+    <!-- 005 动画环形进度：描边动画 -->
+    <list-item class="card">
+      <text class="label">005 动画环形进度</text>
+      <div class="svg-item">
+        <svg if="{{ringPlaying}}" width="450" height="360" viewBox="0 0 240 240">
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#eeeeee" stroke-width="10"/>
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#3690ff" stroke-width="10"
+                  stroke-dasharray="565" stroke-dashoffset="565" stroke-linecap="round">
+            <animate attributeName="stroke-dashoffset" from="565" to="0" dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        <svg if="{{!ringPlaying}}" width="450" height="360" viewBox="0 0 240 240">
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#eeeeee" stroke-width="10"/>
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#3690ff" stroke-width="10"
+                  stroke-dasharray="565" stroke-dashoffset="565" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="btn-row">
+        <input type="button" value="{{ringPlaying ? '停止' : '开始'}}" class="btn" onclick="toggleRing" />
+      </div>
+      <text class="expect">预期：点击开始，蓝色圆环沿灰色轨道顺时针填充；点击停止，动画终止</text>
+    </list-item>
+    <!-- 006 stroke-linejoin 合法值：miter / round / bevel 三种连接样式对比 -->
+    <list-item class="card">
+      <text class="label">006 stroke-linejoin连接样式</text>
+      <div class="svg-item">
+        <svg width="450" height="200" viewBox="0 0 300 160">
+          <path d="M20,120 L60,40 L100,120" fill="none" stroke="#ff4444" stroke-width="8" stroke-linejoin="miter"/>
+          <text x="20" y="145" font-size="12" fill="#ffffff">miter</text>
+
+          <path d="M120,120 L160,40 L200,120" fill="none" stroke="#44cc44" stroke-width="8" stroke-linejoin="round"/>
+          <text x="120" y="145" font-size="12" fill="#ffffff">round</text>
+
+          <path d="M220,120 L260,40 L300,120" fill="none" stroke="#4488ff" stroke-width="8" stroke-linejoin="bevel"/>
+          <text x="220" y="145" font-size="12" fill="#ffffff">bevel</text>
+        </svg>
+      </div>
+      <text class="expect">预期：三个折线连接处分别显示尖角（miter）、圆角（round）、平角（bevel），样式差异清晰可辨</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

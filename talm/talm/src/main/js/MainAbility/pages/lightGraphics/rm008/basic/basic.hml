@@ -1,0 +1,16 @@
+<!-- RM.008 基础用例 分类页：沿指定路径移动/贝塞尔曲线路径动画 两大特性入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_path')">
+      <text class="nav-text">沿指定路径移动</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_bezier')">
+      <text class="nav-text">贝塞尔曲线路径动画</text>
+    </list-item>
+  </list>
+</div>

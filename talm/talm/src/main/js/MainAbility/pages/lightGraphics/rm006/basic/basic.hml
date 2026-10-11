@@ -1,0 +1,23 @@
+<!-- RM.006 基础用例 分类页：颜色渐变/方向渐变/button/list 入口 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">基础用例</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic_color')">
+      <text class="nav-text">颜色渐变</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_direction')">
+      <text class="nav-text">方向渐变</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_button')">
+      <text class="nav-text">Button 颜色渐变</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('basic_list')">
+      <text class="nav-text">List 颜色渐变</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

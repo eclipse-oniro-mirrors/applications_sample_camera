@@ -1,0 +1,134 @@
+/* RM.005 方向渐变页样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+}
+
+.header {
+  width: 100%;
+  height: 68px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  width: 90px;
+  height: 44px;
+  background-color: #0f3460;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.content {
+/*  display: flex;*/
+/*  flex-direction: column;*/
+  width: 100%;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* 单个用例卡片：固定高度，lite 下不设高度会塌缩 */
+.card {
+/*  display: flex;*/
+  flex-direction: column;
+  width: 100%;
+  height: 310px;
+  background-color: #000000;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+.label {
+  font-size: 18px;
+  color: #ffd54f;
+  margin-bottom: 6px;
+}
+
+/* 渐变展示块：渐变本身是被测对象，写在 CSS 类里 */
+.g-box {
+  width: 100%;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+/* 001 对角线：左下 → 右上 */
+.g-tr {
+  background: linear-gradient(to top right, #ff0000, #0000ff);
+}
+
+/* 002 对角线：左上 → 右下 */
+.g-br {
+  background: linear-gradient(to bottom right, #ff0000, #0000ff);
+}
+
+/* 003 轴向：底部 → 顶部 */
+.g-t {
+  background: linear-gradient(to top, #ff0000, #0000ff);
+}
+
+/* 004 轴向：左侧 → 右侧 */
+.g-r {
+  background: linear-gradient(to right, #ff0000, #0000ff);
+}
+
+/* 022 轴向：顶部 → 底部（默认方向） */
+.g-b {
+  background: linear-gradient(to bottom, #ff0000, #0000ff);
+}
+
+/* 023 轴向：右侧 → 左侧 */
+.g-l {
+  background: linear-gradient(to left, #ff0000, #0000ff);
+}
+
+/* 024 对角线：右上 → 左下 */
+.g-bl {
+  background: linear-gradient(to bottom left, #ff0000, #0000ff);
+}
+
+/* 025 对角线：右下 → 左上 */
+.g-tl {
+  background: linear-gradient(to top left, #ff0000, #0000ff);
+}
+
+.expect {
+  font-size: 14px;
+  color: #90caf9;
+  margin-top: 6px;
+}
+
+/* 009 参考：stage 容器给固定高度，防止子元素塌缩 */
+.stage {
+  width: 100%;
+  height: 200px;
+  min-height: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 009 参考：尾部占位，让 list 最后一个 item 能被正常看到 */
+.tail-spacer {
+  width: 100%;
+  height: 120px;
+}

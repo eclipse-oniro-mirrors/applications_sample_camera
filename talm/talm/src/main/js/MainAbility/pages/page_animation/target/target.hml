@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="top-bar">
+    <input class="back-btn" type="button" value="返回" onclick="goBack" />
+  </div>
+  <list class="content" scrollbar="off">
+    <list-item class="title-item">
+      <text class="title">{{ title }}</text>
+    </list-item>
+    <!-- Measured-duration block, folded into a single row so the actual and the set value sit
+         side by side and remain comparable at a glance. It used to be two rows (140px), taking
+         nearly 40% of the visible height and pushing the target area below the fold. -->
+    <list-item class="measure-item">
+      <div class="measure-row">
+        <text class="measure-label">实际</text>
+        <text class="measure-value">{{ actualText }}</text>
+        <text class="measure-label">设定</text>
+        <text class="measure-set">{{ duration }}ms</text>
+      </div>
+    </list-item>
+    <list-item class="target-item">
+      <div class="target-area" style="background-color:{{ bgColor }}">
+        <text class="target-text">{{ type }}</text>
+      </div>
+    </list-item>
+  </list>
+</div>

@@ -1,0 +1,84 @@
+<!-- RM.002 基础用例-SVG星形路径：标准五角星路径，Z闭合四组对比 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">SVG星形路径</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 014 标准五角星路径：4组对比，闭合指令/填充描边组合 -->
+    <list-item class="card">
+      <text class="label">014 标准五角星路径：Z闭合四组对比、填充+描边</text>
+      <div class="svg-item">
+        <svg width="450" height="240" viewBox="0 0 450 190">
+          <!-- ① 无Z｜不闭合，仅描边 -->
+          <path d="M56,50 L68,74 L94,74 L77,90 L85,116 L56,100 L27,116 L35,90 L18,74 L44,74"
+                fill="none" stroke="#e53935" stroke-width="2"/>
+          <!-- ② 带Z｜闭合，仅描边无填充 -->
+          <path d="M168,50 L180,74 L206,74 L189,90 L197,116 L168,100 L139,116 L147,90 L130,74 L156,74 Z"
+                fill="none" stroke="#4488ff" stroke-width="2"/>
+          <!-- ③ 带Z｜闭合，仅填充无描边 -->
+          <path d="M280,50 L292,74 L318,74 L301,90 L309,116 L280,100 L251,116 L259,90 L242,74 L268,74 Z"
+                fill="#ffd700"/>
+          <!-- ④ 带Z｜闭合，填充+描边 -->
+          <path d="M392,50 L404,74 L430,74 L413,90 L421,116 L392,100 L363,116 L371,90 L354,74 L380,74 Z"
+                fill="#ffd700" stroke="#ff8c00" stroke-width="2"/>
+
+          <!-- 底部文字标注 -->
+          <text x="17" y="175" font-size="13" fill="#ffffff">无Z｜不闭合</text>
+          <text x="129" y="175" font-size="13" fill="#ffffff">带Z｜仅描边</text>
+          <text x="241" y="175" font-size="13" fill="#ffffff">带Z｜仅填充</text>
+          <text x="347" y="175" font-size="13" fill="#ffffff">带Z｜填充+描边</text>
+        </svg>
+      </div>
+      <text class="expect">预期：四颗五角星几何轮廓完全一致，为标准交叉五角星；1. 红色五角星无Z指令，首尾端点存在明显缺口，路径不闭合；2. 蓝色五角星带Z闭合，空心轮廓，仅描边无填充；3. 金色五角星带Z闭合，实心填充，无边线；4. 右侧五角星带Z闭合，金色填充与橙色描边同时正常渲染；图形横向间距充足，无重叠、无裁切。</text>
+    </list-item>
+    <!-- 015 星形路径自相交：验证自相交路径填充规则 -->
+    <list-item class="card">
+      <text class="label">015 星形路径自相交</text>
+      <div class="svg-item">
+        <svg width="450" height="180" viewBox="0 0 300 120">
+          <path d="M150,20 L180,100 L90,50 L210,50 L120,100 Z" fill="#ffaa00" stroke="#e53935" stroke-width="2"/>
+        </svg>
+      </div>
+      <text class="expect">预期：自相交五角星按nonzero规则填充，中心区域不镂空；红色描边完整</text>
+    </list-item>
+
+    <!-- 016 五角星少个角：路径缺少一个外角顶点，形成四角星 -->
+    <list-item class="card">
+      <text class="label">016 五角星少个角</text>
+      <div class="svg-item">
+        <svg width="450" height="225" viewBox="0 0 200 150">
+          <!-- 标准五角星参考（半透明） -->
+          <path d="M100,10 L120,60 L175,60 L130,90 L145,140 L100,115 L55,140 L70,90 L25,60 L80,60 Z"
+                fill="#ffd700" stroke="#ff8c00" stroke-width="2" opacity="0.3"/>
+          <!-- 缺少左上外角 (25,60)，从相邻内角 (80,60) 直接闭合 -->
+          <path d="M100,10 L120,60 L175,60 L130,90 L145,140 L100,115 L55,140 L70,90 L80,60 Z"
+                fill="#ff4444" stroke="#e53935" stroke-width="2"/>
+        </svg>
+      </div>
+      <text class="expect">预期：五角星路径缺少一个外角顶点，呈四角星形态，填充与描边正常渲染</text>
+    </list-item>
+
+    <!-- 017 fill-rule evenodd：自相交路径 evenodd 与 nonzero 填充规则对比 -->
+    <list-item class="card">
+      <text class="label">017 fill-rule evenodd对比</text>
+      <div class="svg-item">
+        <svg width="450" height="200" viewBox="0 0 320 170">
+          <!-- evenodd：中心镂空 -->
+          <path d="M80,20 L116,142 L23,62 L137,62 L44,142 Z"
+                fill="#ff8800" stroke="#e53935" stroke-width="2" fill-rule="evenodd"/>
+          <text x="50" y="160" font-size="12" fill="#ffffff">evenodd</text>
+
+          <!-- nonzero：实心 -->
+          <path d="M230,20 L266,142 L173,62 L287,62 L194,142 Z"
+                fill="#ff8800" stroke="#e53935" stroke-width="2" fill-rule="nonzero"/>
+          <text x="200" y="160" font-size="12" fill="#ffffff">nonzero</text>
+        </svg>
+      </div>
+      <text class="expect">预期：两颗标准一笔自相交五芒星；左侧 evenodd 中心区域镂空，右侧 nonzero 中心区域完整填充橙色；两条路径描边完整闭合。</text>
+    </list-item>
+
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

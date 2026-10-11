@@ -1,0 +1,24 @@
+<!-- RM.006 基础用例-方向渐变：多色（五色）水平/垂直方向渐变 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">方向渐变</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 005 水平多色 to left：右侧红 → 橙黄绿 → 左侧蓝 -->
+    <list-item class="card">
+      <text class="label">005 水平多色 to left</text>
+      <div class="g-left"></div>
+      <text class="expect">预期：右侧红 → 橙 → 黄 → 绿 → 左侧蓝，多色水平平滑渐变</text>
+    </list-item>
+
+    <!-- 006 垂直多色 to bottom：顶部红 → 橙黄绿 → 底部蓝 -->
+    <list-item class="card">
+      <text class="label">006 垂直多色 to bottom</text>
+      <div class="g-bottom"></div>
+      <text class="expect">预期：顶部红 → 橙 → 黄 → 绿 → 底部蓝，多色垂直平滑渐变</text>
+    </list-item>
+    <list-item class="tail-spacer"></list-item>
+  </list>
+</div>

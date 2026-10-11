@@ -1,0 +1,19 @@
+<!-- RM.007 转场动画测试 入口页：按用例分类导航 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">转场动画测试 RM.007</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <list-item class="nav-item" onclick="navigateTo('basic')">
+      <text class="nav-text">基础用例</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('boundary')">
+      <text class="nav-text">边界约束用例</text>
+    </list-item>
+    <list-item class="nav-item" onclick="navigateTo('exception')">
+      <text class="nav-text">异常场景用例</text>
+    </list-item>
+  </list>
+</div>

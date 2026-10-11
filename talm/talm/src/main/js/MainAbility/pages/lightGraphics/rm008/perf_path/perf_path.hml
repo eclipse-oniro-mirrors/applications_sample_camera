@@ -1,0 +1,22 @@
+<!-- RM.008 性能用例-批量路径动画：验证 12 个元素同时沿路径移动的渲染性能，用例独立按钮控制 -->
+<div class="container">
+  <div class="header">
+    <text class="header-title">批量路径动画</text>
+    <input type="button" value="返回" class="back-btn" onclick="goBack" />
+  </div>
+
+  <list class="content">
+    <!-- 016 批量路径动画 -->
+    <list-item class="card">
+      <text class="label">016 批量路径动画</text>
+      <div class="batch-wrap">
+        <div class="cell" for="{{blocks}}">
+          <div class="cell-dot a-batch" if="{{p1}}"></div>
+          <div class="cell-dot" if="{{!p1}}"></div>
+        </div>
+      </div>
+      <input type="button" value="{{p1 ? '结束' : '开始'}}" class="case-btn" onclick="toggle('p1')" />
+      <text class="expect">预期：开始后多个小点同时沿各自路径匀速移动，全部完整渲染、无缺个/残影/卡顿</text>
+    </list-item>
+  </list>
+</div>
