@@ -9,14 +9,14 @@
     <!-- 009 0ms -->
     <list-item class="card">
       <text class="label">009 转场时长 0ms</text>
-      <div ref="st009" class="stage t-zero">
+      <stack ref="st009" class="stage t-zero">
         <div ref="a009" class="panel pa">
           <text class="panel-text">A</text>
         </div>
         <div ref="b009" class="panel pb">
           <text class="panel-text">B</text>
         </div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switch009" />
       </div>
@@ -26,14 +26,14 @@
     <!-- 010 5000ms -->
     <list-item class="card">
       <text class="label">010 超长转场时长 5000ms</text>
-      <div ref="st010" class="stage t-long">
+      <stack ref="st010" class="stage t-long">
         <div ref="a010" class="panel pa">
           <text class="panel-text">A</text>
         </div>
         <div ref="b010" class="panel pb">
           <text class="panel-text">B</text>
         </div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switch010" />
       </div>
@@ -43,14 +43,14 @@
     <!-- 011 -100ms -->
     <list-item class="card">
       <text class="label">011 负数转场时长 -100ms</text>
-      <div ref="st011" class="stage t-neg">
+      <stack ref="st011" class="stage t-neg">
         <div ref="a011" class="panel pa">
           <text class="panel-text">A</text>
         </div>
         <div ref="b011" class="panel pb">
           <text class="panel-text">B</text>
         </div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switch011" />
       </div>
@@ -60,14 +60,14 @@
     <!-- 012 999999ms -->
     <list-item class="card">
       <text class="label">012 超大转场时长 999999ms</text>
-      <div ref="st012" class="stage t-huge">
+      <stack ref="st012" class="stage t-huge">
         <div ref="a012" class="panel pa">
           <text class="panel-text">A</text>
         </div>
         <div ref="b012" class="panel pb">
           <text class="panel-text">B</text>
         </div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switch012" />
       </div>

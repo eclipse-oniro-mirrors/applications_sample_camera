@@ -8,7 +8,7 @@
   <list class="content">
     <list-item class="card">
       <text class="label">007 共享元素转场 shared-element</text>
-      <div ref="sharedStage" class="stage shared-stage">
+      <stack ref="sharedStage" class="stage shared-stage">
         <div ref="sharedA" class="panel panel-a">
           <text class="panel-text">A</text>
         </div>
@@ -16,7 +16,7 @@
           <text class="panel-text">B</text>
         </div>
         <div ref="sharedStar" class="shared-star"></div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switchShared" />
       </div>
