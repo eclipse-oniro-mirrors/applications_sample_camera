@@ -8,14 +8,14 @@
   <list class="content">
     <list-item class="card">
       <text class="label">008 延迟转场 transition-delay</text>
-      <div ref="delayStage" class="stage t-delay">
+      <stack ref="delayStage" class="stage t-delay">
         <div ref="delayA" class="panel pa">
           <text class="panel-text">A</text>
         </div>
         <div ref="delayB" class="panel pb">
           <text class="panel-text">B</text>
         </div>
-      </div>
+      </stack>
       <div class="btn-row">
         <input type="button" value="切换" class="btn" onclick="switchDelay" />
       </div>

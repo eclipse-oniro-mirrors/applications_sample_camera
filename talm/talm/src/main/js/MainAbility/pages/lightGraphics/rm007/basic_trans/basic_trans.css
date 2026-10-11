@@ -63,20 +63,14 @@
 
 /* 转场舞台：固定 300×150，黑色背景，大气圆角 */
 .stage {
-  position: relative;
   width: 300px;
   height: 150px;
   background-color: #16213e;
   border-radius: 10px;
-  justify-content: center;
-  align-items: center;
 }
 
-/* 两个 panel 绝对定位叠放，填满舞台 */
+/* 两个 panel 叠放，填满舞台 */
 .panel {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 300px;
   height: 150px;
   border-radius: 10px;

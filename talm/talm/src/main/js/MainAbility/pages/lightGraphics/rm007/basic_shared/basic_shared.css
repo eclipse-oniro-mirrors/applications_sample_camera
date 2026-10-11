@@ -63,19 +63,13 @@
 
 /* 转场舞台：300×150，和基础转场保持一致 */
 .stage {
-  position: relative;
   width: 300px;
   height: 150px;
   border-radius: 10px;
-  justify-content: center;
-  align-items: center;
 }
 
-/* 两个面板绝对定位叠放，填满舞台 */
+/* 两个面板叠放，填满舞台 */
 .panel {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 300px;
   height: 150px;
   border-radius: 10px;
@@ -107,9 +101,8 @@
 
 /* 共享元素 — 黄色圆形星星，初始位置 30,30，尺寸 40×40 */
 .shared-star {
-  position: absolute;
-  left: 30px;
-  top: 30px;
+  margin-left: 30px;
+  margin-top: 30px;
   width: 40px;
   height: 40px;
   background-color: #ffff00;
