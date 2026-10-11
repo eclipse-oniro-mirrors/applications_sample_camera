@@ -1,44 +1,7 @@
 import router from '@system.router';
 
-const baseData = {
-    // Flex容器配置
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexWrap: 'nowrap',
-    alignContent: undefined,
-    boxOverflow: 'visible',
-};
-
-const itemData = {
-    // Flex子项配置（红色item1生效）
-    itemAlignSelf: 'auto',
-    itemGrow: 0,
-    itemShrink: 0,
-    itemBasis: undefined,
-    item2Grow: 0,
-    item2Shrink: 0,
-    item2Basis: undefined,
-    item3Grow: 0,
-    item3Shrink: 0,
-    item3Basis: undefined,
-
-    itemWidth: '50px',
-    itemHeight: '50px',
-    itemDisplay: 'flex',
-    itemDisplay4to6: 'flex',
-    itemDisplay2to3: 'flex',
-
-    // 容器显示控制
-    flex2Display: 'flex',
-    flex3Display: 'flex',
-
-    // 无高/无宽容器中 item1 的宽高
-    itemNoHeight: undefined,
-    itemNoWidth: undefined,
-};
-
-const stateData = {
+function createStateData() {
+    return {
     // 高频切换选中状态
     isAutoWrap: false,
     isAutoDir: false,
@@ -70,11 +33,52 @@ const stateData = {
     // 容器显示控制索引
     idxFlex2Display: -1,
     idxFlex3Display: -1,
-};
+    };
+}
 
 export default {
     data() {
-        return Object.assign({}, baseData, itemData, stateData);
+        const data = {
+            // Flex容器配置
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            flexWrap: 'nowrap',
+            alignContent: undefined,
+            boxOverflow: 'visible',
+
+            // Flex子项配置（红色item1生效）
+            itemAlignSelf: 'auto',
+            itemGrow: 0,
+            itemShrink: 0,
+            itemBasis: undefined,
+            item2Grow: 0,
+            item2Shrink: 0,
+            item2Basis: undefined,
+            item3Grow: 0,
+            item3Shrink: 0,
+            item3Basis: undefined,
+
+            itemWidth: '50px',
+            itemHeight: '50px',
+            itemDisplay: 'flex',
+            itemDisplay4to6: 'flex',
+            itemDisplay2to3: 'flex',
+
+            // 容器显示控制
+            flex2Display: 'flex',
+            flex3Display: 'flex',
+
+            // 无高/无宽容器中 item1 的宽高
+            itemNoHeight: undefined,
+            itemNoWidth: undefined,
+
+        };
+        const state = createStateData();
+        Object.keys(state).forEach(key => {
+            data[key] = state[key];
+        });
+        return data;
     },
     onShow() {
         // 页面进来默认每行选中第一个
