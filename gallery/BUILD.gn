@@ -13,20 +13,32 @@
 
 import("//build/lite/config/hap_pack.gni")
 
+config("hilog_dir") {
+  include_dirs =
+      [ "//base/hiviewdfx/hilog_lite/interfaces/native/innerkits/hilog/" ]
+}
+config("hilog_lite_dir") {
+  include_dirs =
+      [ "//base/hiviewdfx/hilog_lite/interfaces/native/kits/hilog_lite/" ]
+}
+
 shared_library("gallery") {
   sources = [
     "src/gallery_ability.cpp",
     "src/gallery_ability_slice.cpp",
     "src/picture_ability_slice.cpp",
     "src/player_ability_slice.cpp",
+    "src/image_decoder.cpp",
   ]
 
   include_dirs = [
     "include",
+    "..",
     "${aafwk_lite_path}/interfaces/kits/ability_lite",
     "${appexecfwk_lite_path}/interfaces/kits/bundle_lite",
     "${aafwk_lite_path}/interfaces/kits/want_lite",
     "//foundation/multimedia/media_lite/interfaces/kits/player_lite",
+    "//foundation/arkui/ui_lite/frameworks",
   ]
 
   deps = [
@@ -40,6 +52,19 @@ shared_library("gallery") {
     "//foundation/multimedia/media_lite/frameworks/recorder_lite:recorder_lite",
     "//foundation/systemabilitymgr/samgr_lite/samgr:samgr",
   ]
+
+    if (defined(ohos_lite)) {
+    if (ohos_kernel_type == "liteos_m") {
+      configs += [ ":hilog_lite_dir" ]
+      deps += [ "//base/hiviewdfx/hilog_lite/frameworks/mini:hilog_lite" ]
+    } else if (ohos_kernel_type == "liteos_a") {
+      configs += [ ":hilog_dir" ]
+      deps += [
+        "//base/hiviewdfx/hilog_lite/frameworks/featured:hilog_shared",
+        "//third_party/bounds_checking_function:libsec_shared",
+      ]
+    }
+  }
 
   ldflags = [ "-shared" ]
 
@@ -58,7 +83,26 @@ shared_library("gallery") {
     "OHOS_APPEXECFWK_BMS_BUNDLEMANAGER",
     "ENABLE_WINDOW=1",
     "ABILITY_WINDOW_SUPPORT",
+    "HILOG_ENABLE",
   ]
+
+  # image decode for jpeg/png
+  deps += [
+      "//third_party/libjpeg-turbo:libjpeg",
+      "//third_party/libpng:libpng",
+  ]
+  defines += [
+    "ENABLE_JPEG = 1",
+    "ENABLE_PNG = 1",
+  ]
+}
+
+copy("test_jpeg") {
+  sources = [
+    "resources/photos/photo1.jpeg",
+    "resources/photos/photo2.jpeg"
+  ]
+  outputs = [ "${root_out_dir}/system/internal/{{source_file_part}}" ]
 }
 
 hap_pack("gallery_hap") {

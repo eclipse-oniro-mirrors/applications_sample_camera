@@ -79,17 +79,56 @@ private:
     RootView* rootView_;
     EventListener* buttonBackListener_;
     DisBtnOnStateChangeListener* changeListener_;
-    constexpr static int TOGGLE_X = 36;
-    constexpr static int TOGGLE_Y = 72;
+    /* Scaled positions from 1920x1080 reference — keep proportions at every resolution */
+    static constexpr int16_t toggleXRef = 36;
+    static constexpr int16_t toggleYRef = 72;
 
-    constexpr static int USE_WIFI_FONT_X = 54;
-    constexpr static int USE_WIFI_FONT_Y = 187;
+    static constexpr int16_t useWifiFontXRef = 54;
+    static constexpr int16_t useWifiFontYRef = 187;
 
-    constexpr static int ADD_WIFI_X = 0;
-    constexpr static int SCROLL_WIFI_X = 36;
-    constexpr static int SCROLL_WIFI_Y = 242;
-    constexpr static int SCROLL_WIFI_WIDTH = 960;
-    constexpr static int SCROLL_WIFI_HEIGHT = 238;
+    static constexpr int16_t scrollWifiXRef = 36;
+    static constexpr int16_t scrollWifiYRef = 242;
+    static constexpr int16_t scrollWifiWidthRef = 960;
+    static constexpr int16_t scrollWifiHeightRef = 238;
+
+    static inline int TOGGLE_X()
+    {
+        return HScale(toggleXRef);
+    }
+    static inline int TOGGLE_Y()
+    {
+        return VScale(toggleYRef);
+    }
+
+    static inline int USE_WIFI_FONT_X()
+    {
+        return HScale(useWifiFontXRef);
+    }
+    static inline int USE_WIFI_FONT_Y()
+    {
+        return VScale(useWifiFontYRef);
+    }
+
+    static inline int ADD_WIFI_X()
+    {
+        return 0;
+    }
+    static inline int SCROLL_WIFI_X()
+    {
+        return HScale(scrollWifiXRef);
+    }
+    static inline int SCROLL_WIFI_Y()
+    {
+        return VScale(scrollWifiYRef);
+    }
+    static inline int SCROLL_WIFI_WIDTH()
+    {
+        return HScale(scrollWifiWidthRef);
+    }
+    static inline int SCROLL_WIFI_HEIGHT()
+    {
+        return VScale(scrollWifiHeightRef);
+    }
 };
 } // namespace OHOS
 #endif

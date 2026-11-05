@@ -1,0 +1,89 @@
+{
+    "app": {
+        "bundleName": "com.huawei.recorder",
+        "vendor": "huawei",
+        "version": {
+            "code": 1,
+            "name": "1.0"
+        },
+        "apiVersion": {
+            "compatible": 3,
+            "target": 4
+        }
+    },
+    "deviceConfig": {
+        "default": {
+        }
+    },
+    "module": {
+        "package": "com.huawei.recorder",
+        "name": ".MyHarmonyAbilityPackage",
+        "deviceType": [
+            "phone",
+            "tv",
+            "tablet",
+            "pc",
+            "car",
+            "smartWatch",
+            "sportsWatch",
+            "smartVision"
+        ],
+        "distro": {
+            "deliveryWithInstall": true,
+            "moduleName": "recorder",
+            "moduleType": "entry"
+        },
+        "abilities": [
+            {
+                "name": "RecorderAbility",
+                "icon": "assets/recorder/resources/drawable/recorder.png",
+                "label": "test app 1",
+                "launchType": "standard",
+                "type": "page",
+                "visible": true
+            }
+        ],
+        "reqPermissions": [
+            {
+                "name": "ohos.permission.MODIFY_AUDIO_SETTINGS",
+                "reason": "SYSTEM_GRANT",
+                "usedScene": {
+                    "ability": [
+                        ".FormAbility"
+                    ],
+                    "when": "inuse"
+                }
+            },
+            {
+                "name": "ohos.permission.READ_MEDIA",
+                "reason": "USER_GRANT",
+                "usedScene": {
+                    "ability": [
+                        ".FormAbility"
+                    ],
+                    "when": "inuse"
+                }
+            },
+            {
+                "name": "ohos.permission.READ_MEDIA_AUDIO",
+                "reason": "USER_GRANT",
+                "usedScene": {
+                    "ability": [
+                        ".FormAbility"
+                    ],
+                    "when": "inuse"
+                }
+            },
+            {
+                "name": "ohos.permission.MICROPHONE",
+                "reason": "USER_GRANT",
+                "usedScene": {
+                    "ability": [
+                        ".FormAbility"
+                    ],
+                    "when": "inuse"
+                }
+            }
+        ]
+    }
+}

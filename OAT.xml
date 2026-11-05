@@ -59,6 +59,7 @@ Note:If the text contains special characters, please escape them according to th
         <licensefile></licensefile>
         <policylist>
             <policy name="projectPolicy" desc="">
+                <policyitem type="copyright" name="Copyright (c) 2026 RKH Corp." path=".*" desc="copyright"/>
             </policy>
         </policylist>
         <filefilterlist>

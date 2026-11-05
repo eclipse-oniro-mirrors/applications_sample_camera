@@ -19,6 +19,7 @@
 #include <ability_loader.h>
 #include "components/ui_image_view.h"
 #include "components/ui_view_group.h"
+#include "components/ui_label.h"
 #include "event_listener.h"
 #include "gallery_config.h"
 
@@ -36,12 +37,13 @@ protected:
 
 private:
     void Clear();
-    void InitTitle();
+    void InitTitle(const char* imageName);
     void InitPicture(const char* path);
 
     RootView* rootView_ { nullptr };
     UIViewGroup* backArea_ { nullptr };
     UIImageView* backIcon_ { nullptr };
+    UILabel* titleLabel_ { nullptr };
     EventListener* backIconListener_ { nullptr };
     UIImageView* picture_ { nullptr };
     char backIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };

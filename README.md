@@ -8,7 +8,7 @@
 
 ## Introduction<a name="section11660541593"></a>
 
-This repository provides media-related applications, such as the home screen and settings.
+This repository provides media-related applications, such as the camera, gallery, home screen, sound recorder, and settings.
 
 **Figure  1**  Position of this repository \(in the dotted blue box\) in the multimedia subsystem<a name="fig189881143114217"></a>  
 ![](figures/position-of-this-repository-(in-the-dotted-blue-box)-in-the-multimedia-subsystem.png "position-of-this-repository-(in-the-dotted-blue-box)-in-the-multimedia-subsystem")
@@ -21,6 +21,7 @@ applications/sample/camera
 ├── gallery     # Photo gallery
 ├── launcher    # Home screen
 ├── media       # Apps of photographing, video recording, and audio and video playback
+├── recorder    # Sound recorder app
 └── setting     # Settings
 ```
 

@@ -20,8 +20,11 @@
 #include <components/ui_image_view.h>
 #include <components/ui_label.h>
 #include <components/ui_scroll_view.h>
+#include <atomic>
+#include <memory>
 #include "event_listener.h"
 #include "gallery_config.h"
+#include "image_decoder.h"
 
 namespace OHOS {
 class GalleryAbilitySlice : public AbilitySlice {
@@ -41,9 +44,12 @@ private:
     void ClearThumb();
     void ClearPictureList(const UIView* view);
     void InitTitle();
+    void InitTitleBackArea();
+    void InitTitleLabels();
     void InitPictureList();
-    void AddAllPictures(const Point& pos, int16_t numInLine);
+    void AddAllPictures(const Point& pos, int16_t numInLine, std::string directoryPath);
     UIView* CreateImageItem(const Point& pos, const char* imageName, const char* imagePath);
+    void AddVideoItemViews(UIViewGroup* imageItem, UIImageView* imageView, const char* imageName);
     EventListener* GetImageClickListener(const char* path);
     void DeleteAllData();
     void DeleteAllFilesInDir(const char* path);
@@ -63,6 +69,9 @@ private:
     char videoTagIconAbsolutePath[MAX_PATH_LENGTH] = { 0 };
     uint16_t pictureOnClickListenerCount_ { 0 };
     EventListener* pictureOnClickListener_[MAX_PICTURE_COUNT] = { nullptr };
+    ImageDecoder* imageDecoder_ { nullptr };
+    // 视图存活令牌：异步解码回调捕获副本，视图销毁后令牌置 false，防止 Use-After-Free
+    std::shared_ptr<std::atomic<bool>> viewsAlive_ = std::make_shared<std::atomic<bool>>(false);
 };
 }
 #endif // OHOS_GALLERY_ABILITY_SLICE_H
