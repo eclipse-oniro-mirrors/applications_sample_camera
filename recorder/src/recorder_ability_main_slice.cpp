@@ -426,6 +426,10 @@ void RecorderAbilityMainSlice::Stop()
 void RecorderAbilityMainSlice::Pause()
 {
     LOGI("Pause");
+    if (!mediaUtils_.PauseRecord()) {
+        LOGE("Pause failed!");
+        return;
+    }
     noticeLabel_->SetText("已暂停");
     pauseButton_->SetSrc(resumeIconAbsolutePath);
     pauseButton_->SetOnClickListener(resumeButtonListener_);
@@ -435,6 +439,10 @@ void RecorderAbilityMainSlice::Pause()
 void RecorderAbilityMainSlice::Resume()
 {
     LOGI("Resume");
+    if (!mediaUtils_.ResumeRecord()) {
+        LOGE("Resume failed!");
+        return;
+    }
     noticeLabel_->SetText("正在录音...");
     pauseButton_->SetSrc(pauseIconAbsolutePath);
     pauseButton_->SetOnClickListener(pauseButtonListener_);
@@ -444,6 +452,10 @@ void RecorderAbilityMainSlice::Resume()
 void RecorderAbilityMainSlice::Cancel()
 {
     LOGI("Cancel");
+    if (!mediaUtils_.CancelRecord()) {
+        LOGE("Cancel failed!");
+        return;
+    }
     noticeLabel_->SetText("点击下方按钮开始录音");
     startButton_->SetSrc(startIconAbsolutePath);
     startButton_->SetOnClickListener(startButtonListener_);

@@ -35,7 +35,10 @@ public:
     bool SetRecorderCallback(Media::RecorderCallback* recorderCallback);
 #endif
     bool StartRecord();
+    bool PauseRecord();
+    bool ResumeRecord();
     bool StopRecord();
+    bool CancelRecord();
 
     // Player
 #ifdef USE_PLAYER_API
@@ -72,6 +75,7 @@ private:
 #endif
 
     bool recording_ = false;
+    bool recordPaused_ = false;
     bool playing_ = false;
     bool paused_ = false;
 };
