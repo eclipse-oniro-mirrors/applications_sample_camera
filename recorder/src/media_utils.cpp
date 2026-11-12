@@ -112,7 +112,12 @@ static bool DeleteDirectory(const std::string& dirPath)
 
 MediaUtils::~MediaUtils()
 {
-    CloseRecorder();
+    if (recording_) {
+        // 异常退出时停止并归档正在进行的录音，避免 norm/ 临时文件残留
+        StopRecord();
+    } else {
+        CloseRecorder();
+    }
     ClosePlayer();
 }
 
@@ -221,6 +226,7 @@ bool MediaUtils::StartRecord()
         return false;
     }
     recording_ = true;
+    recordPaused_ = false;
     return true;
 }
 
@@ -285,6 +291,50 @@ bool MediaUtils::StartRecorderService()
     return true;
 }
 
+bool MediaUtils::PauseRecord()
+{
+    LOGI("PauseRecord");
+    if (!recording_ || recordPaused_) {
+        LOGW("current not recording or already paused!");
+        return false;
+    }
+#ifdef USE_RECORDER_API
+    if (!recorder_) {
+        LOGE("recorder is null!");
+        return false;
+    }
+    int ret = recorder_->Pause();
+    if (ret != Media::SUCCESS) {
+        LOGE("Pause failed. ret:%d", ret);
+        return false;
+    }
+#endif
+    recordPaused_ = true;
+    return true;
+}
+
+bool MediaUtils::ResumeRecord()
+{
+    LOGI("ResumeRecord");
+    if (!recording_ || !recordPaused_) {
+        LOGW("current not recording or not paused!");
+        return false;
+    }
+#ifdef USE_RECORDER_API
+    if (!recorder_) {
+        LOGE("recorder is null!");
+        return false;
+    }
+    int ret = recorder_->Resume();
+    if (ret != Media::SUCCESS) {
+        LOGE("Resume failed. ret:%d", ret);
+        return false;
+    }
+#endif
+    recordPaused_ = false;
+    return true;
+}
+
 bool MediaUtils::StopRecord()
 {
     LOGI("StopRecord");
@@ -295,6 +345,22 @@ bool MediaUtils::StopRecord()
     CloseRecorder();
     MoveFiles();
     recording_ = false;
+    recordPaused_ = false;
+    return true;
+}
+
+bool MediaUtils::CancelRecord()
+{
+    LOGI("CancelRecord");
+    if (!recording_) {
+        LOGW("current not recording!");
+        return false;
+    }
+    CloseRecorder();
+    // 丢弃本次录音：直接删除 norm/ 临时目录，不归档
+    DeleteDirectory(RECORDER_TEMP_DIRECTORY);
+    recording_ = false;
+    recordPaused_ = false;
     return true;
 }
 
